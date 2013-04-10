@@ -46,28 +46,6 @@
     //d3.json('http://pulsemaps.cartodb.com/api/v2/sql?q=select * from london_fake&format=geojson', function(data) {
     //d3.json('http://javi.cartodb.com/api/v2/sql?q=select * from map_line&format=geojson', function(data) {
     d3.json("http://viz2.cartodb.com/api/v2/sql?q=SELECT * FROM madrid_osm_line_copy where st_distance(the_geom, st_geomfromtext('POINT(-3.681693843701168 40.40973495735627)', 4326)) < 0.05  AND st_length(the_geom) > 0.01 &format=geojson", function(data) {
-      /*
-      data.features = [];
-
-
-      for(var i = 0; i < data.length; ++i) {
-        var road = data[i];
-        var coords = [];
-        var vertex = road.vertex;
-        for(var v = 0; v < vertex.length/2; ++v) {
-          coords.push([
-            vertex[2*v + 0],
-            vertex[2*v + 1]
-          ]);
-        }
-
-        data.features = {
-          geometry: {
-            coordinates: coords
-          }
-        }
-      }
-      */
 
       for(var i = 0; i < data.features.length; ++i) {
         var coords = data.features[i].geometry.coordinates[0];
@@ -92,19 +70,6 @@
             coords[coords.length - 1].r[t] = 5 + 10*(1 + Math.cos(5*((t+c)/10.0)));//15*Math.random();
         }
 
-        /*
-        coords[0].sdir = coords[0].dir;
-        coords[coords.length - 1].sdir = [0, 0]
-        for(var c = 0; c < coords.length - 1; ++c) {
-          var d0 = coords[c].dir;
-          var d1 = coords[c + 1].dir;
-          coords[c].sdir = [
-            (d0[0] + d1[0]),
-            (d0[1] + d1[1])
-          ]
-        }
-        */
-
       }
       var render = function(coords, DD, t) {
         ctx.lineWidth = 1;
@@ -118,65 +83,19 @@
             c = 2*coords.length - 2 - c;
             D = -DD;
           }
-          //var c0 = coords[c];
           var c1 = coords[c];
-
-          //var p0 = _p(c0);
           var p1 = _p(c1);
-
-          //var d0 = c0.sdir;
           var d1 = c1.sdir;
 
           var C = 5;
-          //var pd0 = [c0.dir[1], -c0.dir[0]]
           var pd1 = [c1.dir[1], -c1.dir[0]]
 
           var p1_a = [
            p1[0] + D*c1.r[t]*pd1[0],
            p1[1] + D*c1.r[t]*pd1[1]
           ]
-          
-          /*
-          var p1_b = [
-           p1[0] - D*c1.r*pd1[0],
-           p1[1] - D*c1.r*pd1[1]
-          ]
-          */
-
-          /*p1[0] = p1[0] + D*c1.r*pd1[0]
-          p1[1] = p1[1] + D*c1.r*pd1[1]
-
-          p0[0] = p0[0] + D*c0.r*pd0[0]
-          p0[1] = p0[1] + D*c0.r*pd0[1]
-          */
 
           ctx.lineTo(p1_a[0], p1_a[1]);
-          //ctx.lineTo(p1_b[0], p1_b[1]);
-
-          /*
-          ctx.bezierCurveTo(
-            p0[0] + C*d0[0],
-            p0[1] + C*d0[1],
-
-            p1[0] - C*d1[0],
-            p1[1] - C*d1[1],
-
-            p1[0], p1[1]
-          );
-          */
-
-          /*ctx.fillStyle = 'red';
-          ctx.fillRect( p0[0] + C*d0[0], p0[1] + C*d0[1], 1, 1)
-          ctx.fillRect( p1[0] + C*d1[0], p1[1] + C*d1[1], 1, 1)
-
-          //ctx.fillRect(pm[0] + dx, pm[1] + dy,1, 1);
-          //ctx.fillRect(p1[0] + dx*C, p1[1] + dy*C, 1, 1)
-          //ctx.fillRect(p0[0] - dx*C, p0[1] - dy*C, 1,1 )
-          ctx.fillStyle = 'blue';
-          //ctx.fillRect(p0[0], p0[1],2,2);
-          ctx.fillStyle = 'black';
-          ctx.fillRect(p1[0], p1[1],2,2);
-          */
         }
       }
       var frame = function(fn) { setTimeout(fn, 20); }
