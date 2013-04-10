@@ -5,6 +5,9 @@
         padding: 0; margin: 0; height: 100%;
         background-color: black;
       }
+      canvas {
+        /*-webkit-transform: perspective(800px) rotateX(40deg);*/
+      }
       #date {
         position: absolute;
         top: 0;
@@ -23,6 +26,13 @@
   <script src="d3.min.js"></script>
 
   <script>
+
+    var lpf = 3;
+    try {
+      lpf = window.location.href.match(/lpf=(\d+)/)[1] | 0;
+    } catch(e) {}
+
+
     // canvas init
     var canvas = document.getElementById('c');
     var w = canvas.width = innerWidth;
@@ -68,17 +78,17 @@
             grouped_activity[a] = activity[aa][a];
           }
         }
-        var a = 6;
+        var a = lpf;
         while(a--) {
           for(var j = 1; j < grouped_activity.length; ++j) {
             grouped_activity[j] = (grouped_activity[j] + grouped_activity[j - 1])/2.0;
           }
         }
         for(var a = 0; a < grouped_activity.length; ++a) {
-          grouped_activity[a] /= 10;
+          grouped_activity[a] = 1 + Math.sqrt(grouped_activity[a])/2;
         }
 
-        if(coords && coords.length && grouped_activity && grouped_activity.length && r.fc <= 4) {
+        if(coords && coords.length && grouped_activity && grouped_activity.length ) {
           features.push({
             geometry: {
               coordinates: [
@@ -93,7 +103,7 @@
       return geojson;
     }
 
-    d3.json("oneday_london_14_96_speedcount.json", function(data) {
+    d3.json("oneday_london_14_96_count.json", function(data) {
       data = transform_to_geojson(data);
       for(var i = 0; i < data.features.length; ++i) {
         var weight = data.features[i].weight;
@@ -117,16 +127,30 @@
 
         coords[coords.length - 1].dir = [0, 0]
         coords[coords.length - 1].r = [];
-        for(var t = 0; t < 100; ++t) {
-            coords[coords.length - 1].r = data.features[coords.length - 1].activity;
-        }
+        coords[coords.length - 1].r = data.features[coords.length - 1].activity;
 
       }
-      var render = function(coords, DD, t) {
-        ctx.lineWidth = 1;
+      var render = function(coords, DD, tt) {
+        var t = Math.floor(tt);
+        var dt = tt - t;
         var p0 = _p(coords[0]);
-        ctx.moveTo(p0[0], p0[1]);
 
+        // interpolate
+        var a = coords[0].r[t];
+        var b = coords[0].r[(t + 1)%coords[0].r.length];
+        var lw = ctx.lineWidth = a + dt*(b - a);
+        if(lw < 1.01) {
+          ctx.strokeStyle = 'rgba(0, 49, 100, 0.7)';// ' + alpha + ')';
+        } else {
+          ctx.strokeStyle = 'rgba(120, 29, 0, 0.9)';
+        }
+        ctx.moveTo(p0[0], p0[1]);
+        for(var cc = 0; cc < coords.length; ++cc) {
+          p0 = _p(coords[cc]);
+          ctx.lineTo(p0[0], p0[1]);
+        }
+
+        /*
         for(var cc = 0; cc < coords.length*2 - 2; ++cc) {
           var c = cc;
           var D = DD;
@@ -148,28 +172,57 @@
 
           ctx.lineTo(p1_a[0], p1_a[1]);
         }
+        */
       }
       var frame = function(fn) { setTimeout(fn, 20); }
 
+      var pause = false;
+      canvas.onclick = function() {
+        pause = !pause;
+      }
+      var controls = {
+        left: false,
+        right: false,
+        fire: false,
+        up: false,
+        down: false
+      };
+      window.addEventListener('keyup', function(e) { key(e, false); });
+      window.addEventListener('keydown', function(e) { key(e, true);});
+      function key(e, w) {
+        if(e.keyCode == 38) {      controls.up= w; }
+        else if(e.keyCode == 40) { controls.down = w; }
+        else if(e.keyCode == 37) { controls.left = w; } 
+        else if(e.keyCode == 39) { controls.right= w; } 
+        else if(e.keyCode == 32) { controls.fire = w; }
+      };
       var time = document.getElementById('date');
-      var t = 0;
+      var t = 4*3;
       function loop() {
         canvas.width = w;
         ctx.translate(w>>1, h>>1);
         ctx.globalCompositeOperation = 'lighter'
+        ctx.lineCap = 'round';
         for(var i = 0; i < data.features.length; ++i) {
           var coords = data.features[i].geometry.coordinates[0];
           ctx.beginPath();
-          ctx.fillStyle = 'rgba(0, 49, 100, 0.5)';// ' + alpha + ')';
           render(coords, 0.3, t%96);
-          ctx.fill();
-          //ctx.stroke();
+          //ctx.fill();
+          ctx.stroke();
         }
         frame(loop);
         var date = new Date(t*1000*3600*24/96)
         time.innerHTML = date.toString();
 
-        ++t;
+        var INC = 0.3
+        if(!pause)
+          t+=INC
+        if(controls.left) {
+          t -= INC
+        }
+        if(controls.right) {
+          t += INC
+        }
       }
       frame(loop);
     });
