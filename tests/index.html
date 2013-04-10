@@ -5,11 +5,19 @@
         padding: 0; margin: 0; height: 100%;
         background-color: black;
       }
+      #date {
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: white;
+        font-size: 20px;
+      }
     </style>
   </head>
 
   <body>
     <canvas id="c"></canvas>
+    <div id="date"></div>
   </body>
 
   <script src="d3.min.js"></script>
@@ -27,27 +35,68 @@
     var projection = d3.geo.mercator()
       .scale((w+ 1) / 2 / Math.PI)
       .translate([w/2, h/2])
-      .precision(.0001);
+      .precision(.001);
 
       var center = projection(
-        [40.40973495735627, -3.681693843701168 ] // madrid
-      //[51.511214,  -0.100824] // london
+      //  [40.40973495735627, -3.681693843701168 ] // madrid
+        [51.511214,  -0.100824] // london
       );
-    var scale = 1500;
+    var scale = 500;
 
     // projects to canvas coordinate system [lat, lon] => [x, y]
     function _p(point) {
-        point = projection([point[1], point[0]]);
+        point = projection([point[0], point[1]]);
         return [
             -scale*(point[1] - center[1]),
             -scale*(point[0] - center[0])]
     }
 
-    //d3.json('http://pulsemaps.cartodb.com/api/v2/sql?q=select * from london_fake&format=geojson', function(data) {
-    //d3.json('http://javi.cartodb.com/api/v2/sql?q=select * from map_line&format=geojson', function(data) {
-    d3.json("http://viz2.cartodb.com/api/v2/sql?q=SELECT * FROM madrid_osm_line_copy where st_distance(the_geom, st_geomfromtext('POINT(-3.681693843701168 40.40973495735627)', 4326)) < 0.05  AND st_length(the_geom) > 0.01 &format=geojson", function(data) {
+    // transform from 
+    function transform_to_geojson(data) {
+      var features = []
+      var geojson = {
+        features: features
+      };
+      for (var i = 0, len = data.length; i < len; ++i) {
+        var r = data[i];
+        var coords = r.vertex;
+        var activity = r.activity;
+        var grouped_activity = []
+        for(var a = 0; a < activity[0].length; ++a) {
+          grouped_activity[a] = 0.0;
+          for(var aa = 0; aa < activity.length; ++aa) {
+            grouped_activity[a] = activity[aa][a];
+          }
+        }
+        var a = 6;
+        while(a--) {
+          for(var j = 1; j < grouped_activity.length; ++j) {
+            grouped_activity[j] = (grouped_activity[j] + grouped_activity[j - 1])/2.0;
+          }
+        }
+        for(var a = 0; a < grouped_activity.length; ++a) {
+          grouped_activity[a] /= 10;
+        }
 
+        if(coords && coords.length && grouped_activity && grouped_activity.length && r.fc <= 4) {
+          features.push({
+            geometry: {
+              coordinates: [
+                coords
+              ]
+            },
+            weight: r.fc,
+            activity: grouped_activity
+          })
+        }
+      }
+      return geojson;
+    }
+
+    d3.json("oneday_london_14_96_speedcount.json", function(data) {
+      data = transform_to_geojson(data);
       for(var i = 0; i < data.features.length; ++i) {
+        var weight = data.features[i].weight;
         var coords = data.features[i].geometry.coordinates[0];
 
         for(var c = 0; c < coords.length - 1 ; ++c) {
@@ -59,15 +108,17 @@
           coords[c].dir = [dx/len, dy/len];
           coords[c].r = [];
           var offset = (40*Math.random()) >> 0;
+          coords[c].r = data.features[i].activity;
+          /*
           for(var t = 0; t < 100; ++t) {
             coords[c].r[t] = 3 + 7*(1 + Math.cos(5*((offset + t+c)/10.0)));//15*Math.random();
-          }
+          }*/
         }
 
         coords[coords.length - 1].dir = [0, 0]
         coords[coords.length - 1].r = [];
         for(var t = 0; t < 100; ++t) {
-            coords[coords.length - 1].r[t] = 5 + 10*(1 + Math.cos(5*((t+c)/10.0)));//15*Math.random();
+            coords[coords.length - 1].r = data.features[coords.length - 1].activity;
         }
 
       }
@@ -100,6 +151,7 @@
       }
       var frame = function(fn) { setTimeout(fn, 20); }
 
+      var time = document.getElementById('date');
       var t = 0;
       function loop() {
         canvas.width = w;
@@ -109,12 +161,14 @@
           var coords = data.features[i].geometry.coordinates[0];
           ctx.beginPath();
           ctx.fillStyle = 'rgba(0, 49, 100, 0.5)';// ' + alpha + ')';
-          render(coords, 0.3, t%100);
+          render(coords, 0.3, t%96);
           ctx.fill();
           //ctx.stroke();
-
         }
         frame(loop);
+        var date = new Date(t*1000*3600*24/96)
+        time.innerHTML = date.toString();
+
         ++t;
       }
       frame(loop);
