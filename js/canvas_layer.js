@@ -92,7 +92,7 @@ L.CanvasLayer = L.Class.extend({
 
 
   _project: function(x) {
-    var point = this._map.latLngToLayerPoint(new L.LatLng(x[1], x[0]));
+    var point = this._map.latLngToLayerPoint(new L.LatLng(x[0], x[1]));
     return [point.x, point.y];
   },
 

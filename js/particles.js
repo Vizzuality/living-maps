@@ -5,6 +5,7 @@ var Entities = function(size, remove_callback) {
     this.dx = new Float32Array(size);
     this.dy = new Float32Array(size);
     this.life = new Float32Array(size);
+    this.strong = new Float32Array(size);
     this.current_life = new Float32Array(size);
     this.remove = new Int32Array(size);
     this.type = new Int8Array(size);
@@ -15,13 +16,13 @@ var Entities = function(size, remove_callback) {
 
 Entities.prototype.pre_cache_sprites = function(color) {
   var sprites = []
-  for(var i = 0; i < 30; ++i) {
-    var pixel_size = 3;
+  for(var i = 0; i < 4; ++i) {
+    var pixel_size = i + 1;
     var canvas = document.createElement('canvas');
     var ctx = canvas.getContext('2d');
     ctx.width = canvas.width = pixel_size * 2;
     ctx.height = canvas.height = pixel_size * 2;
-    ctx.fillStyle = 'rgba(255, 65,0, 1)';
+    ctx.fillStyle = 'rgba(255, 255, 255, ' + ((i + 1)/4.0) + ')';
     ctx.beginPath();
     ctx.arc(pixel_size, pixel_size, pixel_size, 0, Math.PI*2, true, true);
     ctx.closePath();
@@ -31,12 +32,13 @@ Entities.prototype.pre_cache_sprites = function(color) {
   return sprites;
 }
 
-Entities.prototype.add = function(x, y, dx, dy, life) {
+Entities.prototype.add = function(x, y, dx, dy, life, strong) {
   if(this.last < this.size) {
     this.x[this.last] = x;
     this.y[this.last] = y;
     this.dx[this.last] = dx;
     this.dy[this.last] = dy;
+    this.strong[this.last] = strong;
     this.life[this.last] = life;
     this.current_life[this.last] = 0;
     this.last++;
@@ -50,17 +52,20 @@ Entities.prototype.dead = function(i) {
 Entities.prototype.render = function(ctx) {
   var s, t;
   for(var i = 0; i < this.last ; ++i) {
-    //s = (this.current_life[i])>>0;
-    /*ctx.beginPath();
+    var s = this.strong[i] >> 0;
+    s = Math.min(s, 3);
+    /*s = (this.current_life[i])>>0;
+    ctx.beginPath();
     ctx.moveTo(this.x[i], this.y[i]);
     ctx.lineTo(this.x[i] - this.dx[i], this.y[i] - this.dy[i]);
     ctx.stroke();
-    */
-    ctx.fillRect(this.x[i]-3, this.y[i]-3, 6, 6);
-    /*ctx.drawImage(this.sprites[s], 
+ y   */
+    //ctx.fillStyle= 'rgba(255, 255, 255,' + this.strong[i] + ')';
+    //ctx.fillRect(this.x[i]-1, this.y[i]-1, 2, 2);
+    //ctx.fillRect(this.x[i], this.y[i], 1, 1);
+    ctx.drawImage(this.sprites[s], 
       (this.x[i] - s*2)>>0, 
       (this.y[i] - s*2)>>0);
-    */
   }
 
 }
@@ -88,6 +93,7 @@ Entities.prototype.update = function(dt) {
       this.y[r] = this.y[last];
       this.dx[r] = this.dx[last];
       this.dy[r] = this.dy[last];
+      this.strong[r] = this.strong[last];
       this.life[r] = this.life[last];
       this.current_life[r] = this.current_life[last]
       this.type[r] = this.type[last];

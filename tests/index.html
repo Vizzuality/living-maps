@@ -85,7 +85,7 @@
           }
         }
         for(var a = 0; a < grouped_activity.length; ++a) {
-          grouped_activity[a] = 1 + Math.sqrt(grouped_activity[a])/2;
+          grouped_activity[a] = 1 + grouped_activity[a]/7.0;
         }
 
         if(coords && coords.length && grouped_activity && grouped_activity.length ) {
@@ -103,7 +103,7 @@
       return geojson;
     }
 
-    d3.json("oneday_london_14_96_count.json", function(data) {
+    d3.json("twomonths_london_14_96_count.json", function(data) {
       data = transform_to_geojson(data);
       for(var i = 0; i < data.features.length; ++i) {
         var weight = data.features[i].weight;
@@ -117,12 +117,7 @@
           var len = Math.sqrt(dx*dx + dy*dy);
           coords[c].dir = [dx/len, dy/len];
           coords[c].r = [];
-          var offset = (40*Math.random()) >> 0;
           coords[c].r = data.features[i].activity;
-          /*
-          for(var t = 0; t < 100; ++t) {
-            coords[c].r[t] = 3 + 7*(1 + Math.cos(5*((offset + t+c)/10.0)));//15*Math.random();
-          }*/
         }
 
         coords[coords.length - 1].dir = [0, 0]
@@ -139,15 +134,15 @@
         var a = coords[0].r[t];
         var b = coords[0].r[(t + 1)%coords[0].r.length];
         var lw = ctx.lineWidth = a + dt*(b - a);
-        if(lw < 1.01) {
-          ctx.strokeStyle = 'rgba(0, 49, 100, 0.7)';// ' + alpha + ')';
+        if(lw < 2.01) {
+          //ctx.strokeStyle = 'rgba(0, 49, 100, 0.7)';// ' + alpha + ')';
         } else {
           ctx.strokeStyle = 'rgba(120, 29, 0, 0.9)';
-        }
-        ctx.moveTo(p0[0], p0[1]);
-        for(var cc = 0; cc < coords.length; ++cc) {
-          p0 = _p(coords[cc]);
-          ctx.lineTo(p0[0], p0[1]);
+          ctx.moveTo(p0[0], p0[1]);
+          for(var cc = 0; cc < coords.length; ++cc) {
+            p0 = _p(coords[cc]);
+            ctx.lineTo(p0[0], p0[1]);
+          }
         }
 
         /*
@@ -176,7 +171,7 @@
       }
       var frame = function(fn) { setTimeout(fn, 20); }
 
-      var pause = false;
+      var pause = true;
       canvas.onclick = function() {
         pause = !pause;
       }
@@ -202,7 +197,7 @@
         canvas.width = w;
         ctx.translate(w>>1, h>>1);
         ctx.globalCompositeOperation = 'lighter'
-        ctx.lineCap = 'round';
+        //ctx.lineCap = 'round';
         for(var i = 0; i < data.features.length; ++i) {
           var coords = data.features[i].geometry.coordinates[0];
           ctx.beginPath();
@@ -214,7 +209,7 @@
         var date = new Date(t*1000*3600*24/96)
         time.innerHTML = date.toString();
 
-        var INC = 0.3
+        var INC = 1 
         if(!pause)
           t+=INC
         if(controls.left) {
