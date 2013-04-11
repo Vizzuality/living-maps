@@ -23,7 +23,7 @@ var App = {
     requestAnimationFrame(this.render);
     var self = this;
     setInterval(function() {
-      self.time.innerHTML = new Date(1000*15*50*self.t++);
+      self.time.innerHTML = new Date(1000*15*60*self.t++);
       self.layer.set_time(self.t);
     }, 1000)
 

@@ -22,7 +22,7 @@ Entities.prototype.pre_cache_sprites = function(color) {
     var ctx = canvas.getContext('2d');
     ctx.width = canvas.width = pixel_size * 2;
     ctx.height = canvas.height = pixel_size * 2;
-    ctx.fillStyle = 'rgba(255, 255, 255, ' + ((i + 1)/4.0) + ')';
+    ctx.fillStyle = 'rgba(255, 255, 255, ' + ((i + 1)/18.0) + ')';
     ctx.beginPath();
     ctx.arc(pixel_size, pixel_size, pixel_size, 0, Math.PI*2, true, true);
     ctx.closePath();
@@ -53,19 +53,23 @@ Entities.prototype.render = function(ctx) {
   var s, t;
   for(var i = 0; i < this.last ; ++i) {
     var s = this.strong[i] >> 0;
-    s = Math.min(s, 3);
+    //s = Math.min(s, 3);
     /*s = (this.current_life[i])>>0;
+ y   */
+ /*
     ctx.beginPath();
     ctx.moveTo(this.x[i], this.y[i]);
     ctx.lineTo(this.x[i] - this.dx[i], this.y[i] - this.dy[i]);
     ctx.stroke();
- y   */
+    */
     //ctx.fillStyle= 'rgba(255, 255, 255,' + this.strong[i] + ')';
     //ctx.fillRect(this.x[i]-1, this.y[i]-1, 2, 2);
-    //ctx.fillRect(this.x[i], this.y[i], 1, 1);
+    ctx.fillRect(this.x[i], this.y[i], 1, 1);
+    /*
     ctx.drawImage(this.sprites[s], 
       (this.x[i] - s*2)>>0, 
       (this.y[i] - s*2)>>0);
+    */
   }
 
 }

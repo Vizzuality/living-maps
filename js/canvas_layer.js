@@ -28,10 +28,15 @@ L.CanvasLayer = L.Class.extend({
   onAdd: function (map) {
     this._map = map;
 
+    this._backCanvas = document.createElement('canvas');
     this._canvas = document.createElement('canvas');
     this._staticPane = map._createPane('leaflet-tile-pane', map._container);
+
+    this._backCanvas.style.position = this._canvas.style.position = 'absolute';
+    this._staticPane.appendChild(this._backCanvas);
     this._staticPane.appendChild(this._canvas);
 
+    this._backCtx = this._backCanvas.getContext('2d');
     this._ctx = this._canvas.getContext('2d');
 
     map.on({
@@ -86,8 +91,8 @@ L.CanvasLayer = L.Class.extend({
 
   _reset: function () {
     var size = this._map.getSize()
-    this._canvas.width = size.x;
-    this._canvas.height = size.y;
+    this._backCanvas.width = this._canvas.width = size.x;
+    this._backCanvas.height = this._canvas.height = size.y;
   },
 
 
