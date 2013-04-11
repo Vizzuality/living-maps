@@ -16,18 +16,35 @@
     <![endif]-->
 
     <link rel="stylesheet" href="css/style.css">
+    <style>
+      body {
+        background: black;
+      }
+      .leaflet-container {
+        /*background: black;*/
+      }
+      #date {
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: white;
+        font-size: 20px;
+      }
+    </style>
   </head>
   <body>
 
     <div id="map"></div>
+    <div id="date"></div>
 
-    <!--script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script-->
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 
     <!-- Map -->
     <script src="js/vendor/leaflet.js"></script>
     <script src="js/leaflet_tileloader_mixin.js"></script>
-    <!--<script src="js/canvas_layer.js"></script>-->
-    <!--<script src="js/time_layer.js"></script>-->
+    <script src="js/canvas_layer.js"></script>
+    <script src="js/particles.js"></script>
+    <script src="js/time_layer.js"></script>
 
     <script src="js/map.js"></script>
 
@@ -40,11 +57,13 @@
     </script>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <!--
     <script>
       var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
       (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
       g.src='//www.google-analytics.com/ga.js';
       s.parentNode.insertBefore(g,s)}(document,'script'));
     </script>
+    -->
   </body>
 </html>
