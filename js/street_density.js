@@ -13,6 +13,7 @@ var StreetLayerDensity = L.CanvasLayer.extend({
     $.getJSON("twomonths_london_14_96_count.json", function(data) {
       overall_activity = [];
       var max_activity = 0;
+      var simplify = d3.simplify();
       for (var i = 0, len = data.length; i < len; ++i) {
         var r = data[i];
         var coords = r.vertex;
@@ -30,6 +31,7 @@ var StreetLayerDensity = L.CanvasLayer.extend({
         }
         var coords = r.vertex;
         r.activity = grouped_activity;
+        //r.vertex = simplify(coords);
       }
       //normalize activity
       var m = 0;
@@ -54,6 +56,23 @@ var StreetLayerDensity = L.CanvasLayer.extend({
 
   set_time: function(t) {
     this.time = t;
+  },
+
+  _render2: function(delta) {
+    this._canvas.width = this._canvas.width;
+    var w2 = this._canvas.width/2;
+    var h2 = this._canvas.height/2;
+    var origin = this._map._getNewTopLeftPoint(this._map.getCenter(), this._map.getZoom());
+    this._ctx.translate(-origin.x, -origin.y);
+    if(!this.density_data) return;
+    for(var i = 0; i < this.density_data.length; ++i) {
+      var vertex = this.density_data[i].vertex;
+      var zoom = this._map.getZoom()
+      for(var v = 0; v < vertex.length; ++v) {
+        var p0 = this._map.project(vertex[v], zoom);
+        this._ctx.fillRect(p0.x, p0.y, 2, 2);
+      }
+    }
   },
 
   _render: function(delta) {
