@@ -21,14 +21,24 @@ var App = {
     this.render = this.render.bind(this);
     this.initControls();
     this.t = 0;
+    this.speed = 0.5
     this.time = document.getElementById('date');
     requestAnimationFrame(this.render);
     var self = this;
-    setInterval(function() {
-      //self.time.innerHTML = new Date(1000*15*60*self.t++);
-      self.layer.set_time(self.t);
-    }, 40)
 
+    this.add_debug()
+
+  },
+  
+  add_debug: function() {
+    var gui = new dat.GUI();
+    gui.add(this, 'speed', 0, 3)
+
+    var f2 = gui.addFolder('Layer');
+    var ro = this.layer.render_options
+    f2.add(ro, 'part_min_size', 0, 40).onChange(this.layer.precache_sprites)
+    f2.add(ro, 'part_inc', 0, 20).onChange(this.layer.precache_sprites)
+    f2.open();
   },
 
   set_date: function() {
@@ -38,15 +48,15 @@ var App = {
      var pad = "00"
      var mins = Math.floor(real_time%60) + "";
      this.time.innerHTML = 
-      Math.floor(real_time/60) + ':' + pad.substring(0, 2 - mins.length) + mins ;
+     Math.floor(real_time/60) + ':' + pad.substring(0, 2 - mins.length) + mins ;
   },
 
   render: function() {
     this.layer._render(0.02);
-    this.t++;
-    this.layer.set_time(this.t);
+    this.t += this.speed;
+    this.layer.set_time(this.t>>0);
     this.set_date();
-    if(this.controls.left) {
+    /*if(this.controls.left) {
       this.t = Math.max(0, this.t - 1);
       this.layer.set_time(this.t);
       this.time.innerHTML = this.t;
@@ -54,7 +64,7 @@ var App = {
       this.t++;
       this.layer.set_time(this.t);
       this.time.innerHTML = this.t;
-    }
+    }*/
     requestAnimationFrame(this.render);
     if(this.t + this.layer.options.start_date > this.layer.options.end_date) {
       this.t = 0;

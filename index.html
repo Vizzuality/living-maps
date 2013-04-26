@@ -21,13 +21,16 @@
         background: black;
       }
       .leaflet-container {
-        background: #346FBE;
+        /*background: #346FBE;*/
         /*-webkit-transform: perspective(300px) rotateX(40deg) translateX(-100px) translateZ(40px);*/
+      }
+      .dg  {
+        z-index: 10 !important;
       }
       #date {
         position: absolute;
-        top: 0;
-        left: 0;
+        top: 100px;
+        left: 20px;
         color: white;
         font-size: 20px;
         z-index: 200;
@@ -40,6 +43,7 @@
     <div id="date"></div>
 
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="js/vendor/dat.gui.min.js"></script>
 
     <!-- Map -->
     <script src="js/vendor/leaflet.js"></script>

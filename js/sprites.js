@@ -29,10 +29,10 @@ var Sprites = {
          pixels[p + 0] = color[0];
          pixels[p + 1] = color[1];
          pixels[p + 2] = color[2];
-         //pixels[p + 3] = 255*Math.cos(r*Math.PI)
-         var a = Math.cos(r*Math.PI) 
-         pixels[p + 3] = color[3]*a*a*a*a*a;
-         //pixels[p + 3] = 255*Math.exp(-r*6)
+         pixels[p + 3] = 255*Math.cos(r*Math.PI)
+         //var a = Math.cos(r*Math.PI) 
+         //pixels[p + 3] = color[3]*a*a*a*a*a;
+         pixels[p + 3] = color[3]*Math.exp(-r*6)
       }
     }
     ctx.putImageData(I, 0, 0)

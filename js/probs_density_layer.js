@@ -32,18 +32,27 @@ var StreetLayer = L.CanvasLayer.extend({
     this.force_map = {};
     this.time = 0;
     this.sprites = []
+    this.render_options = {
+      part_min_size: 5,
+      part_inc: 10
+    }
+    this.precache_sprites = this.precache_sprites.bind(this)
+
     this.precache_sprites();
   },
 
   precache_sprites: function() {
+    this.sprites = []
     var sprite_size = function(size, alpha) {
+     size = size >> 0;
      return Sprites.render_to_canvas(function(ctx, w, h) {
         Sprites.draw_circle_glow(ctx, size, [255, 255, 255, alpha*255])
         //Sprites.circle(ctx, size, 'rgba(255, 255, 255, 0.4)')
       }, size, size);
     }
+    var ro = this.render_options;
     for(var i = 0; i < 7; ++i) {
-      this.sprites.push(sprite_size(5 + i*10, 0.01 + i/5));
+      this.sprites.push(sprite_size(ro.part_min_size + i*ro.part_inc, 0.01 + i/5));
     }
   },
 
@@ -63,7 +72,7 @@ var StreetLayer = L.CanvasLayer.extend({
     this._canvas.width = this._canvas.width;
     var origin = this._map._getNewTopLeftPoint(this._map.getCenter(), this._map.getZoom());
     this._ctx.translate(-origin.x, -origin.y);
-    //this._ctx.globalCompositeOperation = 'lighter';
+    this._ctx.globalCompositeOperation = 'lighter';
 
     var ctx = this._ctx;
     var time = this.time;
