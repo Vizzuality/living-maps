@@ -34,7 +34,9 @@ var StreetLayer = L.CanvasLayer.extend({
     this.sprites = []
     this.render_options = {
       part_min_size: 5,
-      part_inc: 10
+      part_inc: 10,
+      min_alpha: 0.01,
+      alpha_inc: 0.2
     }
     this.precache_sprites = this.precache_sprites.bind(this)
 
@@ -52,7 +54,7 @@ var StreetLayer = L.CanvasLayer.extend({
     }
     var ro = this.render_options;
     for(var i = 0; i < 7; ++i) {
-      this.sprites.push(sprite_size(ro.part_min_size + i*ro.part_inc, 0.01 + i/5));
+      this.sprites.push(sprite_size(ro.part_min_size + i*ro.part_inc, ro.min_alpha + ro.alpha_inc*i));
     }
   },
 

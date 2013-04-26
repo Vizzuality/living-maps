@@ -38,6 +38,8 @@ var App = {
     var ro = this.layer.render_options
     f2.add(ro, 'part_min_size', 0, 40).onChange(this.layer.precache_sprites)
     f2.add(ro, 'part_inc', 0, 20).onChange(this.layer.precache_sprites)
+    f2.add(ro, 'min_alpha', 0, 0.3).onChange(this.layer.precache_sprites)
+    f2.add(ro, 'alpha_inc', 0, 0.5).onChange(this.layer.precache_sprites)
     f2.open();
   },
 
