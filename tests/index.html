@@ -6,6 +6,7 @@
         background-color: black;
       }
       canvas {
+        background: #346FBE;
         /*-webkit-transform: perspective(800px) rotateX(40deg);*/
       }
       #date {
@@ -51,7 +52,7 @@
       //  [40.40973495735627, -3.681693843701168 ] // madrid
         [51.511214,  -0.100824] // london
       );
-    var scale = 500;
+    var scale = 700;
 
     // projects to canvas coordinate system [lat, lon] => [x, y]
     function _p(point) {
@@ -85,7 +86,7 @@
           }
         }
         for(var a = 0; a < grouped_activity.length; ++a) {
-          grouped_activity[a] = 1 + grouped_activity[a]/7.0;
+          grouped_activity[a] = 1 + 3*grouped_activity[a]
         }
 
         if(coords && coords.length && grouped_activity && grouped_activity.length ) {
@@ -103,7 +104,8 @@
       return geojson;
     }
 
-    d3.json("twomonths_london_14_96_count.json", function(data) {
+    //d3.json("roads.json", function(data) {
+    d3.json("roads_oneday_london_14_96_count_2_4.json", function(data) {
       data = transform_to_geojson(data);
       for(var i = 0; i < data.features.length; ++i) {
         var weight = data.features[i].weight;
@@ -133,16 +135,18 @@
         // interpolate
         var a = coords[0].r[t];
         var b = coords[0].r[(t + 1)%coords[0].r.length];
-        var lw = ctx.lineWidth = a + dt*(b - a);
-        if(lw < 2.01) {
-          //ctx.strokeStyle = 'rgba(0, 49, 100, 0.7)';// ' + alpha + ')';
-        } else {
-          ctx.strokeStyle = 'rgba(120, 29, 0, 0.9)';
-          ctx.moveTo(p0[0], p0[1]);
-          for(var cc = 0; cc < coords.length; ++cc) {
-            p0 = _p(coords[cc]);
-            ctx.lineTo(p0[0], p0[1]);
-          }
+        var lw = a + dt*(b - a);
+
+        var alpha = lw/100.0;
+        ctx.lineWidth = lw/15
+        //ctx.strokeStyle = 'rgba(0, 49, 100, 0.7)';// ' + alpha + ')';
+        //ctx.strokeStyle = 'rgba(120, 29, 0, 0.9)';
+        //ctx.strokeStyle = 'rgba(120, 29, 0,' + alpha + ')';
+         ctx.strokeStyle = 'rgba(255, 255, 255, '+ alpha + ')';
+        ctx.moveTo(p0[0], p0[1]);
+        for(var cc = 0; cc < coords.length; ++cc) {
+          p0 = _p(coords[cc]);
+          ctx.lineTo(p0[0], p0[1]);
         }
 
         /*
@@ -196,12 +200,12 @@
       function loop() {
         canvas.width = w;
         ctx.translate(w>>1, h>>1);
-        ctx.globalCompositeOperation = 'lighter'
-        //ctx.lineCap = 'round';
+        //ctx.globalCompositeOperation = 'lighter'
+        ctx.lineCap = 'round';
         for(var i = 0; i < data.features.length; ++i) {
           var coords = data.features[i].geometry.coordinates[0];
           ctx.beginPath();
-          render(coords, 0.3, t%96);
+          render(coords, 0.3, t);
           //ctx.fill();
           ctx.stroke();
         }
@@ -209,7 +213,7 @@
         var date = new Date(t*1000*3600*24/96)
         time.innerHTML = date.toString();
 
-        var INC = 1 
+        var INC = 0.3
         if(!pause)
           t+=INC
         if(controls.left) {

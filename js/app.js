@@ -12,7 +12,7 @@ var App = {
     L.tileLayer('http://tile.stamen.com/toner/{z}/{x}/{y}.png', {
       attribution: 'Stamen'
     })
-    .setOpacity(0.0)
+    .setOpacity(0.2)
     .addTo(this.map);
 
     this.addStreetLayer();
@@ -23,14 +23,27 @@ var App = {
     requestAnimationFrame(this.render);
     var self = this;
     setInterval(function() {
-      self.time.innerHTML = new Date(1000*15*60*self.t++);
+      //self.time.innerHTML = new Date(1000*15*60*self.t++);
       self.layer.set_time(self.t);
-    }, 1000)
+    }, 40)
 
+  },
+
+  set_date: function() {
+     var real_time = this.t + this.layer.options.start_date;
+     var date = new Date(real_time * 1000);
+     var date_arry = date.toString().substr(4).split(' ');
+     var pad = "00"
+     var mins = Math.floor(real_time%60) + "";
+     this.time.innerHTML = 
+      Math.floor(real_time/60) + ':' + pad.substring(0, 2 - mins.length) + mins ;
   },
 
   render: function() {
     this.layer._render(0.02);
+    this.t++;
+    this.layer.set_time(this.t);
+    this.set_date();
     if(this.controls.left) {
       this.t = Math.max(0, this.t - 1);
       this.layer.set_time(this.t);
@@ -41,11 +54,15 @@ var App = {
       this.time.innerHTML = this.t;
     }
     requestAnimationFrame(this.render);
+    if(this.t + this.layer.options.start_date > this.layer.options.end_date) {
+      this.t = 0;
+    }
+    //this.layer.set_time(this.t++);
   },
 
   addStreetLayer: function() {
-    //this.layer = new StreetLayer();
-    this.layer = new StreetLayerDensity();
+    this.layer = new StreetLayer();
+    //this.layer = new StreetLayerDensity();
     this.map.addLayer(this.layer);
   },
 
