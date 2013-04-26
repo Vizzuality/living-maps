@@ -36,11 +36,19 @@ var App = {
 
     var f2 = gui.addFolder('Layer');
     var ro = this.layer.render_options
-    f2.add(ro, 'part_min_size', 0, 40).onChange(this.layer.precache_sprites)
-    f2.add(ro, 'part_inc', 0, 20).onChange(this.layer.precache_sprites)
+    f2.add(ro, 'part_min_size', 0.2, 40).onChange(this.layer.precache_sprites)
+    f2.add(ro, 'part_inc', 0, 70).onChange(this.layer.precache_sprites)
     f2.add(ro, 'min_alpha', 0, 0.3).onChange(this.layer.precache_sprites)
     f2.add(ro, 'alpha_inc', 0, 0.5).onChange(this.layer.precache_sprites)
+    f2.add(ro, 'exp_decay', 0, 20).onChange(this.layer.precache_sprites)
     f2.open();
+
+    var post = gui.addFolder('Postprocess');
+    post.add(ro, 'post_alpha', 0, 1)
+    post.add(ro, 'post_decay', 0, 1)
+    post.add(ro, 'post_size', [64, 128, 256, 512, 1024]).onChange(this.layer.init_post_process)
+    post.add(ro, 'post_process')
+    post.open()
   },
 
   set_date: function() {

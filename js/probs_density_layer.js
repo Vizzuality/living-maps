@@ -36,23 +36,29 @@ var StreetLayer = L.CanvasLayer.extend({
       part_min_size: 5,
       part_inc: 10,
       min_alpha: 0.01,
-      alpha_inc: 0.2
+      alpha_inc: 0.2,
+      exp_decay: 9,
+      post_process: true,
+      post_size: 512,
+      post_alpha: 0.3,
+      post_decay: 0.07
     }
     this.precache_sprites = this.precache_sprites.bind(this)
+    this.init_post_process = this.init_post_process.bind(this);
 
     this.precache_sprites();
   },
 
   precache_sprites: function() {
     this.sprites = []
+    var ro = this.render_options;
     var sprite_size = function(size, alpha) {
      size = size >> 0;
      return Sprites.render_to_canvas(function(ctx, w, h) {
-        Sprites.draw_circle_glow(ctx, size, [255, 255, 255, alpha*255])
+        Sprites.draw_circle_glow(ctx, size, [255, 255, 255, alpha*255], ro.exp_decay)
         //Sprites.circle(ctx, size, 'rgba(255, 255, 255, 0.4)')
       }, size, size);
     }
-    var ro = this.render_options;
     for(var i = 0; i < 7; ++i) {
       this.sprites.push(sprite_size(ro.part_min_size + i*ro.part_inc, ro.min_alpha + ro.alpha_inc*i));
     }
@@ -66,8 +72,33 @@ var StreetLayer = L.CanvasLayer.extend({
   onAdd: function (map) {
     L.CanvasLayer.prototype.onAdd.call(this, map);
     var origin = this._map._getNewTopLeftPoint(this._map.getCenter(), this._map.getZoom());
+    this.init_post_process();
     this._ctx.translate(-origin.x, -origin.y);
     this._backCtx.translate(-origin.x, -origin.y);
+  },
+
+  init_post_process: function() {
+    var canvasPost = document.createElement('canvas');
+    var ctxPost = canvasPost.getContext('2d');
+    canvasPost.height = canvasPost.width = this.render_options.post_size;
+    this.canvasPost = canvasPost;
+    this.ctxPost = ctxPost;
+  },
+
+  _do_post_process: function(origin) {
+    var post_size = this.render_options.post_size;
+    var ctxPost = this.ctxPost;
+    var ctx = this._ctx;
+
+    ctxPost.fillStyle = 'rgba(0, 0, 0, ' + this.render_options.post_decay + ')';
+    ctxPost.fillRect(0, 0, post_size, post_size);
+    ctxPost.drawImage(this._canvas, 0, 0, post_size, post_size);
+
+    ctx.globalAlpha = this.render_options.post_alpha;
+    //ctx.globalCompositeOperation = 'ligthen'
+    ctx.drawImage(this.canvasPost,origin.x, origin.y, this._canvas.width, this._canvas.height);
+    //ctx.globalCompositeOperation = 'source-over'
+    ctx.globalAlpha = 1;
   },
 
   _render: function(delta) {
@@ -95,16 +126,11 @@ var StreetLayer = L.CanvasLayer.extend({
             x[i] - (sp.width>> 1),
             y[i] - (sp.height>>1))
         }
-        /*
-        c = count[base_time - 1];
-        if(c){
-          ctx.drawImage(
-            this.entities.sprites[0][0],
-            (x[i] - s*2)>>0,
-            (y[i] - s*2)>>0);
-        }
-        */
       }
+    }
+
+    if(this.render_options.post_process) {
+      this._do_post_process(origin);
     }
 
 
