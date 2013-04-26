@@ -1,0 +1,160 @@
+@import "compass/css3";
+
+.selectors {
+  float: right;
+  clear: right;
+  margin-top: 40px;
+  width: 200px;
+  text-align: center;
+}
+
+.hour {
+  margin-bottom: 20px;
+  font-size: 70px;
+
+  sup {
+    vertical-align: 35px;
+    font-size: 20px;
+    @include opacity(.5);
+  }
+}
+
+.slider {
+  height: 1px;
+  border-top: 1px solid #fff;
+  width: 200px;
+  position: relative;
+
+  em {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: -6px;
+    content: '';
+    height: 13px;
+    width: 13px;
+    background: image-url('slider.png') no-repeat;
+    cursor: move;
+  }
+}
+
+.lang_selector {
+  h4 {
+    font: 500 13px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: rgba(#000F1A, .4);
+    text-transform: uppercase;
+  }
+
+  .selected {
+    margin-left: -10px;
+    font-size: 33px;
+    color: #fff;
+    text-decoration: none;
+
+    &:after {
+      display: inline-block;
+      position: absolute;
+      content: '';
+      height: 43px;
+      width: 43px;
+      background: image-url('lang_dropdown.png') no-repeat right center;
+    }
+  }
+}
+
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  background: transparent;
+//  -webkit-transform: perspective(300px) rotateX(40deg) translateX(-100px) translateZ(40px);
+  @include opacity(.2);
+
+  &.city { @include opacity(.4); }
+}
+
+
+.graticule {
+  fill: none;
+  stroke: #777;
+}
+
+.boundary {
+  fill: #ccc;
+  fill-opacity: .8;
+  stroke: #000;
+}
+
+.edge {
+  position: absolute;
+  width: 100%;
+  height: 100px;
+  background: #346FBE;
+  z-index: 10;
+  @include background(linear-gradient(top, #00BBDD, rgba(#00BBDD, 0) 100%));
+
+  &.top {
+    top: 0;
+    left: 0;
+    height: 300px;
+  }
+}
+
+.bubble {
+  position: absolute;
+  display: block;
+  margin-top: -110px;
+  top: 400px;
+  left: 700px;
+  width: 180px;
+  min-height: 60px;
+  margin-top: -110px;
+  padding: 80px 20px 20px;
+  text-align: center;
+  background: rgba(#000F1A, .85);
+  opacity: 1;
+
+  &:before {
+    position: absolute;
+    content: '';
+    bottom: -10px;
+    left: 50%;
+    width: 0;
+    height: 0;
+    margin: 0 0 0 -10px;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid rgba(#000F1A, .85);
+  }
+
+  &:after {
+    display: block;
+    position: absolute;
+    content: '';
+    bottom: -40px;
+    left: 50%;
+    width: 280px;
+    height: 20px;
+    margin-left: -140px;
+    background: image-url('marker_shadow.png') no-repeat center 0;
+  }
+
+  &.type_bus {
+    background: rgba(#000, .85) image-url('types/type_bus.png') no-repeat center 20px;
+  }
+
+  strong { font-weight: bold; }
+}
+
+.go {
+  position: absolute;
+  z-index: 100;
+  top: -22px;
+  right: -22px;
+  display: block;
+  height: 45px;
+  width: 45px;
+  background: image-url('marker_go.png') no-repeat;
+}

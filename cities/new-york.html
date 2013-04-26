@@ -1,0 +1,40 @@
+---
+layout: application
+city: New York
+---
+
+
+<div class="wrapper city new_york">
+  <header class="header clearfix">
+    <a href="/" class="logo"><img src="/img/here-logo.png" alt="" /></a>
+
+    {% include menu_nav.html %}
+
+    <div class="selectors">
+      <div class="time_selector">
+        <div class="slider"><em></em></div>
+        <span class="hour">9:36 <sup>AM</sup></span>
+      </div>
+  
+      <div class="lang_selector">
+        <h4>Select languages</h4>
+        <a href="#" class="selected">All languages</a>
+      </div>
+    </div>
+
+    <p class="subtitle">Living cities</p>
+    <h1 class="title">New York</h1>
+  </header>
+
+  <div class="content inner">
+    <p class="time">The city is waking up. More than 2.7M people start their daily day between 9am and 10pm.</p>
+  </div>
+
+</div>
+
+<div id="map" class="city">
+  <div class="edge top"></div>
+</div>
+
+<div class="bubble type_bus"><p>New Yorkers travel an average of <strong>27 minutes</strong> to work each day.</p><a href="#" class="go"></a></div>
+

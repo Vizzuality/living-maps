@@ -1,0 +1,3 @@
+auto: true
+server: true
+exclude: [sass, config.rb, Procfile]
