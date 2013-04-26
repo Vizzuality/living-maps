@@ -34,13 +34,14 @@ var App = {
     var gui = new dat.GUI();
     gui.add(this, 'speed', 0, 3)
 
-    var f2 = gui.addFolder('Layer');
+    var f2 = gui.addFolder('particles');
     var ro = this.layer.render_options
     f2.add(ro, 'part_min_size', 0.2, 40).onChange(this.layer.precache_sprites)
     f2.add(ro, 'part_inc', 0, 70).onChange(this.layer.precache_sprites)
     f2.add(ro, 'min_alpha', 0, 0.3).onChange(this.layer.precache_sprites)
     f2.add(ro, 'alpha_inc', 0, 0.5).onChange(this.layer.precache_sprites)
     f2.add(ro, 'exp_decay', 0, 20).onChange(this.layer.precache_sprites)
+    f2.addColor(ro, 'part_color').onChange(this.layer.precache_sprites)
     f2.open();
 
     var post = gui.addFolder('Postprocess');

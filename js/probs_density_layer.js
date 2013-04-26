@@ -35,6 +35,7 @@ var StreetLayer = L.CanvasLayer.extend({
     this.render_options = {
       part_min_size: 5,
       part_inc: 10,
+      part_color: [255, 255, 255, 1.0],
       min_alpha: 0.01,
       alpha_inc: 0.2,
       exp_decay: 9,
@@ -55,7 +56,8 @@ var StreetLayer = L.CanvasLayer.extend({
     var sprite_size = function(size, alpha) {
      size = size >> 0;
      return Sprites.render_to_canvas(function(ctx, w, h) {
-        Sprites.draw_circle_glow(ctx, size, [255, 255, 255, alpha*255], ro.exp_decay)
+        var c = ro.part_color;
+        Sprites.draw_circle_glow(ctx, size, [c[0], c[1], c[2], alpha*255], ro.exp_decay)
         //Sprites.circle(ctx, size, 'rgba(255, 255, 255, 0.4)')
       }, size, size);
     }
