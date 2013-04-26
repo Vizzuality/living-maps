@@ -42,7 +42,8 @@ var StreetLayer = L.CanvasLayer.extend({
       post_process: true,
       post_size: 512,
       post_alpha: 0.3,
-      post_decay: 0.07
+      post_decay: 0.07,
+      filtered: false
     }
     this.precache_sprites = this.precache_sprites.bind(this)
     this.init_post_process = this.init_post_process.bind(this);
@@ -116,7 +117,7 @@ var StreetLayer = L.CanvasLayer.extend({
       var tt = this._tiles[tile]
       var x = tt.x
       var y = tt.y;
-      var count = tt.count;
+      var count = this.render_options.filtered? tt.count_filtered:tt.count;
       var len = tt.len
       for(var i = 0; i < len; ++i) {
         var base_time = this.MAX_UNITS * i + time
@@ -157,6 +158,7 @@ var StreetLayer = L.CanvasLayer.extend({
     y = new Int32Array(rows.length);
     speeds = new Uint8Array(rows.length * this.MAX_UNITS);// 256 months
     count = new Uint8Array(rows.length * this.MAX_UNITS);// 256 monthsrr
+    count_filtered = new Uint8Array(rows.length * this.MAX_UNITS);// 256 monthsrr
 
     // base tile x, y
     var total_pixels = 256 << zoom;
@@ -176,19 +178,27 @@ var StreetLayer = L.CanvasLayer.extend({
         //dx[base_idx + row.dates[j]] = Math.cos(dir*Math.PI/180);
         //dy[base_idx + row.dates[j]] = Math.sin(dir*Math.PI/180);
         //speeds[base_idx + row.dates[j]] = row.speeds[j];
+
+        count_filtered[base_idx + row.dates[j]] =   
         count[base_idx + row.dates[j]] = Math.min(6, Math.ceil(row.vals[j]/10)) >> 0 ;
       }
-      /*
-      for (var j = 1; j < this.MAX_UNITS; ++j) {
-        count[base_idx + j] += count[base_idx + j - 1]/2.0
+
+      var passes = 2;
+      while(passes--) {
+        for (var j = 1; j < this.MAX_UNITS; ++j) {
+          count_filtered[base_idx + j] += count_filtered[base_idx + j - 1]/2.0
+        }
       }
-      */
+        for (var j = 1; j < this.MAX_UNITS; ++j) {
+          count_filtered[base_idx + j] = Math.min(6, count_filtered[base_idx + j]) >> 0 ;
+        }
     }
 
     //this.force_keys = Object.keys(this.force_map);
 
     return {
       count: count,
+      count_filtered: count_filtered,
       x: x,
       y: y,
       len: rows.length

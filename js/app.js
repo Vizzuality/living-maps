@@ -32,10 +32,11 @@ var App = {
   
   add_debug: function() {
     var gui = new dat.GUI();
+    var ro = this.layer.render_options
     gui.add(this, 'speed', 0, 3)
+    gui.add(ro, 'filtered')
 
     var f2 = gui.addFolder('particles');
-    var ro = this.layer.render_options
     f2.add(ro, 'part_min_size', 0.2, 40).onChange(this.layer.precache_sprites)
     f2.add(ro, 'part_inc', 0, 70).onChange(this.layer.precache_sprites)
     f2.add(ro, 'min_alpha', 0, 0.3).onChange(this.layer.precache_sprites)
