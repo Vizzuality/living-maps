@@ -28,12 +28,23 @@ var StreetLayer = L.CanvasLayer.extend({
     this.on('tileAdded', function(t) {
       this.getProbsData(t, t.zoom);
     }, this);
-    this.entities = new Entities(1);
     this.MAX_UNITS = this.options.steps + 2;
     this.force_map = {};
     this.time = 0;
-    this.force_keys = null;
-    var self = this;
+    this.sprites = []
+    this.precache_sprites();
+  },
+
+  precache_sprites: function() {
+    var sprite_size = function(size, alpha) {
+     return Sprites.render_to_canvas(function(ctx, w, h) {
+        Sprites.draw_circle_glow(ctx, size, [255, 255, 255, alpha*255])
+        //Sprites.circle(ctx, size, 'rgba(255, 255, 255, 0.4)')
+      }, size, size);
+    }
+    for(var i = 0; i < 7; ++i) {
+      this.sprites.push(sprite_size(5 + i*10, 0.01 + i/5));
+    }
   },
 
   set_time: function(t) {
@@ -52,14 +63,7 @@ var StreetLayer = L.CanvasLayer.extend({
     this._canvas.width = this._canvas.width;
     var origin = this._map._getNewTopLeftPoint(this._map.getCenter(), this._map.getZoom());
     this._ctx.translate(-origin.x, -origin.y);
-    //this._ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-    //this._ctx.fillRect(origin.x, origin.y, this._canvas.width, this._canvas.height);
-    //this._ctx.fillStyle =  'rgba(0, 0, 0, 0.2)';//'rgba(255, 255,255, 0.3)';
-    //this._ctx.fillRect(origin.x, origin.y, this._canvas.width, this._canvas.height);
-    this._ctx.strokeStyle= 'rgba(200, 35, 0, 0.8)';
-    this._ctx.globalCompositeOperation = 'lighter';
-    //this.entities.update(delta)
-    //this.entities.render(this._ctx);
+    //this._ctx.globalCompositeOperation = 'lighter';
 
     var ctx = this._ctx;
     var time = this.time;
@@ -73,11 +77,12 @@ var StreetLayer = L.CanvasLayer.extend({
       for(var i = 0; i < len; ++i) {
         var base_time = this.MAX_UNITS * i + time
         var c = count[base_time];
-        if(c){
+        if(c) {
+          var sp = this.sprites[c]
           ctx.drawImage(
-            this.entities.sprites[0][0],
-            x[i],
-            y[i])
+            sp,
+            x[i] - (sp.width>> 1),
+            y[i] - (sp.height>>1))
         }
         /*
         c = count[base_time - 1];
@@ -91,57 +96,6 @@ var StreetLayer = L.CanvasLayer.extend({
       }
     }
 
-/*
-    var O_KE_ASE = 200;
-    while(O_KE_ASE && this.force_keys) {
-      var k = this.force_keys[(Math.random()*this.force_keys.length)>>0];
-      var part = this.force_map[k]
-      var dx = part.dx[part.index + this.time];
-      var dy = part.dy[part.index + this.time];
-      if(dx !== 0 && dy !== 0) {
-        this.entities.add(
-          part.x,
-          part.y, 
-          part.speeds[part.index + this.time]/20,
-          0
-        );
-        this._backCtx.fillRect(part.x + Math.random(), part.y + Math.random(), 2, 2);
-        O_KE_ASE--;
-      }
-    }
-
-    //this._backCtx.fillRect(origin.x, origin.y, 300, 300);
-    this._backCtx.globalCompositeOperation = 'lighter';
-    this._backCtx.fillStyle = 'rgba(255, 255, 0, 0.1)';
-    */
-      /*
-      var k = this.force_keys[(Math.random()*this.force_keys.length)>>0];
-      var part = this.force_map[k]
-      var dx = part.dx[part.index + this.time];
-      var dy = part.dy[part.index + this.time];
-      if(dx !== 0 && dy !== 0) {
-        var speed = part.speeds[part.index + this.time];
-        //var count = part.count[part.index + this.time]
-        //count = Math.pow(count, 3);
-        if(speed > 1) {
-          speed /= 5;
-          speed = Math.random() < 0.5 ? -speed: speed;
-          speed *= (0.3 + 0.7*Math.random())
-            this.entities.add(
-              part.x,
-              part.y, 
-              speed*dx,
-              speed*dy,
-              3*Math.random()
-            );
-            O_KE_ASE--;
-        }
-
-      }
-      */
-    /*
-    this.entities.add(origin.x + 500, origin.y + 200, 20*(Math.random() - 0.5), 40*(Math.random() - 0.9), 10);
-    */
 
   },
 
@@ -163,10 +117,11 @@ var StreetLayer = L.CanvasLayer.extend({
     x = new Int32Array(rows.length);
     y = new Int32Array(rows.length);
     speeds = new Uint8Array(rows.length * this.MAX_UNITS);// 256 months
-    count = new Uint32Array(rows.length * this.MAX_UNITS);// 256 monthsrr
+    count = new Uint8Array(rows.length * this.MAX_UNITS);// 256 monthsrr
 
     // base tile x, y
     var total_pixels = 256 << zoom;
+    var max_val = 0;
 
     for (var i in rows) {
       row = rows[i];
@@ -182,7 +137,7 @@ var StreetLayer = L.CanvasLayer.extend({
         //dx[base_idx + row.dates[j]] = Math.cos(dir*Math.PI/180);
         //dy[base_idx + row.dates[j]] = Math.sin(dir*Math.PI/180);
         //speeds[base_idx + row.dates[j]] = row.speeds[j];
-        count[base_idx + row.dates[j]] = row.vals[j];
+        count[base_idx + row.dates[j]] = Math.min(6, Math.ceil(row.vals[j]/10)) >> 0 ;
       }
       /*
       for (var j = 1; j < this.MAX_UNITS; ++j) {

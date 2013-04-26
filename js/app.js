@@ -9,10 +9,12 @@ var App = {
       [51.511214,  -0.100824] // london
     , 12);
     this.map.keyboard.disable();
-    L.tileLayer('http://tile.stamen.com/toner/{z}/{x}/{y}.png', {
-      attribution: 'Stamen'
+    L.tileLayer(
+      //'http://tile.stamen.com/toner/{z}/{x}/{y}.png', {
+      'https://dnv9my2eseobd.cloudfront.net/v3/cartodb.map-4xtxp73f/{z}/{x}/{y}.png', {
+      attribution: 'mapbox'
     })
-    .setOpacity(0.2)
+    .setOpacity(1)
     .addTo(this.map);
 
     this.addStreetLayer();
@@ -57,7 +59,6 @@ var App = {
     if(this.t + this.layer.options.start_date > this.layer.options.end_date) {
       this.t = 0;
     }
-    //this.layer.set_time(this.t++);
   },
 
   addStreetLayer: function() {
