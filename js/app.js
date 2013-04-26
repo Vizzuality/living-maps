@@ -22,9 +22,11 @@ var App = {
     this.initControls();
     this.t = 0;
     this.speed = 0.5
+    this.old_time = 0;
     this.time = document.getElementById('date');
     requestAnimationFrame(this.render);
     var self = this;
+
 
     this.add_debug()
 
@@ -64,8 +66,12 @@ var App = {
   },
 
   render: function() {
+    var t0 = new Date().getTime()  
+    var dt = 0.001*(t0 - this.old_time)
+    dt = Math.min(1, dt);
+    this.old_time = t0;
     this.layer._render(0.02);
-    this.t += this.speed;
+    this.t += dt*this.speed*15; //15 minutes each second
     this.layer.set_time(this.t>>0);
     this.set_date();
     /*if(this.controls.left) {
