@@ -5,8 +5,12 @@ var App = {
   old_time: 0,
   time: 0,
 
+  init_time: 0,
+  last_time: 1419,
+
   initialize: function(options) {
     this.options = options;
+    this.options.scale = 1.0
     this.map = new Map('map', {
       zoomControl: false,
       scrollWheelZoom: false,
@@ -20,8 +24,8 @@ var App = {
     );
     
     this.slider = new Slider($('#slider'), {
-      timeMin: new Date(0).getTime(),
-      timeRange: (1419 - 445) * 15
+      timeMin: new Date(this.init_time).getTime(),
+      timeRange: (this.last_time - this.init_time) * 15
     })
 
     this.animables.push(this.map, this.slider);
@@ -42,15 +46,19 @@ var App = {
     // update time
     var t0 = new Date().getTime();
     var dt = 0.001*(t0 - this.old_time);
-    dt = this.options.time_scale*Math.min(1, dt);
+    dt = this.options.scale*this.options.time_scale*Math.min(1, dt);
     this.old_time = t0;
     this.time += dt;
     for(var i = 0; i < animables.length; ++i) {
       var a = animables[i];
       a.set_time(this.time);
-      //a.update(dt);
       a.render();
     }
+
+    if(this.time/60 > this.last_time) {
+      this.time = 0;
+    }
+    
   },
 
   add_debug: function() {
@@ -58,7 +66,7 @@ var App = {
     var ro = this.map.probsLayer.render_options
     //gui.remember(this);
     //gui.remember(ro);
-    gui.add(this.options, 'time_scale', 0, 150)
+    gui.add(this.options, 'scale', 0, 10)
     gui.add(ro, 'filtered')
 
     var f2 = gui.addFolder('particles');

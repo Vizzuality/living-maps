@@ -34,7 +34,7 @@ var StreetLayer = L.CanvasLayer.extend({
     this.sprites = []
     this.render_options = {
       part_min_size: 5,
-      part_inc: 10,
+      part_inc: 20,
       part_color: [255, 255, 255, 1.0],
       min_alpha: 0.01,
       alpha_inc: 0.2,
