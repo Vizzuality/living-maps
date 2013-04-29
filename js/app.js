@@ -21,7 +21,7 @@ var App = {
     
     this.slider = new Slider($('#slider'), {
       timeMin: new Date(0).getTime(),
-      timeRange: (1419 - 445)*15
+      timeRange: (1419 - 445) * 15
     })
 
     this.animables.push(this.map, this.slider);
@@ -40,8 +40,8 @@ var App = {
   tick: function() {
     var animables = this.animables;
     // update time
-    var t0 = new Date().getTime()  
-    var dt = 0.001*(t0 - this.old_time)
+    var t0 = new Date().getTime();
+    var dt = 0.001*(t0 - this.old_time);
     dt = this.options.time_scale*Math.min(1, dt);
     this.old_time = t0;
     this.time += dt;
@@ -76,8 +76,6 @@ var App = {
     post.add(ro, 'post_size', [64, 128, 256, 512, 1024]).onChange(this.map.probsLayer.init_post_process)
     post.add(ro, 'post_process')
     post.open()
-  },
-
-
+  }
 };
 

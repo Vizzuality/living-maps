@@ -1,14 +1,15 @@
 function Slider(el, options) {
   this.el = el;
+
   this.options = {
     timeMin: options.timeMin,
     timeRange: options.timeRange
   };
 
-  /*_.defaults(options, {
+  /* _.defaults(options, {
    step: 15,
    timeRange: 300
-  });*/
+  }); */
 
   this.initialize();
 }
@@ -19,19 +20,23 @@ Slider.prototype = {
 
     // init slider
     this.el.slider({
-      change: function(event, ui) {}
+      change: function(event, ui) {},
+      stop: function( event, ui ) {}
     });
 
-    // bind slider
-    this.el.on("slidechange", function(event, ui) {
-      self.onSliderChange();
+    this.el.on("slidestop", function(event, ui) {
+      self.onSlideStop(ui.value);
     });
   },
 
-  onSliderChange: function() {
+  onSlideStop: function(value) {
+    this.updateHour(this.posToTime(value));
+  },
+
+  updateHour: function(time) {
     var self = this;
 
-    var timeUpdated = new Date(this.options.timeMin + 1000 * self.posToTime(self.el.slider("value")));
+    var timeUpdated = new Date(this.options.timeMin + 1000 * time);
     var hours = timeUpdated.getHours();
     var minutes = timeUpdated.getMinutes();
 
@@ -41,6 +46,7 @@ Slider.prototype = {
   },
 
   posToTime: function(pos) {
+    console.log(pos);
     return pos * 60 * this.options.timeRange / 100;
   },
 
@@ -54,5 +60,7 @@ Slider.prototype = {
 
   set_time: function(time) {
     this.el.slider("value", this.timeToPos(time));
+
+    this.updateHour(time);
   }
 }

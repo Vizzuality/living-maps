@@ -83,7 +83,7 @@
 //  -webkit-transform: perspective(300px) rotateX(40deg) translateX(-100px) translateZ(40px);
   @include opacity(.2);
 
-  &.city { @include opacity(.4); }
+  &.city { @include opacity(.8); }
 }
 
 
@@ -115,7 +115,8 @@
 
 .bubble {
   position: absolute;
-  display: block;
+  //display: block;
+  display: none;
   margin-top: -110px;
   top: 400px;
   left: 700px;
