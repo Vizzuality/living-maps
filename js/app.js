@@ -35,6 +35,8 @@ var App = {
   add_debug: function() {
     var gui = new dat.GUI();
     var ro = this.layer.render_options
+    gui.remember(this);
+    gui.remember(ro);
     gui.add(this, 'speed', 0, 3)
     gui.add(ro, 'filtered')
 

@@ -18,7 +18,7 @@ var StreetLayer = L.CanvasLayer.extend({
     countby: "sqrt(avg(ac))",
     resolution: 1,
     step: 1,
-    steps: 720,
+    steps: 974,
     start_date: 445, //'2013-03-22 00:00:00+00:00',
     end_date: 1419 //'2013-03-22 23:59:57+00:00'
   },
@@ -123,6 +123,14 @@ var StreetLayer = L.CanvasLayer.extend({
         var base_time = this.MAX_UNITS * i + time
         var c = count[base_time];
         if(c) {
+          var sp = this.sprites[c]
+          ctx.drawImage(
+            sp,
+            x[i] - (sp.width>> 1),
+            y[i] - (sp.height>>1))
+        }
+        c = count[base_time - 1] - 2;
+        if(c >0 ) {
           var sp = this.sprites[c]
           ctx.drawImage(
             sp,
