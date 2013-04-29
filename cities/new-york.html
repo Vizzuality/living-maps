@@ -4,6 +4,41 @@ city: New York
 ---
 
 
+<script type="text/javascript">
+  // in minutes
+  var sliderPos = 0;
+  var timeRange = 300;
+  var step = 15;
+
+  var timeMin = Date.now();
+  var timeMax = timeMin + (timeRange * 60000);
+
+  function timeNow(t) {
+    return t * timeRange / 100 * 60000;
+  }
+
+  $(document).ready(function() {
+    // init slider
+    $("#slider").slider({
+      change: function(event, ui) {}
+    });
+
+    // bind slider
+    $("#slider").on("slidechange", function(event, ui) {
+      var timeUpdated = new Date(timeMin + timeNow($("#slider").slider("value")));
+      var hours = timeUpdated.getHours();
+      var minutes = timeUpdated.getMinutes();
+
+      minutes = (minutes<10?'0':'') + minutes;
+
+      $("#hour").text(hours + ":" + minutes);
+    });
+
+    // animate slider
+    
+  });
+</script>
+
 <div class="wrapper city new_york">
   <header class="header clearfix">
     <a href="/" class="logo"><img src="/img/here-logo.png" alt="" /></a>
