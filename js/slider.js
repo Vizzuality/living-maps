@@ -1,19 +1,14 @@
 function Slider(el, options) {
-  // in minutes
-  var sliderPos = 0;
-  var timeRange = 300;
-  var step = 15;
-
-  var timeMin = Date.now();
-  var timeMax = timeMin + (timeRange * 60000);
-  
-  
-
   this.el = el;
-  this.options = _.defaults(options, {
+  this.options = {
+    timeMin: options.timeMin,
+    timeRange: options.timeRange
+  };
+
+  /*_.defaults(options, {
    step: 15,
    timeRange: 300
-  });
+  });*/
 
   this.initialize();
 }
@@ -29,31 +24,35 @@ Slider.prototype = {
 
     // bind slider
     this.el.on("slidechange", function(event, ui) {
-      var timeUpdated = new Date(self.options.timeMin + self.timeNow(self.slider("value")));
-      var hours = timeUpdated.getHours();
-      var minutes = timeUpdated.getMinutes();
-
-      minutes = (minutes<10?'0':'') + minutes;
-
-      $("#hour").text(hours + ":" + minutes);
+      self.onSliderChange();
     });
   },
-  
-  timeNow: function(t) {
-    return t * this.options.timeRange / 100 * 60000;
-  }
 
-  update: function(dt) {
-    
+  onSliderChange: function() {
+    var self = this;
+
+    var timeUpdated = new Date(this.options.timeMin + 1000 * self.posToTime(self.el.slider("value")));
+    var hours = timeUpdated.getHours();
+    var minutes = timeUpdated.getMinutes();
+
+    minutes = (minutes<10?'0':'') + minutes;
+
+    $("#hour").text(hours + ":" + minutes);
+  },
+
+  posToTime: function(pos) {
+    return pos * 60 * this.options.timeRange / 100;
+  },
+
+  timeToPos: function(time) {
+    return 100 * time / (60 * this.options.timeRange);
   },
 
   render: function() { // empty on purpose
     
   },
 
-  set_time: function(date) {
-    
+  set_time: function(time) {
+    this.el.slider("value", this.timeToPos(time));
   }
 }
-
-
