@@ -68,7 +68,7 @@ var StreetLayer = L.CanvasLayer.extend({
   },
 
   set_time: function(t) {
-    this.time = t >> 0;
+    this.time = (t/60.0) >> 0;
   },
 
   update: function(dt) {

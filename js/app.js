@@ -20,8 +20,8 @@ var App = {
     );
     
     this.slider = new Slider($('#slider'), {
-      timeMin: Date.now(),
-      timeRange: 300
+      timeMin: new Date(0).getTime(),
+      timeRange: (1419 - 445)*15
     })
 
     this.animables.push(this.map, this.slider);
