@@ -26,8 +26,8 @@ Map.prototype = {
     this.map.addLayer(this.probsLayer);
   },
 
-  update: function(dt) {
-    this.probsLayer.update(dt);
+  set_time: function(t) {
+    this.probsLayer.set_time(t);
   },
 
   render: function() {
