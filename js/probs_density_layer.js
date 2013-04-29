@@ -13,7 +13,7 @@ var StreetLayer = L.CanvasLayer.extend({
 
   options: {
     user: "pulsemaps",
-    table: "txtor",
+    table: "r_even",
     column: "mm",
     countby: "sqrt(avg(ac))",
     resolution: 1,
@@ -68,7 +68,7 @@ var StreetLayer = L.CanvasLayer.extend({
   },
 
   set_time: function(t) {
-    this.time = t;
+    this.time = t >> 0;
   },
 
   update: function(dt) {
