@@ -17,8 +17,13 @@ var App = {
     this.carrousel = new Carrousel(
       $('.cities_nav')
     );
+    
+    this.slider = new Slider($('#slider'), {
+      timeMin: Date.now(),
+      timeRange: 300
+    })
 
-    this.animables.push(this.map);
+    this.animables.push(this.map, this.slider);
     this._tick = this._tick.bind(this);
     requestAnimationFrame(this._tick);
   },
