@@ -18,9 +18,8 @@ var StreetLayer = L.CanvasLayer.extend({
     countby: "sqrt(avg(ac))",
     resolution: 1,
     step: 1,
-    steps: 974,
-    start_date: 445, //'2013-03-22 00:00:00+00:00',
-    end_date: 1419 //'2013-03-22 23:59:57+00:00'
+    start_date: 1, //'2013-03-22 00:00:00+00:00',
+    end_date: 1419//'2013-03-22 23:59:57+00:00'
   },
 
   initialize: function() {
@@ -28,6 +27,7 @@ var StreetLayer = L.CanvasLayer.extend({
     this.on('tileAdded', function(t) {
       this.getProbsData(t, t.zoom);
     }, this);
+    this.options.steps = this.options.end_date - this.options.start_date
     this.MAX_UNITS = this.options.steps + 2;
     this.force_map = {};
     this.time = 0;
@@ -70,11 +70,6 @@ var StreetLayer = L.CanvasLayer.extend({
   set_time: function(t) {
     this.time = (t/60.0) >> 0;
   },
-
-  update: function(dt) {
-    this.time += dt;
-  },
-
 
   onAdd: function (map) {
     L.CanvasLayer.prototype.onAdd.call(this, map);

@@ -24,18 +24,20 @@ L.CanvasLayer = L.Class.extend({
     window.requestAnimationFrame = requestAnimationFrame;
   },
 
+  addCanvasLayer: function() {
+    var canvas = document.createElement('canvas');
+    canvas.style.position = 'absolute';
+    this._staticPane.appendChild(canvas);
+    return canvas;
+  },
+
 
   onAdd: function (map) {
     this._map = map;
-
-    this._backCanvas = document.createElement('canvas');
-    this._canvas = document.createElement('canvas');
     this._staticPane = map._createPane('leaflet-tile-pane', map._container);
 
-    this._backCanvas.style.position = this._canvas.style.position = 'absolute';
-    this._staticPane.appendChild(this._backCanvas);
-    this._staticPane.appendChild(this._canvas);
-
+    this._backCanvas = this.addCanvasLayer()
+    this._canvas = this.addCanvasLayer();
     this._backCtx = this._backCanvas.getContext('2d');
     this._ctx = this._canvas.getContext('2d');
 

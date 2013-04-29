@@ -58,7 +58,7 @@ var App = {
   },
 
   set_date: function() {
-     var real_time = this.t + this.layer.options.start_date;
+     var real_time = this.t/60 + this.layer.options.start_date;
      var date = new Date(real_time * 1000);
      var date_arry = date.toString().substr(4).split(' ');
      var pad = "00"
@@ -73,8 +73,8 @@ var App = {
     dt = Math.min(1, dt);
     this.old_time = t0;
     this.layer._render(0.02);
-    this.t += dt*this.speed*15; //15 minutes each second
-    this.layer.set_time(this.t>>0);
+    this.t += dt*this.speed*15*60; //15 minutes each second
+    this.layer.set_time(this.t);
     this.set_date();
     /*if(this.controls.left) {
       this.t = Math.max(0, this.t - 1);
@@ -86,7 +86,7 @@ var App = {
       this.time.innerHTML = this.t;
     }*/
     requestAnimationFrame(this.render);
-    if(this.t + this.layer.options.start_date > this.layer.options.end_date) {
+    if(this.t/60 + this.layer.options.start_date > this.layer.options.end_date) {
       this.t = 0;
     }
   },
