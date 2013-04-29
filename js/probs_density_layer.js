@@ -71,6 +71,10 @@ var StreetLayer = L.CanvasLayer.extend({
     this.time = t;
   },
 
+  update: function(dt) {
+    this.time += dt;
+  },
+
 
   onAdd: function (map) {
     L.CanvasLayer.prototype.onAdd.call(this, map);
@@ -104,14 +108,14 @@ var StreetLayer = L.CanvasLayer.extend({
     ctx.globalAlpha = 1;
   },
 
-  _render: function(delta) {
+  _render: function() {
     this._canvas.width = this._canvas.width;
     var origin = this._map._getNewTopLeftPoint(this._map.getCenter(), this._map.getZoom());
     this._ctx.translate(-origin.x, -origin.y);
     this._ctx.globalCompositeOperation = 'lighter';
 
     var ctx = this._ctx;
-    var time = this.time;
+    var time = this.time >> 0;
     var s = 2
     for(var tile in this._tiles) {
       var tt = this._tiles[tile]

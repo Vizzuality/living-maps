@@ -1,4 +1,6 @@
 
 $(document).ready(function() {
-  App.initialize();
+  App.initialize({
+    time_scale: 15
+  });
 });

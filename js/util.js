@@ -1,7 +1,10 @@
 
+var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.requestAnimationFrame;
+
 function rand() {
   return 2.0*(Math.random() - 0.5)
 }
+
 String.prototype.format = (function (i, safe, arg) {
     function format() {
         var str = this,

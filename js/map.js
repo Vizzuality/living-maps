@@ -22,6 +22,16 @@ Map.prototype = {
   _addLayers: function() {
     // base layer
     L.tileLayer(this.options.base_layer).addTo(this.map);
+    this.probsLayer = new StreetLayer();
+    this.map.addLayer(this.probsLayer);
   },
+
+  update: function(dt) {
+    this.probsLayer.update(dt);
+  },
+
+  render: function() {
+    this.probsLayer._render();
+  }
 
 };
