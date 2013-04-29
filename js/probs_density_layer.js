@@ -190,7 +190,7 @@ var StreetLayer = L.CanvasLayer.extend({
         count[base_idx + row.dates[j]] = Math.min(6, Math.ceil(row.vals[j]/10)) >> 0 ;
       }
 
-      var passes = 2;
+      /*var passes = 2;
       while(passes--) {
         for (var j = 1; j < this.MAX_UNITS; ++j) {
           count_filtered[base_idx + j] += count_filtered[base_idx + j - 1]/2.0
@@ -199,6 +199,7 @@ var StreetLayer = L.CanvasLayer.extend({
       for (var j = 1; j < this.MAX_UNITS; ++j) {
         count_filtered[base_idx + j] = Math.min(6, count_filtered[base_idx + j]) >> 0 ;
       }
+      */
     }
 
     //this.force_keys = Object.keys(this.force_map);

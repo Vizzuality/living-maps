@@ -67,7 +67,7 @@ var App = {
     //gui.remember(this);
     //gui.remember(ro);
     gui.add(this.options, 'scale', 0, 10)
-    gui.add(ro, 'filtered')
+    //gui.add(ro, 'filtered')
 
     var f2 = gui.addFolder('particles');
     f2.add(ro, 'part_min_size', 0.2, 40).onChange(this.map.probsLayer.precache_sprites)
