@@ -1,6 +1,5 @@
-
 $(document).ready(function() {
   App.initialize({
-    time_scale: 15
+    time_scale: 15 * 60
   });
 });
