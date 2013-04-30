@@ -68,8 +68,8 @@ Slider.prototype = {
   updateSky: function(pos) {
     var w = $(".sky").width();
 
-    $("#moon").css({"left": ((pos*w/100)) + "px", top: 75 + ((Math.sin((pos+50)/20) * 30) * w / 100) + "px"});
-    // $("#sun").css({"left": (75 + (pos*w/100)) + "px", top: + (75 + (Math.sin(pos) * 75 * -1)) + "px"});
+    $("#sun").css({"left": (pos*w/100) + "px", top: 75 + ((Math.sin((pos+50)/20) * 30) * w / 100) + "px"});
+    $("#moon").css({"left": 95 + (pos*w/100) + "px", top: 75 + ((Math.sin((pos+50)/20) * 30) * w / 100) * -1 + "px"});
   },
 
   posToTime: function(pos) {
