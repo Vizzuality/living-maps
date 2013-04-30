@@ -27,9 +27,9 @@ Map.prototype = {
       'http://pulsemaps.cartodb.com/api/v1/viz/rds_s/viz.json'
     ).done(function(layer) {
       self.map.addLayer(layer)
+      self.map.addLayer(this.probsLayer);
     });
     this.probsLayer = new StreetLayer();
-    this.map.addLayer(this.probsLayer);
   },
 
   set_time: function(t) {

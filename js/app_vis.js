@@ -9,13 +9,6 @@ var App = {
       [51.511214,  -0.100824] // london
     , 12);
     this.map.keyboard.disable();
-    L.tileLayer(
-      //'http://tile.stamen.com/toner/{z}/{x}/{y}.png', {
-      'https://dnv9my2eseobd.cloudfront.net/v3/cartodb.map-4xtxp73f/{z}/{x}/{y}.png', {
-      attribution: 'mapbox'
-    })
-    .setOpacity(1)
-    .addTo(this.map);
 
     this.addStreetLayer();
     this.render = this.render.bind(this);
@@ -24,7 +17,6 @@ var App = {
     this.speed = 0.5
     this.old_time = 0;
     this.time = document.getElementById('date');
-    requestAnimationFrame(this.render);
     var self = this;
 
 
@@ -92,9 +84,16 @@ var App = {
   },
 
   addStreetLayer: function() {
+    var self = this;
     this.layer = new StreetLayer();
+    cartodb.createLayer(this.map, 
+      'http://pulsemaps.cartodb.com/api/v1/viz/rds_s/viz.json'
+    ).done(function(layer) {
+      self.map.addLayer(layer)
+      self.map.addLayer(self.layer);
+      requestAnimationFrame(self.render);
+    });
     //this.layer = new StreetLayerDensity();
-    this.map.addLayer(this.layer);
   },
 
   initControls: function() {
