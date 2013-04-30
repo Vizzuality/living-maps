@@ -4,11 +4,11 @@
   position: absolute;
   right: 0;
   width: 420px;
-  height: 365px;
+  height: 440px;
   text-align: center;
 }
 
-.glow { background: image-url('glow.png') no-repeat 30px -40px; }
+.glow { background: image-url('glow.png') no-repeat; }
 
 .time_selector {
   position: relative;
@@ -18,8 +18,7 @@
 .sky {
   position: relative;
   margin: 0 auto;
-  width: 300px;
-  height: 125px;
+  height: 150px;
   overflow: hidden;
 }
 
