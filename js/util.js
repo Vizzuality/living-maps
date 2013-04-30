@@ -1,5 +1,5 @@
 
-var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.requestAnimationFrame;
+window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.requestAnimationFrame;
 
 function rand() {
   return 2.0*(Math.random() - 0.5)

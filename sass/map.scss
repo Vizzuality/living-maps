@@ -80,7 +80,7 @@
   height: 100%;
   width: 100%;
   background: transparent;
-//  -webkit-transform: perspective(300px) rotateX(40deg) translateX(-100px) translateZ(40px);
+  -webkit-transform: perspective(800px) rotateX(40deg) translateZ(40px);
   @include opacity(.2);
 
   &.city { @include opacity(.8); }

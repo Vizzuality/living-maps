@@ -115,6 +115,7 @@ var StreetLayer = L.CanvasLayer.extend({
   },
 
   _render: function() {
+    if(!this._canvas) return;
     this._canvas.width = this._canvas.width;
     var origin = this._map._getNewTopLeftPoint(this._map.getCenter(), this._map.getZoom());
     this._ctx.translate(-origin.x, -origin.y);

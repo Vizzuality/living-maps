@@ -22,24 +22,27 @@ Map.prototype = {
   _addLayers: function() {
     var self = this;
     // base layer
-    L.tileLayer(this.options.base_layer).addTo(this.map);
     cartodb.createLayer(this.map, 
       'http://pulsemaps.cartodb.com/api/v1/viz/rds_s/viz.json', {
         interaction: false
       }
     ).done(function(layer) {
       self.map.addLayer(layer)
-      self.map.addLayer(this.probsLayer);
+      self.probsLayer = new StreetLayer();
+      self.map.addLayer(self.probsLayer);
     });
-    this.probsLayer = new StreetLayer();
   },
 
   set_time: function(t) {
-    this.probsLayer.set_time(t);
+    if(this.probsLayer) {
+      this.probsLayer.set_time(t);
+    }
   },
 
   render: function() {
-    this.probsLayer._render();
+    if(this.probsLayer) {
+      this.probsLayer._render();
+    }
   }
 
 };
