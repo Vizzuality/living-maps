@@ -26,6 +26,14 @@ Slider.prototype = {
       stop: function(event, ui) {}
     });
 
+    this.el.on("mouseenter", function() {
+      $("#selectors").addClass("glow");
+    });
+
+    this.el.on("mouseleave", function() {
+      $("#selectors").removeClass("glow");
+    });
+
     this.el.on("mousedown", function() {
       self.clicked = true;
     });
@@ -44,11 +52,10 @@ Slider.prototype = {
     this.onTimeChange && this.onTimeChange(time);
 
     this.updateHour(time);
+    this.updateSky(pos);
   },
 
   updateHour: function(time) {
-    var self = this;
-
     var timeUpdated = new Date(this.options.timeMin + 1000 * time);
     var hours = timeUpdated.getHours();
     var minutes = timeUpdated.getMinutes();
@@ -56,6 +63,13 @@ Slider.prototype = {
     minutes = (minutes<10?'0':'') + minutes;
 
     $("#hour").text(hours + ":" + minutes);
+  },
+
+  updateSky: function(pos) {
+    var w = $(".sky").width();
+
+    $("#moon").css({"left": ((pos*w/100)) + "px", top: 75 + ((Math.sin((pos+50)/20) * 30) * w / 100) + "px"});
+    // $("#sun").css({"left": (75 + (pos*w/100)) + "px", top: + (75 + (Math.sin(pos) * 75 * -1)) + "px"});
   },
 
   posToTime: function(pos) {
@@ -75,6 +89,7 @@ Slider.prototype = {
       this.el.slider("value", this.timeToPos(time));
     
       this.updateHour(time);
+      this.updateSky(this.timeToPos(time));
     }
   }
 }

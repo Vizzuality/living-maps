@@ -1,6 +1,6 @@
 ---
 layout: application
-city: New York
+city: London
 ---
 
 
@@ -10,8 +10,13 @@ city: New York
 
     {% include menu_nav.html %}
 
-    <div class="selectors">
+    <div id="selectors" class="selectors">
       <div class="time_selector">
+        <div class="sky">
+          <div id="sun" class="sun"></div>
+          <div id="moon" class="moon"></div>
+        </div>
+
         <div id="slider" class="slider"></div>
         <span id="hour" class="hour">9:36 <sup>AM</sup></span>
       </div>
@@ -23,7 +28,7 @@ city: New York
     </div>
 
     <p class="subtitle">Living cities</p>
-    <h1 class="title">New York</h1>
+    <h1 class="title">London</h1>
   </header>
 
   <div class="content inner">
