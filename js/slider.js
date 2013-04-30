@@ -66,15 +66,15 @@ Slider.prototype = {
   },
 
   updateSky: function(pos) {
-    var w = $(".sky").width();
+    var w = 200;
 
     $("#sun").css({
-      "left": -75 + (pos*w/100) + "px",
-      "top": 100 + ((Math.cos(pos/18) * 4) * w / 20) + "px"
+      "left": -35 + (pos*w/100) + "px",
+      "top": 100 + ((+0.160000 * Math.pow(pos,2))-(16 * pos) + 300) + "px"
     });
 
     $("#moon").css({
-      "left": 100 + (pos*w/100) + "px",
+      "left": 35 + (pos*w/100) + "px",
       "top": 100 + ((Math.cos(pos/18) * 4) * w / 20) * -1 + "px"
     });
   },
