@@ -34,8 +34,7 @@ var App = {
       self.time = time;
     }
 
-    // this.animables.push(this.map, this.slider);
-    this.animables.push(this.slider);
+    this.animables.push(this.map, this.slider);
     this._tick = this._tick.bind(this);
     requestAnimationFrame(this._tick);
 

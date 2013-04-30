@@ -26,11 +26,11 @@ Slider.prototype = {
       stop: function(event, ui) {}
     });
 
-    this.el.on("mouseenter", function() {
+    this.el.find("a").on("mouseenter", function() {
       $("#selectors").addClass("glow");
     });
 
-    this.el.on("mouseleave", function() {
+    this.el.find("a").on("mouseleave", function() {
       $("#selectors").removeClass("glow");
     });
 
