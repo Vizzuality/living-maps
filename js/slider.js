@@ -18,10 +18,16 @@ Slider.prototype = {
   initialize: function() {
     var self = this;
 
+    this.clicked = false;
+
     // init slider
     this.el.slider({
       change: function(event, ui) {},
-      stop: function( event, ui ) {}
+      stop: function(event, ui) {}
+    });
+
+    this.el.on("mousedown", function() {
+      self.clicked = true;
     });
 
     this.el.on("slidestop", function(event, ui) {
@@ -29,8 +35,15 @@ Slider.prototype = {
     });
   },
 
-  onSlideStop: function(value) {
-    this.updateHour(this.posToTime(value));
+  onSlideStop: function(pos) {
+    var time = this.posToTime(pos);
+    this.clicked = false;
+
+    this.el.slider("value", pos);
+
+    this.onTimeChange && this.onTimeChange(time);
+
+    this.updateHour(time);
   },
 
   updateHour: function(time) {
@@ -46,7 +59,6 @@ Slider.prototype = {
   },
 
   posToTime: function(pos) {
-    console.log(pos);
     return pos * 60 * this.options.timeRange / 100;
   },
 
@@ -59,8 +71,10 @@ Slider.prototype = {
   },
 
   set_time: function(time) {
-    this.el.slider("value", this.timeToPos(time));
-
-    this.updateHour(time);
+    if(!this.clicked){
+      this.el.slider("value", this.timeToPos(time));
+    
+      this.updateHour(time);
+    }
   }
 }

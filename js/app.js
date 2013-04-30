@@ -9,6 +9,8 @@ var App = {
   last_time: 1419,
 
   initialize: function(options) {
+    var self = this;
+
     this.options = options;
     this.options.scale = 1.0
     this.map = new Map('map', {
@@ -25,8 +27,12 @@ var App = {
     
     this.slider = new Slider($('#slider'), {
       timeMin: new Date(this.init_time).getTime(),
-      timeRange: (this.last_time - this.init_time) * 15
-    })
+      timeRange: (this.last_time - this.init_time) * 1
+    });
+
+    this.slider.onTimeChange = function(time) {
+      self.time = time;
+    }
 
     this.animables.push(this.map, this.slider);
     this._tick = this._tick.bind(this);
