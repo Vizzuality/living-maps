@@ -58,7 +58,7 @@ var StreetLayer = L.CanvasLayer.extend({
      size = size >> 0;
      return Sprites.render_to_canvas(function(ctx, w, h) {
         var c = ro.part_color;
-        Sprites.draw_circle_glow(ctx, size, [c[0], c[1], c[2], alpha*255], ro.exp_decay)
+        Sprites.draw_circle_glow_iso(ctx, size, [c[0], c[1], c[2], alpha*255], ro.exp_decay)
         //Sprites.circle(ctx, size, 'rgba(255, 255, 255, 0.4)')
       }, size, size);
     }
@@ -77,6 +77,16 @@ var StreetLayer = L.CanvasLayer.extend({
     this.init_post_process();
     this._ctx.translate(-origin.x, -origin.y);
     this._backCtx.translate(-origin.x, -origin.y);
+
+
+    var c = this.addCanvasLayer();
+    c.style['-webkit-transform'] =  'translatey(-20px)'
+    var ctx = c.getContext('2d')
+    this.canvasTop = c;
+    this.ctxTop = ctx;
+    this.canvasTop.width = this._canvas.width;
+    this.canvasTop.height = this._canvas.height;
+    this.ctxTop.translate(-origin.x, -origin.y);
   },
 
   init_post_process: function() {
@@ -85,6 +95,7 @@ var StreetLayer = L.CanvasLayer.extend({
     canvasPost.height = canvasPost.width = this.render_options.post_size;
     this.canvasPost = canvasPost;
     this.ctxPost = ctxPost;
+
   },
 
   _do_post_process: function(origin) {
@@ -109,6 +120,9 @@ var StreetLayer = L.CanvasLayer.extend({
     this._ctx.translate(-origin.x, -origin.y);
     this._ctx.globalCompositeOperation = 'lighter';
 
+    this.canvasTop.width = this.canvasTop.width;
+    this.ctxTop.translate(-origin.x, -origin.y);
+
     var ctx = this._ctx;
     var time = this.time >> 0;
     var s = 2
@@ -126,16 +140,46 @@ var StreetLayer = L.CanvasLayer.extend({
           ctx.drawImage(
             sp,
             x[i] - (sp.width>> 1),
-            y[i] - (sp.height>>1))
+            y[i] - (sp.height>>1) + 2*c)
         }
-        c = count[base_time - 1] - 2;
+
+        /*
+        c = count[base_time - 1];
+        //ctx.fillStyle = 'black';
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+        if(c) {
+          ctx.fillRect(
+            x[i] - 2,
+            y[i] - 2 - 2*c,
+            3, 
+            3);
+        }
+        c = count[base_time - 5];
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+        if(c) {
+          ctx.fillRect(
+            x[i] - 1,
+            y[i] - 1 - 3*c,
+            2, 
+            2);
+        }
+        */
+          /*
+          this.ctxTop.drawImage(
+            sp,
+            x[i] - (sp.width>> 1),
+            y[i] - (sp.height>>1))
+          */
+        /*
+        c = count[base_time - 1];
         if(c >0 ) {
           var sp = this.sprites[c]
-          ctx.drawImage(
+          this.ctxTop.drawImage(
             sp,
             x[i] - (sp.width>> 1),
             y[i] - (sp.height>>1))
         }
+        */
       }
     }
 

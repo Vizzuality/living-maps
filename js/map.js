@@ -24,7 +24,9 @@ Map.prototype = {
     // base layer
     L.tileLayer(this.options.base_layer).addTo(this.map);
     cartodb.createLayer(this.map, 
-      'http://pulsemaps.cartodb.com/api/v1/viz/rds_s/viz.json'
+      'http://pulsemaps.cartodb.com/api/v1/viz/rds_s/viz.json', {
+        interaction: false
+      }
     ).done(function(layer) {
       self.map.addLayer(layer)
       self.map.addLayer(this.probsLayer);

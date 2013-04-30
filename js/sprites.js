@@ -13,6 +13,38 @@ var Sprites = {
     fn(ctx, w, h);
     return canvas;
   },
+  
+  // create a glow effect sprite with isometric perspective (or something looks like) (o ke ase)
+  draw_circle_glow_iso: function(ctx, pixel_size, color, exp) {
+    var p;
+    var I = ctx.getImageData(0, 0, pixel_size, pixel_size);
+    var pixels = I.data;
+    var cx = pixel_size >> 1;
+    var cy = pixel_size >> 1;
+    for(var x = 0; x < pixel_size; ++x) {
+      for(var y = 0; y < pixel_size; ++y) {
+         p = (y*pixel_size + x) * 4;
+         var dx = x - cx;
+         var dy = y - cy;
+         var r = Math.sqrt(dx * dx + dy * dy)/pixel_size;
+         var ang = Math.atan2(dy, dx);
+
+         if(ang > 0) {
+           r *= (1 + 0.8*Math.sin(ang))
+         } else {
+           r *= (1 + 0.3*Math.sin(ang))
+         }
+         pixels[p + 0] = color[0];
+         pixels[p + 1] = color[1];
+         pixels[p + 2] = color[2];
+         //pixels[p + 3] = color[3]*Math.cos(r*Math.PI)
+         //var a = Math.cos(r*Math.PI) 
+         //pixels[p + 3] = color[3]*a*a*a*a*a;
+         pixels[p + 3] = color[3]*Math.exp(-r*exp)
+      }
+    }
+    ctx.putImageData(I, 0, 0)
+  },
 
   draw_circle_glow: function(ctx, pixel_size, color, exp) {
     var p;
