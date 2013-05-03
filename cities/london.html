@@ -8,8 +8,6 @@ city: London
   <header class="header clearfix">
     <a href="/" class="logo"><img src="/img/here-logo.png" alt="" /></a>
 
-    {% include menu_nav.html %}
-
     <div id="selectors" class="selectors">
       <div class="time_selector">
         <div class="sky">
@@ -18,14 +16,11 @@ city: London
         </div>
 
         <div id="slider" class="slider"></div>
-        <span id="hour" class="hour">9:36 <sup>AM</sup></span>
-      </div>
-  
-      <div class="lang_selector">
-        <h4>Select languages</h4>
-        <a href="#" class="selected">All languages</a>
+        <span id="hour" class="hour">1:00 <sup>AM</sup></span>
       </div>
     </div>
+
+    {% include menu_nav.html %}
 
     <p class="subtitle">Living cities</p>
     <h1 class="title">London</h1>
@@ -39,5 +34,8 @@ city: London
 
 <div id="map" class="city">
   <div class="edge top"></div>
+  <div class="edge right"></div>
+  <div class="edge bottom"></div>
+  <div class="edge left"></div>
 </div>
 
