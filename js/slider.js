@@ -19,33 +19,72 @@ Slider.prototype = {
     var self = this;
 
     this.clicked = false;
+    this.dragged = false;
+    this.valueStart = 0;
+    this.valueStop = 0;
+    this.stopped = false;
 
     // init slider
     this.el.slider({
+      slide: function(event, ui) {},
       change: function(event, ui) {},
       stop: function(event, ui) {}
     });
 
-    this.el.find("a").on("mouseenter", function() {
-      $("#selectors").addClass("glow");
-    });
+    this.el
+      .on("slide", function(event, ui) {
+        self.onSlideStart(ui.value);
+      })
+      .on("slidestop", function(event, ui) {
+        self.onSlideStop(ui.value);
+      })
+      .find("a")
+        .on("mouseenter", function() {
+          $("#selectors").addClass("glow");
+        })
+        .on("mouseleave", function() {
+          $("#selectors").removeClass("glow");
+        })
+        .on("mousedown", function() {
+          self.clicked = true;
+          self.valueStart = self.el.slider("value");
+          console.log(self.valueStart);
 
-    this.el.find("a").on("mouseleave", function() {
-      $("#selectors").removeClass("glow");
-    });
+          $(document).mousemove(function() {
+            self.dragged = true;
+          });
+        })
+        .on("click", function() {
+          if(!self.dragged && self.valueStart === self.valueStop) {
+            if(!self.stopped) {
+              self.stopped = true;
+            } else {
+              self.stopped = false;
+            }
+          }
+        });
 
-    this.el.on("mousedown", function() {
-      self.clicked = true;
-    });
+    $(document).on("mouseup", function() {
+      self.dragged = false;
+      self.valueStop = self.el.slider("value");
 
-    this.el.on("slidestop", function(event, ui) {
-      self.onSlideStop(ui.value);
-    });
+      $(this).unbind('mousemove');
+
+      self.clicked = false;
+    })
+  },
+
+  onSlideStart: function(pos) {
+    var time = this.posToTime(pos);
+
+    this.onTimeChange && this.onTimeChange(time);
+
+    this.updateHour(time);
+    this.updateSky(pos);
   },
 
   onSlideStop: function(pos) {
     var time = this.posToTime(pos);
-    this.clicked = false;
 
     this.el.slider("value", pos);
 
@@ -77,6 +116,11 @@ Slider.prototype = {
       "left": 35 + (pos*w/100) + "px",
       "top": 100 + ((Math.cos(pos/18) * 4) * w / 20) * -1 + "px"
     });
+
+    $("#moon2").css({
+      "left": -150 + (pos*w/100) + "px",
+      "top": 100 + ((Math.cos(pos/18) * 4) * w / 20) * -1 + "px"
+    });
   },
 
   posToTime: function(pos) {
@@ -92,7 +136,7 @@ Slider.prototype = {
   },
 
   set_time: function(time) {
-    if(!this.clicked){
+    if(!this.stopped && !this.clicked){
       this.el.slider("value", this.timeToPos(time));
     
       this.updateHour(time);
