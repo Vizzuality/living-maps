@@ -11,6 +11,8 @@ var App = {
   initialize: function(options) {
     var self = this;
 
+    this._initTestData();
+
     this.options = options;
     this.options.scale = 1.0
     this.map = new Map('map', {
@@ -20,6 +22,9 @@ var App = {
       zoom: 12,
       base_layer: 'https://saleiva.cartodb.com/tiles/here_osm_madrid/{z}/{x}/{y}.png'
     });
+
+    Bubbles.initialize(this.map.map);
+    this.animables.push(Bubbles);
 
     this.carrousel = new Carrousel(
       $('.cities_nav')
@@ -40,6 +45,22 @@ var App = {
 
     if(location.search.indexOf('debug') != -1)
       this.add_debug();
+  },
+
+  _initTestData: function() {
+    var data = [];
+    for (var i = 0 ; i < 100; ++i) {
+      var time = (Math.random()*this.last_time)>>0;
+      data.push({
+        lat: 51.511214 + Math.random()*0.08 - 0.04,
+        lon: -0.100824 + Math.random()*0.08 - 0.04,
+        id : i,
+        type: 'bus',
+        sentence: 'OLA KE ASE time:' + time,
+        time: time
+      });
+    }
+    Bubbles.data.reset(data);
   },
 
   _tick: function() {
