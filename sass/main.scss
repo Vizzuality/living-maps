@@ -18,36 +18,31 @@
     url('/fonts/nokiapuretext-light-webfont.svg#Nokia Pure Text') format('svg');
 }
 
-body,
-html {
-  overflow-x: hidden;
-  height: 100%;
-}
-
 body {
   position: relative;
   height: 100%;
   width: 100%;
+  overflow-x: hidden;
   font: 300 17px "Nokia Pure Text", Helvetica, Arial, sans-serif;
   color: #fff;
-  @include background(linear-gradient(top, #00BBDD, #3E77B4 100%));
+  background: #0bd;
 }
 
 .wrapper {
   z-index: 100;
+  margin-bottom: -10px;
   padding: 0 50px 220px 42px;
   min-height: 500px;
+  @include background(linear-gradient(top, rgba(#0bd, .4), rgba(#356095, .4) 100%));
 }
 
 .gradient {
   position: absolute;
-  bottom: 0;
+  bottom: -10px;
   left: 0;
   width: 100%;
-  height: 135px;
-  @include background(
-    image-url('gradient-bg.png') repeat-x bottom
-  );
+  height: 133px;
+  background: image-url('gradient-bg.png') repeat-x bottom;
 }
 
 .logo {
@@ -57,6 +52,8 @@ body {
 }
 
 .header {
+  position: relative;
+
   .title,
   .subtitle {
     display: inline-block;
@@ -81,8 +78,10 @@ body {
 }
 
 .menu_nav {
-  float: right;
-  margin-top: 30px;
+  position: absolute;
+  z-index: 300;
+  right: 0;
+  top: 30px;
 
   li {
     float: left;

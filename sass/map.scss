@@ -2,9 +2,10 @@
 
 .selectors {
   position: absolute;
-  right: 0;
-  top: -30px;
-  width: 420px;
+  z-index: 200;
+  right: -160px;
+  top: -50px;
+  width: 520px;
   height: 440px;
   text-align: center;
 }
@@ -77,37 +78,13 @@
   }
 }
 
-.lang_selector {
-  h4 {
-    font: 500 13px "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: rgba(#000F1A, .4);
-    text-transform: uppercase;
-  }
-
-  .selected {
-    margin-left: -10px;
-    font-size: 33px;
-    color: #fff;
-    text-decoration: none;
-
-    &:after {
-      display: inline-block;
-      position: absolute;
-      content: '';
-      height: 43px;
-      width: 43px;
-      background: image-url('lang_dropdown.png') no-repeat right center;
-    }
-  }
-}
-
 #map {
   position: absolute;
   top: 0;
   bottom: 0;
   height: 100%;
   width: 100%;
-  background: transparent;
+  background: #00BBDD;
   -webkit-transform: perspective(800px) rotateX(40deg) translateZ(40px);
   @include opacity(.2);
 
@@ -128,16 +105,35 @@
 
 .edge {
   position: absolute;
+  z-index: 10;
   width: 100%;
   height: 100px;
-  background: #346FBE;
-  z-index: 10;
-  @include background(linear-gradient(top, #00BBDD, rgba(#00BBDD, 0) 100%));
 
   &.top {
     top: 0;
     left: 0;
     height: 300px;
+    background: image-url('edge-top.png') repeat-x;
+  }
+
+  &.bottom {
+    bottom: 0;
+    left: 0;
+    height: 100px;
+    background: image-url('edge-bottom.png') repeat-x;
+  }
+
+  &.left {
+    height: 100%;
+    width: 200px;
+    background: image-url('edge-left.png') repeat-y;
+  }
+
+  &.right {
+    right: 0;
+    height: 100%;
+    width: 200px;
+    background: image-url('edge-right.png') repeat-y;
   }
 }
 
@@ -196,4 +192,8 @@
   height: 45px;
   width: 45px;
   background: image-url('marker_go.png') no-repeat;
+}
+
+.leaflet-control-attribution {
+  display: none !important;
 }
