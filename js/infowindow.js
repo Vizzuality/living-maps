@@ -55,6 +55,7 @@ var Bubbles = {
 
   _emit: function(data) {
     if(this.bubbles[data.id]) return;
+    var self = this;
 
     var markup = $('<div class="bubble type_' + data.type + '"><p>' + data.sentence + '</p><a href="#" class="go"></a></div>');
     $('body').append(markup);
@@ -67,6 +68,7 @@ var Bubbles = {
     this.bubbles[data.id] = markup;
     setTimeout(function() {
       markup.fadeOut().remove();
+      delete self.bubbles[data.id];
     }, 3000);
   },
 
