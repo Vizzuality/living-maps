@@ -64,7 +64,6 @@ var App = {
     if(this.time/60 > this.last_time) {
       this.time = 0;
     }
-    
   },
 
   add_debug: function() {
