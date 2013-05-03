@@ -110,5 +110,15 @@ L.Mixin.TileLoader = {
         this.fire('tileAdded', queue[i]);
       }
 
+  },
+
+  /**
+   * given x, y, z returns the top-left corner of the tile in pixels,
+   * useful for rendering tiles with canvas
+   */
+  _getTilePos: function (tilePoint) {
+    var ts = this.options.tileSize;
+    return new L.Point(ts*tilePoint.x, ts*tilePoint.y);
   }
+
 }

@@ -22,7 +22,7 @@ Map.prototype = {
   _addLayers: function() {
     var self = this;
     // base layer
-    cartodb.createLayer(this.map, 
+    /*cartodb.createLayer(this.map, 
       'http://pulsemaps.cartodb.com/api/v1/viz/rds_s/viz.json', {
         interaction: false
       }
@@ -30,7 +30,10 @@ Map.prototype = {
       self.map.addLayer(layer)
       self.probsLayer = new StreetLayer();
       self.map.addLayer(self.probsLayer);
-    });
+    });*/
+
+    self.probsLayer = new StreetLayer();
+    self.map.addLayer(self.probsLayer);
   },
 
   set_time: function(t) {

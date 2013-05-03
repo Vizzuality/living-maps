@@ -25,9 +25,12 @@ L.CanvasLayer = L.Class.extend({
   },
 
   addCanvasLayer: function() {
+    var size = this._map.getSize()
     var canvas = document.createElement('canvas');
     canvas.style.position = 'absolute';
     this._staticPane.appendChild(canvas);
+    canvas.width = size.x;
+    canvas.height = size.y;
     return canvas;
   },
 
@@ -40,6 +43,10 @@ L.CanvasLayer = L.Class.extend({
     this._canvas = this.addCanvasLayer();
     this._backCtx = this._backCanvas.getContext('2d');
     this._ctx = this._canvas.getContext('2d');
+
+    this._backCanvas.style['z-index'] = 100;
+    this._canvas.style['z-index'] = 101;
+
 
     map.on({
         'viewreset': this._reset,

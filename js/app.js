@@ -39,7 +39,9 @@ var App = {
     requestAnimationFrame(this._tick);
 
     if(location.search.indexOf('debug') != -1)
-      this.add_debug();
+      setTimeout(function() {
+        self.add_debug();
+      }, 4000);
   },
 
   _tick: function() {
@@ -64,7 +66,6 @@ var App = {
     if(this.time/60 > this.last_time) {
       this.time = 0;
     }
-    
   },
 
   add_debug: function() {
@@ -81,6 +82,7 @@ var App = {
     f2.add(ro, 'min_alpha', 0, 0.3).onChange(this.map.probsLayer.precache_sprites)
     f2.add(ro, 'alpha_inc', 0, 0.5).onChange(this.map.probsLayer.precache_sprites)
     f2.add(ro, 'exp_decay', 0, 20).onChange(this.map.probsLayer.precache_sprites)
+    f2.add(ro, 'part_type', ['sphere', 'glow']).onChange(this.map.probsLayer.precache_sprites)
     f2.addColor(ro, 'part_color').onChange(this.map.probsLayer.precache_sprites)
     f2.open();
 
