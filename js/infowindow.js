@@ -89,7 +89,7 @@ var Bubbles = {
       self.backdrop.fadeIn(200);
     });
 
-    $(".tweet").on("click", function(e) {
+    $(".cancel, .send").on("click", function(e) {
       e.preventDefault();
       Events.trigger("resumeanimation", self.slider.slider("value"));
       self.backdrop.delay(400).fadeOut(200);
