@@ -58,8 +58,10 @@ Slider.prototype = {
           if(!self.dragged && self.valueStart === self.valueStop) {
             if(!self.stopped) {
               self.stopped = true;
+              $(this).addClass("stopped");
             } else {
               self.stopped = false;
+              $(this).removeClass("stopped");
             }
           }
         });
@@ -105,21 +107,16 @@ Slider.prototype = {
   },
 
   updateSky: function(pos) {
-    var w = 200;
+    var r = 50;
 
     $("#sun").css({
-      "left": -35 + (pos*w/100) + "px",
-      "top": 100 + ((+0.160000 * Math.pow(pos,2))-(16 * pos) + 300) + "px"
+      "left": 62 + (r * Math.cos(pos)) + "px",
+      "top": 125 + (r * Math.sin(pos)) + "px"
     });
 
     $("#moon").css({
-      "left": 35 + (pos*w/100) + "px",
-      "top": 100 + ((Math.cos(pos/18) * 4) * w / 20) * -1 + "px"
-    });
-
-    $("#moon2").css({
-      "left": -150 + (pos*w/100) + "px",
-      "top": 100 + ((Math.cos(pos/18) * 4) * w / 20) * -1 + "px"
+      "left": 62 + (r * Math.cos(pos + 90)) + "px",
+      "top": 125 + (r * Math.sin(pos + 90)) + "px"
     });
   },
 

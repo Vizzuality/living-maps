@@ -76,6 +76,8 @@
       height: 19px;
       width: 19px;
     }
+
+    &.stopped { background-image: image-url('slider-stopped.png'); }
   }
 }
 

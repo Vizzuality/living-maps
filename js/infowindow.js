@@ -14,6 +14,7 @@ TimeBasedData.prototype.reset = function(data) {
 
   // generate index by time
   this.time_index = {};
+
   for(var i = 0; i < this.entries.length; ++i) {
     var e = this.entries[i];
     this.time_index[e[time]] = e;
@@ -29,6 +30,7 @@ TimeBasedData.prototype.getFortime = function(time) {
 TimeBasedData.prototype.fetch = function() {
   self = this;
   this.base_url = this.options.url;
+
   $.getJSON(this.base_url + "?q=" + "SELECT * FROM " + this.options.table, function(data) {
     self.reset(data.rows);
   });
