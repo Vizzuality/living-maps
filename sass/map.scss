@@ -93,7 +93,7 @@
     border: none;
     width: 100%;
     padding: 5px 0;
-    font: 300 55px/1 "Nokia Pure Text", Helvetica, Arial, sans-serif;
+    font: 300 55px "Nokia Pure Text", Helvetica, Arial, sans-serif;
     letter-spacing: -3px;
     color: #fff;
     background: image-url('tweetarea.png');
@@ -131,11 +131,11 @@
 }
 
 .backdrop-inner {
-  margin: 200px auto 0;
+  margin: 130px auto 0;
   width: 800px;
 }
 
-.map_wrapper {
+#map_wrapper {
   z-index: 1;
 }
 
@@ -150,7 +150,6 @@
 
   &.city { @include opacity(1); }
 }
-
 
 .graticule {
   fill: none;
