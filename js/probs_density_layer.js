@@ -26,9 +26,10 @@ var StreetLayer = L.CanvasLayer.extend({
     L.CanvasLayer.prototype.initialize.call(this);
     this.on('tileAdded', function(t) {
       this.getProbsData(t, t.zoom);
+      this.loadBackgroundTile(t, t. zoom);
     }, this);
     this.options.steps = this.options.end_date - this.options.start_date
-    this.MAX_UNITS = this.options.steps + 2;
+    this.MAX_UNITS = (this.options.steps + 2) | 0;
     this.force_map = {};
     this.time = 0;
     this.sprites = []
@@ -43,13 +44,34 @@ var StreetLayer = L.CanvasLayer.extend({
       post_size: 512,
       post_alpha: 0.3,
       post_decay: 0.07,
-      filtered: false
+      filtered: false,
+      part_type: 'glow'
     }
     this.precache_sprites = this.precache_sprites.bind(this)
     this.init_post_process = this.init_post_process.bind(this);
 
     this.precache_sprites();
   },
+
+  _onMapMove: function() {
+    this._renderSteets();
+  },
+
+  _renderSteets: function() {
+    var origin = this._map._getNewTopLeftPoint(this._map.getCenter(), this._map.getZoom());
+    var c = this._streetsLayer;
+    this._streetsLayer.width = this._streetsLayer.width;
+    this._streetsLayerCtx.fillStyle = 'rgba(23, 162, 206, 1)';
+    this._streetsLayerCtx.fillRect(0, 0, c.width, c.height);
+    this._streetsLayerCtx.translate(-origin.x, -origin.y);
+    for(var tile in this._tiles) {
+      var tt = this._tiles[tile]
+      var pos = this._getTilePos(tt.coord);
+      this._streetsLayerCtx.drawImage(tt.img, pos.x, pos.y);
+
+    }
+  },
+
 
   precache_sprites: function() {
     this.sprites = []
@@ -58,7 +80,12 @@ var StreetLayer = L.CanvasLayer.extend({
      size = size >> 0;
      return Sprites.render_to_canvas(function(ctx, w, h) {
         var c = ro.part_color;
-        Sprites.draw_circle_glow_iso(ctx, size, [c[0], c[1], c[2], alpha*255], ro.exp_decay)
+        if(ro.part_type == 'sphere') {
+          Sprites.circle(ctx, size, [c[0], c[1], c[2], alpha*255])
+        } else {
+          Sprites.draw_circle_glow_iso(ctx, size, [c[0], c[1], c[2], alpha*255], ro.exp_decay)
+        }
+        //Sprites.circle(ctx, size, [c[0], c[1], c[2], alpha*255])
         //Sprites.circle(ctx, size, 'rgba(255, 255, 255, 0.4)')
       }, size, size);
     }
@@ -72,21 +99,13 @@ var StreetLayer = L.CanvasLayer.extend({
   },
 
   onAdd: function (map) {
+    map.on('move', this._onMapMove, this);
     L.CanvasLayer.prototype.onAdd.call(this, map);
     var origin = this._map._getNewTopLeftPoint(this._map.getCenter(), this._map.getZoom());
     this.init_post_process();
     this._ctx.translate(-origin.x, -origin.y);
     this._backCtx.translate(-origin.x, -origin.y);
-
-
-    var c = this.addCanvasLayer();
-    c.style['-webkit-transform'] =  'translatey(-20px)'
-    var ctx = c.getContext('2d')
-    this.canvasTop = c;
-    this.ctxTop = ctx;
-    this.canvasTop.width = this._canvas.width;
-    this.canvasTop.height = this._canvas.height;
-    this.ctxTop.translate(-origin.x, -origin.y);
+    this._streetsLayerCtx.translate(-origin.x, -origin.y);
   },
 
   init_post_process: function() {
@@ -95,7 +114,9 @@ var StreetLayer = L.CanvasLayer.extend({
     canvasPost.height = canvasPost.width = this.render_options.post_size;
     this.canvasPost = canvasPost;
     this.ctxPost = ctxPost;
-
+    this._streetsLayer = this.addCanvasLayer();
+    this._streetsLayerCtx = this._streetsLayer.getContext('2d');
+    this._streetsLayer.style['z-index'] = 50;
   },
 
   _do_post_process: function(origin) {
@@ -103,14 +124,15 @@ var StreetLayer = L.CanvasLayer.extend({
     var ctxPost = this.ctxPost;
     var ctx = this._ctx;
 
-    ctxPost.fillStyle = 'rgba(0, 0, 0, ' + this.render_options.post_decay + ')';
-    ctxPost.fillRect(0, 0, post_size, post_size);
+    ctxPost.globalAlpha = this.render_options.post_decay;
+    ctxPost.drawImage(this._streetsLayer, 0, 0, post_size, post_size);
     ctxPost.drawImage(this._canvas, 0, 0, post_size, post_size);
+    ctxPost.globalAlpha = 1.0
 
     ctx.globalAlpha = this.render_options.post_alpha;
-    //ctx.globalCompositeOperation = 'ligthen'
+    ctx.globalCompositeOperation = 'source-over'
     ctx.drawImage(this.canvasPost,origin.x, origin.y, this._canvas.width, this._canvas.height);
-    //ctx.globalCompositeOperation = 'source-over'
+    ctx.globalCompositeOperation = 'ligthen'
     ctx.globalAlpha = 1;
   },
 
@@ -118,14 +140,16 @@ var StreetLayer = L.CanvasLayer.extend({
     if(!this._canvas) return;
     this._canvas.width = this._canvas.width;
     var origin = this._map._getNewTopLeftPoint(this._map.getCenter(), this._map.getZoom());
+    /*
+    this._ctx.setTransform(1, 0, 0, 1, 0, 0);
+    this._ctx.fillStyle = 'rgba(23, 162, 206,'  + this.render_options.post_decay + ')';
+    this._ctx.fillRect(0, 0, this._canvas.width, this._canvas.height);
+    */
     this._ctx.translate(-origin.x, -origin.y);
     this._ctx.globalCompositeOperation = 'lighter';
 
-    this.canvasTop.width = this.canvasTop.width;
-    this.ctxTop.translate(-origin.x, -origin.y);
-
     var ctx = this._ctx;
-    var time = this.time >> 0;
+    var time = this.time;
     var s = 2
     for(var tile in this._tiles) {
       var tt = this._tiles[tile]
@@ -143,51 +167,12 @@ var StreetLayer = L.CanvasLayer.extend({
             x[i] - (sp.width>> 1),
             y[i] - (sp.height>>1) + 2*c)
         }
-
-        /*
-        c = count[base_time - 1];
-        //ctx.fillStyle = 'black';
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-        if(c) {
-          ctx.fillRect(
-            x[i] - 2,
-            y[i] - 2 - 2*c,
-            3, 
-            3);
-        }
-        c = count[base_time - 5];
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-        if(c) {
-          ctx.fillRect(
-            x[i] - 1,
-            y[i] - 1 - 3*c,
-            2, 
-            2);
-        }
-        */
-          /*
-          this.ctxTop.drawImage(
-            sp,
-            x[i] - (sp.width>> 1),
-            y[i] - (sp.height>>1))
-          */
-        /*
-        c = count[base_time - 1];
-        if(c >0 ) {
-          var sp = this.sprites[c]
-          this.ctxTop.drawImage(
-            sp,
-            x[i] - (sp.width>> 1),
-            y[i] - (sp.height>>1))
-        }
-        */
       }
     }
 
     if(this.render_options.post_process) {
       this._do_post_process(origin);
     }
-
 
   },
 
@@ -289,10 +274,25 @@ var StreetLayer = L.CanvasLayer.extend({
     "        hgrid.cell, floor(({0} - {1})/{2})".format(this.options.column, this.options.start_date, this.options.step) +
     " ) f GROUP BY x, y";
 
+
+    var tiles_url = 'http://0.tiles.cartocdn.com/pulsemaps/tiles/rds_s/{0}/{1}/{2}.png?cache_policy=persist&cache_buster=1'
+    var img = new Image();
+    img.src = tiles_url.format(zoom, coord.x, coord.y);
+    img.onload = function() {
+      var pos = self._getTilePos(coord);
+      self._streetsLayerCtx.drawImage(img, pos.x, pos.y);
+    }
+
     this.tile(sql, function (data) {
       var time_data = self.pre_cache_data(data.rows, coord, zoom);
+      time_data.coord = coord;
+      time_data.img = img;
       self._tileLoaded(coord, time_data);
     });
+  },
+
+  loadBackgroundTile: function(coord, zoom) {
+
   }
 
 });

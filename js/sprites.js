@@ -73,7 +73,7 @@ var Sprites = {
   circle: function(ctx, size, color) {
     var pixel_size = size >> 1;
     var tau = Math.PI * 2;
-    ctx.fillStyle = color
+    ctx.fillStyle = 'rgba(' + color.join(',')  + ')';
     ctx.beginPath();
     ctx.arc(pixel_size, pixel_size, pixel_size, 0, tau, true, true);
     ctx.closePath();
