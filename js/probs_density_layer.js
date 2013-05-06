@@ -35,16 +35,16 @@ var StreetLayer = L.CanvasLayer.extend({
     this.sprites = []
     this.render_options = {
       part_min_size: 5,
-      part_inc: 20,
+      part_inc: 29,
       part_color: [255, 255, 255, 1.0],
-      min_alpha: 0.01,
-      alpha_inc: 0.2,
-      exp_decay: 9,
-      post_process: true,
+      min_alpha: 0.22,
+      alpha_inc: 0.5,
+      exp_decay: 13,
+      post_process: false,
       post_size: 512,
-      post_alpha: 0.3,
+      post_alpha: 0.15,
       post_decay: 0.07,
-      filtered: false,
+      filtered: true,
       part_type: 'glow'
     }
     this.precache_sprites = this.precache_sprites.bind(this)
@@ -220,7 +220,7 @@ var StreetLayer = L.CanvasLayer.extend({
         count[base_idx + row.dates[j]] = Math.min(6, Math.ceil(row.vals[j]/10)) >> 0 ;
       }
 
-      /*var passes = 2;
+      var passes = 2;
       while(passes--) {
         for (var j = 1; j < this.MAX_UNITS; ++j) {
           count_filtered[base_idx + j] += count_filtered[base_idx + j - 1]/2.0
@@ -229,7 +229,6 @@ var StreetLayer = L.CanvasLayer.extend({
       for (var j = 1; j < this.MAX_UNITS; ++j) {
         count_filtered[base_idx + j] = Math.min(6, count_filtered[base_idx + j]) >> 0 ;
       }
-      */
     }
 
     //this.force_keys = Object.keys(this.force_map);
