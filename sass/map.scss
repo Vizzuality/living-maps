@@ -13,15 +13,15 @@
 .glow { background: image-url('glow.png') no-repeat; }
 
 .time_selector {
-  position: relative;
   padding-top: 75px;
+  width: 200px;
+  margin: 0 auto;
+  pointer-events: none;
 }
 
 .sky {
   position: relative;
-  margin: 0 auto;
   height: 150px;
-  width: 200px;
   overflow: hidden;
 }
 
@@ -67,6 +67,7 @@
     @include border-radius(2px);
     outline: none;
     -webkit-transition: all .1s ease-in-out;
+    pointer-events: auto;
 
     &:hover,
     &:active {
@@ -78,7 +79,7 @@
   }
 }
 
-#map_wrapper {
+.map_wrapper {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -88,12 +89,14 @@
 }
 
 #map {
-  height: 100%;
+  margin: 0 auto -135px;
   width: 100%;
+  min-height: 100%;
   background: #00BBDD;
   -webkit-transform-style: preserve-3d;
   -webkit-transform: perspective(800px) rotateX(40deg) translateZ(-40px);
   @include opacity(.2);
+  pointer-events: auto;
 
   &.city { @include opacity(.8); }
 }
@@ -115,6 +118,7 @@
   z-index: 10;
   width: 100%;
   height: 100px;
+  pointer-events: none;
 
   &.top {
     top: 0;
@@ -146,6 +150,7 @@
 
 .bubble {
   position: absolute;
+  z-index: 100;
   display: block;
   margin-top: -110px;
   top: 400px;
@@ -192,7 +197,6 @@
 
 .go {
   position: absolute;
-  z-index: 100;
   top: -22px;
   right: -22px;
   display: block;

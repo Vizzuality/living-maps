@@ -48,8 +48,8 @@ Slider.prototype = {
         .on("mousedown", function() {
           self.clicked = true;
           self.valueStart = self.el.slider("value");
-          console.log(self.valueStart);
 
+          $("#selectors").addClass("glow");
           $(document).mousemove(function() {
             self.dragged = true;
           });
