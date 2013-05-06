@@ -158,7 +158,7 @@
   -webkit-transform: perspective(800px) rotateX(40deg) translateZ(-40px);
   @include opacity(.2);
 
-  &.city { @include opacity(.8); }
+  &.city { @include opacity(1); }
 }
 
 
