@@ -74,6 +74,7 @@ L.Mixin.TileLoader = {
     this._tiles[tilePoint.x + ':' + tilePoint.y + ':' + tilePoint.zoom] = tileData;
     if(this._tilesToLoad === 0) {
       this.fire("tilesLoaded");
+      this._onTilesFinishLoading && this._onTilesFinishLoading();
     }
   },
 
@@ -98,6 +99,8 @@ L.Mixin.TileLoader = {
       var tilesToLoad = queue.length;
 
       if (tilesToLoad === 0) { return; }
+
+      this._onTilesStartLoading && this._onTilesStartLoading();
 
       // load tiles in order of their distance to center
       queue.sort(function (a, b) {

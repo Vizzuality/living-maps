@@ -9,7 +9,7 @@ var App = {
   last_time: 1419,
 
   clicked: false,
-  stopped: false,
+  stopped: true,
 
   initialize: function(options) {
     var self = this;
@@ -32,7 +32,7 @@ var App = {
     this.carrousel = new Carrousel(
       $('.cities_nav')
     );
-    
+
     this.slider = new Slider($('#slider'), {
       timeMin: new Date(this.init_time).getTime(),
       timeRange: (this.last_time - this.init_time) * 1
@@ -45,6 +45,11 @@ var App = {
     this.animables.push(this.map, this.slider);
     this._tick = this._tick.bind(this);
     requestAnimationFrame(this._tick);
+
+    Events.once('finish_loading', function() {
+      console.log("FINISH!");
+      self.stopped = false;
+    });
 
     if(location.search.indexOf('debug') != -1)
       setTimeout(function() {
