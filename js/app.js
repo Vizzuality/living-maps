@@ -8,6 +8,9 @@ var App = {
   init_time: 0,
   last_time: 1419,
 
+  clicked: false,
+  stopped: false,
+
   initialize: function(options) {
     var self = this;
 
@@ -39,6 +42,14 @@ var App = {
       self.time = time;
     }
 
+    this.slider.onClickChange = function(clicked) {
+      self.clicked = clicked;
+    }
+
+    this.slider.onStopChange = function(stopped) {
+      self.stopped = stopped;
+    }
+
     this.animables.push(this.map, this.slider);
     this._tick = this._tick.bind(this);
     requestAnimationFrame(this._tick);
@@ -61,16 +72,22 @@ var App = {
 
   tick: function() {
     var animables = this.animables;
+    var clicked = this.clicked;
+    var stopped = this.stopped;
+
     // update time
     var t0 = new Date().getTime();
     var dt = 0.001*(t0 - this.old_time);
     dt = this.options.scale*this.options.time_scale*Math.min(1, dt);
     this.old_time = t0;
-    this.time += dt;
-    for(var i = 0; i < animables.length; ++i) {
-      var a = animables[i];
-      a.set_time(this.time);
-      a.render();
+
+    if(!stopped && !clicked){
+      this.time += dt;
+      for(var i = 0; i < animables.length; ++i) {
+        var a = animables[i];
+        a.set_time(this.time);
+        a.render();
+      }
     }
 
     if(this.time/60 > this.last_time) {

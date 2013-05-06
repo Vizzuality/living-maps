@@ -14,15 +14,35 @@ function Slider(el, options) {
   this.initialize();
 }
 
+var dragged = false;
+var valueStart = 0;
+
+Events.on("clickhandle", function(val) {
+  App.clicked = true;
+  valueStart = val;
+
+  $("#selectors").addClass("glow");
+  $(document).mousemove(function() {
+    dragged = true;
+  });
+});
+
+Events.on("stopanimation", function() {
+  App.stopped = true;
+  $(".ui-slider-handle").addClass("stopped");
+});
+
+Events.on("resumeanimation", function(pos) {
+  App.stopped = false;
+  $(".ui-slider-handle").removeClass("stopped");
+  $("#slider").slider("value", pos);
+});
+
 Slider.prototype = {
   initialize: function() {
     var self = this;
 
-    this.clicked = false;
-    this.dragged = false;
-    this.valueStart = 0;
     this.valueStop = 0;
-    this.stopped = false;
 
     // init slider
     this.el.slider({
@@ -46,33 +66,25 @@ Slider.prototype = {
           $("#selectors").removeClass("glow");
         })
         .on("mousedown", function() {
-          self.clicked = true;
-          self.valueStart = self.el.slider("value");
-
-          $("#selectors").addClass("glow");
-          $(document).mousemove(function() {
-            self.dragged = true;
-          });
+          Events.trigger("clickhandle", self.el.slider("value"));
         })
         .on("click", function() {
-          if(!self.dragged && self.valueStart === self.valueStop) {
-            if(!self.stopped) {
-              self.stopped = true;
-              $(this).addClass("stopped");
+          if(!dragged && valueStart === self.valueStop) {
+            if(!App.stopped) {
+              Events.trigger("stopanimation");
             } else {
-              self.stopped = false;
-              $(this).removeClass("stopped");
+              Events.trigger("resumeanimation");
             }
           }
         });
 
     $(document).on("mouseup", function() {
-      self.dragged = false;
+      dragged = false;
       self.valueStop = self.el.slider("value");
 
       $(this).unbind('mousemove');
 
-      self.clicked = false;
+      clicked = false;
     })
   },
 
@@ -133,11 +145,9 @@ Slider.prototype = {
   },
 
   set_time: function(time) {
-    if(!this.stopped && !this.clicked){
-      this.el.slider("value", this.timeToPos(time));
-    
-      this.updateHour(time);
-      this.updateSky(this.timeToPos(time));
-    }
+    this.el.slider("value", this.timeToPos(time));
+
+    this.updateHour(time);
+    this.updateSky(this.timeToPos(time));
   }
 }

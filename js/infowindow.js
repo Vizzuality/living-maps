@@ -46,6 +46,8 @@ var Bubbles = {
   initialize: function(map) {
     if(!map) throw "you should set map";
     this.map = map;
+    this.backdrop = $("#backdrop");
+    this.slider = $("#slider");
     return this;
   },
 
@@ -83,13 +85,14 @@ var Bubbles = {
 
     $(".go").on("click", function(e) {
       e.preventDefault();
-      $("#slider a").focus().trigger("mousedown");
-      $("#backdrop").fadeIn(200);
+      Events.trigger("stopanimation");
+      self.backdrop.fadeIn(200);
     });
 
     $(".tweet").on("click", function(e) {
       e.preventDefault();
-      $("#backdrop").delay(400).fadeOut(200);
+      Events.trigger("resumeanimation", self.slider.slider("value"));
+      self.backdrop.delay(400).fadeOut(200);
     });
   },
 
