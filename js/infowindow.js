@@ -79,11 +79,10 @@ var Bubbles = {
       markup.delay(1000).fadeOut(200, function(){
         $(this).remove();
       });
-
       delete self.bubbles[data.id];
     }, 3000);
 
-    $(".go").on("click", function(e) {
+    $(".bubble").on("click", function(e) {
       e.preventDefault();
       Events.trigger("stopanimation");
       self.backdrop.fadeIn(200);
