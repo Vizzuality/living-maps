@@ -49,18 +49,7 @@ var App = {
 
   _initTestData: function() {
     var data = [];
-    for (var i = 0 ; i < 100; ++i) {
-      var time = (Math.random()*this.last_time)>>0;
-      data.push({
-        lat: 51.511214 + Math.random()*0.08 - 0.04,
-        lon: -0.100824 + Math.random()*0.08 - 0.04,
-        id : i,
-        type: 'bus',
-        sentence: 'OLA KE ASE time:' + time,
-        time: time
-      });
-    }
-    Bubbles.data.reset(data);
+    Bubbles.data.fetch();
   },
 
   _tick: function() {

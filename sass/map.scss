@@ -205,6 +205,7 @@
   height: 45px;
   width: 45px;
   background: image-url('marker_go.png') no-repeat;
+  pointer-events: auto;
 }
 
 .leaflet-control-attribution {
