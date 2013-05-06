@@ -1,34 +1,33 @@
 ---
 layout: application
-city: London
+type: city
+city: london
 ---
 
 
-<div class="wrapper city london">
-  <header class="header clearfix">
-    <a href="/" class="logo"><img src="/img/here-logo.png" alt="" /></a>
+<header class="header clearfix">
+  <a href="/" class="logo"><img src="/img/here-logo.png" alt="" /></a>
 
-    <div id="selectors" class="selectors">
-      <div class="time_selector">
-        <div class="sky">
-          <div id="sun" class="sun"></div>
-          <div id="moon" class="moon"></div>
-        </div>
-
-        <div id="slider" class="slider"></div>
-        <span id="hour" class="hour">1:00 <sup>AM</sup></span>
+  <div id="selectors" class="selectors">
+    <div class="time_selector">
+      <div class="sky">
+        <div id="sun" class="sun"></div>
+        <div id="moon" class="moon"></div>
       </div>
+
+      <div id="slider" class="slider"></div>
+      <span id="hour" class="hour">1:00 <sup>AM</sup></span>
     </div>
-
-    {% include menu_nav.html %}
-
-    <p class="subtitle">Living cities</p>
-    <h1 class="title">London</h1>
-  </header>
-
-  <div class="content inner">
-    <p class="time">The city is waking up. More than 2.7M people start their daily day between 9am and 10pm.</p>
   </div>
+
+  {% include menu_nav.html %}
+
+  <p class="subtitle">Living cities</p>
+  <h1 class="title">London</h1>
+</header>
+
+<div class="content inner">
+  <p class="time">The city is waking up. More than 2.7M people start their daily day between 9am and 10pm.</p>
 </div>
 
 <div class="map_wrapper">
@@ -40,4 +39,14 @@ city: London
   </div>
 
   <div class="push"></div>
+</div>
+
+<div id="backdrop">
+  <div class="backdrop-inner">
+    <h3 class="title">Share this fact!</h3>
+    <textarea class="tweet" maxlength="140" rows="4">New Yorkers travel an average of 27 minutes to work each day. Check it out - here.com/L2iuQ</textarea>
+    <a href="#" class="cancel">Cancel</a>
+    <a href="#" class="button tweet">Share on Twitter</a>
+    <a href="#" class="button">Copy Link</a>
+  </div>
 </div>

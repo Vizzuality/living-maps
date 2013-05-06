@@ -70,11 +70,27 @@ var Bubbles = {
       left: pos.x
     });
 
+    markup.fadeIn(200);
+
     this.bubbles[data.id] = markup;
     setTimeout(function() {
-      markup.fadeOut().remove();
+      markup.delay(1000).fadeOut(200, function(){
+        $(this).remove();
+      });
+
       delete self.bubbles[data.id];
     }, 3000);
+
+    $(".go").on("click", function(e) {
+      e.preventDefault();
+      $("#slider a").focus().trigger("mousedown");
+      $("#backdrop").fadeIn(200);
+    });
+
+    $(".tweet").on("click", function(e) {
+      e.preventDefault();
+      $("#backdrop").delay(400).fadeOut(200);
+    });
   },
 
   set_time: function(time) {

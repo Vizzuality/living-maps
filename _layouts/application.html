@@ -11,10 +11,14 @@
   <script src="/js/vendor/modernizr-2.6.2.min.js"></script>
   <script src="http://libs.cartocdn.com/cartodb.js/v2/cartodb.uncompressed.js"></script>
 </head>
-<body>
+<body class="{{ page.type }} {{ page.city }}">
   {{ content }}
 
-  <div class="gradient"></div>
+  <div class="wrapper">
+    <div class="gradient"></div>
+  </div>
+
+  {% include cities_nav.html %}
 
   <script src="/js/vendor/jquery-2.0.0.min.js"></script>
   <script src="/js/vendor/jquery-migrate-1.1.1.min.js"></script>

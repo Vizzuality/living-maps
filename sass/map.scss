@@ -2,21 +2,18 @@
 
 .selectors {
   position: absolute;
-  z-index: 200;
   right: -160px;
-  top: -50px;
   width: 520px;
   height: 440px;
   text-align: center;
+  pointer-events: none;
 }
 
 .glow { background: image-url('glow.png') no-repeat; }
 
 .time_selector {
-  padding-top: 75px;
   width: 200px;
   margin: 0 auto;
-  pointer-events: none;
 }
 
 .sky {
@@ -81,7 +78,8 @@
   }
 }
 
-.map_wrapper {
+.map_wrapper,
+#backdrop {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -90,15 +88,75 @@
   overflow: hidden;
 }
 
+#backdrop {
+  display: none;
+  z-index: 500;
+  background: rgba(#000, .8);
+
+  .title {
+    color: rgba(#fff, .5);
+    font-size: 33px;
+    font-weight: 300;
+  }
+
+  textarea {
+    border: none;
+    width: 100%;
+    padding: 5px 0;
+    font: 300 55px/1 "Nokia Pure Text", Helvetica, Arial, sans-serif;
+    letter-spacing: -3px;
+    color: #fff;
+    background: image-url('tweetarea.png');
+    outline: none;
+  }
+
+  a {
+    padding: 14px 15px 8px;
+    font-size: 27px;
+    font-weight: 300;
+    color: #0bd;
+    text-decoration: underline;
+
+    &.button {
+      float: right;
+      display: inline-block;
+      line-height: 1;
+      background: #fff;
+      color: #000;
+      @include border-radius(5px);
+      text-decoration: none;
+
+      &.tweet {
+        margin-left: 10px;
+        background: #0bd;
+        color: #fff;
+      }
+    }
+
+    &.cancel {
+      float: left;
+      padding: 14px 0 8px;
+    }
+  }
+}
+
+.backdrop-inner {
+  margin: 200px auto 0;
+  width: 800px;
+}
+
+.map_wrapper {
+  z-index: 1;
+}
+
 #map {
-  margin: 0 auto -135px;
+  margin: 0 auto -255px;
   width: 100%;
   min-height: 100%;
   background: #00BBDD;
   -webkit-transform-style: preserve-3d;
   -webkit-transform: perspective(800px) rotateX(40deg) translateZ(-40px);
   @include opacity(.2);
-  pointer-events: auto;
 
   &.city { @include opacity(.8); }
 }
@@ -120,7 +178,6 @@
   z-index: 10;
   width: 100%;
   height: 100px;
-  pointer-events: none;
 
   &.top {
     top: 0;
@@ -152,8 +209,7 @@
 
 .bubble {
   position: absolute;
-  z-index: 100;
-  display: block;
+  display: none;
   margin-top: -110px;
   top: 400px;
   left: 700px;
@@ -163,7 +219,7 @@
   padding: 80px 20px 20px;
   text-align: center;
   background: rgba(#000F1A, .85);
-  opacity: 1;
+  @include opacity(.4);
 
   &:before {
     position: absolute;
@@ -190,8 +246,18 @@
     background: image-url('marker_shadow.png') no-repeat center 0;
   }
 
+  &:hover {
+    background-color: #CC0066;
+
+    .go { background-image: image-url('marker_go-hover.png'); }
+  
+    &:before { border-top-color: #CC0066; }
+  }
+
   &.type_bus {
-    background: rgba(#000, .85) image-url('types/type_bus.png') no-repeat center 20px;
+    background-image: image-url('types/type_bus.png');
+    background-repeat: no-repeat;
+    background-position: center 20px;
   }
 
   strong { font-weight: bold; }
@@ -205,7 +271,6 @@
   height: 45px;
   width: 45px;
   background: image-url('marker_go.png') no-repeat;
-  pointer-events: auto;
 }
 
 .leaflet-control-attribution {

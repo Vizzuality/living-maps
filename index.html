@@ -1,31 +1,33 @@
 ---
 layout: application
+type: home
 ---
 
-<div class="wrapper home">
-  <header class="header clearfix">
-    <a href="/" class="logo"><img src="/img/here-logo.png" alt="" /></a>
 
-    {% include menu_nav.html %}
+<header class="header clearfix">
+  <a href="/" class="logo"><img src="/img/here-logo.png" alt="" /></a>
 
-    <p class="subtitle">A joint experiment by Here.com and CartoDB</p>
-    <h1 class="title">Living cities maps</h1>
-  </header>
+  {% include menu_nav.html %}
 
-  <div class="content inner">
-    <p>The path of a cosmonaut is not an easy, triumphant march to glory. You have to get to know the meaning not just of joy but also of grief, before being allowed in the spacecraft cabin. For those who have seen the Earth from space, and for the hundreds and perhaps thousands more who will, the experience most certainly changes your perspective. The things that we share in our world are far more valuable than those which divide us.</p>
+  <p class="subtitle">A joint experiment by Here.com and CartoDB</p>
+  <h1 class="title">Living cities maps</h1>
+</header>
 
-    <p>The path of a cosmonaut is not an easy, triumphant march to glory. You have to get to know the meaning not just of joy but also of grief.</p>
+<div class="content inner">
+  <p>The path of a cosmonaut is not an easy, triumphant march to glory. You have to get to know the meaning not just of joy but also of grief, before being allowed in the spacecraft cabin. For those who have seen the Earth from space, and for the hundreds and perhaps thousands more who will, the experience most certainly changes your perspective. The things that we share in our world are far more valuable than those which divide us.</p>
 
-    <p class="last">That's one small step for [a] man, one giant leap for mankind.</p>
-  </div>
+  <p>The path of a cosmonaut is not an easy, triumphant march to glory. You have to get to know the meaning not just of joy but also of grief.</p>
 
-  {% include cities_nav.html %}
+  <p class="last">That's one small step for [a] man, one giant leap for mankind.</p>
+</div>
 </div>
 
+<div class="map_wrapper">
 <div id="map">
   <div class="edge top"></div>
   <div class="edge right"></div>
   <div class="edge bottom"></div>
   <div class="edge left"></div>
 </div>
+
+<div class="push"></div>

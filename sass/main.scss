@@ -36,15 +36,16 @@ body {
   font: 300 17px "Nokia Pure Text", Helvetica, Arial, sans-serif;
   color: #fff;
   background: #0bd;
-  pointer-events: none;
 }
 
 .wrapper {
-  position: relative;
+  position: absolute;
+  top: 0;
+  width: 100%;
   z-index: 100;
-  padding: 0 50px 0 42px;
   min-height: 100%;
   @include background(linear-gradient(top, rgba(#0bd, .4), rgba(#356095, .4) 100%));
+  pointer-events: none;
 }
 
 .push,
@@ -58,18 +59,18 @@ body {
   left: 0;
   width: 100%;
   background: image-url('gradient-bg.png') repeat-x bottom;
-  pointer-events: none;
 }
 
 .logo {
   display: block;
   float: left;
   margin-bottom: 20px;
-  pointer-events: auto;
 }
 
 .header {
   position: relative;
+  z-index: 200;
+  margin: 0 50px 0 42px;
 
   .title,
   .subtitle {
@@ -95,11 +96,9 @@ body {
 }
 
 .menu_nav {
-  position: absolute;
-  z-index: 300;
-  right: 0;
-  top: 30px;
-  pointer-events: auto;
+  position: relative;
+  float: right;
+  margin-top: 30px;
 
   li {
     float: left;
@@ -118,7 +117,9 @@ body {
 }
 
 .content {
-  margin-bottom: 60px;
+  position: relative;
+  z-index: 300;
+  margin: 0 50px 60px 42px;
   @include text-shadow(0 0 40px #000);
 
   p {
@@ -154,11 +155,11 @@ body {
 
 .cities_nav {
   position: absolute;
+  z-index: 200;
   bottom: 60px;
   display: block;
   min-width: 1206px;
   text-align: center;
-  pointer-events: auto;
 
   li {
     float: left;
@@ -206,6 +207,8 @@ body {
 }
 
 .home {
+  min-height: 830px;
+
   .header {
     .title {
       font-size: 90px;
@@ -229,6 +232,11 @@ body {
       font-size: 25px;
       line-height: 0;
     }
+  }
+
+  .bubble {
+    z-index: 400;
+    @include opacity(.95);
   }
 
   .cities_nav { display: none; }
