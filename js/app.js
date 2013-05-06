@@ -25,7 +25,7 @@ var App = {
   },
 
   init_time: 0,
-  last_time: 1419,
+  last_time: 1440,
 
   clicked: false,
   stopped: false,
@@ -47,6 +47,9 @@ var App = {
 
     Bubbles.initialize(this.map.map);
     this.animables.push(Bubbles);
+
+    ContextualFacts.initialize(this.map.map);
+    this.animables.push(ContextualFacts);
 
     this.carrousel = new Carrousel(
       $('.cities_nav')
@@ -78,6 +81,7 @@ var App = {
   _initTestData: function() {
     var data = [];
     Bubbles.data.fetch();
+    ContextualFacts.data.fetch();
   },
 
   _tick: function() {

@@ -38,16 +38,6 @@ body {
   background: #0bd;
 }
 
-.wrapper {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  z-index: 100;
-  min-height: 100%;
-  @include background(linear-gradient(top, rgba(#0bd, .4), rgba(#356095, .4) 100%));
-  pointer-events: none;
-}
-
 .backdrop {
   position: absolute;
   top: 0;
@@ -55,6 +45,16 @@ body {
   left: 0;
   right: 0;
   overflow: hidden;
+}
+
+#wrapper {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  min-height: 100%;
+  @include background(linear-gradient(top, rgba(#0bd, .4), rgba(#356095, .4) 100%));
+  pointer-events: none;
 }
 
 .gradient {
@@ -149,6 +149,7 @@ body {
 }
 
 .time {
+  display: none;
   padding-left: 10px;
   width: 600px;
   font-size: 31px;
