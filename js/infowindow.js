@@ -48,52 +48,89 @@ var Bubbles = {
     this.map = map;
     this.backdrop = $("#backdrop");
     this.slider = $("#slider");
+
+    this._initBinds();
     return this;
+  },
+
+  _initBinds: function() {
+    var self = this;
+    this.map.on('move', function() {
+      for (var i in self.bubbles) {
+        var bubble = self.bubbles[i];
+        var pos = self.map.latLngToContainerPoint([bubble.lat, bubble.lon]);
+        bubble.markup.css({
+          top: pos.y,
+          left: pos.x
+        })
+      }
+    });
   },
 
   data: new TimeBasedData({
     user: 'pulsemaps',
     table: 'infowindows',
     time_column: 'time',
-    columns: ['st_x(the_geom) as lon', 'time', 'st_y(the_geom) as lat', 'type', 'sentence']
+    columns: ['cartodb_id as id', 'st_x(the_geom) as lon', 'time', 'st_y(the_geom) as lat', 'type', 'sentence']
   }),
 
   render: function() {},
 
   _emit: function(data) {
+    console.log(data);
     if(this.bubbles[data.id]) return;
     var self = this;
 
     var markup = $('<div class="bubble type_' + data.type + '"><p>' + data.sentence + '</p><a href="#" class="go"></a></div>');
+
+    this.bubbles[data.id] = {
+      markup: markup,
+      lat: data.lat,
+      lon: data.lon
+    };
+
     $('body').append(markup);
     var pos = this.map.latLngToContainerPoint([data.lat, data.lon]);
     markup.css({
       top: pos.y,
-      left: pos.x
+      left: pos.x,
+      marginTop: '30px',
+      display: 'block',
+      opacity: 0
     });
 
-    markup.fadeIn(200);
+    markup.animate({
+      marginTop:0,
+      opacity: 1
+    }, 300);
 
-    this.bubbles[data.id] = markup;
-    setTimeout(function() {
-      markup.delay(1000).fadeOut(200, function(){
-        $(this).remove();
-      });
+    markup.delay(1500).animate({
+      marginTop: '-30px',
+      opacity: 0
+    }, {
+      duration: 600,
+      wait: true
+    })
+    
 
-      delete self.bubbles[data.id];
-    }, 3000);
+    // setTimeout(function() {
+    //   markup.delay(1000).fadeOut(200, function(){
+    //     $(this).remove();
+    //     delete self.bubbles[data.id];
+    //   });
+    // }, 3000);
 
-    $(".go").on("click", function(e) {
-      e.preventDefault();
-      Events.trigger("stopanimation");
-      self.backdrop.fadeIn(200);
-    });
+    // $(".go").on("click", function(e) {
+    //   e.preventDefault();
+    //   Events.trigger("stopanimation");
+    //   self.backdrop.fadeIn(200);
+    // });
 
-    $(".tweet").on("click", function(e) {
-      e.preventDefault();
-      Events.trigger("resumeanimation", self.slider.slider("value"));
-      self.backdrop.delay(400).fadeOut(200);
-    });
+    // $(".tweet").on("click", function(e) {
+    //   e.preventDefault();
+    //   Events.trigger("resumeanimation", self.slider.slider("value"));
+    //   self.backdrop.delay(400).fadeOut(200);
+    // });
   },
 
   set_time: function(time) {
@@ -101,6 +138,10 @@ var Bubbles = {
     if(e) {
       this._emit(e);
     }
+  },
+
+  clean: function() {
+
   }
 
 }; // Bubbles
