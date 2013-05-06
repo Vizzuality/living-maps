@@ -17,7 +17,7 @@ var App = {
     this._initTestData();
 
     this.options = options;
-    this.options.scale = 1.0
+    this.options.scale = 2.0
     this.map = new Map('map', {
       zoomControl: false,
       scrollWheelZoom: false,

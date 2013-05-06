@@ -70,12 +70,14 @@ body {
   display: block;
   float: left;
   margin-bottom: 20px;
+  pointer-events: auto;
 }
 
 .header {
   position: relative;
   z-index: 200;
   margin: 0 50px 0 42px;
+  pointer-events: none;
 
   .title,
   .subtitle {
