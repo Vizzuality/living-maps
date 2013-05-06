@@ -42,14 +42,6 @@ var App = {
       self.time = time;
     }
 
-    this.slider.onClickChange = function(clicked) {
-      self.clicked = clicked;
-    }
-
-    this.slider.onStopChange = function(stopped) {
-      self.stopped = stopped;
-    }
-
     this.animables.push(this.map, this.slider);
     this._tick = this._tick.bind(this);
     requestAnimationFrame(this._tick);
@@ -72,8 +64,6 @@ var App = {
 
   tick: function() {
     var animables = this.animables;
-    var clicked = this.clicked;
-    var stopped = this.stopped;
 
     // update time
     var t0 = new Date().getTime();
