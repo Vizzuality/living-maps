@@ -13,10 +13,19 @@ Map.prototype = {
 
   // creates the map and add it to the DOM
   initialize: function() {
+    this.options.fadeAnimation = false;
     this.map = L.map(this.el, this.options)
       .setView(this.options.center, this.options.zoom);
 
     this._addLayers();
+
+    this.map.on('click', function(e) {
+      var p = e.containerPoint;
+      $('.bubble').css({
+        top: p.y,
+        left: p.x
+      });
+    });
   },
 
   _addLayers: function() {
@@ -28,8 +37,8 @@ Map.prototype = {
       }
     ).done(function(layer) {
       self.map.addLayer(layer)
-      self.probsLayer = new StreetLayer();
-      self.map.addLayer(self.probsLayer);
+      //self.probsLayer = new StreetLayer();
+      //self.map.addLayer(self.probsLayer);
     });
   },
 
