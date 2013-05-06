@@ -70,8 +70,8 @@ var App = {
         self.add_debug();
       }, 4000);
 
-    // var target = document.getElementById('foo');
-    var spinner = new Spinner(this.spin_opts).spin($('.spinner_container'));
+    var target = document.getElementById('spinner-container');
+    var spinner = new Spinner(this.spin_opts).spin(target);
 
   },
 
