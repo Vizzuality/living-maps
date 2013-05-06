@@ -15,25 +15,27 @@ function Slider(el, options) {
 }
 
 var dragged = false;
-var valueStart = 0;
+var clicked = false;
+var stopped = false;
 
 Events.on("clickhandle", function(val) {
-  App.clicked = true;
+  clicked = true;
   valueStart = val;
 
   $("#selectors").addClass("glow");
+
   $(document).mousemove(function() {
     dragged = true;
   });
 });
 
 Events.on("stopanimation", function() {
-  App.stopped = true;
+  stopped = true;
   $(".ui-slider-handle").addClass("stopped");
 });
 
 Events.on("resumeanimation", function(pos) {
-  App.stopped = false;
+  stopped = false;
   $(".ui-slider-handle").removeClass("stopped");
   $("#slider").slider("value", pos);
 });
@@ -70,7 +72,7 @@ Slider.prototype = {
         })
         .on("click", function() {
           if(!dragged && valueStart === self.valueStop) {
-            if(!App.stopped) {
+            if(!stopped) {
               Events.trigger("stopanimation");
             } else {
               Events.trigger("resumeanimation");
