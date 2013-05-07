@@ -5,7 +5,7 @@
     <nav id="cities_nav">
       <ul>
         <li>
-          <a href="/cities/london.html" class="selected">
+          <a href="/cities/london.html" class="{% if page.city == 'london' %}selected{% endif %}">
             <img src="/img/cities/london.jpg" alt="">
             <div class="shadow"></div>
             <h3 class="title">London</h3>
