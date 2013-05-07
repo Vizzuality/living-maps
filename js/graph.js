@@ -15,11 +15,12 @@ function graph(data, w, h, color) {
   //render
   canvas.width = w;
   canvas.height = h;
+  var barw = w/len;
   var ctx = canvas.getContext('2d');
   ctx.fillStyle = color;
   for(i = 0; i < len; ++i) {
     var hh = (h * data[i]) >> 0;
-    ctx.fillRect(i, h - hh, 2, h);
+    ctx.fillRect(i*barw, h - hh, barw, h);
   }
   return canvas;
 }

@@ -86,9 +86,11 @@ var App = {
   },
 
   add_graph: function() {
-    data = [];
-    while(data.length < 100) data.push(30*Math.random());
-    $('#graph').append(graph(data, $('#slider').width(), 30, 'rgba(0, 0, 0, 0.1)'));
+    var sql = 'https://pulsemaps.cartodb.com/api/v2/sql?q=SELECT avg(activity[i]) n, i FROM rds_s, generate_series(1,96) i group by i order by i asc'
+    $.getJSON(sql, function(data) {
+      data = data.rows.map(function(r) { return r.n });
+      $('#graph').append(graph(data, $('#slider').width(), 30, 'rgba(0, 0, 0, 0.1)'));
+    });
   },
 
   _initTestData: function() {
