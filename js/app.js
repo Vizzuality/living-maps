@@ -51,6 +51,8 @@ var App = {
     ContextualFacts.initialize(this.map.map);
     this.animables.push(ContextualFacts);
 
+    POIS.initialize(this.map.map);
+
     this.carrousel = new Carrousel(
       $('.cities_nav')
     );
@@ -87,6 +89,7 @@ var App = {
     var data = [];
     Bubbles.data.fetch();
     ContextualFacts.data.fetch();
+    POIS.data.fetch(POIS.render());
   },
 
   _tick: function() {
