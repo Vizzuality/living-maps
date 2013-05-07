@@ -25,10 +25,10 @@ var App = {
   },
 
   init_time: 0,
-  last_time: 1419,
+  last_time: 1440,
 
   clicked: false,
-  stopped: false,
+  /*stopped: true, this is a global variable */
 
   initialize: function(options) {
     var self = this;
@@ -48,10 +48,13 @@ var App = {
     Bubbles.initialize(this.map.map);
     this.animables.push(Bubbles);
 
+    ContextualFacts.initialize(this.map.map);
+    this.animables.push(ContextualFacts);
+
     this.carrousel = new Carrousel(
       $('.cities_nav')
     );
-    
+
     this.slider = new Slider($('#slider'), {
       timeMin: new Date(this.init_time).getTime(),
       timeRange: (this.last_time - this.init_time) * 1
@@ -65,6 +68,7 @@ var App = {
     this._tick = this._tick.bind(this);
     requestAnimationFrame(this._tick);
 
+
     if(location.search.indexOf('debug') != -1)
       setTimeout(function() {
         self.add_debug();
@@ -72,12 +76,17 @@ var App = {
 
     var target = document.getElementById('spinner-container');
     var spinner = new Spinner(this.spin_opts).spin(target);
+    Events.once('finish_loading', function() {
+      stopped = false;
+      spinner.stop();
+    });
 
   },
 
   _initTestData: function() {
     var data = [];
     Bubbles.data.fetch();
+    ContextualFacts.data.fetch();
   },
 
   _tick: function() {
@@ -104,7 +113,6 @@ var App = {
     } else if (dragged) {
       for(var i = 0; i < animables.length; ++i) {
         var a = animables[i];
-        a.set_time(this.time);
         a.render();
       }
     }

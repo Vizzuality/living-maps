@@ -38,16 +38,6 @@ body {
   background: #0bd;
 }
 
-.wrapper {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  z-index: 100;
-  min-height: 100%;
-  @include background(linear-gradient(top, rgba(#0bd, .4), rgba(#356095, .4) 100%));
-  pointer-events: none;
-}
-
 .backdrop {
   position: absolute;
   top: 0;
@@ -55,6 +45,16 @@ body {
   left: 0;
   right: 0;
   overflow: hidden;
+}
+
+#wrapper {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  min-height: 100%;
+  @include background(linear-gradient(top, rgba(#0bd, .4), rgba(#356095, .4) 100%));
+  pointer-events: none;
 }
 
 .gradient {
@@ -112,6 +112,7 @@ body {
   position: relative;
   float: right;
   margin-top: 30px;
+  pointer-events: auto;
 
   li {
     float: left;
@@ -149,6 +150,7 @@ body {
 }
 
 .time {
+  display: none;
   padding-left: 10px;
   width: 600px;
   font-size: 31px;
@@ -168,11 +170,17 @@ body {
 
 .cities_nav {
   position: absolute;
+  left: 50%;
   z-index: 200;
   bottom: 60px;
   display: block;
-  min-width: 1206px;
   text-align: center;
+  white-space: nowrap;
+
+  ul {
+    position: relative;
+    left: -50%;
+  }
 
   li {
     float: left;
@@ -255,4 +263,13 @@ body {
   }
 
   .cities_nav { display: none; }
+}
+
+#spinner-container {
+  position:absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -12px;
+  margin-left: -12px;
+
 }

@@ -26,7 +26,6 @@ var StreetLayer = L.CanvasLayer.extend({
     L.CanvasLayer.prototype.initialize.call(this);
     this.on('tileAdded', function(t) {
       this.getProbsData(t, t.zoom);
-      this.loadBackgroundTile(t, t. zoom);
     }, this);
     this.options.steps = this.options.end_date - this.options.start_date
     this.MAX_UNITS = (this.options.steps + 2) | 0;
@@ -290,9 +289,14 @@ var StreetLayer = L.CanvasLayer.extend({
     });
   },
 
-  loadBackgroundTile: function(coord, zoom) {
+  _onTilesStartLoading: function() {
+    Events.trigger('loading');
+  },
 
+  _onTilesFinishLoading: function() {
+    Events.trigger('finish_loading');
   }
+
 
 });
 
