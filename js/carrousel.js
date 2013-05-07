@@ -26,7 +26,7 @@ Carrousel.prototype = {
       var diffX = width - self.el.width();
       var myX = diffX * (mouseXPercent / 100);
 
-      self.el.animate({
+      self.cities_nav.animate({
         'margin-left': myX + 'px'
       }, {
         duration: 50,
