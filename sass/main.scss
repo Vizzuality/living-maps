@@ -169,11 +169,17 @@ body {
 
 .cities_nav {
   position: absolute;
+  left: 50%;
   z-index: 200;
   bottom: 60px;
   display: block;
-  min-width: 1206px;
   text-align: center;
+  white-space: nowrap;
+
+  ul {
+    position: relative;
+    left: -50%;
+  }
 
   li {
     float: left;
