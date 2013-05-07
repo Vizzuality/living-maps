@@ -13,7 +13,7 @@ var StreetLayer = L.CanvasLayer.extend({
 
   options: {
     user: "pulsemaps",
-    table: "r_even",
+    table: "r_even", //"direction_test_5mina", //"r_even",
     column: "mm",
     countby: "sqrt(avg(ac))",
     resolution: 1,
@@ -24,7 +24,13 @@ var StreetLayer = L.CanvasLayer.extend({
 
   initialize: function() {
     L.CanvasLayer.prototype.initialize.call(this);
+    var tiles_loaded = {};
     this.on('tileAdded', function(t) {
+      var k = [t.x, t.y, t.zoom].join(':')
+      if(tiles_loaded[k]) {
+        return;
+      }
+      tiles_loaded[k] = true;
       this.getProbsData(t, t.zoom);
     }, this);
     this.options.steps = this.options.end_date - this.options.start_date
@@ -53,7 +59,11 @@ var StreetLayer = L.CanvasLayer.extend({
   },
 
   _onMapMove: function() {
-    this._renderSteets();
+    var self = this;
+    requestAnimationFrame(function() {
+      self._renderSteets();
+      self._render();
+    });
   },
 
   _renderSteets: function() {
