@@ -1,5 +1,21 @@
 
-window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.requestAnimationFrame;
+var _requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.requestAnimationFrame;
+
+window.requestAnimationFrame = _requestAnimationFrame;
+/*
+var _render_queue = [];
+ *
+ * function(fn) {
+  if(_render_queue.length == 0) {
+    _requestAnimationFrame(function() {
+      var f;
+      while(f = _render_queue.pop()) {
+        f();
+      }
+    });
+  }
+  _render_queue.push(fn);
+}*/
 
 function rand() {
   return 2.0*(Math.random() - 0.5)
