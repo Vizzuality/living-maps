@@ -112,7 +112,7 @@ var App = {
     } else if (dragged) {
       for(var i = 0; i < animables.length; ++i) {
         var a = animables[i];
-        // a.set_time(this.time);
+        a.set_time(this.time);
         a.render();
       }
     }

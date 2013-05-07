@@ -21,6 +21,12 @@ function rand() {
   return 2.0*(Math.random() - 0.5)
 }
 
+function get_debug_param(name, def){
+  def = def || 0;
+  var t = window.location.href.match(new RegExp(name + '=(\\d+)'))
+  return t && t.length == 2 ? 0 | t[1] : def
+}
+
 String.prototype.format = (function (i, safe, arg) {
     function format() {
         var str = this,
