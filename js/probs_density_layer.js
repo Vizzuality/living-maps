@@ -18,6 +18,7 @@ var StreetLayer = L.CanvasLayer.extend({
     countby: "sqrt(avg(ac))",
     resolution: 1,
     step: 1,
+    decimate: get_debug_param('decimation', 3),
     start_date: 1, //'2013-03-22 00:00:00+00:00',
     end_date: 1419//'2013-03-22 23:59:57+00:00'
   },
@@ -32,6 +33,7 @@ var StreetLayer = L.CanvasLayer.extend({
     this.force_map = {};
     this.time = 0;
     this.sprites = []
+    this.totalBytes = 0;
     this.render_options = {
       part_min_size: 5,
       part_inc: 29,
@@ -99,6 +101,7 @@ var StreetLayer = L.CanvasLayer.extend({
 
   set_time: function(t) {
     this.time = (t/60.0) >> 0;
+    this.time = (this.time/this.options.decimate) >> 0;
   },
 
   onAdd: function (map) {
@@ -180,9 +183,13 @@ var StreetLayer = L.CanvasLayer.extend({
   },
 
   tile: function(sql, callback) {
+    var self = this;
     var base_url = 'http://pulsemaps.cartodb.com/'
-    $.getJSON(base_url + "api/v2/sql?q=" + encodeURIComponent(sql), function (data) {
+    $.getJSON(base_url + "api/v2/sql?q=" + encodeURIComponent(sql), function (data, text, xhr) {
+      console.log("tile size: " + ((xhr.responseText.length/1024) >> 0) + "kb");
+      self.totalBytes += xhr.responseText.length;
       callback(data);
+      console.log("total size: " + ((self.totalBytes/1024) >> 0) + "kb");
     });
   },
 
@@ -220,7 +227,7 @@ var StreetLayer = L.CanvasLayer.extend({
         //speeds[base_idx + row.dates[j]] = row.speeds[j];
 
         count_filtered[base_idx + row.dates[j]] =   
-        count[base_idx + row.dates[j]] = Math.min(6, Math.ceil(row.vals[j]/10)) >> 0 ;
+        count[base_idx + row.dates[j]] = Math.min(6, Math.ceil(row.vals[j]/(10 * this.options.step))) >> 0 ;
       }
 
       var passes = 2;
@@ -262,7 +269,7 @@ var StreetLayer = L.CanvasLayer.extend({
     "    ) as cell " +
     " ) " +
     " SELECT  " +
-    "    x, y, array_agg(c) vals, array_agg(d) dates " +
+    "    x, y, array_agg(c) vals, array_agg(floor(d/{0})) dates ".format(this.options.decimate) +
     " FROM ( " +
     "    SELECT " +
     "      round(CAST (st_xmax(hgrid.cell) AS numeric),4) x, round(CAST (st_ymax(hgrid.cell) AS numeric),4) y, " +
@@ -271,7 +278,7 @@ var StreetLayer = L.CanvasLayer.extend({
     "        hgrid, {0} i ".format(this.options.table) +
     "    WHERE " +
     "        i.the_geom_webmercator && CDB_XYZ_Extent({0}, {1}, {2}) ".format(coord.x, coord.y, zoom) +
-    "        AND ac > 6 AND ST_Intersects(i.the_geom_webmercator, hgrid.cell) " +
+    "        AND mm % {0} = 0 AND ac > 6 AND ST_Intersects(i.the_geom_webmercator, hgrid.cell) ".format(this.options.decimate) +
     "    GROUP BY " +
     "        hgrid.cell, floor(({0} - {1})/{2})".format(this.options.column, this.options.start_date, this.options.step) +
     " ) f GROUP BY x, y";
