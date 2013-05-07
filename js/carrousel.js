@@ -11,7 +11,15 @@ function Carrousel(el) {
 Carrousel.prototype = {
 
   initialize: function() {
+    self = this;
+
     this._attachMouse();
+
+    this.cities_nav.find("a").on("click", function(e) {
+      e.preventDefault();
+
+      self.changeMap($(this).attr("data-map"));
+    });
   },
 
   _attachMouse: function() {
@@ -104,5 +112,35 @@ Carrousel.prototype = {
         easing: 'linear'
       });
     }
+  },
+
+  changeMap: function(city) {
+    self = this;
+
+    App.restart({
+      map: this.getMapInfo(city),
+      time_scale: 15 * 60,
+      scale: 2.0
+    });
+  },
+
+  getMapInfo: function(city) {
+    var mapInfo = {};
+
+    if(city === 'chicago') {
+      mapInfo = {
+        name: "here_osm_madrid",
+        zoom: 10,
+        center: [51.511214, -0.100824]
+      }
+    } else if(city === 'london') {
+      mapInfo = {
+        name: "here_osm_madrid",
+        zoom: 12,
+        center: [51.511214, -0.100824]
+      }
+    }
+
+    return mapInfo;
   }
 };

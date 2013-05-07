@@ -1,4 +1,3 @@
-
 var App = {
 
   animables: [], // list of objects need to be updated and rendered
@@ -27,7 +26,8 @@ var App = {
   init_time: 0,
   last_time: 1440,
 
-  /*stopped: true, this is a global variable */
+  target: null,
+  spinner: null,
 
   initialize: function(options) {
     var self = this;
@@ -35,13 +35,13 @@ var App = {
     this._initTestData();
 
     this.options = options;
-    this.options.scale = 2.0
+
     this.map = new Map('map', {
       zoomControl: false,
       scrollWheelZoom: false,
-      center: [51.511214,  -0.100824], // london
-      zoom: 12,
-      base_layer: 'https://saleiva.cartodb.com/tiles/here_osm_madrid/{z}/{x}/{y}.png'
+      center: this.options.map.center,
+      zoom: this.options.map.zoom,
+      base_layer: 'https://saleiva.cartodb.com/tiles/'+ this.options.map.name +'/{z}/{x}/{y}.png'
     });
 
     Bubbles.initialize(this.map.map);
@@ -50,15 +50,12 @@ var App = {
     ContextualFacts.initialize(this.map.map);
     this.animables.push(ContextualFacts);
 
-    this.carrousel = new Carrousel(
-      $('#carrousel')
-    );
+    this.carrousel = new Carrousel($('#carrousel'));
 
     this.slider = new Slider($('#slider'), {
       timeMin: new Date(this.init_time).getTime(),
       timeRange: (this.last_time - this.init_time) * 1
     });
-
 
     this.slider.onTimeChange = function(time) {
       self.time = time;
@@ -70,19 +67,19 @@ var App = {
     this._tick = this._tick.bind(this);
     requestAnimationFrame(this._tick);
 
-
     if(location.search.indexOf('debug') != -1)
       setTimeout(function() {
         self.add_debug();
       }, 4000);
 
-    var target = document.getElementById('spinner-container');
-    var spinner = new Spinner(this.spin_opts).spin(target);
-    Events.once('finish_loading', function() {
-      stopped = false;
-      spinner.stop();
-    });
+    this.target = document.getElementById('spinner-container');
+    this.spinner = new Spinner(this.spin_opts);
+    this.spinner.spin(this.target);
 
+    Events.on('finish_loading', function() {
+      stopped = false;
+      self.spinner.stop();
+    });
   },
 
   add_graph: function() {
@@ -157,6 +154,57 @@ var App = {
     post.add(ro, 'post_size', [64, 128, 256, 512, 1024]).onChange(this.map.probsLayer.init_post_process)
     post.add(ro, 'post_process')
     post.open()
+  },
+
+  restart: function(options) {
+    var self = this;
+
+    // restart variables
+    this.animables = [];
+    this.old_time = 0;
+    this.time = 0;
+    dragged = false;
+    clicked = false;
+    stopped = true;
+
+    this._initTestData();
+
+    this.options = options;
+
+    // restart map
+    $("#map").remove();
+    $("#map_wrapper").append('<div id="map"><div class="edge top"></div><div class="edge right"></div><div class="edge bottom"></div><div class="edge left"></div></div>');
+
+    this.map = new Map('map', {
+      zoomControl: false,
+      scrollWheelZoom: false,
+      center: this.options.map.center,
+      zoom: this.options.map.zoom,
+      base_layer: 'https://saleiva.cartodb.com/tiles/'+ this.options.map.name +'/{z}/{x}/{y}.png'
+    });
+
+    Bubbles.initialize(this.map.map);
+    this.animables.push(Bubbles);
+
+    ContextualFacts.initialize(this.map.map);
+    this.animables.push(ContextualFacts);
+
+    this.slider.onTimeChange = function(time) {
+      self.time = time;
+    }
+
+    this.add_graph();
+
+    this.animables.push(this.map, this.slider);
+    this._tick = this._tick.bind(this);
+    requestAnimationFrame(this._tick);
+
+    if(location.search.indexOf('debug') != -1)
+      setTimeout(function() {
+        self.add_debug();
+      }, 4000);
+
+    this.spinner.spin(this.target);
   }
 };
 
