@@ -139,3 +139,51 @@ var Bubbles = {
   }
 
 }; // Bubbles
+
+
+var ContextualFacts = {
+
+  contextualFacts: {},
+
+  initialize: function(map) {
+    if(!map) throw "you should set map";
+    this.map = map;
+    this.slider = $("#slider");
+    return this;
+  },
+
+  data: new TimeBasedData({
+    user: 'pulsemaps',
+    table: 'contextualfacts',
+    time_column: 'time',
+    columns: ['time', 'sentence']
+  }),
+
+  render: function() {},
+
+  _emit: function(data) {
+    if(this.contextualFacts[data.id]) return;
+    var self = this;
+
+    var markup = $('<p class="time">' + data.sentence + '</p>');
+    $('#contextualfacts').append(markup);
+
+    markup.fadeIn(200);
+
+    this.contextualFacts[data.id] = markup;
+    setTimeout(function() {
+      markup.delay(1000).fadeOut(200, function(){
+        $(this).remove();
+      });
+      delete self.contextualFacts[data.id];
+    }, 5000);
+  },
+
+  set_time: function(time) {
+    var e = this.data.getFortime((time/60.0)>>0);
+    if(e) {
+      this._emit(e);
+    }
+  }
+
+}; // Contextual Facts

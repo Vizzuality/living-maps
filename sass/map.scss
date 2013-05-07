@@ -25,13 +25,18 @@
 .sun,
 .moon {
   position: absolute;
-  top: 0;
+  left: 74px;
+  top: 185px;
   height: 75px;
   width: 75px;
   background: image-url('sun.png') no-repeat;
 }
 
-.moon { background-image: image-url('moon.png'); }
+.moon {
+  background-image: image-url('moon.png');
+  left: 54px;
+  top: 63px;
+}
 
 .hour {
   margin-bottom: 20px;
@@ -78,16 +83,6 @@
   }
 }
 
-.map_wrapper,
-#backdrop {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  overflow: hidden;
-}
-
 #backdrop {
   display: none;
   z-index: 500;
@@ -103,7 +98,7 @@
     border: none;
     width: 100%;
     padding: 5px 0;
-    font: 300 55px/1 "Nokia Pure Text", Helvetica, Arial, sans-serif;
+    font: 300 55px "Nokia Pure Text", Helvetica, Arial, sans-serif;
     letter-spacing: -3px;
     color: #fff;
     background: image-url('tweetarea.png');
@@ -141,11 +136,11 @@
 }
 
 .backdrop-inner {
-  margin: 200px auto 0;
+  margin: 130px auto 0;
   width: 800px;
 }
 
-.map_wrapper {
+#map_wrapper {
   z-index: 1;
 }
 
@@ -160,7 +155,6 @@
 
   &.city { @include opacity(1); }
 }
-
 
 .graticule {
   fill: none;
