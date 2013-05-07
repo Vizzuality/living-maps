@@ -24,13 +24,7 @@ var StreetLayer = L.CanvasLayer.extend({
 
   initialize: function() {
     L.CanvasLayer.prototype.initialize.call(this);
-    var tiles_loaded = {};
     this.on('tileAdded', function(t) {
-      var k = [t.x, t.y, t.zoom].join(':')
-      if(tiles_loaded[k]) {
-        return;
-      }
-      tiles_loaded[k] = true;
       this.getProbsData(t, t.zoom);
     }, this);
     this.options.steps = this.options.end_date - this.options.start_date

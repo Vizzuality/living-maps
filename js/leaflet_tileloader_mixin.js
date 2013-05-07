@@ -4,6 +4,7 @@ L.Mixin.TileLoader = {
   _initTileLoader: function() {
     this._tiles = {}
     this._tilesToLoad = 0;
+    this._pendingQueue = {};
     this._map.on({
         'moveend': this._updateTiles
     }, this);
@@ -61,17 +62,21 @@ L.Mixin.TileLoader = {
   },
 
   _removeTile: function (key) {
-      this.fire('tileRemoved', this._tiles[key]);
-      delete this._tiles[key];
+    this.fire('tileRemoved', this._tiles[key]);
+    delete this._tiles[key];
+    delete this._pendingQueue[key];
   },
 
   _tileShouldBeLoaded: function (tilePoint) {
-      return !((tilePoint.x + ':' + tilePoint.y + ':' + tilePoint.zoom) in this._tiles);
+    var key = (tilePoint.x + ':' + tilePoint.y + ':' + tilePoint.zoom) 
+    return !(key in this._tiles) && !(key in this._pendingQueue)
   },
 
   _tileLoaded: function(tilePoint, tileData) {
     this._tilesToLoad--;
-    this._tiles[tilePoint.x + ':' + tilePoint.y + ':' + tilePoint.zoom] = tileData;
+    var key = tilePoint.x + ':' + tilePoint.y + ':' + tilePoint.zoom
+    this._tiles[key] = tileData;
+    delete this._pendingQueue[key];
     if(this._tilesToLoad === 0) {
       this.fire("tilesLoaded");
       this._onTilesFinishLoading && this._onTilesFinishLoading();
@@ -110,7 +115,10 @@ L.Mixin.TileLoader = {
       this._tilesToLoad += tilesToLoad;
 
       for (i = 0; i < tilesToLoad; i++) {
-        this.fire('tileAdded', queue[i]);
+        var point = queue[i];
+        var key = (point.x + ':' + point.y + ':' + point.zoom) 
+        this._pendingQueue[key] = true;
+        this.fire('tileAdded', point);
       }
 
   },
