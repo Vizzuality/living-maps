@@ -264,6 +264,8 @@ body {
       letter-spacing: -3px;
     }
   }
+
+  #cities_switch { display: none; }
 }
 
 .city {
@@ -299,5 +301,4 @@ body {
   left: 50%;
   margin-top: -12px;
   margin-left: -12px;
-
 }

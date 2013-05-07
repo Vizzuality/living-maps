@@ -35,12 +35,14 @@ Carrousel.prototype = {
       });
     });
 
-    this.cities_container.on("mouseover", function() {
-      self._showCarrousel(true);
-    })
-    .on("mouseleave", function() {
-      self._showCarrousel(false);
-    });
+    if(!$(this.cities_container).hasClass("disabled")) {
+      this.cities_container.on("mouseover", function() {
+        self._showCarrousel(true);
+      })
+      .on("mouseleave", function() {
+        self._showCarrousel(false);
+      });
+    }
   },
 
   _showCarrousel: function(show) {
