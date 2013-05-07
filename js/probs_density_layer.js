@@ -284,7 +284,7 @@ var StreetLayer = L.CanvasLayer.extend({
     " ) f GROUP BY x, y";
 
 
-    var tiles_url = 'http://0.tiles.cartocdn.com/pulsemaps/tiles/rds_s/{0}/{1}/{2}.png?cache_policy=persist&cache_buster=1'
+    var tiles_url = 'http://0.tiles.cartocdn.com/pulsemaps/tiles/basemap_roads_live/{0}/{1}/{2}.png?cache_policy=persist&cache_buster=1'
     var img = new Image();
     img.src = tiles_url.format(zoom, coord.x, coord.y);
     img.onload = function() {
