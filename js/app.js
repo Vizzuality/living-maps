@@ -27,7 +27,6 @@ var App = {
   init_time: 0,
   last_time: 1440,
 
-  clicked: false,
   /*stopped: true, this is a global variable */
 
   initialize: function(options) {
@@ -52,7 +51,7 @@ var App = {
     this.animables.push(ContextualFacts);
 
     this.carrousel = new Carrousel(
-      $('.cities_nav')
+      $('#carrousel')
     );
 
     this.slider = new Slider($('#slider'), {
@@ -113,6 +112,7 @@ var App = {
     } else if (dragged) {
       for(var i = 0; i < animables.length; ++i) {
         var a = animables[i];
+        a.set_time(this.time);
         a.render();
       }
     }
