@@ -28,7 +28,7 @@ var App = {
   last_time: 1440,
 
   clicked: false,
-  stopped: true,
+  /*stopped: true, this is a global variable */
 
   initialize: function(options) {
     var self = this;
@@ -68,10 +68,6 @@ var App = {
     this._tick = this._tick.bind(this);
     requestAnimationFrame(this._tick);
 
-    Events.once('finish_loading', function() {
-      console.log("FINISH!");
-      self.stopped = false;
-    });
 
     if(location.search.indexOf('debug') != -1)
       setTimeout(function() {
@@ -80,6 +76,10 @@ var App = {
 
     var target = document.getElementById('spinner-container');
     var spinner = new Spinner(this.spin_opts).spin(target);
+    Events.once('finish_loading', function() {
+      stopped = false;
+      spinner.stop();
+    });
 
   },
 
@@ -113,7 +113,6 @@ var App = {
     } else if (dragged) {
       for(var i = 0; i < animables.length; ++i) {
         var a = animables[i];
-        a.set_time(this.time);
         a.render();
       }
     }

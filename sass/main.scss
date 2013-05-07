@@ -263,3 +263,12 @@ body {
 
   .cities_nav { display: none; }
 }
+
+#spinner-container {
+  position:absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -12px;
+  margin-left: -12px;
+
+}

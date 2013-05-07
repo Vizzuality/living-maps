@@ -16,7 +16,7 @@ function Slider(el, options) {
 
 var dragged = false;
 var clicked = false;
-var stopped = false;
+var stopped = true;
 
 Events.on("clickhandle", function(val) {
   clicked = true;
