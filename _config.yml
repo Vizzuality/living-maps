@@ -1,3 +1,2 @@
-auto: true
-server: true
+destination: _site
 exclude: [sass, config.rb, Procfile]

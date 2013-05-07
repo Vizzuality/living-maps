@@ -14,6 +14,7 @@ Carrousel.prototype = {
 
   _attachMouse: function() {
     var self = this;
+
     $(window).on('mousemove', function(e) {
       var width = $(this).width()/2;
       var xPos = e.pageX - width;
@@ -23,7 +24,7 @@ Carrousel.prototype = {
       var myX = diffX * (mouseXPercent / 100);
 
       self.el.animate({
-        'left': myX + 'px'
+        'margin-left': myX + 'px'
       }, {
         duration: 50,
         queue: false,

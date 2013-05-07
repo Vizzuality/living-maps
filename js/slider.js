@@ -122,16 +122,23 @@ Slider.prototype = {
 
   updateSky: function(pos) {
     var r = 62;
+    var posS = (pos+20)/Math.PI/5;
+    var posM = (pos+70)/Math.PI/5;
 
     $("#sun").css({
-      "left": 62 + (r * Math.cos((pos+160)/19.5)) + "px",
-      "top": 125 + (r * Math.sin((pos+160)/19.5)) + "px"
+      "left": 62 + (r * Math.cos(posS)) + "px",
+      "top": 125 + (r * Math.sin(posS)) + "px"
     });
 
     $("#moon").css({
-      "left": 62 + (r * Math.cos((pos+100)/19.5)) + "px",
-      "top": 125 + (r * Math.sin((pos+100)/19.5)) + "px"
+      "left": 62 + (r * Math.cos(posM)) + "px",
+      "top": 125 + (r * Math.sin(posM)) + "px"
     });
+
+    // darker n * 1/pos, lighter 255 - (100-pos)
+    // $("#wrapper").css({
+    //   "background": "-webkit-linear-gradient(top, rgba(0, 187, 221, 0.4), rgba(53, 96, 149, 0.4) 100%)"
+    // });
   },
 
   posToTime: function(pos) {
