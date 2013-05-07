@@ -39,7 +39,8 @@ var App = {
     this.map = new Map('map', {
       zoomControl: false,
       scrollWheelZoom: false,
-      center: [51.511214,  -0.100824], // london
+      //center: [51.511214,  -0.100824], // london
+      center: [18.964849, 72.825348], //mumbay
       zoom: 12,
       base_layer: 'https://saleiva.cartodb.com/tiles/here_osm_madrid/{z}/{x}/{y}.png'
     });
