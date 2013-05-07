@@ -38,6 +38,31 @@ body {
   background: #0bd;
 }
 
+// Loading mamufas
+.mamufas {
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background:rgba(#18A0CD,0.5);
+  z-index:10000;
+
+  h1 {position:absolute; left:0; top:50%; width:100%; margin-top:-150px; font-size:71px; text-align:center;}
+  p.desc {position:absolute; left:0; top:50%; width:100%; margin-top:-50px; font-size:41px; text-align:center;}
+
+  #spinner-container {
+    position:absolute;
+    left:50%;
+    top:50%;
+    height:60px;
+    width:60px;
+    margin:30px 0 0 -30px;
+    background:rgba(#000F1A, 0.9);
+    @include border-radius(3px);
+  }
+}
+
 .backdrop {
   position: absolute;
   top: 0;

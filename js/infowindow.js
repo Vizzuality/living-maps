@@ -253,7 +253,7 @@ var POIS = {
     var $markup;
 
     if (!this.pois[data.id]) {
-      $markup = $('<div class="poi type_' + data.type + '"><p>' + data.name + '</p></div>');
+      $markup = $('<div class="poi type_' + data.type + '"><span class="' + data.type + '"></span><p>' + data.name + '</p></div>');
       
       $('body').append($markup);
       
