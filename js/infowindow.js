@@ -26,9 +26,8 @@ TimeBasedData.prototype.getFortime = function(time) {
   return this.time_index[time];
 }
 
-
 TimeBasedData.prototype.fetch = function() {
-  self = this;
+  var self = this;
   this.base_url = this.options.url;
 
   var sel = this.options.columns.join(',');
@@ -48,50 +47,88 @@ var Bubbles = {
     this.map = map;
     this.backdrop = $("#backdrop");
     this.slider = $("#slider");
+    this._initBinds();
     return this;
+  },
+
+  _initBinds: function() {
+    var self = this;
+    this.map.on('move', function() {
+      for (var i in self.bubbles) {
+        var bubble = self.bubbles[i];
+        if (bubble.$markup.is(':visible')) {
+          var pos = self.map.latLngToContainerPoint([bubble.lat, bubble.lon]);
+          bubble.$markup.css({
+            top: pos.y,
+            left: pos.x
+          })
+        }
+      }
+    });
   },
 
   data: new TimeBasedData({
     user: 'pulsemaps',
     table: 'infowindows',
     time_column: 'time',
-    columns: ['st_x(the_geom) as lon', 'time', 'st_y(the_geom) as lat', 'type', 'sentence']
+    columns: ['cartodb_id as id', 'st_x(the_geom) as lon', 'time', 'st_y(the_geom) as lat', 'type', 'sentence']
   }),
 
   render: function() {},
 
   _emit: function(data) {
-    if(this.bubbles[data.id]) return;
     var self = this;
+    var $markup;
 
-    var markup = $('<div class="bubble type_' + data.type + '"><p>' + data.sentence + '</p><a href="#" class="go"></a></div>');
-    $('body').append(markup);
-    var pos = this.map.latLngToContainerPoint([data.lat, data.lon]);
-    markup.css({
-      top: pos.y,
-      left: pos.x
-    });
+    if (!this.bubbles[data.id]) {
+      $markup = $('<div class="bubble type_' + data.type + '"><p>' + data.sentence + '</p><a href="#" class="go"></a></div>');
+      
+      $('body').append($markup);
+      
+      this.bubbles[data.id] = {
+        $markup: $markup,
+        lat: data.lat,
+        lon: data.lon
+      };    
 
-    markup.fadeIn(200);
-
-    this.bubbles[data.id] = markup;
-    setTimeout(function() {
-      markup.delay(1000).fadeOut(200, function(){
-        $(this).remove();
+      $(".bubble").on("click", function(e) {
+        e.preventDefault();
+        Events.trigger("stopanimation");
+        self.backdrop.fadeIn(200);
       });
-      delete self.bubbles[data.id];
-    }, 3000);
 
-    $(".bubble").on("click", function(e) {
-      e.preventDefault();
-      Events.trigger("stopanimation");
-      self.backdrop.fadeIn(200);
+      $(".cancel, .send").on("click", function(e) {
+        e.preventDefault();
+        Events.trigger("resumeanimation", self.slider.slider("value"));
+        self.backdrop.fadeOut(200);
+      });
+    }
+    
+    var pos = this.map.latLngToContainerPoint([data.lat, data.lon]);
+    $markup = this.bubbles[data.id].$markup;
+
+    $markup.css({
+      top: pos.y,
+      left: pos.x,
+      marginTop: '30px',
+      display: 'block',
+      opacity: 0
     });
 
-    $(".cancel, .send").on("click", function(e) {
-      e.preventDefault();
-      Events.trigger("resumeanimation", self.slider.slider("value"));
-      self.backdrop.fadeOut(200);
+    $markup.animate({
+      marginTop:0,
+      opacity: 1
+    }, 300, function() {
+      $(this).delay(500).animate({
+        marginTop: '-30px',
+        opacity: 0
+      }, {
+        duration: 600,
+        wait: true,
+        complete: function(a,b,c) {
+          $(this).css('display','none');
+        }
+      })
     });
   },
 
@@ -120,27 +157,42 @@ var ContextualFacts = {
     user: 'pulsemaps',
     table: 'contextualfacts',
     time_column: 'time',
-    columns: ['time', 'sentence']
+    columns: ['cartodb_id as id', 'time', 'sentence']
   }),
 
   render: function() {},
 
   _emit: function(data) {
-    if(this.contextualFacts[data.id]) return;
     var self = this;
+    var $markup;
 
-    var markup = $('<p class="time">' + data.sentence + '</p>');
-    $('#contextualfacts').append(markup);
+    if (!this.contextualFacts[data.id]) {
+      var $markup = $('<p class="time">' + data.sentence + '</p>');
+      this.contextualFacts[data.id] = {
+        $markup: $markup
+      };
+      $('#contextualfacts').append($markup);
+    }
 
-    markup.fadeIn(200);
+    $markup = this.contextualFacts[data.id].$markup;
 
-    this.contextualFacts[data.id] = markup;
-    setTimeout(function() {
-      markup.delay(1000).fadeOut(200, function(){
-        $(this).remove();
-      });
-      delete self.contextualFacts[data.id];
-    }, 5000);
+    $markup.css({
+      marginTop: '30px',
+      display: 'block',
+      opacity: 0
+    });
+
+    $markup.animate({
+      marginTop:0,
+      opacity: 1
+    }, 300, function() {
+      $(this).delay(2000).animate({
+        marginTop: '-30px',
+        opacity: 0
+      }, {
+        duration: 300
+      })
+    });
   },
 
   set_time: function(time) {

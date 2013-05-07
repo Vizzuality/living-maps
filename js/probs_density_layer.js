@@ -13,7 +13,7 @@ var StreetLayer = L.CanvasLayer.extend({
 
   options: {
     user: "pulsemaps",
-    table: "r_even",
+    table: "r_even", //"direction_test_5mina", //"r_even",
     column: "mm",
     countby: "sqrt(avg(ac))",
     resolution: 1,
@@ -53,7 +53,11 @@ var StreetLayer = L.CanvasLayer.extend({
   },
 
   _onMapMove: function() {
-    this._renderSteets();
+    var self = this;
+    requestAnimationFrame(function() {
+      self._renderSteets();
+      self._render();
+    });
   },
 
   _renderSteets: function() {

@@ -149,8 +149,9 @@
   width: 100%;
   min-height: 100%;
   background: #00BBDD;
-  -webkit-transform-style: preserve-3d;
-  -webkit-transform: perspective(800px) rotateX(40deg) translateZ(-40px);
+
+  @include transform-style(preserve-3d);
+  @include transform(perspective(800px) rotateX(40deg) translateZ(-40px));
   @include opacity(.2);
 
   &.city { @include opacity(1); }
