@@ -173,7 +173,7 @@ var App = {
 
     // restart map
     $("#map").remove();
-    $("#map_wrapper").append('<div id="map"><div class="edge top"></div><div class="edge right"></div><div class="edge bottom"></div><div class="edge left"></div></div>');
+    $("#map_wrapper").append('<div id="map" class="city_map"><div class="edge top"></div><div class="edge right"></div><div class="edge bottom"></div><div class="edge left"></div></div>');
 
     this.map = new Map('map', {
       zoomControl: false,
