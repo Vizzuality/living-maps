@@ -26,9 +26,8 @@ TimeBasedData.prototype.getFortime = function(time) {
   return this.time_index[time];
 }
 
-
 TimeBasedData.prototype.fetch = function() {
-  self = this;
+  var self = this;
   this.base_url = this.options.url;
 
   var sel = this.options.columns.join(',');
@@ -48,7 +47,6 @@ var Bubbles = {
     this.map = map;
     this.backdrop = $("#backdrop");
     this.slider = $("#slider");
-
     this._initBinds();
     return this;
   },
@@ -126,7 +124,10 @@ var Bubbles = {
         opacity: 0
       }, {
         duration: 600,
-        wait: true
+        wait: true,
+        complete: function(a,b,c) {
+          $(this).css('display','none');
+        }
       })
     });
   },
