@@ -59,9 +59,12 @@ var App = {
       timeRange: (this.last_time - this.init_time) * 1
     });
 
+
     this.slider.onTimeChange = function(time) {
       self.time = time;
     }
+
+    this.add_graph();
 
     this.animables.push(this.map, this.slider);
     this._tick = this._tick.bind(this);
@@ -80,6 +83,14 @@ var App = {
       spinner.stop();
     });
 
+  },
+
+  add_graph: function() {
+    var sql = 'https://pulsemaps.cartodb.com/api/v2/sql?q=SELECT avg(activity[i]) n, i FROM rds_s, generate_series(1,96) i group by i order by i asc'
+    $.getJSON(sql, function(data) {
+      data = data.rows.map(function(r) { return r.n });
+      $('#graph').append(graph(data, $('#slider').width(), 30, 'rgba(0, 0, 0, 0.1)'));
+    });
   },
 
   _initTestData: function() {
