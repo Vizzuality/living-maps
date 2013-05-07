@@ -121,7 +121,7 @@ var Bubbles = {
       marginTop:0,
       opacity: 1
     }, 300, function() {
-      $(this).delay(500).animate({
+      $(this).delay(1000).animate({
         marginTop: '-30px',
         opacity: 0
       }, {
