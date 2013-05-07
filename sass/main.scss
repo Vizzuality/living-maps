@@ -168,18 +168,34 @@ body {
   }
 }
 
-.cities_nav {
+#cities_container {
   position: absolute;
-  left: 50%;
   z-index: 200;
-  bottom: 60px;
+  bottom: -80px;
+  width: 100%;
+  height: 280px;
+}
+
+#cities_switch {
+  position: absolute;
+  top: 0 ;
+  z-index: 500;
+  line-height: 80px;
+  width: 100%;
+  text-align: center;
+  font-size: 13px;
+  text-transform: uppercase;
+  @include opacity(.5);
+}
+
+#cities_nav {
+  position: relative;
   display: block;
   text-align: center;
   white-space: nowrap;
 
   ul {
-    position: relative;
-    left: -50%;
+    position: absolute;
   }
 
   li {
@@ -262,7 +278,9 @@ body {
     @include opacity(.95);
   }
 
-  .cities_nav { display: none; }
+  #cities_container { bottom: -200px; }
+
+  #cities_nav { top: 80px; }
 }
 
 #spinner-container {

@@ -52,7 +52,7 @@ var App = {
     this.animables.push(ContextualFacts);
 
     this.carrousel = new Carrousel(
-      $('.cities_nav')
+      $('#carrousel')
     );
 
     this.slider = new Slider($('#slider'), {
