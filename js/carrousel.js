@@ -4,7 +4,6 @@ function Carrousel(el) {
   this.el = el;
   this.cities_switch = $("#cities_switch");
   this.cities_nav = $("#cities_nav");
-  this.cities_container = $("#cities_container");
   this.initialize();
 }
 
@@ -18,7 +17,7 @@ Carrousel.prototype = {
   _attachMouse: function() {
     var self = this;
 
-    $(window).on('mousemove', function(e) {
+    $(this.el).on('mousemove', function(e) {
       var width = $(this).width()/2;
       var xPos = e.pageX - width;
       var mouseXPercent = Math.round(xPos / width * 20);
@@ -33,13 +32,23 @@ Carrousel.prototype = {
         queue: false,
         easing: 'linear'
       });
+    })
+    .on("mouseleave", function() {
+      self.cities_nav.animate({
+        "margin-left": "0"
+      }, {
+        duration: 50,
+        queue: false,
+        easing: 'linear'
+      });
     });
 
-    if(!$(this.cities_container).hasClass("disabled")) {
-      this.cities_container.on("mouseover", function() {
+    if(!$(this.el).hasClass("disabled")) {
+      this.cities_switch.on("mouseover", function() {
         self._showCarrousel(true);
       })
-      .on("mouseleave", function() {
+
+      this.el.on("mouseleave", function() {
         self._showCarrousel(false);
       });
     }
@@ -47,7 +56,7 @@ Carrousel.prototype = {
 
   _showCarrousel: function(show) {
     if(show) {
-      this.cities_container.animate({
+      this.el.animate({
         "bottom": "-80px"
       }, {
         duration: 100,
@@ -71,10 +80,10 @@ Carrousel.prototype = {
         easing: 'linear'
       });
     } else {
-      this.cities_container.animate({
+      this.el.animate({
         "bottom": "-200px"
       }, {
-        duration: 200,
+        duration: 100,
         queue: false,
         easing: 'linear'
       });
@@ -82,15 +91,15 @@ Carrousel.prototype = {
       this.cities_switch.animate({
         "top": "0"
       }, {
-        duration: 200,
+        duration: 100,
         queue: false,
         easing: 'linear'
       });
 
       this.cities_nav.animate({
-        "top": "80px"
+        "top": "200px"
       }, {
-        duration: 200,
+        duration: 100,
         queue: false,
         easing: 'linear'
       });

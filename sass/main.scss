@@ -133,7 +133,7 @@ body {
 .content {
   position: relative;
   z-index: 300;
-  margin: 0 50px 60px 42px;
+  margin: 0 50px 0 42px;
   @include text-shadow(0 0 40px #000);
 
   p {
@@ -151,8 +151,8 @@ body {
 
 // City facts
 #contextualfacts {
-  position:relative;
-  pointer-events:none;
+  position: relative;
+  pointer-events: none;
 
   // Time
   .time {
@@ -178,10 +178,18 @@ body {
   }
 }
 
+#carrousel {
+  position: absolute;
+  z-index: 500;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 280px;
+}
+
 #cities_container {
   position: absolute;
   z-index: 200;
-  bottom: -80px;
   left: 50%;
   width: 100%;
   height: 280px;
@@ -202,6 +210,7 @@ body {
 
 #cities_nav {
   position: absolute;
+  top: 60px;
   float: left;
   text-align: center;
   white-space: nowrap;
@@ -222,7 +231,8 @@ body {
     height: 167px;
     text-decoration: none;
 
-    &:hover {
+    &:hover,
+    &.selected {
       top: -10px;
 
       h3 {
@@ -292,9 +302,11 @@ body {
     @include opacity(.95);
   }
 
-  #cities_container { bottom: -200px; }
+  #carrousel {
+    bottom: -200px;
+  }
 
-  #cities_nav { top: 80px; }
+  #cities_nav { top: 100px; }
 }
 
 #spinner-container {

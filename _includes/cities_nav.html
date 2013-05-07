@@ -1,47 +1,49 @@
-<div id="cities_container" class="clearfix {% if page.type == 'home' %} disabled {% endif %}">
-  <p id="cities_switch">Switch to another city</p>
+<div id="carrousel" class="{% if page.type == 'home' %}disabled{% endif %}">
+  <div id="cities_container" class="clearfix">
+    <p id="cities_switch">Switch to another city</p>
 
-  <nav id="cities_nav">
-    <ul id="carrousel">
-      <li>
-        <a href="/cities/london.html">
-          <img src="/img/cities/london.jpg" alt="">
-          <div class="shadow"></div>
-          <h3 class="title">London</h3>
-        </a>
-      </li>
+    <nav id="cities_nav">
+      <ul>
+        <li>
+          <a href="/cities/london.html" class="{% if page.city == 'london' %}selected{% endif %}">
+            <img src="/img/cities/london.jpg" alt="">
+            <div class="shadow"></div>
+            <h3 class="title">London</h3>
+          </a>
+        </li>
 
-      <li>
-        <a href="#">
-          <img src="/img/cities/chicago.jpg" alt="">
-          <div class="shadow"></div>
-          <h3 class="title">Chicago</h3>
-        </a>
-      </li>
+        <li>
+          <a href="#">
+            <img src="/img/cities/chicago.jpg" alt="">
+            <div class="shadow"></div>
+            <h3 class="title">Chicago</h3>
+          </a>
+        </li>
 
-      <li>
-        <a href="#">
-          <img src="/img/cities/rome.jpg" alt="">
-          <div class="shadow"></div>
-          <h3 class="title">Rome</h3>
-        </a>
-      </li>
+        <li>
+          <a href="#">
+            <img src="/img/cities/rome.jpg" alt="">
+            <div class="shadow"></div>
+            <h3 class="title">Rome</h3>
+          </a>
+        </li>
 
-      <li>
-        <a href="#">
-          <img src="/img/cities/helsinki.jpg" alt="">
-          <div class="shadow"></div>
-          <h3 class="title">Helsinki</h3>
-        </a>
-      </li>
+        <li>
+          <a href="#">
+            <img src="/img/cities/helsinki.jpg" alt="">
+            <div class="shadow"></div>
+            <h3 class="title">Helsinki</h3>
+          </a>
+        </li>
 
-      <li>
-        <a href="#">
-          <img src="/img/cities/mumbai.jpg" alt="">
-          <div class="shadow"></div>
-          <h3 class="title">Mumbai</h3>
-        </a>
-      </li>
-    </ul>
-  </nav>
+        <li>
+          <a href="#">
+            <img src="/img/cities/mumbai.jpg" alt="">
+            <div class="shadow"></div>
+            <h3 class="title">Mumbai</h3>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
 </div>
