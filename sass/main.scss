@@ -65,12 +65,14 @@ body {
   display: block;
   float: left;
   margin-bottom: 20px;
+  pointer-events: auto;
 }
 
 .header {
   position: relative;
   z-index: 200;
   margin: 0 50px 0 42px;
+  pointer-events: none;
 
   .title,
   .subtitle {
@@ -93,6 +95,12 @@ body {
     margin: 0;
     white-space: nowrap;
   }
+
+  .spinner_container{
+    width: 30px;
+    height: 30px;
+  }
+
 }
 
 .menu_nav {
@@ -220,6 +228,8 @@ body {
 }
 
 .city {
+  overflow: hidden;
+
   .header {
     .title {
       font-size: 70px;

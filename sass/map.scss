@@ -126,7 +126,7 @@
       @include border-radius(5px);
       text-decoration: none;
 
-      &.tweet {
+      &.send {
         margin-left: 10px;
         background: #0bd;
         color: #fff;
@@ -275,4 +275,8 @@
 
 .leaflet-control-attribution {
   display: none !important;
+}
+
+.contextFact{
+  display: none;
 }
