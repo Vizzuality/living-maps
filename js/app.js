@@ -59,9 +59,12 @@ var App = {
       timeRange: (this.last_time - this.init_time) * 1
     });
 
+
     this.slider.onTimeChange = function(time) {
       self.time = time;
     }
+
+    this.add_graph();
 
     this.animables.push(this.map, this.slider);
     this._tick = this._tick.bind(this);
@@ -80,6 +83,12 @@ var App = {
       spinner.stop();
     });
 
+  },
+
+  add_graph: function() {
+    data = [];
+    while(data.length < 100) data.push(30*Math.random());
+    $('#graph').append(graph(data, $('#slider').width(), 30, 'rgba(0, 0, 0, 0.1)'));
   },
 
   _initTestData: function() {
