@@ -156,27 +156,42 @@ var ContextualFacts = {
     user: 'pulsemaps',
     table: 'contextualfacts',
     time_column: 'time',
-    columns: ['time', 'sentence']
+    columns: ['cartodb_id as id', 'time', 'sentence']
   }),
 
   render: function() {},
 
   _emit: function(data) {
-    if(this.contextualFacts[data.id]) return;
     var self = this;
+    var $markup;
 
-    var markup = $('<p class="time">' + data.sentence + '</p>');
-    $('#contextualfacts').append(markup);
+    if (!this.contextualFacts[data.id]) {
+      var $markup = $('<p class="time">' + data.sentence + '</p>');
+      this.contextualFacts[data.id] = {
+        $markup: $markup
+      };
+      $('#contextualfacts').append($markup);
+    }
 
-    markup.fadeIn(200);
+    $markup = this.contextualFacts[data.id].$markup;
 
-    this.contextualFacts[data.id] = markup;
-    setTimeout(function() {
-      markup.delay(1000).fadeOut(200, function(){
-        $(this).remove();
-      });
-      delete self.contextualFacts[data.id];
-    }, 5000);
+    $markup.css({
+      marginTop: '30px',
+      display: 'block',
+      opacity: 0
+    });
+
+    $markup.animate({
+      marginTop:0,
+      opacity: 1
+    }, 300, function() {
+      $(this).delay(2000).animate({
+        marginTop: '-30px',
+        opacity: 0
+      }, {
+        duration: 300
+      })
+    });
   },
 
   set_time: function(time) {
