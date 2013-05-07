@@ -285,6 +285,7 @@ var StreetLayer = L.CanvasLayer.extend({
 
 
     var tiles_url = 'http://0.tiles.cartocdn.com/pulsemaps/tiles/rds_s/{0}/{1}/{2}.png?cache_policy=persist&cache_buster=1'
+    tiles_url = 'http://tile.stamen.com/toner/{0}/{1}/{2}.png'
     var img = new Image();
     img.src = tiles_url.format(zoom, coord.x, coord.y);
     img.onload = function() {
