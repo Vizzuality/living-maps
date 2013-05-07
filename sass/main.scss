@@ -149,22 +149,32 @@ body {
   padding: 0 20px;
 }
 
-.time {
-  display: none;
-  padding-left: 10px;
-  width: 600px;
-  font-size: 31px;
-  line-height: 1;
+// City facts
+#contextualfacts {
+  position:relative;
+  pointer-events:none;
 
-  &:before {
-    content: "";
-    display: block;
-    float: left;
-    margin-left: -44px;
-    margin-top: -10px;
-    width: 44px;
-    height: 48px;
-    background: image-url('clock.png') no-repeat center center;
+  // Time
+  .time {
+    position:absolute;
+    top:0;
+    left:0;
+    display: none;
+    padding-left: 10px;
+    width: 600px;
+    font-size: 31px;
+    line-height: 1;
+
+    &:before {
+      content: "";
+      display: block;
+      float: left;
+      margin-left: -44px;
+      margin-top: -10px;
+      width: 44px;
+      height: 48px;
+      background: image-url('clock.png') no-repeat center center;
+    }
   }
 }
 
