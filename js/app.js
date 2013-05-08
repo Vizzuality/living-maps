@@ -146,13 +146,13 @@ var App = {
       this.time += dt;
       for(var i = 0; i < animables.length; ++i) {
         var a = animables[i];
-        a.setTime(this.time);
+        a.set_time(this.time);
         a.render();
       }
     } else if (dragged) {
       for(var i = 0; i < animables.length; ++i) {
         var a = animables[i];
-        a.setTime(this.time);
+        a.set_time(this.time);
         a.render();
       }
     }
@@ -234,7 +234,7 @@ var App = {
         self.add_debug();
       }, 4000);
 
-    this.spinner.spin(this.target);
+    this.spinner.spin(this.target); 
   }
 };
 
