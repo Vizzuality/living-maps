@@ -6,14 +6,14 @@ var App = {
   time: 0,
 
   spin_opts: {
-    lines: 7, // The number of lines to draw
+    lines: 8, // The number of lines to draw
     length: 0, // The length of each line
     width: 6, // The line thickness
     radius: 9, // The radius of the inner circle
     corners: 1, // Corner roundness (0..1)
     rotate: 0, // The rotation offset
     direction: 1, // 1: clockwise, -1: counterclockwise
-    color: '#000', // #rgb or #rrggbb
+    color: 'white', // #rgb or #rrggbb
     speed: 0.9, // Rounds per second
     trail: 53, // Afterglow percentage
     shadow: false, // Whether to render a shadow
@@ -50,6 +50,8 @@ var App = {
     ContextualFacts.initialize(this.map.map);
     this.animables.push(ContextualFacts);
 
+    POIS.initialize(this.map.map);
+
     this.carrousel = new Carrousel(
       $('#carrousel')
     );
@@ -80,7 +82,9 @@ var App = {
     var spinner = new Spinner(this.spin_opts).spin(target);
     Events.once('finish_loading', function() {
       stopped = false;
-      spinner.stop();
+      $('.mamufas').fadeOut(function(){
+        spinner.stop();  
+      });
     });
 
   },
@@ -97,6 +101,7 @@ var App = {
     var data = [];
     Bubbles.data.fetch();
     ContextualFacts.data.fetch();
+    POIS.data.fetch(POIS.render());
   },
 
   _tick: function() {

@@ -211,6 +211,36 @@
   }
 }
 
+.poi {
+  position:absolute;
+  top:0;
+  left:0;
+  width:120px;
+  height:141px;
+  margin:0;
+  padding-left:10px;
+  display:none;
+  border-left:2px solid rgba(black, 0.85);
+  z-index:10;
+
+  span {
+    position:absolute;
+    left:-50px;
+    top:0;
+    width:33px;
+    height:33px;
+
+    &.turist {background: image-url('poi_types.png');}
+    &.transport {background: image-url('poi_types.png') -33px 0;}
+  }
+  
+  p {
+    color:black;
+    color:rgba(black, 0.85);
+    font:bold 17px Helvetica, Arial, sans-serif;
+  }
+}
+
 .bubble {
   position: absolute;
   display: none;
