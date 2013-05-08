@@ -9,11 +9,15 @@ var Bubbles = {
     this.backdrop = $("#backdrop");
     this.slider = $("#slider");
     this.tweet = $(".tweet");
-    this._initBinds();
+
+    this.horizontalOffset = 110;
+    this.verticalOffset = 170;
+
+    this._initBindings();
     return this;
   },
 
-  _initBinds: function() {
+  _initBindings: function() {
     var self = this;
     this.map.on('move', function() {
       for (var i in self.bubbles) {
@@ -71,16 +75,16 @@ var Bubbles = {
     $markup = this.bubbles[data.id].$markup;
 
     $($markup[0]).css({
-      top: pos.y,
-      left: pos.x,
+      top: pos.y - this.verticalOffset,
+      left: pos.x - this.horizontalOffset,
       marginTop: '30px',
       display: 'block',
       opacity: 0
     });
 
     $($markup[1]).css({
-      top: pos.y,
-      left: pos.x,
+      top: pos.y - this.verticalOffset,
+      left: pos.x - this.horizontalOffset,
       marginTop: '190px',
       display: 'block',
       opacity: 0
@@ -135,7 +139,7 @@ var Bubbles = {
 
     // Reset markups
     for (var i in this.bubbles) {
-      this.bubbles[i].$markup.find(".go").off("click";
+      this.bubbles[i].$markup.find(".go").off("click");
       this.bubbles[i].$markup.find(".cancel, .send").off("click");
       this.bubbles[i].$markup.remove();
     }
