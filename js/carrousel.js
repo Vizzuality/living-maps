@@ -143,5 +143,11 @@ Carrousel.prototype = {
     }
 
     return mapInfo;
+  },
+
+  disable: function() {
+    this.el.off('mousemove').off('mouseleave');
+
+    this.cities_switch.off("mouseover");
   }
 };

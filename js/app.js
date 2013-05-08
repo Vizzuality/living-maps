@@ -54,10 +54,16 @@ var App = {
 
     this.carrousel = new Carrousel($('#carrousel'));
 
+    // disable until finish loading
+    this.carrousel.disable();
+
     this.slider = new Slider($('#slider'), {
       timeMin: new Date(this.init_time).getTime(),
       timeRange: (this.last_time - this.init_time) * 1
     });
+
+    // disable until finish loading
+    this.slider.el.slider('disable');
 
     this.slider.onTimeChange = function(time) {
       self.time = time;
@@ -75,16 +81,31 @@ var App = {
       }, 4000);
 
     this.target = document.getElementById('spinner-container');
+    this.spinner_container = $("#spinner-container");
     this.spinner = new Spinner(this.spin_opts);
     this.spinner.spin(this.target);
 
     Events.on('finish_loading', function() {
       stopped = false;
 
-      $('.mamufas').fadeOut(function(){
-        self.spinner.stop();
+      self.spinner.stop();
+
+      self.spinner_container.addClass("play").html('<a href="#" id="play">Play animation</a>');
+
+      $("#play").on("click", function(e) {
+        e.preventDefault();
+
+        self.playAnimation();
       });
     });
+  },
+
+  playAnimation: function() {
+    // enable slider and carrousel
+    this.slider.el.slider('enable');
+    this.carrousel.initialize();
+
+    $('.mamufas').fadeOut();
   },
 
   add_graph: function() {
