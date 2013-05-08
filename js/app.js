@@ -117,6 +117,9 @@ var App = {
   },
 
   playAnimation: function() {
+    // unbind finish loading
+    Events.off('finish_loading');
+
     // enable slider and carrousel
     this.slider.el.slider('enable');
     this.carrousel.initialize();
