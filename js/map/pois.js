@@ -4,12 +4,13 @@ var POIS = {
 
   initialize: function(map, city) {
     this.map = map;
-    this._initBinds();
+    this._initBindings();
     return this;
   },
 
-  _initBinds: function() {
+  _initBindings: function() {
     var self = this;
+    
     this.map.on('move', function() {
       for (var i in self.pois) {
         var poi = self.pois[i];
@@ -37,7 +38,7 @@ var POIS = {
         var _data = self.data.time_index[i];
         self._emit(_data);
       }  
-    },500)
+    },1000)
   },
 
   _emit: function(data) {
@@ -64,8 +65,6 @@ var POIS = {
       left: pos.x
     });
   },
-
-  set_time: function() {},
 
   setCity: function(city) {
     // Set new city

@@ -54,13 +54,13 @@ var Bubbles = {
         lon: data.lon
       };    
 
-      $(".go").on("click", function(e) {
+      $markup.find(".go").on("click", function(e) {
         e.preventDefault();
         Events.trigger("stopanimation");
         self.showBackdrop($(this).attr("data-tweet"));
       });
 
-      $(".cancel, .send").on("click", function(e) {
+      $markup.find(".cancel, .send").on("click", function(e) {
         e.preventDefault();
         Events.trigger("resumeanimation", self.slider.slider("value"));
         self.backdrop.fadeOut(200);
@@ -135,6 +135,8 @@ var Bubbles = {
 
     // Reset markups
     for (var i in this.bubbles) {
+      this.bubbles[i].$markup.find(".go").off("click";
+      this.bubbles[i].$markup.find(".cancel, .send").off("click");
       this.bubbles[i].$markup.remove();
     }
     this.bubbles = [];
