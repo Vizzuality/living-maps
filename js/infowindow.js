@@ -1,4 +1,22 @@
 
+/**
+ * transform 2d pixel pos of a css3d transformed div
+ */
+function transform3d(pos, w, h) {
+  debugger;
+  var v = new vec3(pos.x, pos.y, 0);
+  v = v
+    .translate([-w/2.0, -h/2.0, 0.0])
+    //.translate([0, 0, -40])
+    .rotx(40*Math.PI/180.0)
+    .proj(800)
+    .translate([w/2.0, h/2.0, 0.0])
+  return {
+    x: v.x,
+    y: v.y
+  }
+}
+
 function TimeBasedData(options) {
   if(!options.table) throw "you should set options.table";
   options.user = options.user || 'pulsemaps';
@@ -207,6 +225,8 @@ var ContextualFacts = {
 }; // Contextual Facts
 
 
+
+
 var POIS = {
 
   pois: {},
@@ -223,6 +243,8 @@ var POIS = {
       for (var i in self.pois) {
         var poi = self.pois[i];
         var pos = self.map.latLngToContainerPoint([poi.lat, poi.lon]);
+        var s = self.map.getSize()
+        pos = transform3d(pos, s.x, s.y);
         poi.$markup.css({
           top: pos.y,
           left: pos.x
