@@ -104,6 +104,14 @@ var App = {
         e.preventDefault();
 
         self.playAnimation();
+
+        window.onfocus = function() {
+          Events.trigger("resumeanimation");
+        };
+
+        window.onblur = function() {
+          Events.trigger("stopanimation");
+        };
       });
     });
   },
