@@ -127,6 +127,16 @@ var App = {
     $('.mamufas').fadeOut();
 
     Events.trigger("resumeanimation");
+
+    $(document).keyup(function(e) {
+      if (e.keyCode === 32) {
+        if (!stopped) {
+          Events.trigger("stopanimation");
+        } else {
+          Events.trigger("resumeanimation");
+        }
+      }
+    });
   },
 
   add_graph: function() {
