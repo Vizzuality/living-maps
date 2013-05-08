@@ -7,6 +7,6 @@ $(document).ready(function() {
       zoom: 12,
       center: [51.511214, -0.100824] // london
     },
-    city: city
+    city: "london"
   });
 });
