@@ -56,7 +56,7 @@ var POIS = {
       }
     }
     
-    var pos = this.map.latLngToContainerPoint([data.lat, data.lon]);
+    var pos = latlonTo3DPixel(this.map, [data.lat, data.lon]);
     $markup = this.pois[data.id].$markup;
 
     $markup.css({
