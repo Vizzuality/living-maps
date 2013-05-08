@@ -275,7 +275,7 @@
     top: 0;
     left: 0;
     width: 180px;
-    min-height: 60px;
+    height: 60px;
     margin-top: -110px;
     padding: 80px 20px 20px;
     text-align: center;
@@ -328,9 +328,8 @@
     left: 0;
     width: 120px;
     height: 141px;
-    margin: 0;
+    margin: -141px 0 0 0;
     padding-left: 10px;
-    display: none;
     border-left: 2px solid rgba(#000E19, 0.85);
     z-index: 10;
     pointer-events: none;
@@ -345,6 +344,17 @@
       height: 20px;
       margin-left: -116px;
       background: image-url('poi_shadow.png') no-repeat center 0;
+    }
+
+    span {
+      position: absolute;
+      left: -50px;
+      top: 0;
+      width: 33px;
+      height: 33px;
+
+      &.turist {background: image-url('poi_types.png');}
+      &.transport {background: image-url('poi_types.png') -33px 0;}
     }
 
     p {
