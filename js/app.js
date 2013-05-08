@@ -104,11 +104,22 @@ var App = {
         e.preventDefault();
 
         self.playAnimation();
+
+        window.onfocus = function() {
+          Events.trigger("resumeanimation");
+        };
+
+        window.onblur = function() {
+          Events.trigger("stopanimation");
+        };
       });
     });
   },
 
   playAnimation: function() {
+    // unbind finish loading
+    Events.off('finish_loading');
+
     // enable slider and carrousel
     this.slider.el.slider('enable');
     this.carrousel.initialize();
