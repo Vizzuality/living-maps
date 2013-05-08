@@ -78,13 +78,13 @@ body {
   right: 0;
   bottom: 0;
   z-index: 10000;
-  background: image-url('mamufas.png') no-repeat center 0;
+  background: image-url('mamufas.png') no-repeat center center;
 }
 
 .help {
   position: absolute;
   text-align: center;
-  background: image-url('help-sprites.png') no-repeat 0 0;
+  background: image-url('help-sprites.png') no-repeat;
 
   p {
     position: relative;
