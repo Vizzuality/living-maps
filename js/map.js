@@ -19,19 +19,13 @@ Map.prototype = {
 
     this._addLayers();
 
-    this.map.on('click', function(e) {
-      var p = e.containerPoint;
-      $('.bubble').css({
-        top: p.y,
-        left: p.x
+    this.map
+      .on('dragstart', function() {
+        $("#carrousel").addClass("disabled");
+      })
+      .on('dragend', function() {
+        $("#carrousel").removeClass("disabled");
       });
-    })
-    .on('dragstart', function() {
-      $("#carrousel").addClass("disabled");
-    })
-    .on('dragend', function() {
-      $("#carrousel").removeClass("disabled");
-    });
   },
 
   _addLayers: function() {
