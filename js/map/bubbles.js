@@ -129,8 +129,18 @@ var Bubbles = {
     }
   },
 
-  setCity: function() {
+  setCity: function(city) {
+    // Set new city
+    this.city = city;
 
+    // Reset markups
+    for (var i in this.bubbles) {
+      this.bubbles[i].$markup.remove();
+    }
+    this.bubbles = [];
+
+    // Get new data
+    this.data.fetch();
   }
 
 }; // Bubbles

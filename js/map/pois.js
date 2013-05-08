@@ -56,29 +56,29 @@ var POIS = {
       }
     }
     
-    var pos = this.map.latLngToContainerPoint([data.lat, data.lon]);
+    var pos = latlonTo3DPixel(this.map, [data.lat, data.lon]);
     $markup = this.pois[data.id].$markup;
 
     $markup.css({
       top: pos.y,
-      left: pos.x,
-      marginTop: '30px',
-      display: 'block',
-      opacity: 0
+      left: pos.x
     });
-
-    $markup.animate({
-      marginTop:0,
-      opacity: 1
-    }, 300);
   },
 
-  set_time: function() {
+  set_time: function() {},
 
-  },
+  setCity: function(city) {
+    // Set new city
+    this.city = city;
 
-  setCity: function() {
+    // Reset markups
+    for (var i in this.pois) {
+      this.pois[i].$markup.remove();
+    }
+    this.pois = [];
 
+    // Get new data
+    this.data.fetch();
   }
 
 }; // POIS

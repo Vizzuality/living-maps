@@ -60,8 +60,18 @@ var ContextualFacts = {
     }
   },
 
-  setCity: function() {
+  setCity: function(city) {
+    // Set new city
+    this.city = city;
 
+    // Reset markups
+    for (var i in this.contextualFacts) {
+      this.contextualFacts[i].$markup.remove();
+    }
+    this.contextualFacts = [];
+
+    // Get new data
+    this.data.fetch();
   }
 
 }; // Contextual Facts

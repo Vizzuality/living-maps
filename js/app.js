@@ -59,16 +59,24 @@ var App = {
 
     this.carrousel = new Carrousel($('#carrousel'));
 
+    // disable until finish loading
+    this.carrousel.disable();
+
     this.slider = new Slider($('#slider'), {
       timeMin: new Date(this.init_time).getTime(),
       timeRange: (this.last_time - this.init_time) * 1
     });
+
+    // disable until finish loading
+    this.slider.el.slider('disable');
 
     this.slider.onTimeChange = function(time) {
       self.time = time;
     }
 
     this.add_graph();
+
+    
 
     this.animables.push(this.map, this.slider);
     this._tick = this._tick.bind(this);
@@ -80,15 +88,54 @@ var App = {
       }, 4000);
 
     this.target = document.getElementById('spinner-container');
+    this.spinner_container = $("#spinner-container");
     this.spinner = new Spinner(this.spin_opts);
     this.spinner.spin(this.target);
 
     Events.on('finish_loading', function() {
-      stopped = false;
+      Events.trigger("stopanimation");
 
-      $('.mamufas').fadeOut(function(){
-        self.spinner.stop();
+      self.spinner.stop();
+      self.add_gradients();
+
+      self.spinner_container.addClass("play").html('<a href="#" id="play">Play animation</a>');
+
+      $("#play").on("click", function(e) {
+        e.preventDefault();
+
+        self.playAnimation();
+
+        window.onfocus = function() {
+          Events.trigger("resumeanimation");
+        };
+
+        window.onblur = function() {
+          Events.trigger("stopanimation");
+        };
       });
+    });
+  },
+
+  playAnimation: function() {
+    // unbind finish loading
+    Events.off('finish_loading');
+
+    // enable slider and carrousel
+    this.slider.el.slider('enable');
+    this.carrousel.initialize();
+
+    $('.mamufas').fadeOut();
+
+    Events.trigger("resumeanimation");
+
+    $(document).keyup(function(e) {
+      if (e.keyCode === 32) {
+        if (!stopped) {
+          Events.trigger("stopanimation");
+        } else {
+          Events.trigger("resumeanimation");
+        }
+      }
     });
   },
 
@@ -98,6 +145,14 @@ var App = {
       data = data.rows.map(function(r) { return r.n });
       $('#graph').append(graph(data, $('#slider').width(), 30, 'rgba(0, 0, 0, 0.1)'));
     });
+  },
+
+  add_gradients: function() {
+    // TEST !!
+    $('.leaflet-tile-pane:eq(1)').append('<div class="edge top"></div>');
+    $('.leaflet-tile-pane:eq(1)').append('<div class="edge right"></div>');
+    $('.leaflet-tile-pane:eq(1)').append('<div class="edge bottom"></div>');
+    $('.leaflet-tile-pane:eq(1)').append('<div class="edge left"></div>');
   },
 
   _initTestData: function() {
