@@ -49,6 +49,7 @@ var Bubbles = {
     this.map = map;
     this.backdrop = $("#backdrop");
     this.slider = $("#slider");
+    this.tweet = $(".tweet");
     this._initBinds();
     return this;
   },
@@ -73,7 +74,7 @@ var Bubbles = {
     user: 'pulsemaps',
     table: 'infowindows',
     time_column: 'time',
-    columns: ['cartodb_id as id', 'st_x(the_geom) as lon', 'time', 'st_y(the_geom) as lat', 'type', 'sentence']
+    columns: ['cartodb_id as id', 'st_x(the_geom) as lon', 'time', 'st_y(the_geom) as lat', 'type', 'sentence', 'tweet']
   }),
 
   render: function() {},
@@ -83,7 +84,7 @@ var Bubbles = {
     var $markup;
 
     if (!this.bubbles[data.id]) {
-      $markup = $('<div class="bubble type_' + data.type + '"><p>' + data.sentence + '</p><a href="#" class="go"></a></div><div class="bubble_shadow"></div>');
+      $markup = $('<div class="bubble type_' + data.type + '"><p>' + data.sentence + '</p><a href="#" class="go" data-tweet="' + data.tweet + '"></a></div><div class="bubble_shadow"></div>');
       
       $('body').append($markup);
       
@@ -93,10 +94,10 @@ var Bubbles = {
         lon: data.lon
       };    
 
-      $(".bubble").on("click", function(e) {
+      $(".go").on("click", function(e) {
         e.preventDefault();
         Events.trigger("stopanimation");
-        self.backdrop.fadeIn(200);
+        self.showBackdrop($(this).attr("data-tweet"));
       });
 
       $(".cancel, .send").on("click", function(e) {
@@ -154,6 +155,12 @@ var Bubbles = {
         }
       })
     });
+  },
+
+  showBackdrop: function(tweet) {
+    this.tweet.text(tweet);
+
+    this.backdrop.fadeIn(200);
   },
 
   set_time: function(time) {
