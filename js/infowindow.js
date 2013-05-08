@@ -83,7 +83,7 @@ var Bubbles = {
     var $markup;
 
     if (!this.bubbles[data.id]) {
-      $markup = $('<div class="bubble type_' + data.type + '"><p>' + data.sentence + '</p><a href="#" class="go"></a></div>');
+      $markup = $('<div class="bubble type_' + data.type + '"><p>' + data.sentence + '</p><a href="#" class="go"></a></div><div class="bubble_shadow"></div>');
       
       $('body').append($markup);
       
@@ -109,7 +109,7 @@ var Bubbles = {
     var pos = this.map.latLngToContainerPoint([data.lat, data.lon]);
     $markup = this.bubbles[data.id].$markup;
 
-    $markup.css({
+    $($markup[0]).css({
       top: pos.y,
       left: pos.x,
       marginTop: '30px',
@@ -117,12 +117,34 @@ var Bubbles = {
       opacity: 0
     });
 
-    $markup.animate({
+    $($markup[1]).css({
+      top: pos.y,
+      left: pos.x,
+      marginTop: '190px',
+      display: 'block',
+      opacity: 0
+    });
+
+    $($markup[0]).animate({
       marginTop:0,
       opacity: 1
     }, 300, function() {
       $(this).delay(1000).animate({
         marginTop: '-30px',
+        opacity: 0
+      }, {
+        duration: 600,
+        wait: true,
+        complete: function(a,b,c) {
+          $(this).css('display','none');
+        }
+      })
+    });
+
+    $($markup[1]).animate({
+      opacity: 1
+    }, 300, function() {
+      $(this).delay(1000).animate({
         opacity: 0
       }, {
         duration: 600,
@@ -253,7 +275,7 @@ var POIS = {
     var $markup;
 
     if (!this.pois[data.id]) {
-      $markup = $('<div class="poi type_' + data.type + '"><span class="' + data.type + '"></span><p>' + data.name + '</p></div>');
+      $markup = $('<div class="poi type_' + data.type + '"><span class="' + data.type + '"></span><p><strong>' + data.name + '</strong></p></div>');
       
       $('body').append($markup);
       
