@@ -59,10 +59,10 @@ function vec3(xx, yy, zz) {
       var s = Math.sin(ang)
       return new vec3(this.x,this.y*c - this.z*s, this.z*c + this.y*s);
     }
-    this.proj = function (perspective) {
+    this.proj = function (perspective, aspect) {
         return new vec3(
-          this.x * ( perspective/ ( perspective + this.z ) ),
-          this.y * ( perspective/ ( perspective + this.z ) ),
+          this.x * ( perspective/ ( perspective - this.z ) ),
+          this.y * ( perspective/ ( perspective - this.z ) ),
           1
         );
     }
