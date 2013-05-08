@@ -213,7 +213,7 @@ var App = {
         self.add_debug();
       }, 4000);
 
-    this.spinner.spin(this.target);
+    this.spinner.spin(this.target); 
   }
 };
 
