@@ -6,11 +6,7 @@ $(document).ready(function() {
       name: "here_osm_madrid",
       zoom: 12,
       center: [51.511214, -0.100824] // london
-    }
+    },
+    city: city
   });
-
-  // $(window).resize(function() {
-  //   w =  $(this).width();
-  //   $(".leaflet-tile-pane").find("canvas").attr("width", w);
-  // });
 });

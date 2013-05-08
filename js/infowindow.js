@@ -1,4 +1,26 @@
 
+/**
+ * transform 2d pixel pos of a css3d transformed div
+ */
+function transform3d(pos, w, h) {
+  var v = new vec3(pos.x,  pos.y, 0);
+  v = v
+    .translate([-w/2.0, -h/2.0, 0.0])
+    .rotx(45*Math.PI/180.0)
+    .proj(1000)
+    .translate([w/2.0, h/2.0, 0.0])
+  return {
+    x: v.x,
+    y: v.y
+  }
+}
+
+function latlonTo3DPixel(map, latlon) {
+  var pos = map.latLngToContainerPoint(latlon);
+  var s = map.getSize()
+  return transform3d(pos, s.x, s.y);
+}
+
 function TimeBasedData(options) {
   if(!options.table) throw "you should set options.table";
   options.user = options.user || 'pulsemaps';
@@ -34,7 +56,7 @@ TimeBasedData.prototype.fetch = function(callback) {
 
   var sel = this.options.columns.join(',');
 
-  $.getJSON(this.base_url + "?q=" + "SELECT " + sel + " FROM " + this.options.table, function(data) {
+  $.getJSON(this.base_url + "?q=" + "SELECT " + sel + " FROM " + this.options.table + " WHERE city='" + this.options.city + "'", function(data) {
     self.reset(data.rows, callback);
   });
 }
@@ -44,9 +66,10 @@ var Bubbles = {
 
   bubbles: {},
 
-  initialize: function(map) {
+  initialize: function(map, city) {
     if(!map) throw "you should set map";
     this.map = map;
+    this.city = city;
     this.backdrop = $("#backdrop");
     this.slider = $("#slider");
     this.tweet = $(".tweet");
@@ -60,7 +83,7 @@ var Bubbles = {
       for (var i in self.bubbles) {
         var bubble = self.bubbles[i];
         if (bubble.$markup.is(':visible')) {
-          var pos = self.map.latLngToContainerPoint([bubble.lat, bubble.lon]);
+          var pos = latlonTo3DPixel(self.map, [bubble.lat, bubble.lon]);
           bubble.$markup.css({
             top: pos.y,
             left: pos.x
@@ -72,9 +95,10 @@ var Bubbles = {
 
   data: new TimeBasedData({
     user: 'pulsemaps',
-    table: 'infowindows',
+    table: 'bubbles',
     time_column: 'time',
-    columns: ['cartodb_id as id', 'st_x(the_geom) as lon', 'time', 'st_y(the_geom) as lat', 'type', 'sentence', 'tweet']
+    city: this.city,
+    columns: ['cartodb_id as id', 'city', 'st_x(the_geom) as lon', 'time', 'st_y(the_geom) as lat', 'type', 'description', 'tweet']
   }),
 
   render: function() {},
@@ -84,7 +108,7 @@ var Bubbles = {
     var $markup;
 
     if (!this.bubbles[data.id]) {
-      $markup = $('<div class="bubble type_' + data.type + '"><p>' + data.sentence + '</p><a href="#" class="go" data-tweet="' + data.tweet + '"></a></div><div class="bubble_shadow"></div>');
+      $markup = $('<div class="bubble type_' + data.type + '"><p>' + data.description + '</p><a href="#" class="go" data-tweet="' + data.tweet + '"></a></div><div class="bubble_shadow"></div>');
       
       $('body').append($markup);
       
@@ -107,7 +131,7 @@ var Bubbles = {
       });
     }
     
-    var pos = this.map.latLngToContainerPoint([data.lat, data.lon]);
+    var pos = latlonTo3DPixel(self.map, [data.lat, data.lon]);
     $markup = this.bubbles[data.id].$markup;
 
     $($markup[0]).css({
@@ -162,11 +186,15 @@ var Bubbles = {
     this.backdrop.fadeIn(200);
   },
 
-  set_time: function(time) {
+  setTime: function(time) {
     var e = this.data.getFortime((time/60.0)>>0);
     if(e) {
       this._emit(e);
     }
+  },
+
+  setCity: function() {
+
   }
 
 }; // Bubbles
@@ -176,9 +204,10 @@ var ContextualFacts = {
 
   contextualFacts: {},
 
-  initialize: function(map) {
+  initialize: function(map, city) {
     if(!map) throw "you should set map";
     this.map = map;
+
     this.slider = $("#slider");
     return this;
   },
@@ -187,7 +216,8 @@ var ContextualFacts = {
     user: 'pulsemaps',
     table: 'contextualfacts',
     time_column: 'time',
-    columns: ['cartodb_id as id', 'time', 'sentence']
+    city: this.city,
+    columns: ['cartodb_id as id', 'time', 'city', 'description']
   }),
 
   render: function() {},
@@ -197,7 +227,7 @@ var ContextualFacts = {
     var $markup;
 
     if (!this.contextualFacts[data.id]) {
-      var $markup = $('<p class="time">' + data.sentence + '</p>');
+      var $markup = $('<p class="time">' + data.description + '</p>');
       this.contextualFacts[data.id] = {
         $markup: $markup
       };
@@ -225,21 +255,27 @@ var ContextualFacts = {
     });
   },
 
-  set_time: function(time) {
+  setTime: function(time) {
     var e = this.data.getFortime((time/60.0)>>0);
     if(e) {
       this._emit(e);
     }
+  },
+
+  setCity: function() {
+
   }
 
 }; // Contextual Facts
+
+
 
 
 var POIS = {
 
   pois: {},
 
-  initialize: function(map) {
+  initialize: function(map, city) {
     this.map = map;
     this._initBinds();
     return this;
@@ -250,7 +286,7 @@ var POIS = {
     this.map.on('move', function() {
       for (var i in self.pois) {
         var poi = self.pois[i];
-        var pos = self.map.latLngToContainerPoint([poi.lat, poi.lon]);
+        var pos = latlonTo3DPixel(self.map, [poi.lat, poi.lon]);
         poi.$markup.css({
           top: pos.y,
           left: pos.x
@@ -263,7 +299,8 @@ var POIS = {
     user: 'pulsemaps',
     table: 'pois',
     time_column: 'time',
-    columns: ['cartodb_id as id', 'st_x(the_geom) as lon', 'name', 'time as time', 'st_y(the_geom) as lat', 'type']
+    city: this.city,
+    columns: ['cartodb_id as id', 'st_x(the_geom) as lon', 'name', 'city', 'time as time', 'st_y(the_geom) as lat', 'type']
   }),
 
   render: function() {
@@ -307,6 +344,10 @@ var POIS = {
       marginTop:0,
       opacity: 1
     }, 300);
+  },
+
+  setCity: function() {
+
   }
 
 }; // POIS

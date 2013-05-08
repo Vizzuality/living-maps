@@ -4,6 +4,11 @@ type: city
 city: london
 ---
 
+<script>
+  var city = 'London';
+</script>
+
+<!-- Loader -->
 <div class="mamufas">
   <h1 class="title">The big british capital.</h1>
   <p class="description">More than 3M points mapped over time.</p>
@@ -17,6 +22,7 @@ city: london
   <div id="scrub_help" class="help"><p>Play with the time using the scrub control</p></div>
 </div>
 
+<!-- Header -->
 <header class="header clearfix">
   <a href="/" class="logo"><img src="/img/here-logo.png" alt="HERE" title="" /></a>
 
@@ -39,17 +45,15 @@ city: london
   <h1 class="title">London</h1>
 </header>
 
+<!-- Facts -->
 <div id="contextualfacts" class="content inner"></div>
 
-<div  id="map_wrapper" class="backdrop">
-  <div id="map" class="city_map">
-    <div class="edge top"></div>
-    <div class="edge right"></div>
-    <div class="edge bottom"></div>
-    <div class="edge left"></div>
-  </div>
+<!-- Map -->
+<div id="map_wrapper" class="backdrop">
+  <div id="map" class="city_map"></div>
 </div>
 
+<!-- Share dialog -->
 <div id="backdrop" class="backdrop">
   <div class="backdrop-inner">
     <h3 class="title">Share this fact!</h3>
