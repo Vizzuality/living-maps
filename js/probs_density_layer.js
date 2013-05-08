@@ -13,7 +13,7 @@ var StreetLayer = L.CanvasLayer.extend({
 
   options: {
     user: "pulsemaps",
-    table: "london_2m_1mm", //"all_2m_live_5mm", //"direction_test_5mina", //"r_even",
+    table: "r_even", //"all_2m_live_5mm", //"direction_test_5mina", //"r_even",
     column: "mm",
     countby: "sqrt(avg(ac))",
     resolution: 1,
