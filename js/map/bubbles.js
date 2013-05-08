@@ -19,14 +19,15 @@ var Bubbles = {
 
   _initBindings: function() {
     var self = this;
-    this.map.on('move', function() {
+    this.map.on('move', function(ev) {
+
       for (var i in self.bubbles) {
         var bubble = self.bubbles[i];
         if (bubble.$markup.is(':visible')) {
           var pos = latlonTo3DPixel(self.map, [bubble.lat, bubble.lon]);
           bubble.$markup.css({
-            top: pos.y,
-            left: pos.x
+            top: pos.y - self.verticalOffset,
+            left: pos.x - self.horizontalOffset
           })
         }
       }
