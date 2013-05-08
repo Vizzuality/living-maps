@@ -1,7 +1,7 @@
 
-AppData = AppData || {};
+window.AppData = window.AppData || {};
 
-AppData.CITIES = {
+window.AppData.CITIES = {
 
   'london': {
     center: [51.511214, -0.100824], // london
