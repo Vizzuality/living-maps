@@ -186,11 +186,15 @@ var Bubbles = {
     this.backdrop.fadeIn(200);
   },
 
-  set_time: function(time) {
+  setTime: function(time) {
     var e = this.data.getFortime((time/60.0)>>0);
     if(e) {
       this._emit(e);
     }
+  },
+
+  setCity: function() {
+
   }
 
 }; // Bubbles
@@ -251,11 +255,15 @@ var ContextualFacts = {
     });
   },
 
-  set_time: function(time) {
+  setTime: function(time) {
     var e = this.data.getFortime((time/60.0)>>0);
     if(e) {
       this._emit(e);
     }
+  },
+
+  setCity: function() {
+
   }
 
 }; // Contextual Facts
@@ -336,6 +344,10 @@ var POIS = {
       marginTop:0,
       opacity: 1
     }, 300);
+  },
+
+  setCity: function() {
+
   }
 
 }; // POIS

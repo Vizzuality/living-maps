@@ -125,13 +125,13 @@ var App = {
       this.time += dt;
       for(var i = 0; i < animables.length; ++i) {
         var a = animables[i];
-        a.set_time(this.time);
+        a.setTime(this.time);
         a.render();
       }
     } else if (dragged) {
       for(var i = 0; i < animables.length; ++i) {
         var a = animables[i];
-        a.set_time(this.time);
+        a.setTime(this.time);
         a.render();
       }
     }
