@@ -67,6 +67,7 @@ var Bubbles = {
     this.map = map;
     this.backdrop = $("#backdrop");
     this.slider = $("#slider");
+    this.tweet = $(".tweet");
     this._initBinds();
     return this;
   },
@@ -91,7 +92,7 @@ var Bubbles = {
     user: 'pulsemaps',
     table: 'infowindows',
     time_column: 'time',
-    columns: ['cartodb_id as id', 'st_x(the_geom) as lon', 'time', 'st_y(the_geom) as lat', 'type', 'sentence']
+    columns: ['cartodb_id as id', 'st_x(the_geom) as lon', 'time', 'st_y(the_geom) as lat', 'type', 'sentence', 'tweet']
   }),
 
   render: function() {},
@@ -101,7 +102,7 @@ var Bubbles = {
     var $markup;
 
     if (!this.bubbles[data.id]) {
-      $markup = $('<div class="bubble type_' + data.type + '"><p>' + data.sentence + '</p><a href="#" class="go"></a></div>');
+      $markup = $('<div class="bubble type_' + data.type + '"><p>' + data.sentence + '</p><a href="#" class="go" data-tweet="' + data.tweet + '"></a></div><div class="bubble_shadow"></div>');
       
       $('body').append($markup);
       
@@ -111,10 +112,10 @@ var Bubbles = {
         lon: data.lon
       };    
 
-      $(".bubble").on("click", function(e) {
+      $(".go").on("click", function(e) {
         e.preventDefault();
         Events.trigger("stopanimation");
-        self.backdrop.fadeIn(200);
+        self.showBackdrop($(this).attr("data-tweet"));
       });
 
       $(".cancel, .send").on("click", function(e) {
@@ -127,7 +128,7 @@ var Bubbles = {
     var pos = this.map.latLngToContainerPoint([data.lat, data.lon]);
     $markup = this.bubbles[data.id].$markup;
 
-    $markup.css({
+    $($markup[0]).css({
       top: pos.y,
       left: pos.x,
       marginTop: '30px',
@@ -135,7 +136,15 @@ var Bubbles = {
       opacity: 0
     });
 
-    $markup.animate({
+    $($markup[1]).css({
+      top: pos.y,
+      left: pos.x,
+      marginTop: '190px',
+      display: 'block',
+      opacity: 0
+    });
+
+    $($markup[0]).animate({
       marginTop:0,
       opacity: 1
     }, 300, function() {
@@ -150,6 +159,26 @@ var Bubbles = {
         }
       })
     });
+
+    $($markup[1]).animate({
+      opacity: 1
+    }, 300, function() {
+      $(this).delay(1000).animate({
+        opacity: 0
+      }, {
+        duration: 600,
+        wait: true,
+        complete: function(a,b,c) {
+          $(this).css('display','none');
+        }
+      })
+    });
+  },
+
+  showBackdrop: function(tweet) {
+    this.tweet.text(tweet);
+
+    this.backdrop.fadeIn(200);
   },
 
   set_time: function(time) {
@@ -275,7 +304,7 @@ var POIS = {
     var $markup;
 
     if (!this.pois[data.id]) {
-      $markup = $('<div class="poi type_' + data.type + '"><span class="' + data.type + '"></span><p>' + data.name + '</p></div>');
+      $markup = $('<div class="poi type_' + data.type + '"><span class="' + data.type + '"></span><p><strong>' + data.name + '</strong></p></div>');
       
       $('body').append($markup);
       

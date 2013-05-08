@@ -154,16 +154,14 @@
 }
 
 #map {
-  margin: 0 auto -255px;
   width: 100%;
   min-height: 100%;
-  background: #00BBDD;
 
   @include transform-style(preserve-3d);
-  @include transform(perspective(800px) rotateX(40deg) translateZ(-40px));
+  @include transform(perspective(800px) rotateX(40deg) translateZ(40px));
   @include opacity(.2);
 
-  &.city { @include opacity(1); }
+  &.city_map { @include opacity(1); }
 }
 
 .graticule {
@@ -211,33 +209,49 @@
   }
 }
 
+.leaflet-container,
+.leaflet-tile { background: transparent !important; }
+
 .poi {
-  position:absolute;
-  top:0;
-  left:0;
-  width:120px;
-  height:141px;
-  margin:0;
-  padding-left:10px;
-  display:none;
-  border-left:2px solid rgba(black, 0.85);
-  z-index:10;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120px;
+  height: 141px;
+  margin: 0;
+  padding-left: 10px;
+  display: none;
+  border-left: 2px solid rgba(#000E19, 0.85);
+  z-index: 10;
+
+  &:after {
+    display: block;
+    position: absolute;
+    content: '';
+    bottom: -10px;
+    left: 50%;
+    width: 152px;
+    height: 20px;
+    margin-left: -116px;
+    background: image-url('poi_shadow.png') no-repeat center 0;
+  }
 
   span {
-    position:absolute;
-    left:-50px;
-    top:0;
-    width:33px;
-    height:33px;
+    position: absolute;
+    left: -50px;
+    top: 0;
+    width: 33px;
+    height: 33px;
 
     &.turist {background: image-url('poi_types.png');}
     &.transport {background: image-url('poi_types.png') -33px 0;}
   }
   
   p {
-    color:black;
-    color:rgba(black, 0.85);
-    font:bold 17px Helvetica, Arial, sans-serif;
+    line-height: 1;
+    color: rgba(#000E19, 0.85);
+
+    strong { font-weight: bold; }
   }
 }
 
@@ -245,8 +259,8 @@
   position: absolute;
   display: none;
   margin-top: -110px;
-  top: 400px;
-  left: 700px;
+  top: 0;
+  left: 0;
   width: 180px;
   min-height: 60px;
   margin-top: -110px;
@@ -268,18 +282,6 @@
     border-top: 10px solid rgba(#000F1A, .85);
   }
 
-  &:after {
-    display: block;
-    position: absolute;
-    content: '';
-    bottom: -40px;
-    left: 50%;
-    width: 280px;
-    height: 20px;
-    margin-left: -140px;
-    background: image-url('marker_shadow.png') no-repeat center 0;
-  }
-
   &:hover {
     background-color: #CC0066;
 
@@ -295,6 +297,14 @@
   }
 
   strong { font-weight: bold; }
+}
+
+.bubble_shadow {
+  position: absolute;
+  width: 280px;
+  height: 20px;
+  margin-left: -30px;
+  background: image-url('marker_shadow.png') no-repeat center 0;
 }
 
 .go {
