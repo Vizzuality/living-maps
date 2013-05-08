@@ -18,6 +18,7 @@ Carrousel.prototype = {
     this.cities_nav.find("a").on("click", function(e) {
       e.preventDefault();
 
+      self._showCarrousel(false);
       self.changeMap($(this).attr("data-map"));
     });
   },
@@ -67,7 +68,7 @@ Carrousel.prototype = {
       this.el.animate({
         "bottom": "-80px"
       }, {
-        duration: 100,
+        duration: 200,
         queue: false,
         easing: 'linear'
       });
@@ -75,7 +76,7 @@ Carrousel.prototype = {
       this.cities_switch.animate({
         "top": "200px"
       }, {
-        duration: 100,
+        duration: 200,
         queue: false,
         easing: 'linear'
       });
@@ -83,7 +84,7 @@ Carrousel.prototype = {
       this.cities_nav.animate({
         "top": "0"
       }, {
-        duration: 100,
+        duration: 200,
         queue: false,
         easing: 'linear'
       });
@@ -91,7 +92,7 @@ Carrousel.prototype = {
       this.el.animate({
         "bottom": "-200px"
       }, {
-        duration: 100,
+        duration: 200,
         queue: false,
         easing: 'linear'
       });
@@ -99,7 +100,7 @@ Carrousel.prototype = {
       this.cities_switch.animate({
         "top": "0"
       }, {
-        duration: 100,
+        duration: 200,
         queue: false,
         easing: 'linear'
       });
@@ -107,7 +108,7 @@ Carrousel.prototype = {
       this.cities_nav.animate({
         "top": "200px"
       }, {
-        duration: 100,
+        duration: 200,
         queue: false,
         easing: 'linear'
       });
