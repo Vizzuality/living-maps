@@ -69,3 +69,26 @@ function vec3(xx, yy, zz) {
 }
 
 
+/**
+ * transform 2d pixel pos of a css3d transformed div
+ */
+function transform3d(pos, w, h) {
+  var v = new vec3(pos.x,  pos.y, 0);
+  v = v
+    .translate([-w/2.0, -h/2.0, 0.0])
+    .rotx(45*Math.PI/180.0)
+    .proj(1000)
+    .translate([w/2.0, h/2.0, 0.0])
+  return {
+    x: v.x,
+    y: v.y
+  }
+}
+
+function latlonTo3DPixel(map, latlon) {
+  var pos = map.latLngToContainerPoint(latlon);
+  var s = map.getSize()
+  return transform3d(pos, s.x, s.y);
+}
+
+
