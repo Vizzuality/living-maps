@@ -159,7 +159,6 @@ var Bubbles = {
 
   showBackdrop: function(tweet) {
     this.tweet.text(tweet);
-
     this.backdrop.fadeIn(200);
   },
 
