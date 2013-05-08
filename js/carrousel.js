@@ -11,7 +11,16 @@ function Carrousel(el) {
 Carrousel.prototype = {
 
   initialize: function() {
+    self = this;
+
     this._attachMouse();
+
+    this.cities_nav.find("a").on("click", function(e) {
+      e.preventDefault();
+
+      self._showCarrousel(false);
+      self.changeMap($(this).attr("data-map"));
+    });
   },
 
   _attachMouse: function() {
@@ -59,7 +68,7 @@ Carrousel.prototype = {
       this.el.animate({
         "bottom": "-80px"
       }, {
-        duration: 100,
+        duration: 200,
         queue: false,
         easing: 'linear'
       });
@@ -67,7 +76,7 @@ Carrousel.prototype = {
       this.cities_switch.animate({
         "top": "200px"
       }, {
-        duration: 100,
+        duration: 200,
         queue: false,
         easing: 'linear'
       });
@@ -75,7 +84,7 @@ Carrousel.prototype = {
       this.cities_nav.animate({
         "top": "0"
       }, {
-        duration: 100,
+        duration: 200,
         queue: false,
         easing: 'linear'
       });
@@ -83,7 +92,7 @@ Carrousel.prototype = {
       this.el.animate({
         "bottom": "-200px"
       }, {
-        duration: 100,
+        duration: 200,
         queue: false,
         easing: 'linear'
       });
@@ -91,7 +100,7 @@ Carrousel.prototype = {
       this.cities_switch.animate({
         "top": "0"
       }, {
-        duration: 100,
+        duration: 200,
         queue: false,
         easing: 'linear'
       });
@@ -99,10 +108,40 @@ Carrousel.prototype = {
       this.cities_nav.animate({
         "top": "200px"
       }, {
-        duration: 100,
+        duration: 200,
         queue: false,
         easing: 'linear'
       });
     }
+  },
+
+  changeMap: function(city) {
+    self = this;
+
+    App.restart({
+      map: this.getMapInfo(city),
+      time_scale: 15 * 60,
+      scale: 2.0
+    });
+  },
+
+  getMapInfo: function(city) {
+    var mapInfo = {};
+
+    if(city === 'chicago') {
+      mapInfo = {
+        name: "here_osm_madrid",
+        zoom: 10,
+        center: [51.511214, -0.100824]
+      }
+    } else if(city === 'london') {
+      mapInfo = {
+        name: "here_osm_madrid",
+        zoom: 12,
+        center: [51.511214, -0.100824]
+      }
+    }
+
+    return mapInfo;
   }
 };
