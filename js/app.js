@@ -44,13 +44,18 @@ var App = {
       base_layer: 'https://saleiva.cartodb.com/tiles/'+ this.options.map.name +'/{z}/{x}/{y}.png'
     });
 
-    Bubbles.initialize(this.map.map);
+    /* Map animated particled */
+
+    // Bubbles
+    Bubbles.initialize(this.map.map, this.options.city);
     this.animables.push(Bubbles);
 
-    ContextualFacts.initialize(this.map.map);
+    // Contextual facts
+    ContextualFacts.initialize(this.map.map, this.options.city);
     this.animables.push(ContextualFacts);
 
-    POIS.initialize(this.map.map);
+    // City POIS
+    POIS.initialize(this.map.map, this.options.city);
 
     this.carrousel = new Carrousel($('#carrousel'));
 
@@ -166,7 +171,6 @@ var App = {
     var self = this;
 
     // restart variables
-    this.animables = [];
     this.old_time = 0;
     this.time = 0;
     dragged = false;
@@ -189,11 +193,10 @@ var App = {
       base_layer: 'https://saleiva.cartodb.com/tiles/'+ this.options.map.name +'/{z}/{x}/{y}.png'
     });
 
-    Bubbles.initialize(this.map.map);
-    this.animables.push(Bubbles);
-
-    ContextualFacts.initialize(this.map.map);
-    this.animables.push(ContextualFacts);
+    // Restart all animated particled
+    Bubbles.setCity(this.options.city);
+    ContextualFacts.setCity(this.options.city);
+    POIS.setCity(this.options.city);
 
     this.slider.onTimeChange = function(time) {
       self.time = time;

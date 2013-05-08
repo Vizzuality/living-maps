@@ -217,41 +217,6 @@
 .leaflet-container,
 .leaflet-tile { background: transparent !important; }
 
-.poi {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 120px;
-  height: 141px;
-  margin: 0;
-  padding-left: 10px;
-  display: none;
-  border-left: 2px solid rgba(#000E19, 0.85);
-  z-index: 10;
-
-  &:after {
-    display: block;
-    position: absolute;
-    content: '';
-    bottom: -10px;
-    left: 50%;
-    width: 152px;
-    height: 20px;
-    margin-left: -116px;
-    background: image-url('poi_shadow.png') no-repeat center 0;
-  }
-
-
-  p {
-    line-height: 1;
-    color: rgba(#000E19, 0.85);
-
-    strong { font-weight: bold; }
-    color:black;
-    font-weight:bold;
-  }
-}
-
 
 
 .go {
@@ -274,36 +239,40 @@
 
 
 /*
-    z-index layers:
+  
+  Z-index parameters:
 
-      · City info elements = 2
-        - POIS = 2
-        - Bubbles = 3
+    * Header = 3
+    * City title & facts = 3
+    * Controls = 3
+    * Map = 1
+      - POIS = 2
+      - Bubbles = 3
+    * Cities nav = 3
+    
  */
 
 
 
 
 /*
-    City info elements
+    Map info elements
 
     - Bubbles
     - Pois
-
 */
 
-#city_info {
-  position:absolute;
-  top:0; right:0; bottom:0; left:0;
-  width:100%;
-  height:100%;
-  z-index:2;
+// #map_wrapper {
+//   position:absolute;
+//   top:0; right:0; bottom:0; left:0;
+//   width:100%;
+//   height:100%;
+//   z-index:2;
 
-  // POPUPS
+  // BUBBLE
   .bubble {
     position: absolute;
     display: none;
-    margin-top: -110px;
     top: 0;
     left: 0;
     width: 180px;
@@ -352,4 +321,38 @@
     margin-left: -30px;
     background: image-url('marker_shadow.png') no-repeat center 0;
   }
-}
+
+  // POI
+  .poi {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 120px;
+    height: 141px;
+    margin: 0;
+    padding-left: 10px;
+    display: none;
+    border-left: 2px solid rgba(#000E19, 0.85);
+    z-index: 10;
+
+    &:after {
+      display: block;
+      position: absolute;
+      content: '';
+      bottom: -10px;
+      left: 50%;
+      width: 152px;
+      height: 20px;
+      margin-left: -116px;
+      background: image-url('poi_shadow.png') no-repeat center 0;
+    }
+
+    p {
+      line-height: 1;
+      color: rgba(#000E19, 0.85);
+      strong { font-weight: bold; }
+      color:black;
+      font-weight:bold;
+    }
+  }
+// }

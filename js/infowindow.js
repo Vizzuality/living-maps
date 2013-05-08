@@ -34,7 +34,7 @@ TimeBasedData.prototype.fetch = function(callback) {
 
   var sel = this.options.columns.join(',');
 
-  $.getJSON(this.base_url + "?q=" + "SELECT " + sel + " FROM " + this.options.table, function(data) {
+  $.getJSON(this.base_url + "?q=" + "SELECT " + sel + " FROM " + this.options.table + " WHERE city='" + this.options.city + "'", function(data) {
     self.reset(data.rows, callback);
   });
 }
@@ -44,9 +44,10 @@ var Bubbles = {
 
   bubbles: {},
 
-  initialize: function(map) {
+  initialize: function(map, city) {
     if(!map) throw "you should set map";
     this.map = map;
+    this.city = city;
     this.backdrop = $("#backdrop");
     this.slider = $("#slider");
     this.tweet = $(".tweet");
@@ -72,9 +73,10 @@ var Bubbles = {
 
   data: new TimeBasedData({
     user: 'pulsemaps',
-    table: 'infowindows',
+    table: 'bubbles',
     time_column: 'time',
-    columns: ['cartodb_id as id', 'st_x(the_geom) as lon', 'time', 'st_y(the_geom) as lat', 'type', 'sentence', 'tweet']
+    city: this.city,
+    columns: ['cartodb_id as id', 'city', 'st_x(the_geom) as lon', 'time', 'st_y(the_geom) as lat', 'type', 'description', 'tweet']
   }),
 
   render: function() {},
@@ -84,7 +86,7 @@ var Bubbles = {
     var $markup;
 
     if (!this.bubbles[data.id]) {
-      $markup = $('<div class="bubble type_' + data.type + '"><p>' + data.sentence + '</p><a href="#" class="go" data-tweet="' + data.tweet + '"></a></div><div class="bubble_shadow"></div>');
+      $markup = $('<div class="bubble type_' + data.type + '"><p>' + data.description + '</p><a href="#" class="go" data-tweet="' + data.tweet + '"></a></div><div class="bubble_shadow"></div>');
       
       $('body').append($markup);
       
@@ -176,9 +178,10 @@ var ContextualFacts = {
 
   contextualFacts: {},
 
-  initialize: function(map) {
+  initialize: function(map, city) {
     if(!map) throw "you should set map";
     this.map = map;
+
     this.slider = $("#slider");
     return this;
   },
@@ -187,7 +190,8 @@ var ContextualFacts = {
     user: 'pulsemaps',
     table: 'contextualfacts',
     time_column: 'time',
-    columns: ['cartodb_id as id', 'time', 'sentence']
+    city: this.city,
+    columns: ['cartodb_id as id', 'time', 'city', 'description']
   }),
 
   render: function() {},
@@ -197,7 +201,7 @@ var ContextualFacts = {
     var $markup;
 
     if (!this.contextualFacts[data.id]) {
-      var $markup = $('<p class="time">' + data.sentence + '</p>');
+      var $markup = $('<p class="time">' + data.description + '</p>');
       this.contextualFacts[data.id] = {
         $markup: $markup
       };
@@ -239,7 +243,7 @@ var POIS = {
 
   pois: {},
 
-  initialize: function(map) {
+  initialize: function(map, city) {
     this.map = map;
     this._initBinds();
     return this;
@@ -263,7 +267,8 @@ var POIS = {
     user: 'pulsemaps',
     table: 'pois',
     time_column: 'time',
-    columns: ['cartodb_id as id', 'st_x(the_geom) as lon', 'name', 'time as time', 'st_y(the_geom) as lat', 'type']
+    city: this.city,
+    columns: ['cartodb_id as id', 'st_x(the_geom) as lon', 'name', 'city', 'time as time', 'st_y(the_geom) as lat', 'type']
   }),
 
   render: function() {
