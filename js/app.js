@@ -91,7 +91,7 @@ var App = {
     this.spinner.spin(this.target);
 
     Events.on('finish_loading', function() {
-      stopped = false;
+      Events.trigger("stopanimation");
 
       self.spinner.stop();
 
@@ -111,6 +111,8 @@ var App = {
     this.carrousel.initialize();
 
     $('.mamufas').fadeOut();
+
+    Events.trigger("resumeanimation");
   },
 
   add_graph: function() {
