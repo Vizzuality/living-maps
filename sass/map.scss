@@ -333,6 +333,7 @@
     display: none;
     border-left: 2px solid rgba(#000E19, 0.85);
     z-index: 10;
+    pointer-events: none;
 
     &:after {
       display: block;
