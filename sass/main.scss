@@ -45,8 +45,8 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(#18A0CD, .6) image-url('mamufas.png') no-repeat center 0;
   z-index: 10000;
+  background: rgba(#18A0CD, .6);
 
   .title {
     position: absolute;
@@ -56,6 +56,7 @@ body {
     margin-top: -150px;
     font-size: 71px;
     text-align: center;
+    white-space: nowrap;
   }
 
   .description {
@@ -66,7 +67,18 @@ body {
     margin-top: -50px;
     font-size: 41px;
     text-align: center;
+    white-space: nowrap;
   }
+}
+
+.mamufas-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000;
+  background: image-url('mamufas.png') no-repeat center 0;
 }
 
 .help {
