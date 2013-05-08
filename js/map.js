@@ -25,6 +25,12 @@ Map.prototype = {
         top: p.y,
         left: p.x
       });
+    })
+    .on('dragstart', function() {
+      $("#carrousel").addClass("disabled");
+    })
+    .on('dragend', function() {
+      $("#carrousel").removeClass("disabled");
     });
   },
 

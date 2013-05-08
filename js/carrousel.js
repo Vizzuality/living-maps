@@ -55,7 +55,7 @@ Carrousel.prototype = {
   },
 
   _showCarrousel: function(show) {
-    if(show) {
+    if(show && !$(this.el).hasClass("disabled")) {
       this.el.animate({
         "bottom": "-80px"
       }, {
@@ -79,7 +79,7 @@ Carrousel.prototype = {
         queue: false,
         easing: 'linear'
       });
-    } else {
+    } else if(!show && !$(this.el).hasClass("disabled")) {
       this.el.animate({
         "bottom": "-200px"
       }, {
