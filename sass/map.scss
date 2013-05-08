@@ -1,5 +1,12 @@
 @import "compass/css3";
 
+body {
+  // perspective: 600;
+  // -webkit-perspective: 600;
+  // -moz-perspective: 600;
+  // -o-perspective: 600;
+}
+
 .selectors {
   position: absolute;
   right: -160px;
@@ -20,15 +27,6 @@
   position: relative;
   height: 150px;
   overflow: hidden;
-}
-.sky #graph {
-  position: absolute;
-  bottom: 0;
-  height: 30px;
-}
-.sky #graph canvas {
-  padding: 0;
-  margin: 0;
 }
 
 .sun,
@@ -154,16 +152,29 @@
 }
 
 #map {
-  margin: 0 auto -255px;
+  position:relative;
+  top:0;
+  left:0;
   width: 100%;
-  min-height: 100%;
+  height: 100%;
   background: #00BBDD;
 
+  perspective: 1000;
+  -webkit-perspective: 1000;
+  -moz-perspective: 1000;
+  -o-perspective: 1000;
   @include transform-style(preserve-3d);
-  @include transform(perspective(800px) rotateX(40deg) translateZ(-40px));
   @include opacity(.2);
 
   &.city { @include opacity(1); }
+}
+
+.leaflet-tile-pane {
+  width:100%;
+  height:100%;
+  @include transform-style(preserve-3d);
+  -webkit-transform-origin: 50% 75%;
+  @include transform(rotateX(45deg));
 }
 
 .graticule {
@@ -179,7 +190,7 @@
 
 .edge {
   position: absolute;
-  z-index: 10;
+  z-index: 100;
   width: 100%;
   height: 100px;
 
@@ -211,33 +222,33 @@
   }
 }
 
+#map_things {
+  position:absolute;
+  top:100px;
+  left:0;
+  right:0;
+  bottom:0;
+}
+
 .poi {
   position:absolute;
   top:0;
   left:0;
-  width:120px;
-  height:141px;
+  width:110px;
+  height:100px;
   margin:0;
   padding-left:10px;
   display:none;
-  border-left:2px solid rgba(black, 0.85);
+  border-left:2px solid black;
   z-index:10;
 
-  span {
-    position:absolute;
-    left:-50px;
-    top:0;
-    width:33px;
-    height:33px;
+  transform:rotate(-7deg);
+  -moz-transform:rotate(-7deg);
+  -webkit-transform:rotate(-7deg);
 
-    &.turist {background: image-url('poi_types.png');}
-    &.transport {background: image-url('poi_types.png') -33px 0;}
-  }
-  
   p {
     color:black;
-    color:rgba(black, 0.85);
-    font:bold 17px Helvetica, Arial, sans-serif;
+    font-weight:bold;
   }
 }
 
@@ -254,6 +265,7 @@
   text-align: center;
   background: rgba(#000F1A, .85);
   @include opacity(.4);
+  z-index:1;
 
   &:before {
     position: absolute;
