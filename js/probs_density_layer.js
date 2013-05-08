@@ -13,7 +13,7 @@ var StreetLayer = L.CanvasLayer.extend({
 
   options: {
     user: "pulsemaps",
-    table: "r_even", //"all_2m_live_5mm", //"direction_test_5mina", //"r_even",
+    table: "london_2m_1mm", //"all_2m_live_5mm", //"direction_test_5mina", //"r_even",
     column: "mm",
     countby: "sqrt(avg(ac))",
     resolution: 1,
@@ -52,6 +52,10 @@ var StreetLayer = L.CanvasLayer.extend({
     this.init_post_process = this.init_post_process.bind(this);
 
     this.precache_sprites();
+  },
+
+  setCity: function(name) {
+    this.options.table = name;
   },
 
   _onMapMove: function() {
