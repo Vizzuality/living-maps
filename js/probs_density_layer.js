@@ -13,7 +13,7 @@ var StreetLayer = L.CanvasLayer.extend({
 
   options: {
     user: "pulsemaps",
-    table: "r_even", //"all_2m_live_5mm", //"direction_test_5mina", //"r_even",
+    table: "london_2m_1mm", //"all_2m_live_5mm", //"direction_test_5mina", //"r_even",
     column: "mm",
     countby: "sqrt(avg(ac))",
     resolution: 1,
@@ -45,7 +45,7 @@ var StreetLayer = L.CanvasLayer.extend({
       post_size: 512,
       post_alpha: 0.15,
       post_decay: 0.07,
-      filtered: true,
+      filtered: false,
       part_type: 'glow'
     }
     this.precache_sprites = this.precache_sprites.bind(this)
@@ -77,7 +77,6 @@ var StreetLayer = L.CanvasLayer.extend({
       var tt = this._tiles[tile]
       var pos = this._getTilePos(tt.coord);
       this._streetsLayerCtx.drawImage(tt.img, pos.x, pos.y);
-
     }
   },
 
@@ -109,7 +108,7 @@ var StreetLayer = L.CanvasLayer.extend({
   },
 
   onAdd: function (map) {
-    map.on('move', this._onMapMove, this);
+    map.on('move reset', this._onMapMove, this);
     L.CanvasLayer.prototype.onAdd.call(this, map);
     var origin = this._map._getNewTopLeftPoint(this._map.getCenter(), this._map.getZoom());
     this.init_post_process();
@@ -231,9 +230,10 @@ var StreetLayer = L.CanvasLayer.extend({
         //speeds[base_idx + row.dates[j]] = row.speeds[j];
 
         count_filtered[base_idx + row.dates[j]] =   
-        count[base_idx + row.dates[j]] = Math.min(6, Math.ceil(row.vals[j]/(10 * this.options.step))) >> 0 ;
+          count[base_idx + row.dates[j]] = row.vals[j]; //Math.min(6, Math.ceil(row.vals[j]/100)) >> 0 ;
       }
 
+      /*
       var passes = 2;
       while(passes--) {
         for (var j = 1; j < this.MAX_UNITS; ++j) {
@@ -243,6 +243,7 @@ var StreetLayer = L.CanvasLayer.extend({
       for (var j = 1; j < this.MAX_UNITS; ++j) {
         count_filtered[base_idx + j] = Math.min(6, count_filtered[base_idx + j]) >> 0 ;
       }
+      */
     }
 
     //this.force_keys = Object.keys(this.force_map);
@@ -263,6 +264,8 @@ var StreetLayer = L.CanvasLayer.extend({
     };
   },
 
+  // params for cities
+  //  london: ac > 1200
   getProbsData: function(coord, zoom) {
     var self = this;
     sql = "WITH hgrid AS ( " +
@@ -273,7 +276,7 @@ var StreetLayer = L.CanvasLayer.extend({
     "    ) as cell " +
     " ) " +
     " SELECT  " +
-    "    x, y, array_agg(c) vals, array_agg(floor(d/{0})) dates ".format(this.options.decimate) +
+    "    x, y, array_agg(least(6,  ceil(c/100))) vals, array_agg(floor(d/{0})) dates ".format(this.options.decimate) +
     " FROM ( " +
     "    SELECT " +
     "      round(CAST (st_xmax(hgrid.cell) AS numeric),4) x, round(CAST (st_ymax(hgrid.cell) AS numeric),4) y, " +
@@ -282,18 +285,18 @@ var StreetLayer = L.CanvasLayer.extend({
     "        hgrid, {0} i ".format(this.options.table) +
     "    WHERE " +
     "        i.the_geom_webmercator && CDB_XYZ_Extent({0}, {1}, {2}) ".format(coord.x, coord.y, zoom) +
-    "        AND mm % {0} = 0 AND ac > 6 AND ST_Intersects(i.the_geom_webmercator, hgrid.cell) ".format(this.options.decimate) +
+    "        AND mm % {0} = 0 AND ac > 1200 AND ST_Intersects(i.the_geom_webmercator, hgrid.cell) ".format(this.options.decimate) +
     "    GROUP BY " +
     "        hgrid.cell, floor(({0} - {1})/{2})".format(this.options.column, this.options.start_date, this.options.step) +
     " ) f GROUP BY x, y";
 
 
-    var tiles_url = 'http://0.tiles.cartocdn.com/pulsemaps/tiles/rds_s/{0}/{1}/{2}.png?cache_policy=persist&cache_buster=1'
+
+    var tiles_url = 'http://0.tiles.cartocdn.com/pulsemaps/tiles/basemap_roads_live/{0}/{1}/{2}.png?cache_policy=persist&cache_buster=10'
     var img = new Image();
     img.src = tiles_url.format(zoom, coord.x, coord.y);
     img.onload = function() {
-      var pos = self._getTilePos(coord);
-      self._streetsLayerCtx.drawImage(img, pos.x, pos.y);
+      self._renderSteets();
     }
 
     this.tile(sql, function (data) {
@@ -301,6 +304,7 @@ var StreetLayer = L.CanvasLayer.extend({
       time_data.coord = coord;
       time_data.img = img;
       self._tileLoaded(coord, time_data);
+      self._renderSteets();
     });
   },
 
