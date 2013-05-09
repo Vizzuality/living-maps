@@ -64,7 +64,7 @@ window.AppData.CITIES = {
     scale: 2.0,
     city: "mumbai",
     city_name: "Mumbai",
-    city_title: "The big British capital.",
+    city_title: "The city that never sleeps.",
     city_subtitle: "More than 3M points mapped over time."
   }
 };
