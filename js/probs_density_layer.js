@@ -40,7 +40,7 @@ var StreetLayer = L.CanvasLayer.extend({
       part_color: [255, 255, 255, 1.0],
       min_alpha: 0.22,
       alpha_inc: 0.5,
-      exp_decay: 13,
+      exp_decay: 9,
       post_process: false,
       post_size: 512,
       post_alpha: 0.15,
