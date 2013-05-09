@@ -9,7 +9,7 @@
       markup: " \
         <div class='bubble'> \
           <div class='info'> \
-            <a href='#/go' class='go' data-tweet='<%= tweet %>'></a> \
+            <a href='#/go' class='go' data-description='<%= description %>'></a> \
             <span class='icon type <%= type %>'></span> \
             <p><%= description %></p> \
             <span class='tail'></span> \
@@ -67,7 +67,7 @@
       table: 'bubbles',
       time_column: 'time',
       city: this.city,
-      columns: ['cartodb_id as id', 'city', 'st_x(the_geom) as lon', 'time', 'st_y(the_geom) as lat', 'type', 'description', 'tweet']
+      columns: ['cartodb_id as id', 'city', 'st_x(the_geom) as lon', 'time', 'st_y(the_geom) as lat', 'type', 'description']
     }),
 
     render: function() {},
@@ -160,7 +160,8 @@
     _bindMarkupEvents: function($el) {
       $el.find(".go").on("click", function(e) {
         e.preventDefault();
-        Events.trigger("openshare");
+        var desc = $(e.target).data().description;
+        Events.trigger("openshare", desc);
       });
     },
 
