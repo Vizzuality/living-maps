@@ -17,6 +17,7 @@ function Slider(el, options) {
 var dragged = false;
 var clicked = false;
 var stopped = true;
+var valueStart = 0;
 
 Events.on("clickhandle", function(val) {
   clicked = true;
@@ -24,7 +25,7 @@ Events.on("clickhandle", function(val) {
 
   $("#selectors").addClass("glow");
 
-  $(document).mousemove(function() {
+  $(document).on("mousemove", function() {
     dragged = true;
   });
 });
@@ -34,10 +35,9 @@ Events.on("stopanimation", function() {
   $(".ui-slider-handle").addClass("stopped");
 });
 
-Events.on("resumeanimation", function(pos) {
+Events.on("resumeanimation", function() {
   stopped = false;
   $(".ui-slider-handle").removeClass("stopped");
-  $("#slider").slider("value", pos);
 });
 
 Slider.prototype = {
@@ -49,7 +49,6 @@ Slider.prototype = {
     // init slider
     this.el.slider({
       slide: function(event, ui) {},
-      change: function(event, ui) {},
       stop: function(event, ui) {}
     });
 
@@ -71,7 +70,7 @@ Slider.prototype = {
           Events.trigger("clickhandle", self.el.slider("value"));
         })
         .on("click", function() {
-          if(!dragged && valueStart === self.valueStop) {
+          if(valueStart === self.valueStop) {
             if(!stopped) {
               Events.trigger("stopanimation");
             } else {
@@ -81,13 +80,15 @@ Slider.prototype = {
         });
 
     $(document).on("mouseup", function() {
-      dragged = false;
-      self.valueStop = self.el.slider("value");
+      if(clicked) {
+        self.valueStop = self.el.slider("value");
 
-      $(this).unbind('mousemove');
+        dragged = false;
+        clicked = false;
 
-      clicked = false;
-    })
+        $(this).off('mousemove');
+      }
+    });
   },
 
   onSlideStart: function(pos) {

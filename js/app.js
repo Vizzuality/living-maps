@@ -105,13 +105,13 @@ var App = {
 
         self.playAnimation();
 
-        window.onfocus = function() {
-          Events.trigger("resumeanimation");
-        };
+        // window.onfocus = function() {
+        //   Events.trigger("resumeanimation");
+        // };
 
-        window.onblur = function() {
-          Events.trigger("stopanimation");
-        };
+        // window.onblur = function() {
+        //   Events.trigger("stopanimation");
+        // };
       });
     });
   },

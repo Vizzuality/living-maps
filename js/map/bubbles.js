@@ -62,7 +62,7 @@ var Bubbles = {
 
       $(".cancel, .send").on("click", function(e) {
         e.preventDefault();
-        Events.trigger("resumeanimation", self.slider.slider("value"));
+        Events.trigger("resumeanimation");
         self.backdrop.fadeOut(200);
       });
     }
