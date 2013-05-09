@@ -79,13 +79,17 @@
       // Set new city
       this.city = city;
 
-      // Reset markups
+      // Clean markups
+      this.clean();
+
+      // Get new data
+      this.data.fetch();
+    },
+
+    clean: function() {
       for (var i in this.contextualFacts) {
         this.contextualFacts[i].$markup.remove();
       }
       this.contextualFacts = [];
-
-      // Get new data
-      this.data.fetch();
     }
   };
