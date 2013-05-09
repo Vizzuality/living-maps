@@ -67,7 +67,15 @@ Map.prototype = {
   },
 
   set_city: function(center, zoom, city) {
-    console.log(center, zoom, city);
+    if(this.probsLayer) {
+      this.probsLayer.setCity(city);
+    }
+
+    // ****
+    // THIS SHOULD BE ____AFTER___ probsLayer.setCity
+    // ****
+
+    this.map.setView(center, zoom);
   },
 
   render: function() {
