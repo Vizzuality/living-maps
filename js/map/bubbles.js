@@ -54,7 +54,7 @@
           if (bubble.$markup.is(':visible')) {
             var pos = latlonTo3DPixel(self.map, [bubble.lat, bubble.lon]);
             bubble.$markup.css({
-              top: pos.y - $markup.outerHeight(),
+              top: pos.y - bubble.$markup.outerHeight(),
               left: pos.x - self.options.horizontalOffset
             })
           }
