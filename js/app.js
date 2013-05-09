@@ -248,6 +248,10 @@ var App = {
     this.map.set_city(this.options.map.center, this.options.map.zoom, this.options.city);
 
     this.spinner_container.removeClass("play").html('');
+    $("#city_name").text(this.options.city_name);
+    $("#city_title").text(this.options.city_title);
+    $("#city_subtitle").text(this.options.city_subtitle);
+
     $('.mamufas').fadeIn();
 
     // Restart all animated particled
