@@ -100,7 +100,6 @@ var App = {
       Events.trigger("stopanimation");
 
       self.spinner.stop();
-      self.add_gradients();
 
       self.spinner_container.addClass("play").html('<a href="#" id="play">Play animation</a>');
 
@@ -171,14 +170,6 @@ var App = {
       data = data.rows.map(function(r) { return r.n });
       $('#graph').html(graph(data, $('#slider').width(), 30, 'rgba(0, 0, 0, 0.1)'));
     });
-  },
-
-  add_gradients: function() {
-    // TEST !!
-    $('.leaflet-tile-pane:eq(1)').append('<div class="edge top"></div>');
-    $('.leaflet-tile-pane:eq(1)').append('<div class="edge right"></div>');
-    $('.leaflet-tile-pane:eq(1)').append('<div class="edge bottom"></div>');
-    $('.leaflet-tile-pane:eq(1)').append('<div class="edge left"></div>');
   },
 
   _initTestData: function() {
