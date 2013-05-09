@@ -43,6 +43,14 @@ Map.prototype = {
 
     self.probsLayer = new StreetLayer();
     self.map.addLayer(self.probsLayer);
+
+    // Add gradients layer
+    this.set_gradients();
+  },
+
+  set_gradients: function() {
+    $(this.map.getPanes().canvasPane)
+      .append('<div class="edge top"></div><div class="edge right"></div><div class="edge left"></div>');
   },
 
   set_time: function(t) {
