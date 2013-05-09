@@ -55,7 +55,7 @@ var StreetLayer = L.CanvasLayer.extend({
   },
 
   setCity: function(name) {
-    this.options.table = name;
+    this.options.table = name + "_2m_1mm";
   },
 
   _onMapMove: function() {

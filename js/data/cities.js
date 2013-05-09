@@ -29,6 +29,5 @@ window.AppData.CITIES = {
   'mumbai': {
     center: [18.97220797609552, 72.82270431518555],
     zoom: 12
-  },
-
+  }
 };
