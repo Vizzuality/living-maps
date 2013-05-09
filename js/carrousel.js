@@ -26,6 +26,9 @@ Carrousel.prototype = {
 
       self._showCarrousel(false);
       self.changeMap($(this).attr("data-map"));
+
+      $(".city-link").removeClass("selected");
+      $(this).addClass("selected");
     });
   },
 
@@ -134,12 +137,7 @@ Carrousel.prototype = {
   changeMap: function(city) {
     self = this;
 
-    App.restart({
-      map: window.AppData.CITIES[city],
-      time_scale: 15 * 60,
-      scale: 2.0,
-      city: city
-    });
+    App.restart(window.AppData.CITIES[city]);
   },
 
   disable: function() {

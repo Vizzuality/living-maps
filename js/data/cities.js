@@ -4,30 +4,67 @@ window.AppData = window.AppData || {};
 window.AppData.CITIES = {
 
   'london': {
-    name: "here_osm_madrid",
-    center: [51.511214, -0.100824],
-    zoom: 12
+    map: {
+      center: [51.511, -0.100],
+      zoom: 12
+    },
+    time_scale: 15 * 60,
+    scale: 2.0,
+    city: "london",
+    city_name: "London",
+    city_title: "The big British capital.",
+    city_subtitle: "More than 3M points mapped over time."
   },
 
   'chicago': {
-    name: "here_osm_madrid",
-    // center: [41.8500, 87.6500],
-    center: [51.511214, -0.100824],
-    zoom: 10
+    map: {
+      center: [41.850, 87.650],
+      zoom: 12
+    },
+    time_scale: 15 * 60,
+    scale: 2.0,
+    city: "chicago",
+    city_name: "Chicago",
+    city_title: "The big British capital.",
+    city_subtitle: "More than 3M points mapped over time."
   },
 
   'rome': {
-    center: [41.9000, 12.5000],
-    zoom: 12
+    map: {
+      center: [41.900, 12.500],
+      zoom: 12,
+    },
+    time_scale: 15 * 60,
+    scale: 2.0,
+    city: "rome",
+    city_name: "London",
+    city_title: "The big British capital.",
+    city_subtitle: "More than 3M points mapped over time."
   },
 
   'helsinki': {
-    center: [62.4302, 24.7271],
-    zoom: 12
+    map: {
+      center: [62.430, 24.727],
+      zoom: 12,
+    },
+    time_scale: 15 * 60,
+    scale: 2.0,
+    city: "helsinki",
+    city_name: "London",
+    city_title: "The big British capital.",
+    city_subtitle: "More than 3M points mapped over time."
   },
 
   'mumbai': {
-    center: [18.97220797609552, 72.82270431518555],
-    zoom: 12
+    map: {
+      center: [18.972, 72.822],
+      zoom: 12
+    },
+    time_scale: 15 * 60,
+    scale: 2.0,
+    city: "mumbai",
+    city_name: "Mumbai",
+    city_title: "The big British capital.",
+    city_subtitle: "More than 3M points mapped over time."
   }
 };

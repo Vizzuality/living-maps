@@ -67,6 +67,9 @@ var App = {
     // City POIS
     POIS.initialize(this.map.map, this.options.city);
 
+    // Init Share dialog
+    Share.initialize();    
+
     this.slider.onTimeChange = function(time) {
       self.time = time;
     }
@@ -85,8 +88,8 @@ var App = {
     this.target = document.getElementById('spinner-container');
     this.spinner_container = $("#spinner-container");
     this.spinner = new Spinner(this.spin_opts);
-    this.spinner.spin(this.target);
 
+    this.spinner.spin(this.target);
     this.onFinishLoading();
   },
 
@@ -247,6 +250,10 @@ var App = {
     this.map.set_city(this.options.map.center, this.options.map.zoom, this.options.city);
 
     this.spinner_container.removeClass("play").html('');
+    $("#city_name").text(this.options.city_name);
+    $("#city_title").text(this.options.city_title);
+    $("#city_subtitle").text(this.options.city_subtitle);
+
     $('.mamufas').fadeIn();
 
     // Restart all animated particled
@@ -258,11 +265,7 @@ var App = {
     $("#graph").html("");
     this.add_graph(this.options.city);
 
-    this.animables.push(this.map, this.slider, Bubbles, ContextualFacts);
-
     this.spinner.spin(this.target);
-
     this.onFinishLoading();
   }
 };
-
