@@ -160,18 +160,12 @@
     _bindMarkupEvents: function($el) {
       $el.find(".go").on("click", function(e) {
         e.preventDefault();
-        // Events.trigger("stopanimation");
-      });
-
-      $el.find(".cancel, .send").on("click", function(e) {
-        e.preventDefault();
-        // Events.trigger("resumeanimation");
+        Events.trigger("openshare");
       });
     },
 
     _unbindMarkupEvents: function($el) {
       $el.find(".go").off("click");
-      $el.find(".cancel, .send").off("click");
     },
 
     set_time: function(time) {

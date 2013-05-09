@@ -67,6 +67,9 @@ var App = {
     // City POIS
     POIS.initialize(this.map.map, this.options.city);
 
+    // Init Share dialog
+    Share.initialize();    
+
     this.slider.onTimeChange = function(time) {
       self.time = time;
     }
