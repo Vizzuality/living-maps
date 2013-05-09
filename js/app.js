@@ -223,7 +223,6 @@ var App = {
     f2.add(ro, 'part_inc', 0, 70).onChange(this.map.probsLayer.precache_sprites)
     f2.add(ro, 'min_alpha', 0, 0.3).onChange(this.map.probsLayer.precache_sprites)
     f2.add(ro, 'alpha_inc', 0, 0.5).onChange(this.map.probsLayer.precache_sprites)
-    f2.add(ro, 'exp_decay', 0, 20).onChange(this.map.probsLayer.precache_sprites)
     f2.add(ro, 'part_type', ['sphere', 'glow']).onChange(this.map.probsLayer.precache_sprites)
     f2.addColor(ro, 'part_color').onChange(this.map.probsLayer.precache_sprites)
     f2.open();
@@ -246,7 +245,7 @@ var App = {
     clicked = false;
     stopped = true;
 
-    this.options = options;
+    _.extend(this.options, options);
 
     this.map.set_city(this.options.map.center, this.options.map.zoom, this.options.city);
 
@@ -270,4 +269,3 @@ var App = {
     this.onFinishLoading();
   }
 };
-

@@ -1,2 +1,3 @@
 destination: _site
+permalink: pretty
 exclude: [sass, config.rb, Procfile]

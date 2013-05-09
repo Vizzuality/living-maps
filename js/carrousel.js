@@ -26,6 +26,9 @@ Carrousel.prototype = {
 
       self._showCarrousel(false);
       self.changeMap($(this).attr("data-map"));
+
+      $(".city-link").removeClass("selected");
+      $(this).addClass("selected");
     });
   },
 
