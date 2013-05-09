@@ -49,11 +49,9 @@ Map.prototype = {
     this.map
       .on('dragstart', function(e) {
         this.isDragging = true;
-        // $("#carrousel").addClass("disabled");
       })
       .on('dragend', function(e) {
         this.isDragging = false;
-        // $("#carrousel").removeClass("disabled");
       });
   },
 
@@ -66,6 +64,10 @@ Map.prototype = {
     if(this.probsLayer) {
       this.probsLayer.set_time(t);
     }
+  },
+
+  set_city: function(center, zoom, city) {
+    console.log(center, zoom, city);
   },
 
   render: function() {

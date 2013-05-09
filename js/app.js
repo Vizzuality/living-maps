@@ -49,22 +49,8 @@ var App = {
 
     /* Map animated particled */
 
-    // Bubbles
-    Bubbles.initialize(this.map.map, this.options.city);
-    this.animables.push(Bubbles);
-
-    // Contextual facts
-    ContextualFacts.initialize(this.map.map, this.options.city);
-    this.animables.push(ContextualFacts);
-
-    // City POIS
-    POIS.initialize(this.map.map, this.options.city);
-
     // Carrousel
-    this.carrousel = new Carrousel($('#carrousel'));
-
-    // disable until finish loading
-    this.carrousel.disable();
+    this.carrousel = new Carrousel($('#carrousel'), this.map);
 
     // Slider
     this.slider = new Slider($('#slider'), {
@@ -72,8 +58,14 @@ var App = {
       timeRange: (this.last_time - this.init_time) * 1
     });
 
-    // disable until finish loading
-    this.slider.el.slider('disable');
+    // Bubbles
+    Bubbles.initialize(this.map.map, this.options.city);
+
+    // Contextual facts
+    ContextualFacts.initialize(this.map.map, this.options.city);
+
+    // City POIS
+    POIS.initialize(this.map.map, this.options.city);
 
     this.slider.onTimeChange = function(time) {
       self.time = time;
@@ -81,8 +73,7 @@ var App = {
 
     this.add_graph(this.options.city);
     
-
-    this.animables.push(this.map, this.slider);
+    this.animables.push(this.map, this.slider, Bubbles, ContextualFacts);
     this._tick = this._tick.bind(this);
     requestAnimationFrame(this._tick);
 
@@ -96,23 +87,7 @@ var App = {
     this.spinner = new Spinner(this.spin_opts);
     this.spinner.spin(this.target);
 
-    Events.on('finish_loading', function() {
-      Events.trigger("stopanimation");
-
-      self.spinner.stop();
-
-      self.spinner_container.addClass("play").html('<a href="#" id="play">Play animation</a>');
-
-      $("#play").on("click", function(e) {
-        e.preventDefault();
-
-        self.playAnimation();
-
-        if (self.detectHiddenFeature()) {
-          document.addEventListener(self.vendorVisibilitychange, self.visibilityChanged);
-        }
-      });
-    });
+    this.onFinishLoading();
   },
 
   detectHiddenFeature: function() {
@@ -140,17 +115,36 @@ var App = {
     return false;
   },
 
-  playAnimation: function() {
-    // unbind finish loading
-    Events.off('finish_loading');
+  onFinishLoading: function() {
+    var self = this;
 
-    // enable slider and carrousel
-    this.slider.el.slider('enable');
-    this.carrousel.initialize();
+    Events.on('finish_loading', function() {
+      Events.trigger("stopanimation");
+      self.spinner.stop();
+
+      self.spinner_container.addClass("play").html('<a href="#" id="play">Play animation</a>');
+
+      $("#play").on("click", function(e) {
+        e.preventDefault();
+
+        self.playAnimation();
+
+        if (self.detectHiddenFeature()) {
+          document.addEventListener(self.vendorVisibilitychange, self.visibilityChanged);
+        }
+      });
+    });
+  },
+
+  playAnimation: function() {
+    $("#play").off("click");
+
+    // unbind finish loading, enablea animation, and resume animation
+    Events.off('finish_loading');
+    Events.trigger("animationenabled");
+    Events.trigger("resumeanimation");
 
     $('.mamufas').fadeOut();
-
-    Events.trigger("resumeanimation");
 
     $(document).keyup(function(e) {
       if (e.keyCode === 32) {
@@ -249,44 +243,27 @@ var App = {
     clicked = false;
     stopped = true;
 
-    this._initTestData();
-
     this.options = options;
 
-    // restart map
-    $("#map").remove();
-    $("#map_wrapper").append('<div id="map" class="city_map"><div class="edge top"></div><div class="edge right"></div><div class="edge bottom"></div><div class="edge left"></div></div>');
+    this.map.set_city(this.options.map.center, this.options.map.zoom, this.options.city);
 
-    this.map = new Map('map', {
-      zoomControl: false,
-      scrollWheelZoom: false,
-      center: this.options.map.center,
-      zoom: this.options.map.zoom,
-      base_layer: 'https://saleiva.cartodb.com/tiles/'+ this.options.map.name +'/{z}/{x}/{y}.png'
-    });
+    this.spinner_container.removeClass("play").html('');
+    $('.mamufas').fadeIn();
 
     // Restart all animated particled
     Bubbles.set_city(this.options.city);
     ContextualFacts.set_city(this.options.city);
     POIS.set_city(this.options.city);
 
-    this.slider.onTimeChange = function(time) {
-      self.time = time;
-    }
-
+    // Restart city graph
     $("#graph").html("");
     this.add_graph(this.options.city);
 
-    this.animables.push(this.map, this.slider);
-    this._tick = this._tick.bind(this);
-    requestAnimationFrame(this._tick);
+    this.animables.push(this.map, this.slider, Bubbles, ContextualFacts);
 
-    if(location.search.indexOf('debug') != -1)
-      setTimeout(function() {
-        self.add_debug();
-      }, 4000);
+    this.spinner.spin(this.target);
 
-    this.spinner.spin(this.target); 
+    this.onFinishLoading();
   }
 };
 

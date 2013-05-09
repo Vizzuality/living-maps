@@ -1,4 +1,6 @@
 function Slider(el, options) {
+  var self = this;
+
   this.el = el;
 
   this.options = {
@@ -11,7 +13,9 @@ function Slider(el, options) {
    timeRange: 300
   }); */
 
-  this.initialize();
+  Events.on("animationenabled", function() {
+    self.initialize();
+  });
 }
 
 var dragged = false;
