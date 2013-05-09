@@ -66,7 +66,7 @@ var POIS = {
     });
   },
 
-  setCity: function(city) {
+  set_city: function(city) {
     // Set new city
     this.city = city;
 

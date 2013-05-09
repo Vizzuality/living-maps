@@ -1,12 +1,27 @@
+
+  /*
+   *  Conceptual city facts
+   */
+
 var ContextualFacts = {
+
+  templates: {
+    markup: "<p class='time'><%= description %></p>"
+  },
+
+  options: {
+    showTime: 300,
+    hideTime: 300,
+    delayTime: 2000
+  },
+
+  el: '#contextualfacts',
 
   contextualFacts: {},
 
   initialize: function(map, city) {
-    if(!map) throw "you should set map";
+    if (!map) throw "you should set map";
     this.map = map;
-
-    this.slider = $("#slider");
     return this;
   },
 
@@ -25,31 +40,31 @@ var ContextualFacts = {
     var $markup;
 
     if (!this.contextualFacts[data.id]) {
-      var $markup = $('<p class="time">' + data.description + '</p>');
+      var el = _.template(this.templates.markup)(data);
+      var $markup = $(el);
       this.contextualFacts[data.id] = {
         $markup: $markup
       };
-      $('#contextualfacts').append($markup);
+      $(this.el).append($markup);
     }
 
-    $markup = this.contextualFacts[data.id].$markup;
+    // Get markup if not was defined
+    if (!$markup)
+      $markup = this.contextualFacts[data.id].$markup;
 
+    // Animation
     $markup.css({
       marginTop: '30px',
       display: 'block',
       opacity: 0
-    });
-
-    $markup.animate({
+    }).animate({
       marginTop:0,
       opacity: 1
-    }, 300, function() {
-      $(this).delay(2000).animate({
+    }, this.options.showTime, function() {
+      $(this).delay(self.options.delayTime).animate({
         marginTop: '-30px',
         opacity: 0
-      }, {
-        duration: 300
-      })
+      }, self.options.hideTime)
     });
   },
 
@@ -60,7 +75,7 @@ var ContextualFacts = {
     }
   },
 
-  setCity: function(city) {
+  set_city: function(city) {
     // Set new city
     this.city = city;
 
@@ -73,5 +88,4 @@ var ContextualFacts = {
     // Get new data
     this.data.fetch();
   }
-
-}; // Contextual Facts
+};
