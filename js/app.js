@@ -29,6 +29,9 @@ var App = {
   target: null,
   spinner: null,
 
+  vendorHidden: "",
+  vendorVisibilitychange: "",
+
   initialize: function(options) {
     var self = this;
 
@@ -57,11 +60,13 @@ var App = {
     // City POIS
     POIS.initialize(this.map.map, this.options.city);
 
+    // Carrousel
     this.carrousel = new Carrousel($('#carrousel'));
 
     // disable until finish loading
     this.carrousel.disable();
 
+    // Slider
     this.slider = new Slider($('#slider'), {
       timeMin: new Date(this.init_time).getTime(),
       timeRange: (this.last_time - this.init_time) * 1
@@ -75,7 +80,6 @@ var App = {
     }
 
     this.add_graph();
-
     
 
     this.animables.push(this.map, this.slider);
@@ -105,15 +109,36 @@ var App = {
 
         self.playAnimation();
 
-        // window.onfocus = function() {
-        //   Events.trigger("resumeanimation");
-        // };
-
-        // window.onblur = function() {
-        //   Events.trigger("stopanimation");
-        // };
+        if (self.detectHiddenFeature()) {
+          document.addEventListener(self.vendorVisibilitychange, self.visibilityChanged);
+        }
       });
     });
+  },
+
+  detectHiddenFeature: function() {
+    if(typeof document.hidden != "undefined") {
+      this.vendorHidden = "hidden";
+      this.vendorVisibilitychange = "visibilitychange";
+      return true;
+    }
+
+    // IE10
+    if (typeof document.msHidden != "undefined") {
+      this.vendorHidden = "msHidden";
+      this.vendorVisibilitychange = "msvisibilitychange";
+      return true;
+    }
+
+    // Chrome
+    if (typeof document.webkitHidden != "undefined") {
+      this.vendorHidden = "webkitHidden";
+      this.vendorVisibilitychange = "webkitvisibilitychange";
+      return true;
+    }
+
+    // Page Visibility API not supported
+    return false;
   },
 
   playAnimation: function() {
