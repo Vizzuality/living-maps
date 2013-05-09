@@ -66,6 +66,10 @@ Map.prototype = {
     }
   },
 
+  set_city: function(city) {
+
+  },
+
   render: function() {
     if(this.probsLayer) {
       this.probsLayer._render();

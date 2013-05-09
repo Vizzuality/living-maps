@@ -135,31 +135,11 @@ Carrousel.prototype = {
     self = this;
 
     App.restart({
-      map: this.getMapInfo(city),
+      map: window.AppData.CITIES[city],
       time_scale: 15 * 60,
       scale: 2.0,
       city: city
     });
-  },
-
-  getMapInfo: function(city) {
-    var mapInfo = {};
-
-    if(city === 'chicago') {
-      mapInfo = {
-        name: "here_osm_madrid",
-        zoom: 10,
-        center: [51.511214, -0.100824]
-      }
-    } else if(city === 'london') {
-      mapInfo = {
-        name: "here_osm_madrid",
-        zoom: 12,
-        center: [51.511214, -0.100824]
-      }
-    }
-
-    return mapInfo;
   },
 
   disable: function() {
