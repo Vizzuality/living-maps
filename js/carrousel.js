@@ -63,6 +63,14 @@ Carrousel.prototype = {
     }
   },
 
+  _detachMouse: function() {
+    var self = this;
+
+    $(this.el).off('mousemove').off("mouseleave");
+
+    this.cities_switch.off("mouseover");
+  },
+
   _showCarrousel: function(show) {
     if(show && !$(this.el).hasClass("disabled")) {
       this.el.animate({
@@ -121,7 +129,8 @@ Carrousel.prototype = {
     App.restart({
       map: this.getMapInfo(city),
       time_scale: 15 * 60,
-      scale: 2.0
+      scale: 2.0,
+      city: city
     });
   },
 
@@ -146,8 +155,8 @@ Carrousel.prototype = {
   },
 
   disable: function() {
-    this.el.off('mousemove').off('mouseleave');
+    this._detachMouse();
 
-    this.cities_switch.off("mouseover");
+    this.cities_nav.find("a").off("click");
   }
 };

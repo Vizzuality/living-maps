@@ -79,7 +79,7 @@ var App = {
       self.time = time;
     }
 
-    this.add_graph();
+    this.add_graph(this.options.city);
     
 
     this.animables.push(this.map, this.slider);
@@ -164,11 +164,12 @@ var App = {
     });
   },
 
-  add_graph: function() {
-    var sql = 'https://pulsemaps.cartodb.com/api/v2/sql?q=SELECT avg(activity[i]) n, i FROM rds_s, generate_series(1,96) i group by i order by i asc'
+  add_graph: function(city) {
+    var sql = 'https://pulsemaps.cartodb.com/api/v2/sql?q=SELECT avg(activity[i]) n, i FROM '+ city +', generate_series(1,96) i group by i order by i asc'
     $.getJSON(sql, function(data) {
+
       data = data.rows.map(function(r) { return r.n });
-      $('#graph').append(graph(data, $('#slider').width(), 30, 'rgba(0, 0, 0, 0.1)'));
+      $('#graph').html(graph(data, $('#slider').width(), 30, 'rgba(0, 0, 0, 0.1)'));
     });
   },
 
@@ -282,7 +283,8 @@ var App = {
       self.time = time;
     }
 
-    this.add_graph();
+    $("#graph").html("");
+    this.add_graph(this.options.city);
 
     this.animables.push(this.map, this.slider);
     this._tick = this._tick.bind(this);

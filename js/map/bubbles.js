@@ -9,6 +9,7 @@ var Bubbles = {
     this.backdrop = $("#backdrop");
     this.slider = $("#slider");
     this.tweet = $(".tweet");
+    this.tweet_button = $(".send");
 
     this.horizontalOffset = 110;
     this.verticalOffset = 170;
@@ -124,6 +125,7 @@ var Bubbles = {
 
   showBackdrop: function(tweet) {
     this.tweet.text(tweet);
+    this.tweet_button.attr("href", "http://twitter.com/share?text=" + tweet);
     this.backdrop.fadeIn(200);
   },
 
