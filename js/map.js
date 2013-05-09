@@ -66,8 +66,8 @@ Map.prototype = {
     }
   },
 
-  set_city: function(city) {
-
+  set_city: function(center, zoom, city) {
+    console.log(center, zoom, city);
   },
 
   render: function() {

@@ -255,15 +255,11 @@ var App = {
     ContextualFacts.set_city(this.options.city);
     POIS.set_city(this.options.city);
 
-    this._initTestData();
-
     // Restart city graph
     $("#graph").html("");
     this.add_graph(this.options.city);
 
     this.animables.push(this.map, this.slider, Bubbles, ContextualFacts);
-    this._tick = this._tick.bind(this);
-    requestAnimationFrame(this._tick);
 
     this.spinner.spin(this.target);
 
