@@ -245,7 +245,7 @@ var App = {
     clicked = false;
     stopped = true;
 
-    this.options = options;
+    _.extend(this.options, options);
 
     this.map.set_city(this.options.map.center, this.options.map.zoom, this.options.city);
 
