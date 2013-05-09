@@ -292,7 +292,10 @@ var StreetLayer = L.CanvasLayer.extend({
 
 
 
-    var tiles_url = "http://0.tiles.cartocdn.com/pulsemaps/tiles/pulse_basemap/{0}/{1}/{2}.png?cache_policy=persist&cache_buster=10&sql=SELECT%20the_geom_webmercator%2Cclass%2C'osm_landusages'%20as%20layer%20FROM%20mumbai_osm_landusages%0AUNION%20ALL%0ASELECT%20the_geom_webmercator%2Cclass%2C'osm_waterareas'%20as%20layer%20FROM%20mumbai_osm_waterareas%0AUNION%20ALL%0ASELECT%20the_geom_webmercator%2Cclass%2C'osm_roads'%20as%20layer%20FROM%20mumbai_osm_roads&cache_policy=persist&cache_buster=2013-05-09T06%3A30%3A48%2B00%3A00"
+    var tiles_url = "http://0.tiles.cartocdn.com/pulsemaps/tiles/pulse_basemap/{0}/{1}/{2}.png?cache_policy=persist&sql=SELECT%20the_geom_webmercator%2Cclass%2Cnull%20as%20name%2C'osm_landusages'%20as%20layer%20FROM%20mumbai_osm_landusages%0AUNION%20ALL%0ASELECT%20the_geom_webmercator%2Cclass%2C%20name%2C'osm_waterareas'%20as%20layer%20FROM%20mumbai_osm_waterareas%0AUNION%20ALL%0ASELECT%20the_geom_webmercator%2Cclass%2Cnull%20as%20name%2C'osm_buildings'%20as%20layer%20%20FROM%20mumbai_osm_buildings%0AUNION%20ALL%0ASELECT%20the_geom_webmercator%2Cclass%2Cnull%20as%20name%2C'osm_roads'%20as%20layer%20FROM%20mumbai_osm_roads%20&cache_policy=persist&cache_buster=2013-05-09T12%3A49%3A08%2B00%3A00&cache_buster=" + new Date().getTime();
+
+
+    //var tiles_url = "http://0.tiles.cartocdn.com/pulsemaps/tiles/basemap_roads_live/{0}/{1}/{2}.png?cache_buster=101"
     var img = new Image();
     img.src = tiles_url.format(zoom, coord.x, coord.y);
     img.onload = function() {
