@@ -10,5 +10,11 @@ $(document).ready(function() {
     document.location = "/mobile.html";
   }
 
-  App.initialize(window.AppData.CITIES['london']);
+  var url = location.href.split("/").pop();
+
+  if(url.length === 0) {
+    App.initialize(window.AppData.CITIES['london']);
+  } else {
+    App.initialize(window.AppData.CITIES[url]);
+  }
 });

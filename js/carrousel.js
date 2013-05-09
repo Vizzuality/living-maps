@@ -22,13 +22,15 @@ Carrousel.prototype = {
     this._attachMouse();
 
     this.cities_nav.find("a").on("click", function(e) {
-      e.preventDefault();
-
       self._showCarrousel(false);
       self.changeMap($(this).attr("data-map"));
 
       $(".city-link").removeClass("selected");
       $(this).addClass("selected");
+
+      history.pushState(null, null, this.href);
+
+      e.preventDefault();
     });
   },
 
