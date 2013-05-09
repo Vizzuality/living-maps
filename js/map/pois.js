@@ -98,7 +98,7 @@
       this.clean();
 
       // Get new data
-      this.data.fetch();
+      this.data.fetch(this.render());
     },
 
     clean: function() {
