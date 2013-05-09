@@ -254,9 +254,9 @@ var App = {
     });
 
     // Restart all animated particled
-    Bubbles.setCity(this.options.city);
-    ContextualFacts.setCity(this.options.city);
-    POIS.setCity(this.options.city);
+    Bubbles.set_city(this.options.city);
+    ContextualFacts.set_city(this.options.city);
+    POIS.set_city(this.options.city);
 
     this.slider.onTimeChange = function(time) {
       self.time = time;
