@@ -49,11 +49,9 @@ Map.prototype = {
     this.map
       .on('dragstart', function(e) {
         this.isDragging = true;
-        // $("#carrousel").addClass("disabled");
       })
       .on('dragend', function(e) {
         this.isDragging = false;
-        // $("#carrousel").removeClass("disabled");
       });
   },
 

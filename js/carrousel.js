@@ -1,10 +1,16 @@
 
 
-function Carrousel(el) {
+function Carrousel(el, map) {
+  var self = this;
+
   this.el = el;
+  this.map = map;
   this.cities_switch = $("#cities_switch");
   this.cities_nav = $("#cities_nav");
-  this.initialize();
+
+  Events.on("animationenabled", function() {
+    self.initialize();
+  });
 }
 
 
@@ -52,15 +58,17 @@ Carrousel.prototype = {
       });
     });
 
-    if(!$(this.el).hasClass("disabled")) {
-      this.cities_switch.on("mouseover", function() {
+    this.cities_switch.on("mouseover", function() {
+      if(!self.map.map.isDragging) {
         self._showCarrousel(true);
-      })
+      }
+    });
 
-      this.el.on("mouseleave", function() {
+    this.el.on("mouseleave", function() {
+      if(!self.map.map.isDragging) {
         self._showCarrousel(false);
-      });
-    }
+      }
+    });
   },
 
   _detachMouse: function() {
