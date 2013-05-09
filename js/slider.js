@@ -1,4 +1,6 @@
 function Slider(el, options) {
+  var self = this;
+
   this.el = el;
 
   this.options = {
@@ -11,7 +13,9 @@ function Slider(el, options) {
    timeRange: 300
   }); */
 
-  this.initialize();
+  Events.on("animationenabled", function() {
+    self.initialize();
+  });
 }
 
 var dragged = false;
@@ -116,9 +120,10 @@ Slider.prototype = {
     var hours = timeUpdated.getHours();
     var minutes = timeUpdated.getMinutes();
 
-    minutes = (minutes<10?'0':'') + minutes;
-
-    $("#hour").text(hours + ":" + minutes);
+    if (minutes%2 === 0) {
+      minutes = (minutes<10?'0':'') + minutes;
+      $("#hour").text(hours + ":" + minutes);
+    };
   },
 
   updateSky: function(pos) {

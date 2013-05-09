@@ -1,10 +1,16 @@
 
 
-function Carrousel(el) {
+function Carrousel(el, map) {
+  var self = this;
+
   this.el = el;
+  this.map = map;
   this.cities_switch = $("#cities_switch");
   this.cities_nav = $("#cities_nav");
-  this.initialize();
+
+  Events.on("animationenabled", function() {
+    self.initialize();
+  });
 }
 
 
@@ -52,15 +58,25 @@ Carrousel.prototype = {
       });
     });
 
-    if(!$(this.el).hasClass("disabled")) {
-      this.cities_switch.on("mouseover", function() {
+    this.cities_switch.on("mouseover", function() {
+      if(!self.map.map.isDragging) {
         self._showCarrousel(true);
-      })
+      }
+    });
 
-      this.el.on("mouseleave", function() {
+    this.el.on("mouseleave", function() {
+      if(!self.map.map.isDragging) {
         self._showCarrousel(false);
-      });
-    }
+      }
+    });
+  },
+
+  _detachMouse: function() {
+    var self = this;
+
+    $(this.el).off('mousemove').off("mouseleave");
+
+    this.cities_switch.off("mouseover");
   },
 
   _showCarrousel: function(show) {
@@ -119,35 +135,16 @@ Carrousel.prototype = {
     self = this;
 
     App.restart({
-      map: this.getMapInfo(city),
+      map: window.AppData.CITIES[city],
       time_scale: 15 * 60,
-      scale: 2.0
+      scale: 2.0,
+      city: city
     });
   },
 
-  getMapInfo: function(city) {
-    var mapInfo = {};
-
-    if(city === 'chicago') {
-      mapInfo = {
-        name: "here_osm_madrid",
-        zoom: 10,
-        center: [51.511214, -0.100824]
-      }
-    } else if(city === 'london') {
-      mapInfo = {
-        name: "here_osm_madrid",
-        zoom: 12,
-        center: [51.511214, -0.100824]
-      }
-    }
-
-    return mapInfo;
-  },
-
   disable: function() {
-    this.el.off('mousemove').off('mouseleave');
+    this._detachMouse();
 
-    this.cities_switch.off("mouseover");
+    this.cities_nav.find("a").off("click");
   }
 };

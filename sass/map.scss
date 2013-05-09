@@ -224,17 +224,6 @@
 .leaflet-tile { background: transparent !important; }
 
 
-
-.go {
-  position: absolute;
-  top: -22px;
-  right: -22px;
-  display: block;
-  height: 45px;
-  width: 45px;
-  background: image-url('marker_go.png') no-repeat;
-}
-
 .leaflet-control-attribution {
   display: none !important;
 }
@@ -267,65 +256,74 @@
     - Pois
 */
 
-// #map_wrapper {
-//   position:absolute;
-//   top:0; right:0; bottom:0; left:0;
-//   width:100%;
-//   height:100%;
-//   z-index:2;
-
   // BUBBLE
   .bubble {
-    position: absolute;
-    display: none;
-    top: 0;
-    left: 0;
-    width: 180px;
-    height: 60px;
-    margin-top: -110px;
-    padding: 80px 20px 20px;
-    text-align: center;
-    background: rgba(#000F1A, .85);
-    @include opacity(.4);
-    z-index:1;
+    position:absolute;
+    top:0; left:0;
+    display:none;
+    width:207px;
+    padding:21px 36px 31px;
+    margin:0;
 
-    &:before {
+    .info {
+      position:relative;
+      top:0; left:0;
+      display:block;
+      width:177px;
+      padding:15px;
+      margin:0 0 0 36px;
+      text-align: center;
+      background: rgba(#000F1A, .85);
+      @include opacity(.4);
+
+      span.tail {
+        position:absolute;
+        bottom: -10px;
+        left: 50%;
+        width: 0;
+        height: 0;
+        margin: 0 0 0 -10px;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 10px solid rgba(#000F1A, .85);
+      }
+
+      span.type {
+        display:block;
+        width:100%;
+        height:60px;
+        &.bus {@include background(image-url('types/type_bus.png') no-repeat center center);}
+      }
+
+      a.go {
+        position: absolute;
+        top: -22px;
+        right: -22px;
+        display: block;
+        height: 45px;
+        width: 45px;
+        @include background(image-url('marker_go.png') no-repeat );
+      }
+
+      &:hover {
+        background-color: #CC0066;
+        .go { @include background(image-url('marker_go-hover.png')); }
+        span.tail {border-top-color:#CC0066;}
+      }
+    }
+
+    .shadow {
       position: absolute;
-      content: '';
-      bottom: -10px;
-      left: 50%;
-      width: 0;
-      height: 0;
-      margin: 0 0 0 -10px;
-      border-left: 10px solid transparent;
-      border-right: 10px solid transparent;
-      border-top: 10px solid rgba(#000F1A, .85);
+      bottom:-31px; left:0;
+      display: block;
+      width: 100%;
+      height: 20px;
+      @include background(image-url('marker_shadow.png') no-repeat center 0);
+      @include opacity(0);
     }
-
-    &:hover {
-      background-color: #CC0066;
-
-      .go { background-image: image-url('marker_go-hover.png'); }
-    
-      &:before { border-top-color: #CC0066; }
-    }
-
-    &.type_bus {
-      background-image: image-url('types/type_bus.png');
-      background-repeat: no-repeat;
-      background-position: center 20px;
-    }
-
-    strong { font-weight: bold; }
   }
 
-  .bubble_shadow {
-    position: absolute;
-    width: 280px;
-    height: 20px;
-    margin-left: -30px;
-    background: image-url('marker_shadow.png') no-repeat center 0;
-  }
+
 
   // POI
   .poi {
@@ -334,7 +332,7 @@
     left: 0;
     width: 120px;
     height: 141px;
-    margin: -141px 0 0 0;
+    margin: 0;
     padding-left: 10px;
     border-left: 2px solid rgba(#000E19, 0.85);
     z-index: 10;
@@ -371,4 +369,3 @@
       font-weight:bold;
     }
   }
-// }

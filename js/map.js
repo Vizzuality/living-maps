@@ -11,6 +11,10 @@ function Map(el, options) {
 
 Map.prototype = {
 
+  templates: {
+    gradients: '<div class="edge top"></div><div class="edge right"></div><div class="edge left"></div>'
+  },
+
   // creates the map and add it to the DOM
   initialize: function() {
     this.options.fadeAnimation = false;
@@ -18,14 +22,7 @@ Map.prototype = {
       .setView(this.options.center, this.options.zoom);
 
     this._addLayers();
-
-    this.map
-      .on('dragstart', function() {
-        $("#carrousel").addClass("disabled");
-      })
-      .on('dragend', function() {
-        $("#carrousel").removeClass("disabled");
-      });
+    this._addBindings();
   },
 
   _addLayers: function() {
@@ -43,12 +40,34 @@ Map.prototype = {
 
     self.probsLayer = new StreetLayer();
     self.map.addLayer(self.probsLayer);
+
+    // Add gradients layer
+    this.set_gradients();
+  },
+
+  _addBindings: function() {
+    this.map
+      .on('dragstart', function(e) {
+        this.isDragging = true;
+      })
+      .on('dragend', function(e) {
+        this.isDragging = false;
+      });
+  },
+
+  set_gradients: function() {
+    $(this.map.getPanes().canvasPane)
+      .append(this.templates.gradients);
   },
 
   set_time: function(t) {
     if(this.probsLayer) {
       this.probsLayer.set_time(t);
     }
+  },
+
+  set_city: function(center, zoom, city) {
+    console.log(center, zoom, city);
   },
 
   render: function() {
