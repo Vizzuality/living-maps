@@ -6,10 +6,26 @@
 
   var POIS = {
 
+    templates: {
+      markup: "\
+        <div class='poi type_<%= type %>'> \
+          <span class='<%= type %>'></span> \
+          <p><strong><%= name %></strong></p> \
+        </div>"
+    },
+
+    options: {
+      horizontalOffset: 0,
+      verticalOffset: 141
+    },
+
+    el: 'body',
+
     pois: {},
 
     initialize: function(map, city) {
       this.map = map;
+      this.city = city;
       this._initBindings();
       return this;
     },
@@ -22,8 +38,8 @@
           var poi = self.pois[i];
           var pos = latlonTo3DPixel(self.map, [poi.lat, poi.lon]);
           poi.$markup.css({
-            top: pos.y,
-            left: pos.x
+            top: pos.y - self.options.verticalOffset,
+            left: pos.x - self.options.horizontalOffset
           })
         }
       });
@@ -52,9 +68,10 @@
       var $markup;
 
       if (!this.pois[data.id]) {
-        $markup = $('<div class="poi type_' + data.type + '"><span class="' + data.type + '"></span><p><strong>' + data.name + '</strong></p></div>');
+        var el = _.template(this.templates.markup)(data);
+        var $markup = $(el);
         
-        $('body').append($markup);
+        $(this.el).append($markup);
         
         this.pois[data.id] = {
           $markup: $markup,
@@ -64,11 +81,12 @@
       }
       
       var pos = latlonTo3DPixel(this.map, [data.lat, data.lon]);
-      $markup = this.pois[data.id].$markup;
+      if (!$markup)
+        $markup = this.pois[data.id].$markup;
 
       $markup.css({
-        top: pos.y,
-        left: pos.x
+        top: pos.y - this.options.verticalOffset,
+        left: pos.x - this.options.horizontalOffset
       });
     },
 
@@ -76,14 +94,17 @@
       // Set new city
       this.city = city;
 
-      // Reset markups
+      // Clean markups
+      this.clean();
+
+      // Get new data
+      this.data.fetch();
+    },
+
+    clean: function() {
       for (var i in this.pois) {
         this.pois[i].$markup.remove();
       }
       this.pois = [];
-
-      // Get new data
-      this.data.fetch();
     }
-
   };
