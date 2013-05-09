@@ -37,14 +37,16 @@ var App = {
 
     this._initTestData();
 
-    this.options = options;
+
+    this.options = _.extend({}, options);
 
     this.map = new Map('map', {
       zoomControl: false,
       scrollWheelZoom: false,
       center: this.options.map.center,
       zoom: this.options.map.zoom,
-      base_layer: 'https://saleiva.cartodb.com/tiles/'+ this.options.map.name +'/{z}/{x}/{y}.png'
+      base_layer: 'https://saleiva.cartodb.com/tiles/'+ this.options.map.name +'/{z}/{x}/{y}.png',
+      city: options.city
     });
 
     /* Map animated particled */

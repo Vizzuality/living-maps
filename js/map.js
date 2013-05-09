@@ -38,7 +38,9 @@ Map.prototype = {
       //self.map.addLayer(self.probsLayer);
     });*/
 
-    self.probsLayer = new StreetLayer();
+    self.probsLayer = new StreetLayer({
+      table: this.options.city + "_2m_1mm"
+    });
     self.map.addLayer(self.probsLayer);
 
     // Add gradients layer

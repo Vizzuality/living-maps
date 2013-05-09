@@ -23,7 +23,8 @@ var StreetLayer = L.CanvasLayer.extend({
     end_date: 1419//'2013-03-22 23:59:57+00:00'
   },
 
-  initialize: function() {
+  initialize: function(options) {
+    _.extend(this.options, options);
     L.CanvasLayer.prototype.initialize.call(this);
     this.on('tileAdded', function(t) {
       this.getProbsData(t, t.zoom);
