@@ -125,7 +125,7 @@ var StreetLayer = L.CanvasLayer.extend({
     this.ctxPost = ctxPost;
     this._streetsLayer = this.addCanvasLayer();
     this._streetsLayerCtx = this._streetsLayer.getContext('2d');
-    this._streetsLayer.style['z-index'] = 50;
+    this._streetsLayer.style['zIndex'] = 50;
   },
 
   _do_post_process: function(origin) {
