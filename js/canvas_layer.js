@@ -47,6 +47,8 @@ L.CanvasLayer = L.Class.extend({
     this._backCanvas.style['z-index'] = 100;
     this._canvas.style['z-index'] = 101;
 
+    this._map._panes.canvasPane = this._staticPane;
+
 
     map.on({
         'viewreset': this._reset,
