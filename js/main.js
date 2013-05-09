@@ -17,6 +17,7 @@ $(document).ready(function() {
       name: "here_osm_madrid",
       zoom: 12,
       center: [51.511214, -0.100824] // london
+      // center: [18.97220797609552, 72.82270431518555] //Mumbai
     },
     city: "london"
   });

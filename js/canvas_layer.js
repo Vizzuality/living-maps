@@ -44,8 +44,8 @@ L.CanvasLayer = L.Class.extend({
     this._backCtx = this._backCanvas.getContext('2d');
     this._ctx = this._canvas.getContext('2d');
 
-    this._backCanvas.style['z-index'] = 100;
-    this._canvas.style['z-index'] = 101;
+    this._backCanvas.style['zIndex'] = '100';
+    this._canvas.style['zIndex'] = '101';
 
     this._map._panes.canvasPane = this._staticPane;
 
