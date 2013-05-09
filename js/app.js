@@ -267,4 +267,3 @@ var App = {
     this.onFinishLoading();
   }
 };
-
