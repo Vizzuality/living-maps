@@ -34,11 +34,6 @@ Events.on("clickhandle", function(val) {
   });
 });
 
-Events.on("stopanimation", function() {
-  stopped = true;
-  $(".ui-slider-handle").addClass("stopped");
-});
-
 Events.on("resumeanimation", function() {
   stopped = false;
   $(".ui-slider-handle").removeClass("stopped");

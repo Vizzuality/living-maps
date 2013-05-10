@@ -31,13 +31,13 @@ var App = {
 
   vendorHidden: "",
   vendorVisibilitychange: "",
+  isPlayed: false,
 
   initialize: function(options) {
     var self = this;
 
     this._initTestData();
-
-
+    this._initBindings();
     this.options = _.extend({}, options);
 
     this.map = new Map('map', {
@@ -70,7 +70,7 @@ var App = {
     POIS.initialize(this.map.map, this.options.city);
 
     // Init Share dialog
-    Share.initialize();    
+    Share.initialize();
 
     this.slider.onTimeChange = function(time) {
       self.time = time;
@@ -93,6 +93,19 @@ var App = {
 
     this.spinner.spin(this.target);
     this.onFinishLoading();
+  },
+
+  _initBindings: function() {
+    Events.on("stopanimation", this._onStopAnimation, this);
+  },
+
+  _onStopAnimation: function(map, city) {
+    stopped = true;
+    $(".ui-slider-handle").addClass("stopped");
+
+    if(this.isPlayed) {
+      updateHash(map, city);
+    }
   },
 
   detectHiddenFeature: function() {
@@ -142,6 +155,8 @@ var App = {
   },
 
   playAnimation: function() {
+    var self = this;
+
     $("#play").off("click");
 
     // unbind finish loading, enablea animation, and resume animation
@@ -149,12 +164,14 @@ var App = {
     Events.trigger("animationenabled");
     Events.trigger("resumeanimation");
 
+    this.isPlayed = true;
+
     $('.mamufas').fadeOut();
 
     $(document).keyup(function(e) {
       if (e.keyCode === 32) {
         if (!stopped) {
-          Events.trigger("stopanimation");
+          Events.trigger("stopanimation", self.map, self.options.city);
         } else {
           Events.trigger("resumeanimation");
         }

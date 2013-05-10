@@ -91,7 +91,6 @@ function latlonTo3DPixel(map, latlon) {
   return transform3d(pos, s.x, s.y);
 }
 
-
 function parseHash(hash) {
   var args = hash.split("/");
 
@@ -127,4 +126,15 @@ function parseHash(hash) {
   } else {
     return false;
   }
+}
+
+function updateHash(map, city) {
+  var _map = map.map;
+  var zoom = _map.getZoom();
+  var lat = _map.getCenter().lat.toFixed(3);
+  var lng = _map.getCenter().lng.toFixed(3);
+
+  var hash = "/cities/#" + city + "/" + lat + "/" + lng + "/" + zoom;
+
+  history.pushState(null, null, hash);
 }
