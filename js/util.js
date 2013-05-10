@@ -92,3 +92,39 @@ function latlonTo3DPixel(map, latlon) {
 }
 
 
+function parseHash(hash) {
+  var args = hash.split("/");
+
+  if(args.length >= 1) {
+    var city = args[0],
+        lat = args[1],
+        lon = args[2],
+        zoom = parseInt(args[3], 10),
+        time = args[4];
+
+    if(isNaN(lat) || isNaN(lon) || isNaN(zoom)) {
+      return window.AppData.CITIES[city];
+    } else {
+      if(isNaN(time)) {
+        time = 0;
+      }
+
+      return {
+
+        city: city,
+        map: {
+          center: [lat, lon],
+          zoom: zoom
+        },
+        city_name: window.AppData.CITIES[city]['city_name'],
+        city_title: window.AppData.CITIES[city]['city_title'],
+        city_subtitle: window.AppData.CITIES[city]['city_subtitle'],
+        time_scale: 15 * 60,
+        scale: 2.0,
+        time: time
+      };
+    }
+  } else {
+    return false;
+  }
+}

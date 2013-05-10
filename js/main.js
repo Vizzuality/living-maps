@@ -10,11 +10,11 @@ $(document).ready(function() {
     document.location = "/mobile.html";
   }
 
-  var url = location.href.split("/").pop();
+  var hash = location.href.split("#").pop();
 
-  if(url.length === 0) {
+  if(hash.length === 0) {
     App.initialize(window.AppData.CITIES['london']);
   } else {
-    App.initialize(window.AppData.CITIES[url]);
+    App.initialize(parseHash(hash));
   }
 });
