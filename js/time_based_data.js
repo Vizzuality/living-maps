@@ -34,7 +34,7 @@ TimeBasedData.prototype.fetch = function(callback) {
 
   var sel = this.options.columns.join(',');
 
-  $.getJSON(this.base_url + "?q=" + "SELECT " + sel + " FROM " + this.options.table + " WHERE city='" + this.options.city + "'", function(data) {
+  $.getJSON(this.base_url + "?q=" + "SELECT " + sel + " FROM " + this.options.table + " WHERE city='" + this.options.city.toLowerCase() + "'", function(data) {
     self.reset(data.rows, callback);
   });
 }
