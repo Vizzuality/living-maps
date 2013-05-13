@@ -23,8 +23,8 @@ var App = {
     left: 'auto' // Left position relative to parent in px
   },
 
-  init_time: 0,
-  last_time: 1440,
+  init_time: window.AppData.init_time,
+  last_time: window.AppData.last_time,
 
   target: null,
   spinner: null,

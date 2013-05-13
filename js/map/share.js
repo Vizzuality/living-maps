@@ -18,14 +18,15 @@
     initialize: function() {
       this.$el = $(this.el);
       this._initBindings();
+
       return this;
     },
 
     _initBindings: function() {
       Events.on("openshare", this._onOpenShare, this);
       this.$el.find('.close').on('click', null, this, this._onCloseShare);
-      this.$el.find('.share.facebook').on('click', null, this, this._shareOnFacebook)
-      this.$el.find('.share.twitter').on('click', null, this, this._shareOnTwitter)
+      this.$el.find('.share.facebook').on('click', null, this, this._shareOnFacebook);
+      this.$el.find('.share.twitter').on('click', null, this, this._shareOnTwitter);
     },
 
     _initKeyBindings: function() {
@@ -40,7 +41,7 @@
       var self = e.data;
       var url = window.location.href;
       var text = self.$el.find("textarea").val();
-      $(e.target).attr('href', "https://twitter.com/share?url=&text=" + text)
+      $(e.target).attr('href', "https://twitter.com/share?url=&text=" + text);
     },
 
     _shareOnFacebook: function(e) {
@@ -126,6 +127,7 @@
     },
 
     _onOpenShare: function(desc, map, city, time) {
+      this._updateHash(city, time);
       Events.trigger("stopanimation", map, city, time);
       this._setText(desc);
       this._initKeyBindings();
@@ -140,6 +142,14 @@
       self._disableCopy();
       self._disableKeyBindings();
       Events.trigger("resumeanimation");
+    },
+
+    _updateHash: function(city, time) {
+      var _time = new Date(time);
+      var hours = _time.getHours();
+      var minutes = _time.getMinutes();
+
+      console.log(city, hours, minutes);
     },
 
     hide: function() {

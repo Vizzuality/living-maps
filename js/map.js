@@ -66,7 +66,11 @@ Map.prototype = {
       .on('dragend', function(e) {
         this.isDragging = false;
 
-        updateHash(this, self.options.city, App.time);
+        if(!stopped) {
+          updateHash(this, self.options.city, 0);
+        } else {
+          updateHash(this, self.options.city, App.time);
+        }
       })
       .on('dblclick', function(e) {
         console.log(e);

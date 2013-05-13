@@ -119,7 +119,7 @@ function parseHash(hash) {
 
       return window.AppData.CITIES[city];
     } else {
-      if(isNaN(time)) {
+      if(isNaN(time) || time < window.AppData.init_time || time > window.AppData.last_time) {
         time = 0;
       }
 
@@ -153,10 +153,16 @@ function updateHash(map, city, time, zoom) {
     _zoom = map.getZoom();
   }
 
+  var _time = parseInt(time/60, 10);
+
   var lat = map.getCenter().lat.toFixed(3);
   var lng = map.getCenter().lng.toFixed(3);
 
-  var hash = "/cities/#" + city + "/" + lat + "/" + lng + "/" + _zoom;
+  var hash = "/cities/#" + city + "/" + lat + "/" + lng + "/" + _zoom + "/";
+
+  if(time != 0) {
+    hash = hash + _time;
+  }
 
   history.pushState(null, null, hash);
 }

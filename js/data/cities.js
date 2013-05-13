@@ -76,3 +76,7 @@ window.AppData.CITIES = {
     city_subtitle: "More than 3M points mapped over time."
   }
 };
+
+window.AppData.init_time = 0;
+window.AppData.last_time = 1440;
+
