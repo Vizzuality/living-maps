@@ -15,7 +15,8 @@ window.AppData.CITIES = {
     city: "london",
     city_name: "London",
     city_title: "The big British capital.",
-    city_subtitle: "More than 3M points mapped over time."
+    city_subtitle: "More than 3M points mapped over time.",
+    time: 0
   },
 
   'chicago': {
@@ -28,7 +29,8 @@ window.AppData.CITIES = {
     city: "chicago",
     city_name: "Chicago",
     city_title: "The big British capital.",
-    city_subtitle: "More than 3M points mapped over time."
+    city_subtitle: "More than 3M points mapped over time.",
+    time: 0
   },
 
   'rome': {
@@ -43,7 +45,8 @@ window.AppData.CITIES = {
     city: "rome",
     city_name: "London",
     city_title: "The big British capital.",
-    city_subtitle: "More than 3M points mapped over time."
+    city_subtitle: "More than 3M points mapped over time.",
+    time: 0
   },
 
   'helsinki': {
@@ -58,7 +61,8 @@ window.AppData.CITIES = {
     city: "helsinki",
     city_name: "London",
     city_title: "The big British capital.",
-    city_subtitle: "More than 3M points mapped over time."
+    city_subtitle: "More than 3M points mapped over time.",
+    time: 0
   },
 
   'mumbai': {
@@ -73,7 +77,8 @@ window.AppData.CITIES = {
     city: "mumbai",
     city_name: "Mumbai",
     city_title: "The city that never sleeps.",
-    city_subtitle: "More than 3M points mapped over time."
+    city_subtitle: "More than 3M points mapped over time.",
+    time: 0
   }
 };
 
