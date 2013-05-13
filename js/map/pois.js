@@ -16,7 +16,7 @@
 
     options: {
       horizontalOffset: 0,
-      verticalOffset: 141
+      maxHeight: 141
     },
 
     el: 'body',
@@ -27,8 +27,9 @@
       this.map = map;
       this.city = city;
 
-      this.data.fetch(this.render());
+      this.data.fetch();
       this._initBindings();
+      this._bindStart();
 
       return this;
     },
@@ -41,11 +42,15 @@
           var poi = self.pois[i];
           var pos = latlonTo3DPixel(self.map, [poi.lat, poi.lon]);
           poi.$markup.css({
-            top: pos.y - self.options.verticalOffset,
+            top: pos.y - (self.options.maxHeight / poi.labelrank),
             left: pos.x - self.options.horizontalOffset
           })
         }
       });
+    },
+
+    _bindStart: function() {
+      Events.once("animationenabled", this.render, this);
     },
 
     data: new TimeBasedData({
@@ -53,17 +58,15 @@
       table: 'pois',
       time_column: 'time',
       city: this.city,
-      columns: ['cartodb_id as id', 'st_x(the_geom) as lon', 'name', 'city', 'time as time', 'st_y(the_geom) as lat', 'type']
+      columns: ['cartodb_id as id', 'st_x(the_geom) as lon', 'st_y(the_geom) as lat', 'labelrank', 'name', 'city', 'time as time', 'type']
     }),
 
     render: function() {
       var self = this;
-      setTimeout(function() {
-        for (var i in self.data.time_index) {
-          var _data = self.data.time_index[i];
-          self._emit(_data);
-        }  
-      },1000)
+      for (var i in self.data.time_index) {
+        var _data = self.data.time_index[i];
+        self._emit(_data);
+      }
     },
 
     _emit: function(data) {
@@ -73,13 +76,17 @@
       if (!this.pois[data.id]) {
         var el = _.template(this.templates.markup)(data);
         var $markup = $(el);
+
+        // Set height
+        $markup.height(this.options.maxHeight / data.labelrank);
         
         $(this.el).append($markup);
         
         this.pois[data.id] = {
           $markup: $markup,
           lat: data.lat,
-          lon: data.lon
+          lon: data.lon,
+          labelrank: data.labelrank
         }
       }
       
@@ -88,7 +95,7 @@
         $markup = this.pois[data.id].$markup;
 
       $markup.css({
-        top: pos.y - this.options.verticalOffset,
+        top: pos.y - (this.options.maxHeight / data.labelrank),
         left: pos.x - this.options.horizontalOffset
       });
     },
@@ -100,8 +107,11 @@
       // Clean markups
       this.clean();
 
+      // Bind start
+      this._bindStart();
+
       // Get new data
-      this.data.fetch(this.render());
+      this.data.fetch();
     },
 
     clean: function() {

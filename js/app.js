@@ -203,7 +203,8 @@ var App = {
     // update time
     var t0 = new Date().getTime();
     var dt = 0.001*(t0 - this.old_time);
-    dt = this.options.scale*this.options.time_scale*Math.min(1, dt);
+    dt = dt*this.options.scale*this.options.time_scale;
+    dt = Math.min(15*60, dt); // dont allow the time advance more than 15 mins
     this.old_time = t0;
 
     if(!stopped && !clicked){

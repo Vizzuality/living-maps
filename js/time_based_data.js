@@ -29,7 +29,7 @@ TimeBasedData.prototype.getFortime = function(time) {
 }
 
 TimeBasedData.prototype.fetch = function(callback) {
-  // console.log(this.options);
+  console.log(this.options);
 
   var self = this;
 
