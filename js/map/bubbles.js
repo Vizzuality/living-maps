@@ -32,7 +32,7 @@
       }
     },
 
-    el: 'body',
+    el: '.map_components',
 
     bubbles: {},
 
@@ -181,10 +181,9 @@
       }
     },
 
-    set_city: function(map, city) {
-      // Set new city and map
+    set_city: function(city) {
+      // Set new city
       this.city = city;
-      this.map = map;
       this.data.options.city = city;
 
       // Clean bubbles

@@ -6,13 +6,9 @@
   var Zoom = {
     el: '#zoom_control',
 
-    options: {
-      maxZoom: 15,
-      minZoom: 9
-    },
-
-    initialize: function(map) {
+    initialize: function(map, city) {
       this.map = map;
+      this.city = city;
       this.$el = $(this.el);
       this._initBindings();
     },
@@ -26,7 +22,10 @@
     _onZoomIn: function(e) {
       e.preventDefault();
       var self = e.data;
-      if (self.map.getZoom() < self.options.maxZoom) {
+      var max_zoom = window.AppData.CITIES[self.city].map.maxZoom;
+      if (self.map.getZoom() < max_zoom) {
+        var zoom = self.map.getZoom() + 1;
+        updateHash(self.map, self.city, App.time, zoom);
         self.map.zoomIn();
       }
     },
@@ -34,7 +33,10 @@
     _onZoomOut: function(e) {
       e.preventDefault();
       var self = e.data;
-      if (self.map.getZoom() > self.options.minZoom) {
+      var min_zoom = window.AppData.CITIES[self.city].map.minZoom;
+      if (self.map.getZoom() > min_zoom) {
+        var zoom = self.map.getZoom() - 1;
+        updateHash(self.map, self.city, App.time, zoom);
         self.map.zoomOut();
       }
     },
@@ -42,5 +44,9 @@
     _stopPropagation: function(e) {
       e.preventDefault();
       e.stopPropagation();
+    },
+
+    set_city: function(city) {
+      this.city = city;
     }
   }

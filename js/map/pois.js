@@ -3,7 +3,6 @@
    *  City POIS
    */
 
-
   var POIS = {
 
     templates: {
@@ -19,7 +18,7 @@
       maxHeight: 141
     },
 
-    el: 'body',
+    el: '.map_components',
 
     pois: {},
 
@@ -47,6 +46,23 @@
           })
         }
       });
+
+      this.map.on('zoomend', function() {
+        self._filterPois();
+      });
+    },
+
+    _filterPois: function() {
+      for (var i in this.pois) {
+        this._filterPoi(this.pois[i]);
+      }
+    },
+
+    _filterPoi: function(poi) {
+      var start_zoom = window.AppData.CITIES[this.city].map.zoom;
+      var actual_zoom = this.map.getZoom();
+      var index = (start_zoom == actual_zoom || start_zoom > actual_zoom) ? 1 : 5;
+      poi.$markup.css('display', (index < poi.labelrank) ? 'none' : 'block');
     },
 
     _bindStart: function() {
@@ -82,7 +98,6 @@
 
         // Set height
         $markup.height(this.options.maxHeight / data.labelrank);
-        
         $(this.el).append($markup);
         
         this.pois[data.id] = {
@@ -91,6 +106,9 @@
           lon: data.lon,
           labelrank: data.labelrank
         }
+
+        // Filter poi by zoom
+        this._filterPoi(this.pois[data.id]);
       }
       
       var pos = latlonTo3DPixel(this.map, [data.lat, data.lon]);

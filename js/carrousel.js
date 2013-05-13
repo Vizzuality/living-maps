@@ -23,11 +23,12 @@ Carrousel.prototype = {
   initialize: function() {
     self = this;
 
-    var zoom_w = $("#zoom_control").width() + 50;
+    var zoom_w = $("#zoom_control").width() + 100;
 
-    this.el.css({
-      "width": $(window).width()-(zoom_w*2),
-      "margin-left": zoom_w
+    this._calcPosition(zoom_w);
+
+    $(window).resize(function() {
+      self._calcPosition(zoom_w);
     });
 
     this._attachMouse();
@@ -42,6 +43,13 @@ Carrousel.prototype = {
       history.pushState(null, null, this.href);
 
       e.preventDefault();
+    });
+  },
+
+  _calcPosition: function(zoom_w) {
+    this.el.animate({
+      "width": $(window).width()-(zoom_w*2),
+      "margin-left": zoom_w
     });
   },
 
