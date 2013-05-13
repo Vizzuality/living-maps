@@ -160,7 +160,7 @@ function updateHash(map, city, time, zoom) {
 
   var hash = "/cities/#" + city + "/" + lat + "/" + lng + "/" + _zoom + "/";
 
-  if(time != 0) {
+  if(_time != window.AppData.init_time && _time != window.AppData.last_time) {
     hash = hash + _time;
   }
 

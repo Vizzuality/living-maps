@@ -117,11 +117,11 @@ var App = {
     }
   },
 
-  _onAnimationEnabled: function(map, city, time) {
+  _onAnimationEnabled: function(map, city) {
     $(document).on("keyup", function(e) {
       if (e.keyCode === 32) {
         if (!stopped && !Share.visible()) {
-          Events.trigger("stopanimation", map, city, time);
+          Events.trigger("stopanimation", map, city, App.time);
         } else if(!Share.visible()) {
           Events.trigger("resumeanimation");
         }
