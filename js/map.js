@@ -62,7 +62,13 @@ Map.prototype = {
         this.isDragging = false;
 
         updateHash(this, self.options.city, App.time);
-      });
+      })
+      .on('dblclick', function(e) {
+        console.log(e);
+      })
+      .on('scrollWheelZoom', function(e) {
+        console.log(e);
+      })
   },
 
   set_gradients: function() {

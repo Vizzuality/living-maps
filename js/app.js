@@ -45,6 +45,8 @@ var App = {
       zoom: this.options.map.zoom,
       minZoom: this.options.map.minZoom,
       maxZoom: this.options.map.maxZoom,
+      scrollWheelZoom: false,
+      doubleClickZoom: false,
       base_layer: 'https://saleiva.cartodb.com/tiles/'+ this.options.map.name +'/{z}/{x}/{y}.png',
       city: options.city
     });
