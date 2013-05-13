@@ -58,12 +58,10 @@
 
     render: function() {
       var self = this;
-      setTimeout(function() {
-        for (var i in self.data.time_index) {
-          var _data = self.data.time_index[i];
-          self._emit(_data);
-        }  
-      },2000)
+      for (var i in self.data.time_index) {
+        var _data = self.data.time_index[i];
+        self._emit(_data);
+      }
     },
 
     _emit: function(data) {
