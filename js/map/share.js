@@ -57,8 +57,7 @@
         
         // ESC?
         if (keycode == 27) {
-          self.hide();
-          stop = true;
+          self._onCloseShare(e);
         }
 
         // SPACE
