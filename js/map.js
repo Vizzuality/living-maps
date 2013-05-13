@@ -21,7 +21,11 @@ Map.prototype = {
     this.map = L.map(this.el, this.options)
       .setView(this.options.center, this.options.zoom);
 
+    // Set map controls
+    Zoom.initialize(this.map);
+    // Add layers
     this._addLayers();
+    // Set bindings
     this._addBindings();
   },
 

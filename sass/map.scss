@@ -202,6 +202,7 @@
 
     - Bubbles
     - Pois
+    - Share
 */
 
   // BUBBLE
@@ -318,7 +319,31 @@
     }
   }
 
-  // Share dialog
+  // Zoom control
+  #zoom_control {
+    position:absolute;
+    bottom:25px;
+    left:50px;
+    z-index:10;
+
+    a {
+      position:relative;
+      @include inline-block();
+      width:26px;
+      height:26px;
+      @include background(image-url('zoom_control.png') no-repeat 0 0);
+      text-indent: -9999px;
+      &:hover {background-position:0 -26px;}
+
+      &.zoomIn {
+        background-position:-26px 0;
+        &:hover {background-position:-26px -26px;}
+      }
+    }
+  }
+
+
+  // SHARE dialog
 
   #backdrop {
     display: none;

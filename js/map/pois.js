@@ -53,7 +53,7 @@
       table: 'pois',
       time_column: 'time',
       city: this.city,
-      columns: ['cartodb_id as id', 'st_x(the_geom) as lon', 'name', 'city', 'time as time', 'st_y(the_geom) as lat', 'type']
+      columns: ['cartodb_id as id', 'st_x(the_geom) as lon', 'st_y(the_geom) as lat', 'name', 'city', 'time as time', 'type']
     }),
 
     render: function() {
@@ -63,7 +63,7 @@
           var _data = self.data.time_index[i];
           self._emit(_data);
         }  
-      },1000)
+      },2000)
     },
 
     _emit: function(data) {
