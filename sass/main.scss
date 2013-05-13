@@ -10,12 +10,24 @@
 
 @font-face {
   font-family: 'Nokia Pure Text';
-  src: url('/fonts/nokiapuretext-light-webfont.eot');
+  font-weight: light;
+  src: url('/fonts/nokiapuretext_lt-webfont.eot');
   src:
-    url('/fonts/nokiapuretext-light-webfont.eot?#iefix') format('embedded-opentype'),
-    url('/fonts/nokiapuretext-light-webfont.woff') format('woff'),
-    url('/fonts/nokiapuretext-light-webfont.ttf')  format('truetype'),
-    url('/fonts/nokiapuretext-light-webfont.svg#Nokia Pure Text') format('svg');
+    url('/fonts/nokiapuretext_lt-webfont.eot?#iefix') format('embedded-opentype'),
+    url('/fonts/nokiapuretext_lt-webfont.woff') format('woff'),
+    url('/fonts/nokiapuretext_lt-webfont.ttf')  format('truetype'),
+    url('/fonts/nokiapuretext_lt-webfont.svg#Nokia Pure Text') format('svg');
+}
+
+@font-face {
+  font-family: 'Nokia Pure Text';
+  font-weight: bold;
+  src: url('/fonts/nokiapuretext_bd-webfont.eot');
+  src:
+    url('/fonts/nokiapuretext_bd-webfont.eot?#iefix') format('embedded-opentype'),
+    url('/fonts/nokiapuretext_bd-webfont.woff') format('woff'),
+    url('/fonts/nokiapuretext_bd-webfont.ttf')  format('truetype'),
+    url('/fonts/nokiapuretext_bd-webfont.svg#Nokia Pure Text') format('svg');
 }
 
 * {
