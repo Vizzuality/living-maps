@@ -22,7 +22,7 @@ Map.prototype = {
       .setView(this.options.center, this.options.zoom);
 
     // Set map controls
-    Zoom.initialize(this.map);
+    Zoom.initialize(this.map, this.options.city);
     // Add layers
     this._addLayers();
     // Set bindings
