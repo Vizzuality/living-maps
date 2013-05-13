@@ -32,7 +32,7 @@
       }
     },
 
-    el: 'body',
+    el: '.map_components',
 
     bubbles: {},
 

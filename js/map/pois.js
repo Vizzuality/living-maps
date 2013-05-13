@@ -18,7 +18,7 @@
       maxHeight: 141
     },
 
-    el: 'body',
+    el: '.map_components',
 
     pois: {},
 
