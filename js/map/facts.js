@@ -24,18 +24,21 @@
       this.map = map;
       this.city = city;
 
-      this.data.fetch();
+      this.getData();
 
       return this;
     },
 
-    data: new TimeBasedData({
-      user: 'pulsemaps',
-      table: 'contextualfacts',
-      time_column: 'time',
-      city: this.city,
-      columns: ['cartodb_id as id', 'time', 'city', 'description']
-    }),
+    getData: function() {
+      this.data = new TimeBasedData({
+        user: 'pulsemaps',
+        table: 'contextualfacts',
+        time_column: 'time',
+        city: this.city,
+        columns: ['cartodb_id as id', 'time', 'city', 'description']
+      });
+      this.data.fetch();
+    },
 
     render: function() {},
 

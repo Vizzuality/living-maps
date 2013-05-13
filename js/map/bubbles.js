@@ -41,7 +41,7 @@
       this.map = map;
       this.city = city;
 
-      this.data.fetch();
+      this.getData();
       this._initBindings();
 
       return this;
@@ -64,13 +64,16 @@
       });
     },
 
-    data: new TimeBasedData({
-      user: 'pulsemaps',
-      table: 'bubbles',
-      time_column: 'time',
-      city: this.city,
-      columns: ['cartodb_id as id', 'city', 'st_x(the_geom) as lon', 'time', 'st_y(the_geom) as lat', 'type', 'description']
-    }),
+    getData: function() {
+      this.data = new TimeBasedData({
+        user: 'pulsemaps',
+        table: 'bubbles',
+        time_column: 'time',
+        city: this.city,
+        columns: ['cartodb_id as id', 'city', 'st_x(the_geom) as lon', 'time', 'st_y(the_geom) as lat', 'type', 'description']
+      });
+      this.data.fetch();
+    },
 
     render: function() {},
 
