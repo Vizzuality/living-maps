@@ -104,6 +104,8 @@ var App = {
 
   _initBindings: function() {
     Events.on("stopanimation", this._onStopAnimation, this);
+
+    Events.on("animationenabled", this._onAnimationEnabled, this);
   },
 
   _onStopAnimation: function(map, city, time) {
@@ -113,6 +115,18 @@ var App = {
     if(this.isPlayed) {
       updateHash(map, city, time);
     }
+  },
+
+  _onAnimationEnabled: function(map, city, time) {
+    $(document).on("keyup", function(e) {
+      if (e.keyCode === 32) {
+        if (!stopped && !Share.visible()) {
+          Events.trigger("stopanimation", map, city, time);
+        } else if(!Share.visible()) {
+          Events.trigger("resumeanimation");
+        }
+      }
+    });
   },
 
   detectHiddenFeature: function() {
@@ -169,24 +183,12 @@ var App = {
 
     // unbind finish loading, enablea animation, and resume animation
     Events.off('finish_loading');
-    Events.trigger("animationenabled", this.map.map, this.options.city);
+    Events.trigger("animationenabled", this.map.map, this.options.city, this.time);
     Events.trigger("resumeanimation");
 
     this.isPlayed = true;
 
     $('.mamufas').fadeOut();
-
-    $(document).on("keyup", function(e) {
-      console.log("pasa");
-
-      if (e.keyCode === 32) {
-        if (!stopped && !Share.visible()) {
-          Events.trigger("stopanimation", self.map.map, self.options.city, self.time);
-        } else if(!Share.visible()) {
-          Events.trigger("resumeanimation");
-        }
-      }
-    });
   },
 
   add_graph: function(city) {

@@ -131,8 +131,7 @@ function parseHash(hash) {
 function updateHash(map, city, time, zoom) {
   var _zoom = "";
 
-  if(typeof(zoom) != "undefined") {
-    console.log(zoom);
+  if(typeof zoom != "undefined") {
     _zoom = zoom;
   } else {
     _zoom = map.getZoom();
