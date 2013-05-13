@@ -182,6 +182,7 @@
       // Set new city and map
       this.city = city;
       this.map = map;
+      this.data.options.city = city;
 
       // Clean bubbles
       this.clean();
