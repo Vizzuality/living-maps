@@ -16,7 +16,7 @@
 
     options: {
       horizontalOffset: 0,
-      verticalOffset: 141
+      maxHeight: 141
     },
 
     el: 'body',
@@ -41,7 +41,7 @@
           var poi = self.pois[i];
           var pos = latlonTo3DPixel(self.map, [poi.lat, poi.lon]);
           poi.$markup.css({
-            top: pos.y - self.options.verticalOffset,
+            top: pos.y - (self.options.maxHeight / poi.labelrank),
             left: pos.x - self.options.horizontalOffset
           })
         }
@@ -53,7 +53,7 @@
       table: 'pois',
       time_column: 'time',
       city: this.city,
-      columns: ['cartodb_id as id', 'st_x(the_geom) as lon', 'st_y(the_geom) as lat', 'name', 'city', 'time as time', 'type']
+      columns: ['cartodb_id as id', 'st_x(the_geom) as lon', 'st_y(the_geom) as lat', 'labelrank', 'name', 'city', 'time as time', 'type']
     }),
 
     render: function() {
@@ -73,6 +73,9 @@
       if (!this.pois[data.id]) {
         var el = _.template(this.templates.markup)(data);
         var $markup = $(el);
+
+        // Set height
+        $markup.css('height', (this.options.maxHeight / data.labelrank))
         
         $(this.el).append($markup);
         
@@ -88,7 +91,7 @@
         $markup = this.pois[data.id].$markup;
 
       $markup.css({
-        top: pos.y - this.options.verticalOffset,
+        top: pos.y - (this.options.maxHeight / data.labelrank),
         left: pos.x - this.options.horizontalOffset
       });
     },
