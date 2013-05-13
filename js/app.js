@@ -66,7 +66,6 @@ var App = {
     ContextualFacts.initialize(this.map.map, this.options.city);
 
     // City POIS
-    console.log(this.map.map, this.options.city);
     POIS.initialize(this.map.map, this.options.city);
 
     // Share dialog
