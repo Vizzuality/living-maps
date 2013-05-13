@@ -123,7 +123,7 @@ var App = {
     updateHash(this.map.map, this.options.city, window.AppData.init_time);
   },
 
-  _onAnimationEnabled: function(map, city) {
+  _onAnimationEnabled: function() {
     $(document).on("keyup", function(e) {
       if (e.keyCode === 32) {
         if (!stopped && !Share.visible()) {
@@ -190,8 +190,11 @@ var App = {
 
     // unbind finish loading, enablea animation, and resume animation
     Events.off('finish_loading');
-    Events.trigger("animationenabled", this.map.map, this.options.city, this.time);
+    Events.trigger("animationenabled", this.map.map, this.options.city);
     Events.trigger("resumeanimation");
+
+    this.time = this.options.time*60;
+    this.slider.el.slider("value", 100 * this.options.time / (this.last_time - this.init_time) * 1);
 
     this.isPlayed = true;
 
