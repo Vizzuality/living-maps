@@ -27,6 +27,10 @@ Carrousel.prototype = {
 
     this._calcPosition(zoom_w);
 
+    $(window).resize(function() {
+      self._calcPosition(zoom_w);
+    });
+
     this._attachMouse();
 
     this.cities_nav.find("a").on("click", function(e) {
@@ -43,13 +47,9 @@ Carrousel.prototype = {
   },
 
   _calcPosition: function(zoom_w) {
-    var self = this;
-
-    $(window).resize(function() {
-      self.el.animate({
-        "width": $(window).width()-(zoom_w*2),
-        "margin-left": zoom_w
-      });
+    this.el.animate({
+      "width": $(window).width()-(zoom_w*2),
+      "margin-left": zoom_w
     });
   },
 
