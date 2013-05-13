@@ -176,7 +176,9 @@ var App = {
 
     $('.mamufas').fadeOut();
 
-    $(document).keyup(function(e) {
+    $(document).on("keyup", function(e) {
+      console.log("pasa");
+
       if (e.keyCode === 32) {
         if (!stopped && !Share.visible()) {
           Events.trigger("stopanimation", self.map.map, self.options.city, self.time);
@@ -278,6 +280,8 @@ var App = {
     $("#city_subtitle").text(this.options.city_subtitle);
 
     $('.mamufas').fadeIn();
+
+    $(document).off("keyup");
 
     // Disable slider
     this.slider.disable();
