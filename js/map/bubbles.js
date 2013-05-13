@@ -41,6 +41,10 @@
       this.map = map;
       this.city = city;
 
+      // Random thingy
+      this.last_time = 0;
+      this.last_visible = false;
+
       this.getData();
       this._initBindings();
 
@@ -53,7 +57,7 @@
       this.map.on('move', function(ev) {
         for (var i in self.bubbles) {
           var bubble = self.bubbles[i];
-          if (bubble.$markup.is(':visible')) {
+          if (bubble.visible) {
             var pos = latlonTo3DPixel(self.map, [bubble.lat, bubble.lon]);
             bubble.$markup.css({
               top: pos.y - bubble.$markup.outerHeight(),
@@ -177,9 +181,6 @@
     _hideBubble: function(bubble) {
       // Unbind mouse events
       this._unbindBubble(bubble);
-      
-      // Set visible to false
-      bubble.visible = false;
 
       // Info
       bubble.$markup.find('.info').animate({
@@ -193,6 +194,11 @@
 
       // Shadow
       bubble.$markup.find('.shadow').fadeOut(this.options.shadow.hideTime);
+
+      // Set visible to false
+      setTimeout(function() {
+        bubble.visible = false;
+      }, this.options.info.hideTime);
     },
 
     _bindOutBubble: function(bubble) {
@@ -226,9 +232,19 @@
 
     set_time: function(time) {
       var e = this.data.getFortime((time/60.0)>>0);
-      if(e) {
-        this._emit(e);
+      
+      if (this.last_time > time) {
+        this.last_visible = !this.last_visible;
       }
+      
+      if (e) {
+        if (!this.last_visible) {
+          this._emit(e);
+        }
+        this.last_visible = !this.last_visible;
+      }
+
+      this.last_time = time;
     },
 
     set_city: function(city) {
