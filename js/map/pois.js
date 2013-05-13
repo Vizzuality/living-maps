@@ -27,8 +27,9 @@
       this.map = map;
       this.city = city;
 
-      this.data.fetch(this.render());
+      this.data.fetch();
       this._initBindings();
+      this._bindStart();
 
       return this;
     },
@@ -46,6 +47,10 @@
           })
         }
       });
+    },
+
+    _bindStart: function() {
+      Events.once("animationenabled", this.render, this);
     },
 
     data: new TimeBasedData({
@@ -102,8 +107,11 @@
       // Clean markups
       this.clean();
 
+      // Bind start
+      this._bindStart();
+
       // Get new data
-      this.data.fetch(this.render());
+      this.data.fetch();
     },
 
     clean: function() {
