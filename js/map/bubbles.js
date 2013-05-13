@@ -41,10 +41,6 @@
       this.map = map;
       this.city = city;
 
-      // Random thingy
-      this.last_time = 0;
-      this.last_visible = false;
-
       this.getData();
       this._initBindings();
 
@@ -233,18 +229,9 @@
     set_time: function(time) {
       var e = this.data.getFortime((time/60.0)>>0);
       
-      if (this.last_time > time) {
-        this.last_visible = !this.last_visible;
-      }
-      
       if (e) {
-        if (!this.last_visible) {
-          this._emit(e);
-        }
-        this.last_visible = !this.last_visible;
+        this._emit(e); 
       }
-
-      this.last_time = time;
     },
 
     set_city: function(city) {
