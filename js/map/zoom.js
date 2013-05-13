@@ -22,8 +22,8 @@
     _onZoomIn: function(e) {
       e.preventDefault();
       var self = e.data;
-      var max_zoom = window.AppData.CITIES[this.city].map.maxZoom;
-      if (self.map.getZoom() < maxZoom) {
+      var max_zoom = window.AppData.CITIES[self.city].map.maxZoom;
+      if (self.map.getZoom() < max_zoom) {
         var zoom = self.map.getZoom() + 1;
         updateHash(self.map, self.city, App.time, zoom);
         self.map.zoomIn();
@@ -33,7 +33,7 @@
     _onZoomOut: function(e) {
       e.preventDefault();
       var self = e.data;
-      var min_zoom = window.AppData.CITIES[this.city].map.minZoom;
+      var min_zoom = window.AppData.CITIES[self.city].map.minZoom;
       if (self.map.getZoom() > min_zoom) {
         var zoom = self.map.getZoom() - 1;
         updateHash(self.map, self.city, App.time, zoom);
