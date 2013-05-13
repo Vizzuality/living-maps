@@ -27,7 +27,7 @@
       this.map = map;
       this.city = city;
 
-      this.data.fetch();
+      this.getData();
       this._initBindings();
       this._bindStart();
 
@@ -53,13 +53,16 @@
       Events.once("animationenabled", this.render, this);
     },
 
-    data: new TimeBasedData({
-      user: 'pulsemaps',
-      table: 'pois',
-      time_column: 'time',
-      city: this.city,
-      columns: ['cartodb_id as id', 'st_x(the_geom) as lon', 'st_y(the_geom) as lat', 'labelrank', 'name', 'city', 'time as time', 'type']
-    }),
+    getData: function() {
+      this.data = new TimeBasedData({
+        user: 'pulsemaps',
+        table: 'pois',
+        time_column: 'time',
+        city: this.city,
+        columns: ['cartodb_id as id', 'st_x(the_geom) as lon', 'st_y(the_geom) as lat', 'labelrank', 'name', 'city', 'time as time', 'type']
+      });
+      this.data.fetch();
+    },
 
     render: function() {
       var self = this;
@@ -103,6 +106,7 @@
     set_city: function(city) {
       // Set new city
       this.city = city;
+      this.data.options.city = city;
 
       // Clean markups
       this.clean();

@@ -1,4 +1,4 @@
-  
+
   /*
    *  City bubbles (GO GO GO!)
    */
@@ -41,7 +41,7 @@
       this.map = map;
       this.city = city;
 
-      this.data.fetch();
+      this.getData();
       this._initBindings();
 
       return this;
@@ -64,13 +64,16 @@
       });
     },
 
-    data: new TimeBasedData({
-      user: 'pulsemaps',
-      table: 'bubbles',
-      time_column: 'time',
-      city: this.city,
-      columns: ['cartodb_id as id', 'city', 'st_x(the_geom) as lon', 'time', 'st_y(the_geom) as lat', 'type', 'description']
-    }),
+    getData: function() {
+      this.data = new TimeBasedData({
+        user: 'pulsemaps',
+        table: 'bubbles',
+        time_column: 'time',
+        city: this.city,
+        columns: ['cartodb_id as id', 'city', 'st_x(the_geom) as lon', 'time', 'st_y(the_geom) as lat', 'type', 'description']
+      });
+      this.data.fetch();
+    },
 
     render: function() {},
 
@@ -178,9 +181,11 @@
       }
     },
 
-    set_city: function(city) {
-      // Set new city
+    set_city: function(map, city) {
+      // Set new city and map
       this.city = city;
+      this.map = map;
+      this.data.options.city = city;
 
       // Clean bubbles
       this.clean();

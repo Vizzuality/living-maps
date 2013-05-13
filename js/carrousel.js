@@ -23,6 +23,13 @@ Carrousel.prototype = {
   initialize: function() {
     self = this;
 
+    var zoom_w = $("#zoom_control").width() + 50;
+
+    this.el.css({
+      "width": $(window).width()-(zoom_w*2),
+      "margin-left": zoom_w
+    });
+
     this._attachMouse();
 
     this.cities_nav.find("a").on("click", function(e) {

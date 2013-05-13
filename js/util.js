@@ -129,12 +129,11 @@ function parseHash(hash) {
 }
 
 function updateHash(map, city, time) {
-  // var _map = map.map;
-  // var zoom = _map.getZoom();
-  // var lat = _map.getCenter().lat.toFixed(3);
-  // var lng = _map.getCenter().lng.toFixed(3);
+  var zoom = map.getZoom();
+  var lat = map.getCenter().lat.toFixed(3);
+  var lng = map.getCenter().lng.toFixed(3);
 
-  // var hash = "/cities/#" + city + "/" + lat + "/" + lng + "/" + zoom;
+  var hash = "/cities/#" + city + "/" + lat + "/" + lng + "/" + zoom;
 
-  // history.pushState(null, null, hash);
+  history.pushState(null, null, hash);
 }
