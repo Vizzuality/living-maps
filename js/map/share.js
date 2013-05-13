@@ -1,4 +1,4 @@
-  
+
   /*
    *  Share city dialog
    */
@@ -6,6 +6,7 @@
   var Share = {
 
     el: '#backdrop',
+    _visible: false,
 
     options: {
       bitly: {
@@ -58,11 +59,6 @@
         // ESC?
         if (keycode == 27) {
           self._onCloseShare(e);
-        }
-
-        // SPACE
-        if (keycode == 32) {
-          stop = true;
         }
 
         if (stop) e.stopPropagation();
@@ -148,9 +144,15 @@
 
     hide: function() {
       this.$el.fadeOut();
+      this._visible = false;
     },
 
     show: function() {
       this.$el.fadeIn();
+      this._visible = true;
+    },
+
+    visible: function() {
+      return this._visible;
     }
   };

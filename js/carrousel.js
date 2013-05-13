@@ -75,13 +75,13 @@ Carrousel.prototype = {
     });
 
     this.cities_switch.on("mouseover", function() {
-      if(!self.map.map.isDragging) {
+      if(!self.map.map.isDragging && !Share.visible()) {
         self._showCarrousel(true);
       }
     });
 
     this.el.on("mouseleave", function() {
-      if(!self.map.map.isDragging) {
+      if(!self.map.map.isDragging && !Share.visible()) {
         self._showCarrousel(false);
       }
     });
