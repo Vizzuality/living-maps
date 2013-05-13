@@ -91,10 +91,22 @@ function latlonTo3DPixel(map, latlon) {
   return transform3d(pos, s.x, s.y);
 }
 
+function isACity(city) {
+  var really = false;
+
+  _.each(window.AppData.CITIES, function(object, key) {
+    if(city === key) {
+      really = true;
+    }
+  });
+
+  return really;
+}
+
 function parseHash(hash) {
   var args = hash.split("/");
 
-  if(args.length >= 1) {
+  if(isACity(args[0])) {
     city = args[0]; // city is a global variable
 
     var lat = parseFloat(args[1]).toFixed(3),
@@ -102,7 +114,9 @@ function parseHash(hash) {
         zoom = parseInt(args[3], 10),
         time = args[4];
 
-    if(isNaN(lat) || isNaN(lon) || isNaN(zoom)) {
+    if(isNaN(lat) || isNaN(lon) || isNaN(zoom) || zoom < window.AppData.CITIES[city]['map']['minZoom'] || zoom > window.AppData.CITIES[city]['map']['maxZoom']) {
+      history.pushState(null, null, "#" + city);
+
       return window.AppData.CITIES[city];
     } else {
       if(isNaN(time)) {
@@ -124,7 +138,9 @@ function parseHash(hash) {
       };
     }
   } else {
-    return false;
+    history.pushState(null, null, "#" + window.AppData.CITIES[city].city);
+
+    return window.AppData.CITIES[city];
   }
 }
 
