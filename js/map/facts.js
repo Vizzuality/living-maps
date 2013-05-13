@@ -82,6 +82,7 @@
     set_city: function(city) {
       // Set new city
       this.city = city;
+      this.data.options.city = city;
 
       // Clean markups
       this.clean();
