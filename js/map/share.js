@@ -6,6 +6,7 @@
   var Share = {
 
     el: '#backdrop',
+    _visible: false,
 
     options: {
       bitly: {
@@ -149,9 +150,15 @@
 
     hide: function() {
       this.$el.fadeOut();
+      this._visible = false;
     },
 
     show: function() {
       this.$el.fadeIn();
+      this._visible = true;
+    },
+
+    visible: function() {
+      return this._visible;
     }
   };
