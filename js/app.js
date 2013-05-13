@@ -174,9 +174,9 @@ var App = {
 
     $(document).keyup(function(e) {
       if (e.keyCode === 32) {
-        if (!stopped) {
+        if (!stopped && !Share.visible()) {
           Events.trigger("stopanimation", self.map.map, self.options.city, self.time);
-        } else {
+        } else if(!Share.visible()) {
           Events.trigger("resumeanimation");
         }
       }
