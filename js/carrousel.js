@@ -75,7 +75,6 @@ Carrousel.prototype = {
     });
 
     this.cities_switch.on("mouseover", function() {
-      console.log(Share.visible());
       if(!self.map.map.isDragging && !Share.visible()) {
         self._showCarrousel(true);
       }
