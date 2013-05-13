@@ -160,10 +160,12 @@
     },
 
     _bindMarkupEvents: function($el) {
+      var self = this;
+
       $el.find(".go").on("click", function(e) {
         e.preventDefault();
         var desc = $(e.target).data().description;
-        Events.trigger("openshare", desc, this.map, this.city, App.time);
+        Events.trigger("openshare", desc, self.map, self.city, App.time);
       });
     },
 
@@ -178,9 +180,10 @@
       }
     },
 
-    set_city: function(city) {
-      // Set new city
+    set_city: function(map, city) {
+      // Set new city and map
       this.city = city;
+      this.map = map;
 
       // Clean bubbles
       this.clean();

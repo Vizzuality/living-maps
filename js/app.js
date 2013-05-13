@@ -56,7 +56,8 @@ var App = {
     this.slider = new Slider($('#slider'), {
       timeMin: new Date(this.init_time).getTime(),
       timeRange: (this.last_time - this.init_time) * 1,
-      map: this.map
+      map: this.map.map,
+      city: this.options.city
     });
 
     // Bubbles
@@ -66,7 +67,6 @@ var App = {
     ContextualFacts.initialize(this.map.map, this.options.city);
 
     // City POIS
-    console.log(this.map.map, this.options.city);
     POIS.initialize(this.map.map, this.options.city);
 
     // Share dialog
@@ -165,7 +165,7 @@ var App = {
 
     // unbind finish loading, enablea animation, and resume animation
     Events.off('finish_loading');
-    Events.trigger("animationenabled");
+    Events.trigger("animationenabled", this.map.map, this.options.city);
     Events.trigger("resumeanimation");
 
     this.isPlayed = true;
@@ -175,7 +175,7 @@ var App = {
     $(document).keyup(function(e) {
       if (e.keyCode === 32) {
         if (!stopped) {
-          Events.trigger("stopanimation", self.map, self.options.city, self.time);
+          Events.trigger("stopanimation", self.map.map, self.options.city, self.time);
         } else {
           Events.trigger("resumeanimation");
         }
@@ -274,8 +274,11 @@ var App = {
 
     $('.mamufas').fadeIn();
 
+    // Disable slider
+    this.slider.disable();
+
     // Restart all animated particled
-    Bubbles.set_city(this.options.city);
+    Bubbles.set_city(this.map.map, this.options.city);
     ContextualFacts.set_city(this.options.city);
     POIS.set_city(this.options.city);
 
