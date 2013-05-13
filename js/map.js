@@ -52,12 +52,16 @@ Map.prototype = {
   },
 
   _addBindings: function() {
+    var self = this;
+
     this.map
       .on('dragstart', function(e) {
         this.isDragging = true;
       })
       .on('dragend', function(e) {
         this.isDragging = false;
+
+        updateHash(this, self.options.city, App.time);
       });
   },
 
@@ -73,6 +77,8 @@ Map.prototype = {
   },
 
   set_city: function(center, zoom, city) {
+    this.options.city = city;
+
     if(this.probsLayer) {
       this.probsLayer.setCity(city);
     }
