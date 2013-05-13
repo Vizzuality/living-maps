@@ -105,23 +105,29 @@ var App = {
   _initBindings: function() {
     Events.on("stopanimation", this._onStopAnimation, this);
 
+    Events.on("resumeanimation", this._onResumeAnimation, this);
+
     Events.on("animationenabled", this._onAnimationEnabled, this);
   },
 
-  _onStopAnimation: function(map, city, time) {
+  _onStopAnimation: function() {
     stopped = true;
     $(".ui-slider-handle").addClass("stopped");
 
     if(this.isPlayed) {
-      updateHash(map, city, time);
+      updateHash(this.map.map, this.options.city, App.time);
     }
+  },
+
+  _onResumeAnimation: function() {
+    updateHash(this.map.map, this.options.city, window.AppData.init_time);
   },
 
   _onAnimationEnabled: function(map, city) {
     $(document).on("keyup", function(e) {
       if (e.keyCode === 32) {
         if (!stopped && !Share.visible()) {
-          Events.trigger("stopanimation", map, city, App.time);
+          Events.trigger("stopanimation");
         } else if(!Share.visible()) {
           Events.trigger("resumeanimation");
         }
@@ -163,6 +169,7 @@ var App = {
 
       self.spinner.stop();
       self.spinner_container.addClass("play").html('<a href="#" id="play">Play animation</a>');
+
 
       $("#play").on("click", function(e) {
         e.preventDefault();

@@ -126,9 +126,9 @@
       },1000);
     },
 
-    _onOpenShare: function(desc, map, city, time) {
-      this._updateHash(city, time);
-      Events.trigger("stopanimation", map, city, time);
+    _onOpenShare: function(desc) {
+      // this._updateHash(city, time);
+      Events.trigger("stopanimation");
       this._setText(desc);
       this._initKeyBindings();
       this._enableCopy();
@@ -144,13 +144,13 @@
       Events.trigger("resumeanimation");
     },
 
-    _updateHash: function(city, time) {
-      var _time = new Date(time);
-      var hours = _time.getHours();
-      var minutes = _time.getMinutes();
+    // _updateHash: function(city, time) {
+    //   var _time = new Date(time);
+    //   var hours = _time.getHours();
+    //   var minutes = _time.getMinutes();
 
-      console.log(city, hours, minutes);
-    },
+    //   console.log(city, hours, minutes);
+    // },
 
     hide: function() {
       this.$el.fadeOut();

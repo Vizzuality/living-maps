@@ -115,12 +115,16 @@ function parseHash(hash) {
         time = args[4];
 
     if(isNaN(lat) || isNaN(lon) || isNaN(zoom) || zoom < window.AppData.CITIES[city]['map']['minZoom'] || zoom > window.AppData.CITIES[city]['map']['maxZoom']) {
-      history.pushState(null, null, "#" + city);
+      history.pushState(null, null, "/cities/#" + city);
 
       return window.AppData.CITIES[city];
     } else {
-      if(isNaN(time) || time < window.AppData.init_time || time > window.AppData.last_time) {
+      if(isNaN(time) || time < window.AppData.init_time || time >= window.AppData.last_time) {
         time = 0;
+      }
+
+      if(parseInt(time, 10) === 0) {
+        history.pushState(null, null, "/cities/#" + city + "/" + lat + "/" + lon + "/" + zoom + "/");
       }
 
       return {
@@ -138,7 +142,7 @@ function parseHash(hash) {
       };
     }
   } else {
-    history.pushState(null, null, "#" + window.AppData.CITIES[city].city);
+    history.pushState(null, null, "/cities/#" + window.AppData.CITIES[city].city);
 
     return window.AppData.CITIES[city];
   }
