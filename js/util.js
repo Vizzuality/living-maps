@@ -128,12 +128,20 @@ function parseHash(hash) {
   }
 }
 
-function updateHash(map, city, time) {
-  var zoom = map.getZoom();
+function updateHash(map, city, time, zoom) {
+  var _zoom = "";
+
+  if(typeof(zoom) != "undefined") {
+    console.log(zoom);
+    _zoom = zoom;
+  } else {
+    _zoom = map.getZoom();
+  }
+
   var lat = map.getCenter().lat.toFixed(3);
   var lng = map.getCenter().lng.toFixed(3);
 
-  var hash = "/cities/#" + city + "/" + lat + "/" + lng + "/" + zoom;
+  var hash = "/cities/#" + city + "/" + lat + "/" + lng + "/" + _zoom;
 
   history.pushState(null, null, hash);
 }

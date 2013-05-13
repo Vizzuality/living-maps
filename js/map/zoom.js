@@ -11,8 +11,9 @@
       minZoom: 9
     },
 
-    initialize: function(map) {
+    initialize: function(map, city) {
       this.map = map;
+      this.city = city;
       this.$el = $(this.el);
       this._initBindings();
     },
@@ -27,6 +28,9 @@
       e.preventDefault();
       var self = e.data;
       if (self.map.getZoom() < self.options.maxZoom) {
+        var zoom = self.map.getZoom() + 1;
+
+        updateHash(self.map, self.city, App.time, zoom);
         self.map.zoomIn();
       }
     },
@@ -35,6 +39,9 @@
       e.preventDefault();
       var self = e.data;
       if (self.map.getZoom() > self.options.minZoom) {
+        var zoom = self.map.getZoom() - 1;
+
+        updateHash(self.map, self.city, App.time, zoom);
         self.map.zoomOut();
       }
     },
