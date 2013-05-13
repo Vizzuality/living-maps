@@ -39,11 +39,13 @@
       this.map.on('move', function() {
         for (var i in self.pois) {
           var poi = self.pois[i];
-          var pos = latlonTo3DPixel(self.map, [poi.lat, poi.lon]);
-          poi.$markup.css({
-            top: pos.y - (self.options.maxHeight / poi.labelrank),
-            left: pos.x - self.options.horizontalOffset
-          })
+          if (poi) {
+            var pos = latlonTo3DPixel(self.map, [poi.lat, poi.lon]);
+            poi.$markup.css({
+              top: pos.y - (self.options.maxHeight / poi.labelrank),
+              left: pos.x - self.options.horizontalOffset
+            })
+          }
         }
       });
 

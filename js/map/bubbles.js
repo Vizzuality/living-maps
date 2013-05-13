@@ -57,11 +57,13 @@
       this.map.on('move', function(ev) {
         for (var i in self.bubbles) {
           var bubble = self.bubbles[i];
-          var pos = latlonTo3DPixel(self.map, [bubble.lat, bubble.lon]);
-          bubble.$markup.css({
-            top: pos.y - bubble.$markup.outerHeight(),
-            left: pos.x - self.options.horizontalOffset
-          })
+          if (bubble && bubble.lat && bubble.lon) {
+            var pos = latlonTo3DPixel(self.map, [bubble.lat, bubble.lon]);
+            bubble.$markup.css({
+              top: pos.y - bubble.$markup.outerHeight(),
+              left: pos.x - self.options.horizontalOffset
+            })
+          }
         }
       });
     },
@@ -88,7 +90,7 @@
         return false;
       } else {
         // [tricky] Fake content before the true content
-        this.bubbles[data.id] = true;
+        this.bubbles[data.id] = {};
       }
 
       // If it shouldn't appear taking into account the random thingy
