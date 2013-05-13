@@ -1,4 +1,4 @@
-  
+
   /*
    *  Share city dialog
    */
@@ -59,11 +59,6 @@
         // ESC?
         if (keycode == 27) {
           self._onCloseShare(e);
-        }
-
-        // SPACE
-        if (keycode == 32) {
-          stop = true;
         }
 
         if (stop) e.stopPropagation();
