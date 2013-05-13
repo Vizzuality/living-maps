@@ -29,12 +29,15 @@ TimeBasedData.prototype.getFortime = function(time) {
 }
 
 TimeBasedData.prototype.fetch = function(callback) {
+  // console.log(this.options);
+
   var self = this;
+
   this.base_url = this.options.url;
 
   var sel = this.options.columns.join(',');
 
-  $.getJSON(this.base_url + "?q=" + "SELECT " + sel + " FROM " + this.options.table + " WHERE city='" + this.options.city.toLowerCase() + "'", function(data) {
+  $.getJSON(this.base_url + "?q=" + "SELECT " + sel + " FROM " + this.options.table + " WHERE city='" + this.options.city + "'", function(data) {
     self.reset(data.rows, callback);
   });
 }

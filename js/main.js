@@ -1,3 +1,5 @@
+var city = 'london';
+
 $(document).ready(function() {
  if( navigator.userAgent.match(/Android/i)
  || navigator.userAgent.match(/webOS/i)
@@ -10,10 +12,10 @@ $(document).ready(function() {
     document.location = "/mobile.html";
   }
 
-  var hash = location.href.split("#").pop();
+  var hash = location.hash.split("#").pop();
 
   if(hash.length === 0) {
-    App.initialize(window.AppData.CITIES['london']);
+    App.initialize(window.AppData.CITIES[city]);
   } else {
     App.initialize(parseHash(hash));
   }

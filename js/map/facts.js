@@ -23,6 +23,9 @@
       if (!map) throw "you should set map";
       this.map = map;
       this.city = city;
+
+      this.data.fetch();
+
       return this;
     },
 

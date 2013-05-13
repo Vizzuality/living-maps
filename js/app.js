@@ -36,8 +36,6 @@ var App = {
   initialize: function(options) {
     var self = this;
 
-    this._initTestData();
-    this._initBindings();
     this.options = _.extend({}, options);
 
     this.map = new Map('map', {
@@ -49,15 +47,16 @@ var App = {
       city: options.city
     });
 
-    /* Map animated particled */
-
     // Carrousel
     this.carrousel = new Carrousel($('#carrousel'), this.map);
+
+    /* Map animated particled */
 
     // Slider
     this.slider = new Slider($('#slider'), {
       timeMin: new Date(this.init_time).getTime(),
-      timeRange: (this.last_time - this.init_time) * 1
+      timeRange: (this.last_time - this.init_time) * 1,
+      map: this.map
     });
 
     // Bubbles
@@ -67,10 +66,13 @@ var App = {
     ContextualFacts.initialize(this.map.map, this.options.city);
 
     // City POIS
+    console.log(this.map.map, this.options.city);
     POIS.initialize(this.map.map, this.options.city);
 
-    // Init Share dialog
+    // Share dialog
     Share.initialize();
+
+    this._initBindings();
 
     this.slider.onTimeChange = function(time) {
       self.time = time;
@@ -87,6 +89,7 @@ var App = {
         self.add_debug();
       }, 4000);
 
+    // Spinner
     this.target = document.getElementById('spinner-container');
     this.spinner_container = $("#spinner-container");
     this.spinner = new Spinner(this.spin_opts);
@@ -99,12 +102,12 @@ var App = {
     Events.on("stopanimation", this._onStopAnimation, this);
   },
 
-  _onStopAnimation: function(map, city) {
+  _onStopAnimation: function(map, city, time) {
     stopped = true;
     $(".ui-slider-handle").addClass("stopped");
 
     if(this.isPlayed) {
-      updateHash(map, city);
+      updateHash(map, city, time);
     }
   },
 
@@ -137,9 +140,10 @@ var App = {
     var self = this;
 
     Events.on('finish_loading', function() {
+      Events.trigger("animationdisabled");
       Events.trigger("stopanimation");
-      self.spinner.stop();
 
+      self.spinner.stop();
       self.spinner_container.addClass("play").html('<a href="#" id="play">Play animation</a>');
 
       $("#play").on("click", function(e) {
@@ -171,7 +175,7 @@ var App = {
     $(document).keyup(function(e) {
       if (e.keyCode === 32) {
         if (!stopped) {
-          Events.trigger("stopanimation", self.map, self.options.city);
+          Events.trigger("stopanimation", self.map, self.options.city, self.time);
         } else {
           Events.trigger("resumeanimation");
         }
@@ -186,13 +190,6 @@ var App = {
       data = data.rows.map(function(r) { return r.n });
       $('#graph').html(graph(data, $('#slider').width(), 30, 'rgba(0, 0, 0, 0.1)'));
     });
-  },
-
-  _initTestData: function() {
-    var data = [];
-    Bubbles.data.fetch();
-    ContextualFacts.data.fetch();
-    POIS.data.fetch(POIS.render());
   },
 
   _tick: function() {
@@ -263,6 +260,8 @@ var App = {
     dragged = false;
     clicked = false;
     stopped = true;
+    city = this.options.city;
+    this.isPlayed = false;
 
     _.extend(this.options, options);
 

@@ -11,6 +11,10 @@ function Carrousel(el, map) {
   Events.on("animationenabled", function() {
     self.initialize();
   });
+
+  Events.on("animationdisabled", function() {
+    self.disable();
+  });
 }
 
 
@@ -64,13 +68,13 @@ Carrousel.prototype = {
     });
 
     this.cities_switch.on("mouseover", function() {
-      if(!self.map.map.isDragging) {
+      if(!self.map.map.isDragging || sharing) {
         self._showCarrousel(true);
       }
     });
 
     this.el.on("mouseleave", function() {
-      if(!self.map.map.isDragging) {
+      if(!self.map.map.isDragging || sharing) {
         self._showCarrousel(false);
       }
     });
@@ -137,8 +141,6 @@ Carrousel.prototype = {
   },
 
   changeMap: function(city) {
-    self = this;
-
     App.restart(window.AppData.CITIES[city]);
   },
 

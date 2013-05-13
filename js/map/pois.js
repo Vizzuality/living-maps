@@ -26,7 +26,10 @@
     initialize: function(map, city) {
       this.map = map;
       this.city = city;
+
+      this.data.fetch(this.render());
       this._initBindings();
+
       return this;
     },
 

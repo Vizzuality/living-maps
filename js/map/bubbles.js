@@ -41,7 +41,9 @@
       this.map = map;
       this.city = city;
 
+      this.data.fetch();
       this._initBindings();
+
       return this;
     },
 
@@ -84,7 +86,7 @@
         // Trick to get height :S
         $markup.css({
           display: 'block',
-          opacity:0
+          opacity: 0
         });
 
         // Set height
@@ -161,7 +163,7 @@
       $el.find(".go").on("click", function(e) {
         e.preventDefault();
         var desc = $(e.target).data().description;
-        Events.trigger("openshare", desc);
+        Events.trigger("openshare", desc, this.map, this.city, App.time);
       });
     },
 

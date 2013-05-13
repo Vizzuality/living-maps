@@ -130,8 +130,8 @@
       },1000);
     },
 
-    _onOpenShare: function(desc) {
-      Events.trigger("stopanimation");
+    _onOpenShare: function(desc, map, city, time) {
+      Events.trigger("stopanimation", map, city, time);
       this._setText(desc);
       this._initKeyBindings();
       this._enableCopy();

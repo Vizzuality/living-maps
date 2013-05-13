@@ -5,7 +5,8 @@ function Slider(el, options) {
 
   this.options = {
     timeMin: options.timeMin,
-    timeRange: options.timeRange
+    timeRange: options.timeRange,
+    map: options.map
   };
 
   /* _.defaults(options, {
@@ -15,6 +16,10 @@ function Slider(el, options) {
 
   Events.on("animationenabled", function() {
     self.initialize();
+  });
+
+  Events.on("animationdisabled", function() {
+    // self.disable();
   });
 }
 
@@ -71,7 +76,7 @@ Slider.prototype = {
         .on("click", function() {
           if(valueStart === self.valueStop) {
             if(!stopped) {
-              Events.trigger("stopanimation");
+              Events.trigger("stopanimation", self.options.map, city, App.time);
             } else {
               Events.trigger("resumeanimation");
             }
@@ -159,5 +164,18 @@ Slider.prototype = {
 
     this.updateHour(time);
     this.updateSky(this.timeToPos(time));
+  },
+
+  disable: function() {
+    this.el
+      .off("slide")
+      .off("slidestop")
+      .find("a")
+        .off("mouseenter")
+        .off("mouseleave")
+        .off("mousedown")
+        .off("click");
+
+    $(document).off("mouseup");
   }
 }

@@ -95,9 +95,10 @@ function parseHash(hash) {
   var args = hash.split("/");
 
   if(args.length >= 1) {
-    var city = args[0],
-        lat = args[1],
-        lon = args[2],
+    city = args[0]; // city is a global variable
+
+    var lat = parseFloat(args[1]).toFixed(3),
+        lon = parseFloat(args[2]).toFixed(3),
         zoom = parseInt(args[3], 10),
         time = args[4];
 
@@ -109,7 +110,6 @@ function parseHash(hash) {
       }
 
       return {
-
         city: city,
         map: {
           center: [lat, lon],
@@ -128,7 +128,7 @@ function parseHash(hash) {
   }
 }
 
-function updateHash(map, city) {
+function updateHash(map, city, time) {
   // var _map = map.map;
   // var zoom = _map.getZoom();
   // var lat = _map.getCenter().lat.toFixed(3);
