@@ -6,7 +6,9 @@ window.AppData.CITIES = {
   'london': {
     map: {
       center: [51.511, -0.100],
-      zoom: 12
+      zoom: 12,
+      maxZoom: 13,
+      minZoom: 11
     },
     time_scale: 15 * 60,
     scale: 2.0,
@@ -33,6 +35,8 @@ window.AppData.CITIES = {
     map: {
       center: [41.900, 12.500],
       zoom: 12,
+      maxZoom: 13,
+      minZoom: 11
     },
     time_scale: 15 * 60,
     scale: 2.0,
@@ -46,6 +50,8 @@ window.AppData.CITIES = {
     map: {
       center: [62.430, 24.727],
       zoom: 12,
+      maxZoom: 13,
+      minZoom: 11
     },
     time_scale: 15 * 60,
     scale: 2.0,
@@ -58,7 +64,9 @@ window.AppData.CITIES = {
   'mumbai': {
     map: {
       center: [18.972, 72.822],
-      zoom: 12
+      zoom: 12,
+      maxZoom: 13,
+      minZoom: 11
     },
     time_scale: 15 * 60,
     scale: 2.0,

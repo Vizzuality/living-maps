@@ -43,6 +43,8 @@ var App = {
       scrollWheelZoom: false,
       center: this.options.map.center,
       zoom: this.options.map.zoom,
+      minZoom: this.options.map.minZoom,
+      maxZoom: this.options.map.maxZoom,
       base_layer: 'https://saleiva.cartodb.com/tiles/'+ this.options.map.name +'/{z}/{x}/{y}.png',
       city: options.city
     });
@@ -279,7 +281,7 @@ var App = {
     this.slider.disable();
 
     // Restart all animated particled
-    Bubbles.set_city(this.map.map, this.options.city);
+    Bubbles.set_city(this.options.city);
     ContextualFacts.set_city(this.options.city);
     POIS.set_city(this.options.city);
 
