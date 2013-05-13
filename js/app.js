@@ -287,6 +287,9 @@ var App = {
     ContextualFacts.set_city(this.options.city);
     POIS.set_city(this.options.city);
 
+    // Set city in the zoom
+    Zoom.set_city(this.options.city);
+
     // Restart city graph
     $("#graph").html("");
     this.add_graph(this.options.city);
