@@ -41,6 +41,10 @@
       this.map = map;
       this.city = city;
 
+      // Random thingy
+      this.last_time = 0;
+      this.last_active = false;
+
       this.getData();
       this._initBindings();
 
@@ -53,13 +57,11 @@
       this.map.on('move', function(ev) {
         for (var i in self.bubbles) {
           var bubble = self.bubbles[i];
-          if (bubble.visible) {
-            var pos = latlonTo3DPixel(self.map, [bubble.lat, bubble.lon]);
-            bubble.$markup.css({
-              top: pos.y - bubble.$markup.outerHeight(),
-              left: pos.x - self.options.horizontalOffset
-            })
-          }
+          var pos = latlonTo3DPixel(self.map, [bubble.lat, bubble.lon]);
+          bubble.$markup.css({
+            top: pos.y - bubble.$markup.outerHeight(),
+            left: pos.x - self.options.horizontalOffset
+          })
         }
       });
     },
@@ -81,74 +83,87 @@
       var self = this;
       var $markup;
 
-      if (!this.bubbles[data.id]) {
-        var el = _.template(this.templates.markup)(data);
-        $markup = $(el);
-        $(this.el).append($markup);
-
-        // Trick to get height :S
-        $markup.css({
-          display: 'block',
-          opacity: 0
-        });
-
-        // Set height
-        $markup.css({
-          height: $markup.find('.info').height()
-        });
-
-        // Set absolute positioning to the info
-        // to be animated
-        $markup.find('.info').css({ position: 'absolute' })
-        
-        this.bubbles[data.id] = {
-          $markup: $markup,
-          lat: data.lat,
-          lon: data.lon
-        };
-
-        this._bindMarkupEvents($markup, data.description);
+      // If it is already in the dom...
+      if (this.bubbles[data.id]) {
+        return false;
+      } else {
+        // [tricky] Fake content before the true content
+        this.bubbles[data.id] = true;
       }
 
-      // Check if it is already visible?
-      if (this.bubbles.active) return false;
+      // If it shouldn't appear taking into account the random thingy
+      if (this.last_active) {
+        this.last_active = !this.last_active;
+        return false;
+      } else {
+        this.last_active = !this.last_active;
+      }
+
+      // If now, creates the markup and so on
+      var el = _.template(this.templates.markup)(data);
+      $markup = $(el);
+      $(this.el).append($markup);
+
+      // Trick to get height :S
+      $markup.css({
+        display: 'block',
+        opacity: 0
+      });
+
+      // Set height
+      $markup.css({ height: $markup.find('.info').height() });
+
+      // Set absolute positioning to the info
+      // to be animated
+      $markup.find('.info').css({ position: 'absolute' })
+      
+      // Save bubble
+      this.bubbles[data.id] = {
+        $markup: $markup,
+        lat: data.lat,
+        lon: data.lon,
+        description: data.description
+      };
 
       // Calculate position
       var pos = latlonTo3DPixel(this.map, [data.lat, data.lon]);
 
       // Show it
-      this._showBubble(this.bubbles[data.id], pos);
+      this._showBubble(data.id, pos);
     },
 
-    _showBubble: function(bubble, pos) {
+    _showBubble: function(bubble_id, pos) {
       var self = this;
 
-      // Set flag to visible
-      bubble.visible = true;
-
+      // Automatic hide
       var hiding = setTimeout(function() {
-        self._hideBubble(bubble);
+        self._hideBubble(bubble_id);
         clearTimeout(hiding);
       }, (self.options.info.showTime + this.options.info.delayTime));
 
-      // Bind mouseover
-      bubble.$markup.find('.info').on('mouseenter', function(e) {
+      // Bind events
+      this.bubbles[bubble_id].$markup.on("click", function(e) {
+        e.preventDefault();
+        Events.trigger("openshare", self.bubbles[bubble_id].description, self.map, self.city, App.time);
+      });
+
+      this.bubbles[bubble_id].$markup.find('.info').on('mouseenter', function(e) {
         e.preventDefault();
         e.stopPropagation();
         hiding && clearTimeout(hiding);
-        self._bindOutBubble(bubble);
+        self._bindMouseOutBubble(bubble_id);
       })
 
       // Parent
-      bubble.$markup.css({
-        top: pos.y - bubble.$markup.outerHeight(),
+      this.bubbles[bubble_id].$markup.css({
+        top: pos.y - this.bubbles[bubble_id].$markup.outerHeight(),
         left: pos.x - this.options.horizontalOffset,
         display: 'block',
         opacity: 1
       });
 
       // Info
-      bubble.$markup.find('.info')
+      this.bubbles[bubble_id].$markup.find('.info')
         .css({
           top: 100,
           display: 'block',
@@ -162,7 +177,7 @@
         );
 
       // Shadow
-      bubble.$markup.find('.shadow')
+      this.bubbles[bubble_id].$markup.find('.shadow')
         .css({
           display: 'block',
           opacity: 0
@@ -174,60 +189,62 @@
         );
     },
 
-    _hideBubble: function(bubble) {
-      // Unbind mouse events
-      this._unbindBubble(bubble);
-
+    _hideBubble: function(bubble_id) {
       // Info
-      bubble.$markup.find('.info').animate({
+      this.bubbles[bubble_id].$markup.find('.info').animate({
           opacity:0,
           top:-100
         },
-        this.options.info.hideTime,
-        function() {
-          bubble.$markup.hide();
-        });
+        this.options.info.hideTime);
 
       // Shadow
-      bubble.$markup.find('.shadow').fadeOut(this.options.shadow.hideTime);
+      this.bubbles[bubble_id].$markup.find('.shadow').fadeOut(this.options.shadow.hideTime);
 
       // Set visible to false
+      var self = this;
       setTimeout(function() {
-        bubble.visible = false;
+        self._removeBubble(bubble_id);
       }, this.options.info.hideTime);
     },
 
-    _bindOutBubble: function(bubble) {
-      var self = this;
-      bubble.$markup.find('.info').off('mouseenter');
-      bubble.$markup.find('.info').on('mouseleave', function(e){
-        e.stopPropagation();
-        e.preventDefault();
-        self._hideBubble(bubble);
-      });
+    _removeBubble: function(bubble_id) {
+      if (this.bubbles[bubble_id]) {
+        this._unbindMarkupEvents(bubble_id);
+        this.bubbles[bubble_id].$markup.remove();
+        delete this.bubbles[bubble_id];
+      }
     },
 
-    _unbindBubble: function(bubble) {
-      bubble.$markup.find('.info').off('mouseleave');
-      bubble.$markup.find('.info').off('mouseenter');
+    _bindMouseOutBubble: function(bubble_id) {
+      if (this.bubbles[bubble_id]) {
+        var bubble = this.bubbles[bubble_id];
+        var self = this;
+        bubble.$markup.find('.info').off('mouseenter');
+        bubble.$markup.find('.info').on('mouseleave', function(e){
+          e.stopPropagation();
+          e.preventDefault();
+          self._hideBubble(bubble_id);
+        });
+      }
     },
 
-    _bindMarkupEvents: function($el, description) {
-      $el.on("click", null, this, function(e) {
-        e.preventDefault();
-        var self = e.data;
-        Events.trigger("openshare", description, self.map, self.city, App.time);
-      });
-    },
-
-    _unbindMarkupEvents: function($el) {
-      $el.off("click");
-      $el.find('.info').off("mouseleave");
-      $el.find('.info').off("mouseenter");
+    _unbindMarkupEvents: function(bubble_id) {
+      if (this.bubbles[bubble_id]) {
+        var bubble = this.bubbles[bubble_id];
+        bubble.$markup.off("click");
+        bubble.$markup.find('.info').off("mouseleave");
+        bubble.$markup.find('.info').off("mouseenter");  
+      }
     },
 
     set_time: function(time) {
       var e = this.data.getFortime((time/60.0)>>0);
+
+      if (this.last_time > time) {
+        this.last_active = !this.last_active;
+      }
+
+      this.last_time = time;
       
       if (e) {
         this._emit(e); 
@@ -249,7 +266,7 @@
     clean: function() {
       var self = this;
       for (var i in this.bubbles) {
-        self._unbindMarkupEvents(this.bubbles[i].$markup);
+        self._unbindMarkupEvents(i);
         this.bubbles[i].$markup.remove();
       }
       this.bubbles = [];
