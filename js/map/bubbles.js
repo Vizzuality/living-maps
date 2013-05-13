@@ -9,7 +9,7 @@
       markup: " \
         <div class='bubble'> \
           <div class='info'> \
-            <a href='#/go' class='go' data-description='<%= description %>'></a> \
+            <a href='#/go' class='go'></a> \
             <span class='icon type <%= type %>'></span> \
             <p><%= description %></p> \
             <span class='tail'></span> \
@@ -23,12 +23,12 @@
       shadow: {
         showTime: 300,
         hideTime: 600,
-        delayTime: 1000
+        delayTime: 1800
       },
       info: {
         showTime: 300,
         hideTime: 600,
-        delayTime: 1000
+        delayTime: 1800
       }
     },
 
@@ -104,7 +104,7 @@
           lon: data.lon
         };
 
-        this._bindMarkupEvents($markup);
+        this._bindMarkupEvents($markup, data.description);
       }
       
       var pos = latlonTo3DPixel(self.map, [data.lat, data.lon]);
@@ -159,16 +159,16 @@
         );
     },
 
-    _bindMarkupEvents: function($el) {
-      $el.find(".go").on("click", function(e) {
+    _bindMarkupEvents: function($el, description) {
+      $el.on("click", null, this, function(e) {
         e.preventDefault();
-        var desc = $(e.target).data().description;
-        Events.trigger("openshare", desc, this.map, this.city, App.time);
+        var self = e.data;
+        Events.trigger("openshare", description, self.map, self.city, App.time);
       });
     },
 
     _unbindMarkupEvents: function($el) {
-      $el.find(".go").off("click");
+      $el.off("click");
     },
 
     set_time: function(time) {
