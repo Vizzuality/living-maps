@@ -75,14 +75,15 @@
         var $markup = $(el);
 
         // Set height
-        $markup.css('height', (this.options.maxHeight / data.labelrank))
+        $markup.height(this.options.maxHeight / data.labelrank);
         
         $(this.el).append($markup);
         
         this.pois[data.id] = {
           $markup: $markup,
           lat: data.lat,
-          lon: data.lon
+          lon: data.lon,
+          labelrank: data.labelrank
         }
       }
       
