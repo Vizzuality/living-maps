@@ -6,7 +6,8 @@ function Slider(el, options) {
   this.options = {
     timeMin: options.timeMin,
     timeRange: options.timeRange,
-    map: options.map
+    map: options.map,
+    city: options.city
   };
 
   /* _.defaults(options, {
@@ -14,7 +15,10 @@ function Slider(el, options) {
    timeRange: 300
   }); */
 
-  Events.on("animationenabled", function() {
+  Events.on("animationenabled", function(map, city) {
+    self.options.map = map;
+    self.options.city = city;
+
     self.initialize();
   });
 
@@ -64,23 +68,23 @@ Slider.prototype = {
         self.onSlideStop(ui.value);
       })
       .find("a")
-        .on("mouseenter", function() {
-          $("#selectors").addClass("glow");
-        })
-        .on("mouseleave", function() {
-          $("#selectors").removeClass("glow");
-        })
         .on("mousedown", function() {
           Events.trigger("clickhandle", self.el.slider("value"));
         })
         .on("click", function() {
           if(valueStart === self.valueStop) {
             if(!stopped) {
-              Events.trigger("stopanimation", self.options.map, city, App.time);
+              Events.trigger("stopanimation", self.options.map, self.options.city, App.time);
             } else {
               Events.trigger("resumeanimation");
             }
           }
+        })
+        .one("mouseenter", function() {
+          $("#selectors").addClass("glow");
+        })
+        .one("mouseleave", function() {
+          $("#selectors").removeClass("glow");
         });
 
     $(document).on("mouseup", function() {
@@ -167,15 +171,10 @@ Slider.prototype = {
   },
 
   disable: function() {
-    this.el
-      .off("slide")
+    this.el.off("slide")
       .off("slidestop")
       .find("a")
-        .off("mouseenter")
-        .off("mouseleave")
         .off("mousedown")
         .off("click");
-
-    $(document).off("mouseup");
   }
 }

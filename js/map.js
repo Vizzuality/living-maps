@@ -21,8 +21,17 @@ Map.prototype = {
     this.map = L.map(this.el, this.options)
       .setView(this.options.center, this.options.zoom);
 
+    // Set map controls
+    Zoom.initialize(this.map, this.options.city);
+    // Add layers
     this._addLayers();
+    // Set bindings
     this._addBindings();
+
+    // $(window).resize(function() {
+    //   w =  $(this).width();
+    //   $(".leaflet-tile-pane").find("canvas").attr("width", w);
+    // });
   },
 
   _addLayers: function() {
@@ -48,13 +57,23 @@ Map.prototype = {
   },
 
   _addBindings: function() {
+    var self = this;
+
     this.map
       .on('dragstart', function(e) {
         this.isDragging = true;
       })
       .on('dragend', function(e) {
         this.isDragging = false;
-      });
+
+        updateHash(this, self.options.city, App.time);
+      })
+      .on('dblclick', function(e) {
+        console.log(e);
+      })
+      .on('scrollWheelZoom', function(e) {
+        console.log(e);
+      })
   },
 
   set_gradients: function() {
@@ -69,6 +88,8 @@ Map.prototype = {
   },
 
   set_city: function(center, zoom, city) {
+    this.options.city = city;
+
     if(this.probsLayer) {
       this.probsLayer.setCity(city);
     }

@@ -3,7 +3,6 @@
    *  City POIS
    */
 
-
   var POIS = {
 
     templates: {
@@ -16,10 +15,10 @@
 
     options: {
       horizontalOffset: 0,
-      verticalOffset: 141
+      maxHeight: 141
     },
 
-    el: 'body',
+    el: '.map_components',
 
     pois: {},
 
@@ -27,8 +26,9 @@
       this.map = map;
       this.city = city;
 
-      this.data.fetch(this.render());
+      this.getData();
       this._initBindings();
+      this._bindStart();
 
       return this;
     },
@@ -41,29 +41,51 @@
           var poi = self.pois[i];
           var pos = latlonTo3DPixel(self.map, [poi.lat, poi.lon]);
           poi.$markup.css({
-            top: pos.y - self.options.verticalOffset,
+            top: pos.y - (self.options.maxHeight / poi.labelrank),
             left: pos.x - self.options.horizontalOffset
           })
         }
       });
+
+      this.map.on('zoomend', function() {
+        self._filterPois();
+      });
     },
 
-    data: new TimeBasedData({
-      user: 'pulsemaps',
-      table: 'pois',
-      time_column: 'time',
-      city: this.city,
-      columns: ['cartodb_id as id', 'st_x(the_geom) as lon', 'name', 'city', 'time as time', 'st_y(the_geom) as lat', 'type']
-    }),
+    _filterPois: function() {
+      for (var i in this.pois) {
+        this._filterPoi(this.pois[i]);
+      }
+    },
+
+    _filterPoi: function(poi) {
+      var start_zoom = window.AppData.CITIES[this.city].map.zoom;
+      var actual_zoom = this.map.getZoom();
+      var index = (start_zoom == actual_zoom || start_zoom > actual_zoom) ? 1 : 5;
+      poi.$markup.css('display', (index < poi.labelrank) ? 'none' : 'block');
+    },
+
+    _bindStart: function() {
+      Events.once("animationenabled", this.render, this);
+    },
+
+    getData: function() {
+      this.data = new TimeBasedData({
+        user: 'pulsemaps',
+        table: 'pois',
+        time_column: 'time',
+        city: this.city,
+        columns: ['cartodb_id as id', 'st_x(the_geom) as lon', 'st_y(the_geom) as lat', 'labelrank', 'name', 'city', 'time as time', 'type']
+      });
+      this.data.fetch();
+    },
 
     render: function() {
       var self = this;
-      setTimeout(function() {
-        for (var i in self.data.time_index) {
-          var _data = self.data.time_index[i];
-          self._emit(_data);
-        }  
-      },1000)
+      for (var i in self.data.time_index) {
+        var _data = self.data.time_index[i];
+        self._emit(_data);
+      }
     },
 
     _emit: function(data) {
@@ -73,14 +95,20 @@
       if (!this.pois[data.id]) {
         var el = _.template(this.templates.markup)(data);
         var $markup = $(el);
-        
+
+        // Set height
+        $markup.height(this.options.maxHeight / data.labelrank);
         $(this.el).append($markup);
         
         this.pois[data.id] = {
           $markup: $markup,
           lat: data.lat,
-          lon: data.lon
+          lon: data.lon,
+          labelrank: data.labelrank
         }
+
+        // Filter poi by zoom
+        this._filterPoi(this.pois[data.id]);
       }
       
       var pos = latlonTo3DPixel(this.map, [data.lat, data.lon]);
@@ -88,7 +116,7 @@
         $markup = this.pois[data.id].$markup;
 
       $markup.css({
-        top: pos.y - this.options.verticalOffset,
+        top: pos.y - (this.options.maxHeight / data.labelrank),
         left: pos.x - this.options.horizontalOffset
       });
     },
@@ -96,12 +124,16 @@
     set_city: function(city) {
       // Set new city
       this.city = city;
+      this.data.options.city = city;
 
       // Clean markups
       this.clean();
 
+      // Bind start
+      this._bindStart();
+
       // Get new data
-      this.data.fetch(this.render());
+      this.data.fetch();
     },
 
     clean: function() {

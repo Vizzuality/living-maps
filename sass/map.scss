@@ -1,4 +1,5 @@
-@import "compass/css3";
+@import "compass";
+@import "helpers";
 
 .selectors {
   position: absolute;
@@ -13,7 +14,7 @@
 
 .time_selector {
   width: 200px;
-  margin: 0 auto;
+  margin: 7px auto;
 }
 
 #graph {
@@ -90,7 +91,9 @@
 
 .backdrop-inner {
   margin: 130px auto 0;
-  width: 800px;
+  padding: 0 40px;
+  width: 734px;
+  background: image-url('quotes.png') no-repeat 0 55px;
 }
 
 #map_wrapper {
@@ -202,6 +205,7 @@
 
     - Bubbles
     - Pois
+    - Share
 */
 
   // BUBBLE
@@ -212,6 +216,8 @@
     width:207px;
     padding:21px 36px 31px;
     margin:0;
+
+    * { @include user-select(none); }
 
     .info {
       position:relative;
@@ -255,6 +261,7 @@
 
       &:hover {
         background-color: #CC0066;
+        cursor:pointer;
         .go { @include background(image-url('marker_go-hover.png')); }
         span.tail {border-top-color:#CC0066;}
       }
@@ -279,12 +286,13 @@
     top: 0;
     left: 0;
     width: 120px;
-    height: 141px;
     margin: 0;
     padding-left: 10px;
     border-left: 1px solid rgba(#000E19, 0.85);
     z-index: 10;
     pointer-events: none;
+
+    * { @include user-select(none); }
 
     &:after {
       display: block;
@@ -318,11 +326,35 @@
     }
   }
 
-  // Share dialog
+  // Zoom control
+  #zoom_control {
+    position:absolute;
+    bottom:25px;
+    left:50px;
+    z-index:450;
+
+    a {
+      position:relative;
+      @include inline-block();
+      width:26px;
+      height:26px;
+      @include background(image-url('zoom_control.png') no-repeat 0 0);
+      text-indent: -9999px;
+      &:hover {background-position:0 -26px;}
+
+      &.zoomIn {
+        background-position:-26px 0;
+        &:hover {background-position:-26px -26px;}
+      }
+    }
+  }
+
+
+  // SHARE dialog
 
   #backdrop {
     display: none;
-    z-index: 500;
+    z-index: 501;
     background: rgba(#000, .8);
 
     .title {
@@ -334,17 +366,19 @@
     textarea {
       border: none;
       width: 100%;
-      max-width:100%;
-      min-width:100%;
-      height: 340px;
-      min-height: 340px;
-      max-height: 340px;
+      max-width: 100%;
+      min-width: 100%;
+      height: 156px;
+      min-height: 156px;
+      max-height: 156px;
       padding: 5px 0;
-      font: 300 55px "Nokia Pure Text", Helvetica, Arial, sans-serif;
+      font: 300 55px/1 "Nokia Pure Text", Helvetica, Arial, sans-serif;
       letter-spacing: -3px;
       color: #fff;
-      background: image-url('tweetarea.png');
+      background: image-url('tweetarea.png') 0 -5px;
+      background-attachment: local;
       outline: none;
+      resize: none;
     }
 
     a {
@@ -365,17 +399,44 @@
 
         &.share {
           margin-left: 10px;
-          background: #0bd;
+          background: image-url('buttons-sprite.png') no-repeat 0 -5px;
           color: #fff;
-          &:hover {background:#009AB6;}
+          padding-left: 39px;
+        }
+
+        &.facebook {
+          background-color: #3B559F;
+
+          &:hover { background-color: darken(#3B559F, 5%); }
+        }
+
+        &.twitter {
+          background-color: #0bd;
+          background-position: 0 -54px;
+          padding-left: 49px;
+
+          &:hover { background-color: #009AB6; }
         }
       }
 
+      &.copy { float: left; }
+
       &.close {
-        float: left;
-        padding: 9px 0 0;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        display: inline-block;
+        padding: 0;
+        height: 38px;
+        width: 38px;
+        font: 300 21px/34px "Helvetica Neue", Helvetica, Arial, sans-serif;
+        text-align: center;
         text-decoration: none;
-        &:hover {text-decoration: underline}
+        background: image-url('close.png') no-repeat;
+        color: #fff;
+        @include opacity(.9);
+
+        &:hover { @include opacity(1); }
       }
     }
   }

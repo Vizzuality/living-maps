@@ -128,13 +128,20 @@ function parseHash(hash) {
   }
 }
 
-function updateHash(map, city, time) {
-  // var _map = map.map;
-  // var zoom = _map.getZoom();
-  // var lat = _map.getCenter().lat.toFixed(3);
-  // var lng = _map.getCenter().lng.toFixed(3);
+function updateHash(map, city, time, zoom) {
+  var _zoom = "";
 
-  // var hash = "/cities/#" + city + "/" + lat + "/" + lng + "/" + zoom;
+  if(typeof(zoom) != "undefined") {
+    console.log(zoom);
+    _zoom = zoom;
+  } else {
+    _zoom = map.getZoom();
+  }
 
-  // history.pushState(null, null, hash);
+  var lat = map.getCenter().lat.toFixed(3);
+  var lng = map.getCenter().lng.toFixed(3);
+
+  var hash = "/cities/#" + city + "/" + lat + "/" + lng + "/" + _zoom;
+
+  history.pushState(null, null, hash);
 }

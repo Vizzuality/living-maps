@@ -4,10 +4,6 @@ type: city
 city: london
 ---
 
-<script>
-  var city = 'london';
-</script>
-
 <!-- Loader -->
 <div class="mamufas">
   <div class="mamufas-inner">
@@ -52,12 +48,20 @@ city: london
   <div id="map" class="city_map"></div>
 </div>
 
+<!-- Map components -->
+<div class="map_components">
+  <div id="zoom_control">
+    <a href="#zoomIn" class="zoomIn">+</a>
+    <a href="#zoomOut" class="zoomOut">-</a>
+  </div>
+</div>
+
 <!-- Share dialog -->
 <div id="backdrop" class="backdrop">
   <div class="backdrop-inner">
     <h3 class="title">Share this fact!</h3>
     <textarea class="tweet" maxlength="140" rows="3"></textarea>
-    <a href="#/close" class="close">Close</a>
+    <a href="#/close" class="close" title="Close">×</a>
     <a href="http://twitter.com/share?text=" target="_blank" class="button twitter share">Share on Twitter</a>
     <a href="http://facebook.com/share?text=" target="_blank" class="button facebook share">Share on Facebook</a>
     <a href="#/copy-link" class="button copy">Copy Link</a>

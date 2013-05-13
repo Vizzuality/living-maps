@@ -1,4 +1,4 @@
-  
+
   /*
    *  City bubbles (GO GO GO!)
    */
@@ -9,7 +9,7 @@
       markup: " \
         <div class='bubble'> \
           <div class='info'> \
-            <a href='#/go' class='go' data-description='<%= description %>'></a> \
+            <a href='#/go' class='go'></a> \
             <span class='icon type <%= type %>'></span> \
             <p><%= description %></p> \
             <span class='tail'></span> \
@@ -23,16 +23,16 @@
       shadow: {
         showTime: 300,
         hideTime: 600,
-        delayTime: 1000
+        delayTime: 1800
       },
       info: {
         showTime: 300,
         hideTime: 600,
-        delayTime: 1000
+        delayTime: 1800
       }
     },
 
-    el: 'body',
+    el: '.map_components',
 
     bubbles: {},
 
@@ -41,7 +41,7 @@
       this.map = map;
       this.city = city;
 
-      this.data.fetch();
+      this.getData();
       this._initBindings();
 
       return this;
@@ -64,13 +64,16 @@
       });
     },
 
-    data: new TimeBasedData({
-      user: 'pulsemaps',
-      table: 'bubbles',
-      time_column: 'time',
-      city: this.city,
-      columns: ['cartodb_id as id', 'city', 'st_x(the_geom) as lon', 'time', 'st_y(the_geom) as lat', 'type', 'description']
-    }),
+    getData: function() {
+      this.data = new TimeBasedData({
+        user: 'pulsemaps',
+        table: 'bubbles',
+        time_column: 'time',
+        city: this.city,
+        columns: ['cartodb_id as id', 'city', 'st_x(the_geom) as lon', 'time', 'st_y(the_geom) as lat', 'type', 'description']
+      });
+      this.data.fetch();
+    },
 
     render: function() {},
 
@@ -104,23 +107,48 @@
           lon: data.lon
         };
 
-        this._bindMarkupEvents($markup);
+        this._bindMarkupEvents($markup, data.description);
       }
-      
-      var pos = latlonTo3DPixel(self.map, [data.lat, data.lon]);
-      if (!$markup)
-        $markup = this.bubbles[data.id].$markup;
 
-      // Bubble
-      $markup.css({
-        top: pos.y - $markup.outerHeight(),
+      // Check if it is already visible?
+      if (this.bubbles.active) return false;
+
+      // Calculate position
+      var pos = latlonTo3DPixel(this.map, [data.lat, data.lon]);
+
+      // Show it
+      this._showBubble(this.bubbles[data.id], pos);
+    },
+
+    _showBubble: function(bubble, pos) {
+      var self = this;
+
+      // Set flag to visible
+      bubble.visible = true;
+
+      var hiding = setTimeout(function() {
+        self._hideBubble(bubble);
+        clearTimeout(hiding);
+      }, (self.options.info.showTime + this.options.info.delayTime));
+
+      // Bind mouseover
+      bubble.$markup.find('.info').on('mouseenter', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        hiding && clearTimeout(hiding);
+        self._bindOutBubble(bubble);
+      })
+
+      // Parent
+      bubble.$markup.css({
+        top: pos.y - bubble.$markup.outerHeight(),
         left: pos.x - this.options.horizontalOffset,
         display: 'block',
         opacity: 1
       });
 
       // Info
-      $markup.find('.info')
+      bubble.$markup.find('.info')
         .css({
           top: 100,
           display: 'block',
@@ -130,21 +158,11 @@
             top: 0,
             opacity: 1
           },
-          self.options.shadow.showTime,
-          function() {
-            $(this).delay(self.options.info.delayTime).animate({
-                opacity:0,
-                top:-100
-              },
-              self.options.info.hideTime,
-              function() {
-                $markup.hide();
-              });
-          }
+          self.options.shadow.showTime
         );
 
       // Shadow
-      $markup.find('.shadow')
+      bubble.$markup.find('.shadow')
         .css({
           display: 'block',
           opacity: 0
@@ -152,23 +170,58 @@
         .animate({
             opacity: 1
           },
-          self.options.shadow.showTime,
-          function() {
-            $(this).delay(self.options.shadow.delayTime).fadeOut(self.options.shadow.hideTime);
-          }
+          self.options.shadow.showTime
         );
     },
 
-    _bindMarkupEvents: function($el) {
-      $el.find(".go").on("click", function(e) {
+    _hideBubble: function(bubble) {
+      // Unbind mouse events
+      this._unbindBubble(bubble);
+      
+      // Set visible to false
+      bubble.visible = false;
+
+      // Info
+      bubble.$markup.find('.info').animate({
+          opacity:0,
+          top:-100
+        },
+        this.options.info.hideTime,
+        function() {
+          bubble.$markup.hide();
+        });
+
+      // Shadow
+      bubble.$markup.find('.shadow').fadeOut(this.options.shadow.hideTime);
+    },
+
+    _bindOutBubble: function(bubble) {
+      var self = this;
+      bubble.$markup.find('.info').off('mouseenter');
+      bubble.$markup.find('.info').on('mouseleave', function(e){
+        e.stopPropagation();
         e.preventDefault();
-        var desc = $(e.target).data().description;
-        Events.trigger("openshare", desc, this.map, this.city, App.time);
+        self._hideBubble(bubble);
+      });
+    },
+
+    _unbindBubble: function(bubble) {
+      bubble.$markup.find('.info').off('mouseleave');
+      bubble.$markup.find('.info').off('mouseenter');
+    },
+
+    _bindMarkupEvents: function($el, description) {
+      $el.on("click", null, this, function(e) {
+        e.preventDefault();
+        var self = e.data;
+        Events.trigger("openshare", description, self.map, self.city, App.time);
       });
     },
 
     _unbindMarkupEvents: function($el) {
-      $el.find(".go").off("click");
+      $el.off("click");
+      $el.find('.info').off("mouseleave");
+      $el.find('.info').off("mouseenter");
     },
 
     set_time: function(time) {
@@ -181,6 +234,7 @@
     set_city: function(city) {
       // Set new city
       this.city = city;
+      this.data.options.city = city;
 
       // Clean bubbles
       this.clean();
