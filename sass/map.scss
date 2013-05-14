@@ -315,10 +315,13 @@
       top: 0;
       width: 33px;
       height: 33px;
-      opacity: 0.70;
+      opacity: 0.85;
+
       &.turist {background: image-url('poi_types.png');}
       &.transport {background: image-url('poi_types.png') -33px 0;}
       &.sports {background: image-url('poi_types.png') -66px 0;}
+      &.airport {background: image-url('poi_types.png') -99px 0;}
+      &.port {background: image-url('poi_types.png') -132px 0;}
     }
 
     p {

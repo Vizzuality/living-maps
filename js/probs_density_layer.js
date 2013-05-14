@@ -75,7 +75,7 @@ var StreetLayer = L.CanvasLayer.extend({
     this._streetsLayerCtx.fillStyle = 'rgba(23, 162, 206, 1)';
     this._streetsLayerCtx.fillRect(0, 0, c.width, c.height);
     this._streetsLayerCtx.translate(-origin.x, -origin.y);
-    this._streetsLayerCtx.globalAlpha = 0.5;
+    this._streetsLayerCtx.globalAlpha = 0.75;
     for(var tile in this._tiles) {
       var tt = this._tiles[tile]
       var pos = this._getTilePos(tt.coord);
