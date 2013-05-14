@@ -44,20 +44,15 @@
 
     _emit: function(data) {
       var self = this;
-      var $markup;
 
-      if (!this.contextualFacts[data.id]) {
-        var el = _.template(this.templates.markup)(data);
-        var $markup = $(el);
-        this.contextualFacts[data.id] = {
-          $markup: $markup
-        };
-        $(this.el).append($markup);
-      }
+      if (this.contextualFacts[data.id]) return false;
 
-      // Get markup if not was defined
-      if (!$markup)
-        $markup = this.contextualFacts[data.id].$markup;
+      var el = _.template(this.templates.markup)(data);
+      var $markup = $(el);
+      this.contextualFacts[data.id] = {
+        $markup: $markup
+      };
+      $(this.el).append($markup);
 
       // Animation
       $markup.css({
@@ -68,11 +63,19 @@
         marginTop:0,
         opacity: 1
       }, this.options.showTime, function() {
-        $(this).delay(self.options.delayTime).animate({
-          marginTop: '-30px',
-          opacity: 0
-        }, self.options.hideTime)
-      });
+        $(this)
+          .delay(self.options.delayTime)
+          .animate({
+              marginTop: '-30px',
+              opacity: 0
+            },
+          self.options.hideTime,
+          self._removeFact);
+        });
+    },
+
+    _removeFact: function() {
+      $(this).remove();
     },
 
     set_time: function(time) {
