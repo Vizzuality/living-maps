@@ -17,7 +17,9 @@ Map.prototype = {
 
   // creates the map and add it to the DOM
   initialize: function() {
+    var self = this;
     this.options.fadeAnimation = false;
+    this.options.trackResize = true;
     this.map = L.map(this.el, this.options)
       .setView(this.options.center, this.options.zoom);
 

@@ -22,6 +22,7 @@ L.CanvasLayer = L.Class.extend({
     var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
                                 window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
     window.requestAnimationFrame = requestAnimationFrame;
+    this._canvasLayers = [];
   },
 
   addCanvasLayer: function() {
@@ -31,6 +32,7 @@ L.CanvasLayer = L.Class.extend({
     this._staticPane.appendChild(canvas);
     canvas.width = size.x;
     canvas.height = size.y;
+    this._canvasLayers.push(canvas);
     return canvas;
   },
 
@@ -47,6 +49,8 @@ L.CanvasLayer = L.Class.extend({
     this._backCanvas.style['zIndex'] = '100';
     this._canvas.style['zIndex'] = '101';
 
+    this._canvasLayers.push(this._backCanvas);
+    this._canvasLayers.push(this._canvas);
     this._map._panes.canvasPane = this._staticPane;
 
 
@@ -101,9 +105,6 @@ L.CanvasLayer = L.Class.extend({
   },
 
   _reset: function () {
-    var size = this._map.getSize()
-    this._backCanvas.width = this._canvas.width = size.x;
-    this._backCanvas.height = this._canvas.height = size.y;
   },
 
 
@@ -115,7 +116,12 @@ L.CanvasLayer = L.Class.extend({
   _updateOpacity: function () { },
 
   _update: function() {
-    //requestAnimationFrame(this._render);
+    var size = this._map.getSize()
+    for(var i = 0; i < this._canvasLayers.length; ++i) {
+      var c = this._canvasLayers[i];
+      c.width = size.x;
+      c.height = size.y;
+    }
   },
 
   _render: function() {
