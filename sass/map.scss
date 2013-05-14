@@ -126,7 +126,7 @@
   height:100%;
   @include transform-style(preserve-3d);
   //-webkit-transform-origin: 50% 50%;
-  @include transform(rotateX(45deg));
+  @include transform(rotateX(45deg) translateZ(-50px));
 }
 
 .graticule {
