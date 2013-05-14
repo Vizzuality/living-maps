@@ -109,7 +109,7 @@ var App = {
     Events.on("animationenabled", this._onAnimationEnabled, this);
     Events.on("changeappscale", function(scale) {
       this.options.scale = scale || 2.0;
-    }, this)
+    }, this);
   },
 
   _onStopAnimation: function() {

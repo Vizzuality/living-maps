@@ -29,11 +29,6 @@ Map.prototype = {
     this._addLayers();
     // Set bindings
     this._addBindings();
-
-    // $(window).resize(function() {
-    //   w =  $(this).width();
-    //   $(".leaflet-tile-pane").find("canvas").attr("width", w);
-    // });
   },
 
   _addLayers: function() {
@@ -76,6 +71,7 @@ Map.prototype = {
       })
       .on('dblclick', function(e) {
         console.log(e);
+        Events.trigger("dblclickedmap", e.originalEvent);
       })
       .on('scrollWheelZoom', function(e) {
         console.log(e);

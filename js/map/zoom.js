@@ -14,14 +14,16 @@
     },
 
     _initBindings: function() {
+      this.map.doubleClickZoom.disable();
       this.$el.find('a.zoomIn').on('click', null, this, this._onZoomIn);
       this.$el.find('a.zoomOut').on('click', null, this, this._onZoomOut);
       this.$el.find('a.zoomIn, a.zoomOut').on('hover', this._stopPropagation);
+      Events.on("dblclickedmap", this._onZoomIn, this);
     },
 
     _onZoomIn: function(e) {
       e.preventDefault();
-      var self = e.data;
+      var self = this;
       var max_zoom = window.AppData.CITIES[self.city].map.maxZoom;
       if (self.map.getZoom() < max_zoom) {
         var zoom = self.map.getZoom() + 1;
