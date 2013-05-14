@@ -19,6 +19,7 @@
     },
 
     options: {
+      random: false,
       horizontalOffset: 140,
       shadow: {
         showTime: 300,
@@ -94,11 +95,13 @@
       }
 
       // If it shouldn't appear taking into account the random thingy
-      if (this.last_active) {
-        this.last_active = !this.last_active;
-        return false;
-      } else {
-        this.last_active = !this.last_active;
+      if (this.options.random) {
+        if (this.last_active) {
+          this.last_active = !this.last_active;
+          return false;
+        } else {
+          this.last_active = !this.last_active;
+        }
       }
 
       // If now, creates the markup and so on
