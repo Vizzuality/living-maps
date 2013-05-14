@@ -286,10 +286,11 @@ var App = {
     dragged = false;
     clicked = false;
     stopped = true;
-    city = this.options.city;
     this.isPlayed = false;
 
     _.extend(this.options, options);
+
+    city = this.options.city;
 
     this.map.set_city(this.options.map.center, this.options.map.zoom, this.options.city);
 
