@@ -224,14 +224,14 @@
 
     .info {
       position:relative;
-      top:0; left:0;
+      top:100px; left:0;
       display:block;
       width:177px;
       padding:15px;
       margin:0 0 0 36px;
       text-align: center;
       background: rgba(#000F1A, .85);
-      @include opacity(.4);
+      @include opacity(0);
 
       span.tail {
         position:absolute;
@@ -315,7 +315,7 @@
       top: 0;
       width: 33px;
       height: 33px;
-
+      opacity: 0.70;
       &.turist {background: image-url('poi_types.png');}
       &.transport {background: image-url('poi_types.png') -33px 0;}
       &.sports {background: image-url('poi_types.png') -66px 0;}
@@ -323,9 +323,8 @@
 
     p {
       line-height: 16px;
-      color: rgba(#000E19, 0.85);
+      color: rgba(#000E19, 0.80);
       strong { font-weight: bold; }
-      color:black;
       font-weight:bold;
     }
   }

@@ -74,6 +74,7 @@ var StreetLayer = L.CanvasLayer.extend({
     this._streetsLayerCtx.fillStyle = 'rgba(23, 162, 206, 1)';
     this._streetsLayerCtx.fillRect(0, 0, c.width, c.height);
     this._streetsLayerCtx.translate(-origin.x, -origin.y);
+    this._streetsLayerCtx.globalAlpha = 0.5;
     for(var tile in this._tiles) {
       var tt = this._tiles[tile]
       var pos = this._getTilePos(tt.coord);
@@ -292,9 +293,8 @@ var StreetLayer = L.CanvasLayer.extend({
     " ) f GROUP BY x, y";
 
 
-
-    var tiles_url = "http://0.tiles.cartocdn.com/pulsemaps/tiles/pulse_basemap/{0}/{1}/{2}.png?cache_policy=persist&sql=SELECT%20the_geom_webmercator%2Cclass%2Cnull%20as%20name%2C'osm_landusages'%20as%20layer%20FROM%20mumbai_osm_landusages%0AUNION%20ALL%0ASELECT%20the_geom_webmercator%2Cclass%2C%20name%2C'osm_waterareas'%20as%20layer%20FROM%20mumbai_osm_waterareas%0AUNION%20ALL%0ASELECT%20the_geom_webmercator%2Cclass%2Cnull%20as%20name%2C'osm_buildings'%20as%20layer%20%20FROM%20mumbai_osm_buildings%0AUNION%20ALL%0ASELECT%20the_geom_webmercator%2Cclass%2Cnull%20as%20name%2C'osm_roads'%20as%20layer%20FROM%20mumbai_osm_roads%20&cache_policy=persist&cache_buster=2013-05-09T12%3A49%3A08%2B00%3A00&cache_buster=" + new Date().getTime();
-
+    var tiles_sql = encodeURIComponent("SELECT the_geom_webmercator,class,null as name,'osm_landusages' as layer FROM mumbai_osm_landusages UNION ALL SELECT the_geom_webmercator,class,null as name,'osm_landusages' as layer FROM london_osm_landusages UNION ALL SELECT the_geom_webmercator,class, name,'osm_waterareas' as layer FROM mumbai_osm_waterareas UNION ALL SELECT the_geom_webmercator,class, name,'osm_waterareas' as layer FROM london_osm_waterareas UNION ALL SELECT the_geom_webmercator,class,null as name,'osm_roads' as layer FROM mumbai_osm_roads UNION ALL SELECT the_geom_webmercator,class,null as name,'osm_roads' as layer FROM london_osm_roads");
+    var tiles_url = "http://0.tiles.cartocdn.com/pulsemaps/tiles/pulse_basemap/{0}/{1}/{2}.png?cache_policy=persist&sql=" + tiles_sql + "&cache_policy=persist&cache_buster=2013-05-09T12%3A49%3A08%2B00%3A00&cache_buster=" + new Date().getTime();
 
     //var tiles_url = "http://0.tiles.cartocdn.com/pulsemaps/tiles/basemap_roads_live/{0}/{1}/{2}.png?cache_buster=101"
     var img = new Image();
