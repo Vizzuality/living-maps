@@ -42,7 +42,7 @@
           if (poi) {
             var pos = latlonTo3DPixel(self.map, [poi.lat, poi.lon]);
             poi.$markup.css({
-              top: pos.y - (self.options.maxHeight / poi.labelrank),
+              top: pos.y - (self.options.maxHeight / poi.heightrank),
               left: pos.x - self.options.horizontalOffset
             })
           }
@@ -75,9 +75,9 @@
       this.data = new TimeBasedData({
         user: 'pulsemaps',
         table: 'pois',
-        time_column: 'time',
+        time_column: 'id',
         city: this.city,
-        columns: ['cartodb_id as id', 'st_x(the_geom) as lon', 'st_y(the_geom) as lat', 'labelrank', 'name', 'city', 'time as time', 'type']
+        columns: ['cartodb_id as id', 'st_x(the_geom) as lon', 'st_y(the_geom) as lat', 'heightrank', 'labelrank', 'name', 'city', 'type']
       });
       this.data.fetch();
     },
@@ -99,14 +99,15 @@
         var $markup = $(el);
 
         // Set height
-        $markup.height(this.options.maxHeight / data.labelrank);
+        $markup.height(this.options.maxHeight / data.heightrank);
         $(this.el).append($markup);
         
         this.pois[data.id] = {
           $markup: $markup,
           lat: data.lat,
           lon: data.lon,
-          labelrank: data.labelrank
+          labelrank: data.labelrank,
+          heightrank: data.heightrank
         }
 
         // Filter poi by zoom
@@ -118,7 +119,7 @@
         $markup = this.pois[data.id].$markup;
 
       $markup.css({
-        top: pos.y - (this.options.maxHeight / data.labelrank),
+        top: pos.y - (this.options.maxHeight / data.heightrank),
         left: pos.x - this.options.horizontalOffset
       });
     },

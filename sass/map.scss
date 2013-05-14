@@ -90,7 +90,10 @@
 }
 
 .backdrop-inner {
-  margin: 130px auto 0;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  margin-left: -407px;
   padding: 0 40px;
   width: 734px;
   background: image-url('quotes.png') no-repeat 0 55px;
@@ -315,6 +318,7 @@
 
       &.turist {background: image-url('poi_types.png');}
       &.transport {background: image-url('poi_types.png') -33px 0;}
+      &.sports {background: image-url('poi_types.png') -66px 0;}
     }
 
     p {
@@ -366,11 +370,12 @@
     textarea {
       border: none;
       width: 100%;
+      margin-bottom: -5px;
       max-width: 100%;
       min-width: 100%;
-      height: 156px;
-      min-height: 156px;
-      max-height: 156px;
+      height: 286px;
+      min-height: 286px;
+      max-height: 286px;
       padding: 5px 0;
       font: 300 55px/1 "Nokia Pure Text", Helvetica, Arial, sans-serif;
       letter-spacing: -3px;
@@ -383,7 +388,7 @@
 
     a {
       padding: 14px 15px 8px;
-      font-size: 27px;
+      font-size: 25px;
       font-weight: 300;
       color: #0bd;
       text-decoration: underline;

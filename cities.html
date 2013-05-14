@@ -1,7 +1,6 @@
 ---
 layout: application
 type: city
-city: london
 ---
 
 <!-- Loader -->
@@ -12,9 +11,9 @@ city: london
     <div id="spinner-container"></div>
   </div>
 
-  <div id="back_help" class="help"><p>Go back to the homepage</p></div>
+  <!-- <div id="back_help" class="help"><p>Go back to the homepage</p></div>
   <div id="change_help" class="help"><p>Change to another city whenever you want</p></div>
-  <div id="scrub_help" class="help"><p>Play with the time using the scrub control</p></div>
+  <div id="scrub_help" class="help"><p>Play with the time using the scrub control</p></div> -->
 </div>
 
 <!-- Header -->
@@ -58,10 +57,10 @@ city: london
 
 <!-- Share dialog -->
 <div id="backdrop" class="backdrop">
+  <a href="#/close" class="close" title="Close">×</a>
   <div class="backdrop-inner">
     <h3 class="title">Share this fact!</h3>
     <textarea class="tweet" maxlength="140" rows="3"></textarea>
-    <a href="#/close" class="close" title="Close">×</a>
     <a href="http://twitter.com/share?text=" target="_blank" class="button twitter share">Share on Twitter</a>
     <a href="http://facebook.com/share?text=" target="_blank" class="button facebook share">Share on Facebook</a>
     <a href="#/copy-link" class="button copy">Copy Link</a>

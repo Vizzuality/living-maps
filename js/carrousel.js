@@ -33,16 +33,20 @@ Carrousel.prototype = {
 
     this._attachMouse();
 
+    $('a[data-map="' + city + '"]').addClass("selected");
+
     this.cities_nav.find("a").on("click", function(e) {
-      self._showCarrousel(false);
-      self.changeMap($(this).attr("data-map"));
-
-      $(".city-link").removeClass("selected");
-      $(this).addClass("selected");
-
-      history.pushState(null, null, this.href);
+      var slected_map = $(this).attr("data-map");
 
       e.preventDefault();
+      self._showCarrousel(false);
+
+      if(slected_map != city) {
+        self.changeMap($(this).attr("data-map"), this.href);
+
+        $(".city-link").removeClass("selected");
+        $(this).addClass("selected");
+      }
     });
   },
 
@@ -155,7 +159,8 @@ Carrousel.prototype = {
     }
   },
 
-  changeMap: function(city) {
+  changeMap: function(city, hash) {
+    history.pushState(window.AppData.CITIES[city], null, hash);
     App.restart(window.AppData.CITIES[city]);
   },
 
