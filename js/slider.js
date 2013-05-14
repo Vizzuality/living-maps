@@ -77,10 +77,10 @@ Slider.prototype = {
             }
           }
         })
-        .one("mouseenter", function() {
+        .on("mouseenter", function() {
           $("#selectors").addClass("glow");
         })
-        .one("mouseleave", function() {
+        .on("mouseleave", function() {
           $("#selectors").removeClass("glow");
         });
 
