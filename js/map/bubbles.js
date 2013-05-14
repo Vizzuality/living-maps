@@ -316,6 +316,11 @@
 
     _removeBubble: function(bubble_id) {
       if (this.bubbles[bubble_id]) {
+        if (this.bubbles[bubble_id].over) {
+          // Set app scale
+          Events.trigger("changeappscale", AppData.CITIES[this.city].scale);
+          this.bubbles[bubble_id].over = false;
+        }
         this._unbindBubble(bubble_id);
         this.bubbles[bubble_id].$markup.remove();
         delete this.bubbles[bubble_id];
