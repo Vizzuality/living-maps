@@ -25,7 +25,8 @@ Carrousel.prototype = {
 
     this.zoom_w = $("#zoom_control").width() + 100;
 
-    $(window).bind('resize', this._checkResize);
+    this._calcPosition();
+    $(window).on('resize', this._checkResize);
 
     this._attachMouse();
 
@@ -57,7 +58,7 @@ Carrousel.prototype = {
 
     this.el.animate({
       "width": $(window).width()-(self.zoom_w*2),
-      "margin-left": zoom_w
+      "margin-left": self.zoom_w
     });
   },
 

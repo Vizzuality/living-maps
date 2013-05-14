@@ -172,30 +172,29 @@ body {
   overflow: hidden;
 }
 
-#wrapper {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  z-index: 100;
-  min-height: 100%;
-  @include background(linear-gradient(top, rgba(#0bd, .4), rgba(#356095, .4) 100%));
-  pointer-events: none;
-}
-
 .gradient {
   position: absolute;
+  z-index: 20;
   left: 0;
   width: 100%;
-  height: 135px;
+  pointer-events: none;
+
+  &.all {
+    top: 0;
+    z-index: 5;
+    min-height: 100%;
+    @include background(linear-gradient(top, rgba(#0bd, .2), rgba(#356095, .2) 100%));
+  }
 
   &.top {
     top: 0;
-    height: 255px;
-    @include background(linear-gradient(top, #0bd, rgba(#0bd, 0) 100%));
+    height: 33%;
+    @include background(linear-gradient(top, #0bd 50%, rgba(#0bd, 0) 100%));
   }
 
   &.bottom {
     bottom: -10px;
+    height: 135px;
     @include background(linear-gradient(bottom, #356095 0%, rgba(#356095, 0) 100%),linear-gradient(bottom, rgba(#000, .15) 0%, rgba(#000, 0) 100%));
   }
 }
@@ -430,13 +429,6 @@ body {
       line-height: 0;
     }
   }
-
-  .bubble {
-    z-index: 400;
-    @include opacity(.95);
-  }
-
-  .bubble_shadow { z-index: 400; }
 
   #carrousel {
     bottom: -200px;
