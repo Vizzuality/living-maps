@@ -19,18 +19,24 @@
     },
 
     options: {
-      random: false,
+      random: false, // Random bubble appearance 
       horizontalOffset: 140,
-      shadow: {
-        showTime: 300,
-        hideTime: 600,
-        delayTime: 1800
-      },
-      info: {
-        showTime: 300,
-        hideTime: 600,
-        delayTime: 1800
+      animation: {
+        animShowTime: 300,
+        animHideTime: 600,
+        animDelayTime: 1800,
+        slowShowTime: 1000,
+        slowHideTime: 2500,
+        slowShowTime: 1800,
+        slowAppTime: 1.0
       }
+    },
+
+    // States to reproduce when bubble appears
+    states: {
+      0: '_showBubble',
+      1: '_waitBubble',
+      2: '_hideBubble'
     },
 
     el: '.map_components',
@@ -133,114 +139,189 @@
       // Calculate position
       var pos = latlonTo3DPixel(this.map, [data.lat, data.lon]);
 
+      // Bind events
+      this._bindBubble(data.id);
+
       // Show it
       this._showBubble(data.id, pos);
+    },
+
+
+    _bindBubble: function(bubble_id) {
+      var self = this;
+      self.bubbles[bubble_id].$markup
+        .find('.info')
+        .hover(function() {
+          self.bubbles[bubble_id].over = true;
+          self[self.states[self.bubbles[bubble_id].state]](bubble_id);
+        }, function() {
+          self.bubbles[bubble_id].over = false;
+          self[self.states[self.bubbles[bubble_id].state]](bubble_id);
+        })
+        .on('click', function() {
+          Events.trigger("openshare", self.bubbles[bubble_id].description, self.map, self.city, App.time);
+        })
+    },
+
+    _unbindBubble: function(bubble_id) {
+      if (this.bubbles[bubble_id]) {
+        this.bubbles[bubble_id].$markup
+          .find('.info')
+          .off('mouseenter')
+          .off('mouseleave')
+          .off('click');
+      }
     },
 
     _showBubble: function(bubble_id, pos) {
       var self = this;
 
-      // Automatic hide
-      var hiding = setTimeout(function() {
-        self._hideBubble(bubble_id);
-        clearTimeout(hiding);
-      }, (self.options.info.showTime + this.options.info.delayTime));
+      // Set new state
+      this.bubbles[bubble_id].state = 0;
 
-      // Bind events
-      this.bubbles[bubble_id].$markup.on("click", function(e) {
-        e.preventDefault();
-        Events.trigger("openshare", self.bubbles[bubble_id].description, self.map, self.city, App.time);
-      });
+      // Set app scale
+      Events.trigger(
+        "changeappscale",
+        this.bubbles[bubble_id].over
+          ? this.options.animation.slowAppTime
+          : (AppData.CITIES[this.city].scale || 2.0)
+      );
 
-      this.bubbles[bubble_id].$markup.find('.info').on('mouseenter', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        hiding && clearTimeout(hiding);
-        self._bindMouseOutBubble(bubble_id);
-      })
-
+      /* Animation */
       // Parent
-      this.bubbles[bubble_id].$markup.css({
-        top: pos.y - this.bubbles[bubble_id].$markup.outerHeight(),
-        left: pos.x - this.options.horizontalOffset,
-        display: 'block',
-        opacity: 1
-      });
+      if (pos) {
+        this.bubbles[bubble_id].$markup.css({
+          top: pos.y - this.bubbles[bubble_id].$markup.outerHeight(),
+          left: pos.x - this.options.horizontalOffset,
+          display: 'block',
+          opacity: 1
+        });  
+      }
+
+      // Calculate time depending how much has been animated
+      var done = parseFloat(this.bubbles[bubble_id].$markup.find('.info').css('opacity'));
+      var unanim = 1 - done;
 
       // Info
-      this.bubbles[bubble_id].$markup.find('.info')
-        .css({
-          top: 100,
-          display: 'block',
-          opacity: 0
-        })
+      this.bubbles[bubble_id].$markup
+        .find('.info')
+        .stop(true)
         .animate({
             top: 0,
             opacity: 1
           },
-          self.options.shadow.showTime
+          (this.bubbles[bubble_id].over)
+            ? this.options.animation.slowShowTime * unanim
+            : this.options.animation.animShowTime * unanim,
+          function() {
+            self._waitBubble(bubble_id);
+          }
         );
 
       // Shadow
-      this.bubbles[bubble_id].$markup.find('.shadow')
-        .css({
-          display: 'block',
-          opacity: 0
-        })
+      this.bubbles[bubble_id].$markup
+        .find('.shadow')
+        .stop(true)
         .animate({
             opacity: 1
           },
-          self.options.shadow.showTime
+          (this.bubbles[bubble_id].over)
+            ? this.options.animation.slowShowTime * unanim
+            : this.options.animation.animShowTime * unanim
+        );
+    },
+
+    _waitBubble: function(bubble_id) {
+      var self = this;
+
+      // Set new state
+      this.bubbles[bubble_id].state = 1;
+
+      // Set app scale
+      Events.trigger(
+        "changeappscale",
+        this.bubbles[bubble_id].over
+          ? this.options.animation.slowAppTime
+          : (AppData.CITIES[this.city].scale || 2.0)
+      );
+
+      // Calculate time depending how much has been animated
+      var done = parseFloat(this.bubbles[bubble_id].$markup.find('.info').css('top').replace('px', ''));
+      var unanim = 1 - (( 1 * done ) / 10 );
+
+      // Wait bubble in slow motion or normal
+      this.bubbles[bubble_id].$markup
+        .find('.info')
+        .stop(true)
+        .animate({
+            top: 10
+          },
+          (this.bubbles[bubble_id].over)
+            ? this.options.animation.slowDelayTime * unanim
+            : this.options.animation.animDelayTime * unanim,
+          function() {
+            self._hideBubble(bubble_id);
+          }
         );
     },
 
     _hideBubble: function(bubble_id) {
+      var self = this;
+
+      // Set new state
+      this.bubbles[bubble_id].state = 2;
+
+      // Set app scale
+      Events.trigger(
+        "changeappscale",
+        this.bubbles[bubble_id].over
+          ? this.options.animation.slowAppTime
+          : (AppData.CITIES[this.city].scale || 2.0)
+      );
+
+      /* Animation */
+
+      // Calculate time depending how much has been animated
+      var done = parseFloat(this.bubbles[bubble_id].$markup.find('.info').css('opacity'));
+      var unanim = done;
+
       // Info
-      this.bubbles[bubble_id].$markup.find('.info').animate({
-          opacity:0,
-          top:-100
-        },
-        this.options.info.hideTime);
+      this.bubbles[bubble_id].$markup
+        .find('.info')
+        .stop(true)
+        .animate({
+            top: -100,
+            opacity: 0
+          },
+          (this.bubbles[bubble_id].over)
+            ? this.options.animation.slowHideTime * unanim
+            : this.options.animation.animHideTime * unanim,
+          function() {
+            self._removeBubble(bubble_id);
+          }
+        );
 
       // Shadow
-      this.bubbles[bubble_id].$markup.find('.shadow').fadeOut(this.options.shadow.hideTime);
-
-      // Set visible to false
-      var self = this;
-      setTimeout(function() {
-        self._removeBubble(bubble_id);
-      }, this.options.info.hideTime);
+      this.bubbles[bubble_id].$markup
+        .find('.shadow')
+        .stop(true)
+        .animate({
+            opacity: 0
+          },
+          (this.bubbles[bubble_id].over)
+            ? this.options.animation.slowHideTime
+            : this.options.animation.animHideTime
+        );
     },
 
     _removeBubble: function(bubble_id) {
       if (this.bubbles[bubble_id]) {
-        this._unbindMarkupEvents(bubble_id);
+        this._unbindBubble(bubble_id);
         this.bubbles[bubble_id].$markup.remove();
         delete this.bubbles[bubble_id];
       }
     },
 
-    _bindMouseOutBubble: function(bubble_id) {
-      if (this.bubbles[bubble_id]) {
-        var bubble = this.bubbles[bubble_id];
-        var self = this;
-        bubble.$markup.find('.info').off('mouseenter');
-        bubble.$markup.find('.info').on('mouseleave', function(e){
-          e.stopPropagation();
-          e.preventDefault();
-          self._hideBubble(bubble_id);
-        });
-      }
-    },
-
-    _unbindMarkupEvents: function(bubble_id) {
-      if (this.bubbles[bubble_id]) {
-        var bubble = this.bubbles[bubble_id];
-        bubble.$markup.off("click");
-        bubble.$markup.find('.info').off("mouseleave");
-        bubble.$markup.find('.info').off("mouseenter");  
-      }
-    },
 
     set_time: function(time) {
       var e = this.data.getFortime((time/60.0)>>0);
@@ -271,8 +352,7 @@
     clean: function() {
       var self = this;
       for (var i in this.bubbles) {
-        self._unbindMarkupEvents(i);
-        this.bubbles[i].$markup.remove();
+        self._removeBubble(i);
       }
       this.bubbles = [];
     }
