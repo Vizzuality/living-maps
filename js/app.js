@@ -23,8 +23,8 @@ var App = {
     left: 'auto' // Left position relative to parent in px
   },
 
-  init_time: 0,
-  last_time: 1440,
+  init_time: window.AppData.init_time,
+  last_time: window.AppData.last_time,
 
   target: null,
   spinner: null,
@@ -99,20 +99,41 @@ var App = {
     this.spinner = new Spinner(this.spin_opts);
 
     this.spinner.spin(this.target);
+    this.changeTitles(this.options.city);
     this.onFinishLoading();
   },
 
   _initBindings: function() {
     Events.on("stopanimation", this._onStopAnimation, this);
+
+    Events.on("resumeanimation", this._onResumeAnimation, this);
+
+    Events.on("animationenabled", this._onAnimationEnabled, this);
   },
 
-  _onStopAnimation: function(map, city, time) {
+  _onStopAnimation: function() {
     stopped = true;
     $(".ui-slider-handle").addClass("stopped");
 
     if(this.isPlayed) {
-      updateHash(map, city, time);
+      updateHash(this.map.map, this.options.city, App.time);
     }
+  },
+
+  _onResumeAnimation: function() {
+    updateHash(this.map.map, this.options.city, window.AppData.init_time);
+  },
+
+  _onAnimationEnabled: function() {
+    $(document).on("keyup", function(e) {
+      if (e.keyCode === 32) {
+        if (!stopped && !Share.visible()) {
+          Events.trigger("stopanimation");
+        } else if(!Share.visible()) {
+          Events.trigger("resumeanimation");
+        }
+      }
+    });
   },
 
   detectHiddenFeature: function() {
@@ -150,6 +171,7 @@ var App = {
       self.spinner.stop();
       self.spinner_container.addClass("play").html('<a href="#" id="play">Play animation</a>');
 
+
       $("#play").on("click", function(e) {
         e.preventDefault();
 
@@ -172,21 +194,12 @@ var App = {
     Events.trigger("animationenabled", this.map.map, this.options.city);
     Events.trigger("resumeanimation");
 
+    this.time = this.options.time*60;
+    this.slider.el.slider("value", 100 * this.options.time / (this.last_time - this.init_time) * 1);
+
     this.isPlayed = true;
 
     $('.mamufas').fadeOut();
-
-    $(document).on("keyup", function(e) {
-      console.log("pasa");
-
-      if (e.keyCode === 32) {
-        if (!stopped && !Share.visible()) {
-          Events.trigger("stopanimation", self.map.map, self.options.city, self.time);
-        } else if(!Share.visible()) {
-          Events.trigger("resumeanimation");
-        }
-      }
-    });
   },
 
   add_graph: function(city) {
@@ -258,6 +271,12 @@ var App = {
     post.open()
   },
 
+  changeTitles: function(city) {
+    $("#city_name").text(this.options.city_name);
+    $("#city_title").text(this.options.city_title);
+    $("#city_subtitle").text(this.options.city_subtitle);
+  },
+
   restart: function(options) {
     var self = this;
 
@@ -275,9 +294,7 @@ var App = {
     this.map.set_city(this.options.map.center, this.options.map.zoom, this.options.city);
 
     this.spinner_container.removeClass("play").html('');
-    $("#city_name").text(this.options.city_name);
-    $("#city_title").text(this.options.city_title);
-    $("#city_subtitle").text(this.options.city_subtitle);
+    this.changeTitles(this.options.city);
 
     $('.mamufas').fadeIn();
 

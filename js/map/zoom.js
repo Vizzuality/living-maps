@@ -25,7 +25,11 @@
       var max_zoom = window.AppData.CITIES[self.city].map.maxZoom;
       if (self.map.getZoom() < max_zoom) {
         var zoom = self.map.getZoom() + 1;
-        updateHash(self.map, self.city, App.time, zoom);
+        if(!stopped) {
+          updateHash(self.map, self.city, window.AppData.init_time, zoom);
+        } else {
+          updateHash(self.map, self.city, App.time, zoom);
+        }
         self.map.zoomIn();
       }
     },
@@ -36,7 +40,11 @@
       var min_zoom = window.AppData.CITIES[self.city].map.minZoom;
       if (self.map.getZoom() > min_zoom) {
         var zoom = self.map.getZoom() - 1;
-        updateHash(self.map, self.city, App.time, zoom);
+        if(!stopped) {
+          updateHash(self.map, self.city, window.AppData.init_time, zoom);
+        } else {
+          updateHash(self.map, self.city, App.time, zoom);
+        }
         self.map.zoomOut();
       }
     },

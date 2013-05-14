@@ -55,10 +55,7 @@ Slider.prototype = {
     this.valueStop = 0;
 
     // init slider
-    this.el.slider({
-      slide: function(event, ui) {},
-      stop: function(event, ui) {}
-    });
+    this.el.slider();
 
     this.el
       .on("slide", function(event, ui) {
@@ -74,7 +71,7 @@ Slider.prototype = {
         .on("click", function() {
           if(valueStart === self.valueStop) {
             if(!stopped) {
-              Events.trigger("stopanimation", self.options.map, self.options.city, App.time);
+              Events.trigger("stopanimation");
             } else {
               Events.trigger("resumeanimation");
             }
@@ -90,6 +87,10 @@ Slider.prototype = {
     $(document).on("mouseup", function() {
       if(clicked) {
         self.valueStop = self.el.slider("value");
+
+        if(stopped) {
+          updateHash(self.options.map, self.options.city, App.time);
+        }
 
         dragged = false;
         clicked = false;

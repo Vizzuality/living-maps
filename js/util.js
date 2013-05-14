@@ -91,10 +91,22 @@ function latlonTo3DPixel(map, latlon) {
   return transform3d(pos, s.x, s.y);
 }
 
+function isACity(city) {
+  var really = false;
+
+  _.each(window.AppData.CITIES, function(object, key) {
+    if(city === key) {
+      really = true;
+    }
+  });
+
+  return really;
+}
+
 function parseHash(hash) {
   var args = hash.split("/");
 
-  if(args.length >= 1) {
+  if(isACity(args[0])) {
     city = args[0]; // city is a global variable
 
     var lat = parseFloat(args[1]).toFixed(3),
@@ -102,11 +114,17 @@ function parseHash(hash) {
         zoom = parseInt(args[3], 10),
         time = args[4];
 
-    if(isNaN(lat) || isNaN(lon) || isNaN(zoom)) {
+    if(isNaN(lat) || isNaN(lon) || isNaN(zoom) || zoom < window.AppData.CITIES[city]['map']['minZoom'] || zoom > window.AppData.CITIES[city]['map']['maxZoom']) {
+      history.pushState(null, null, "/cities/#" + city);
+
       return window.AppData.CITIES[city];
     } else {
-      if(isNaN(time)) {
+      if(isNaN(time) || time < window.AppData.init_time || time >= window.AppData.last_time) {
         time = 0;
+      }
+
+      if(parseInt(time, 10) === 0) {
+        history.pushState(null, null, "/cities/#" + city + "/" + lat + "/" + lon + "/" + zoom + "/");
       }
 
       return {
@@ -124,24 +142,31 @@ function parseHash(hash) {
       };
     }
   } else {
-    return false;
+    history.pushState(null, null, "/cities/#" + window.AppData.CITIES[city].city);
+
+    return window.AppData.CITIES[city];
   }
 }
 
 function updateHash(map, city, time, zoom) {
   var _zoom = "";
 
-  if(typeof(zoom) != "undefined") {
-    console.log(zoom);
+  if(typeof zoom != "undefined") {
     _zoom = zoom;
   } else {
     _zoom = map.getZoom();
   }
 
+  var _time = parseInt(time/60, 10);
+
   var lat = map.getCenter().lat.toFixed(3);
   var lng = map.getCenter().lng.toFixed(3);
 
-  var hash = "/cities/#" + city + "/" + lat + "/" + lng + "/" + _zoom;
+  var hash = "/cities/#" + city + "/" + lat + "/" + lng + "/" + _zoom + "/";
+
+  if(_time != window.AppData.init_time && _time != window.AppData.last_time) {
+    hash = hash + _time;
+  }
 
   history.pushState(null, null, hash);
 }
