@@ -179,12 +179,13 @@
       // Set new state
       this.bubbles[bubble_id].state = 0;
 
-      if (this.bubbles[bubble_id].over) {
-        App.options.scale = this.options.animation.slowAppTime;
-      } else {
-        App.options.scale = AppData.CITIES[this.city].scale || 2.0;
-      }
-      
+      // Set app scale
+      Events.trigger(
+        "changeappscale",
+        this.bubbles[bubble_id].over
+          ? this.options.animation.slowAppTime
+          : (AppData.CITIES[this.city].scale || 2.0)
+      );
 
       /* Animation */
       // Parent
@@ -236,12 +237,13 @@
       // Set new state
       this.bubbles[bubble_id].state = 1;
 
-      /* Animation */
-      if (this.bubbles[bubble_id].over) {
-        App.options.scale = this.options.animation.slowAppTime;
-      } else {
-        App.options.scale = AppData.CITIES[this.city].scale || 2.0;
-      }
+      // Set app scale
+      Events.trigger(
+        "changeappscale",
+        this.bubbles[bubble_id].over
+          ? this.options.animation.slowAppTime
+          : (AppData.CITIES[this.city].scale || 2.0)
+      );
 
       // Calculate time depending how much has been animated
       var done = parseFloat(this.bubbles[bubble_id].$markup.find('.info').css('top').replace('px', ''));
@@ -269,12 +271,15 @@
       // Set new state
       this.bubbles[bubble_id].state = 2;
 
+      // Set app scale
+      Events.trigger(
+        "changeappscale",
+        this.bubbles[bubble_id].over
+          ? this.options.animation.slowAppTime
+          : (AppData.CITIES[this.city].scale || 2.0)
+      );
+
       /* Animation */
-      if (this.bubbles[bubble_id].over) {
-        App.options.scale = this.options.animation.slowAppTime;
-      } else {
-        App.options.scale = AppData.CITIES[this.city].scale || 2.0;
-      }
 
       // Calculate time depending how much has been animated
       var done = parseFloat(this.bubbles[bubble_id].$markup.find('.info').css('opacity'));

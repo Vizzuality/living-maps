@@ -105,10 +105,11 @@ var App = {
 
   _initBindings: function() {
     Events.on("stopanimation", this._onStopAnimation, this);
-
     Events.on("resumeanimation", this._onResumeAnimation, this);
-
     Events.on("animationenabled", this._onAnimationEnabled, this);
+    Events.on("changeappscale", function(scale) {
+      this.options.scale = scale || 2.0;
+    }, this)
   },
 
   _onStopAnimation: function() {
