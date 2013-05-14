@@ -220,8 +220,7 @@
     width: 207px;
     padding: 21px 36px 31px;
     margin: 0;
-
-    * { @include user-select(none); }
+    @include user-select(none);
 
     .info {
       position:relative;
@@ -295,8 +294,7 @@
     border-left: 1px solid rgba(#000E19, 0.85);
     z-index: 10;
     pointer-events: none;
-
-    * { @include user-select(none); }
+    @include user-select(none);
 
     &:after {
       display: block;
@@ -316,15 +314,18 @@
       top: 0;
       width: 33px;
       height: 33px;
-      opacity: 0.70;
+      opacity: 1;
+
       &.turist {background: image-url('poi_types.png');}
       &.transport {background: image-url('poi_types.png') -33px 0;}
       &.sports {background: image-url('poi_types.png') -66px 0;}
+      &.airport {background: image-url('poi_types.png') -99px 0;}
+      &.port {background: image-url('poi_types.png') -132px 0;}
     }
 
     p {
       line-height: 16px;
-      color: rgba(#000E19, 0.80);
+      color: rgba(#000E19, 1);
       strong { font-weight: bold; }
       font-weight:bold;
     }
@@ -336,6 +337,7 @@
     bottom:25px;
     left:50px;
     z-index:450;
+    @include user-select(none);
 
     a {
       position:relative;
