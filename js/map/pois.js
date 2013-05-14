@@ -72,19 +72,25 @@
     },
 
     getData: function() {
+      var self = this;
+
       this.data = new TimeBasedData({
         user: 'pulsemaps',
         table: 'pois',
         time_column: 'id',
         city: this.city,
+        geometry: true,
         columns: ['cartodb_id as id', 'st_x(the_geom) as lon', 'st_y(the_geom) as lat', 'heightrank', 'labelrank', 'name', 'city', 'type']
       });
-      this.data.fetch();
+
+      this.data.fetch(function() {
+        self.render();
+      });
     },
 
     render: function() {
       var self = this;
-      for (var i in self.data.time_index) {
+      for (var i in this.data.time_index) {
         var _data = self.data.time_index[i];
         self._emit(_data);
       }
