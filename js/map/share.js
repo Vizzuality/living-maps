@@ -60,9 +60,31 @@
         // ESC?
         if (keycode == 27) {
           self._onCloseShare(e);
+        } else {
+          self._checkHeight(true);
         }
 
         if (stop) e.stopPropagation();
+      }
+    },
+
+    _checkHeight: function(animate) {
+      var $textarea = this.$el.find('textarea');
+
+      if(animate) {
+        if($textarea.val().length > 90) {
+          $textarea.animate({
+            height: "290px",
+            "min-height": "290px",
+            "max-height": "290px"
+          });
+        }
+      } else if($textarea.val().length + 21 > 90) {
+        $textarea.css({
+          height: "290px",
+          "min-height": "290px",
+          "max-height": "290px"
+        });
       }
     },
 
@@ -70,6 +92,8 @@
       var $textarea = this.$el.find('textarea');
       var self = this;
       $textarea.val(this._sanitizeText(text));
+
+      this._checkHeight(false);
 
       // Disable textarea
       $textarea.attr('disabled','');
@@ -142,6 +166,11 @@
       self._disableCopy();
       self._disableKeyBindings();
       Events.trigger("resumeanimation");
+      this.$el.find('textarea').css({
+        height: "175px",
+        "min-height": "175px",
+        "max-height": "175px"
+      });
     },
 
     // _updateHash: function(city, time) {

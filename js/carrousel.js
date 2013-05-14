@@ -23,13 +23,9 @@ Carrousel.prototype = {
   initialize: function() {
     self = this;
 
-    var zoom_w = $("#zoom_control").width() + 100;
+    this.zoom_w = $("#zoom_control").width() + 100;
 
-    this._calcPosition(zoom_w);
-
-    $(window).resize(function() {
-      self._calcPosition(zoom_w);
-    });
+    $(window).bind('resize', this._checkResize);
 
     this._attachMouse();
 
@@ -50,9 +46,17 @@ Carrousel.prototype = {
     });
   },
 
-  _calcPosition: function(zoom_w) {
+  _checkResize: function() {
+    if (this.resize) clearTimeout(this.resize);
+    var self = this;
+    this.resize = setTimeout(self._calcPosition, 100);
+  },
+
+  _calcPosition: function() {
+    var self = this;
+
     this.el.animate({
-      "width": $(window).width()-(zoom_w*2),
+      "width": $(window).width()-(self.zoom_w*2),
       "margin-left": zoom_w
     });
   },
