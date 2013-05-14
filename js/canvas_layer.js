@@ -23,6 +23,7 @@ L.CanvasLayer = L.Class.extend({
                                 window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
     window.requestAnimationFrame = requestAnimationFrame;
     this._canvasLayers = [];
+    this.previousSize = null;
   },
 
   addCanvasLayer: function() {
@@ -117,6 +118,9 @@ L.CanvasLayer = L.Class.extend({
 
   _update: function() {
     var size = this._map.getSize()
+    var prev = this.previousSize;
+    if(prev && prev.x == size.x && prev.y == size.y) return;
+    this.previousSize = size;
     for(var i = 0; i < this._canvasLayers.length; ++i) {
       var c = this._canvasLayers[i];
       c.width = size.x;
