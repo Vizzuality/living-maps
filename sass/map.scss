@@ -126,7 +126,7 @@
   height:100%;
   @include transform-style(preserve-3d);
   //-webkit-transform-origin: 50% 50%;
-  @include transform(rotateX(45deg));
+  @include transform(rotateX(45deg) translateZ(-50px));
 }
 
 .graticule {
@@ -291,7 +291,7 @@
     width: 120px;
     margin: 0;
     padding-left: 10px;
-    border-left: 1px solid rgba(#000E19, 0.90);
+    border-left: 1px solid rgba(#000E19, 0.85);
     z-index: 10;
     pointer-events: none;
 
@@ -315,7 +315,7 @@
       top: 0;
       width: 33px;
       height: 33px;
-
+      opacity: 0.70;
       &.turist {background: image-url('poi_types.png');}
       &.transport {background: image-url('poi_types.png') -33px 0;}
       &.sports {background: image-url('poi_types.png') -66px 0;}
@@ -323,9 +323,8 @@
 
     p {
       line-height: 16px;
-      color: rgba(#000E19, 0.85);
+      color: rgba(#000E19, 0.80);
       strong { font-weight: bold; }
-      color:black;
       font-weight:bold;
     }
   }
