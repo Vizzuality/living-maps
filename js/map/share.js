@@ -72,14 +72,14 @@
       var $textarea = this.$el.find('textarea');
 
       if(animate) {
-        if($textarea.val().length > 90) {
+        if($textarea.val().length > 80) {
           $textarea.animate({
             height: "290px",
             "min-height": "290px",
             "max-height": "290px"
           });
         }
-      } else if($textarea.val().length + 21 > 90) {
+      } else if($textarea.val().length + 21 > 80) {
         $textarea.css({
           height: "290px",
           "min-height": "290px",
@@ -166,11 +166,14 @@
       self._disableCopy();
       self._disableKeyBindings();
       Events.trigger("resumeanimation");
-      this.$el.find('textarea').css({
-        height: "175px",
-        "min-height": "175px",
-        "max-height": "175px"
-      });
+
+      setTimeout(function(){
+        self.$el.find('textarea').css({
+          height: "175px",
+          "min-height": "175px",
+          "max-height": "175px"
+        });
+      },1000);
     },
 
     // _updateHash: function(city, time) {
