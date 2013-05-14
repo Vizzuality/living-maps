@@ -99,6 +99,7 @@ var App = {
     this.spinner = new Spinner(this.spin_opts);
 
     this.spinner.spin(this.target);
+    this.changeTitles(this.options.city);
     this.onFinishLoading();
   },
 
@@ -270,6 +271,12 @@ var App = {
     post.open()
   },
 
+  changeTitles: function(city) {
+    $("#city_name").text(this.options.city_name);
+    $("#city_title").text(this.options.city_title);
+    $("#city_subtitle").text(this.options.city_subtitle);
+  },
+
   restart: function(options) {
     var self = this;
 
@@ -287,9 +294,7 @@ var App = {
     this.map.set_city(this.options.map.center, this.options.map.zoom, this.options.city);
 
     this.spinner_container.removeClass("play").html('');
-    $("#city_name").text(this.options.city_name);
-    $("#city_title").text(this.options.city_title);
-    $("#city_subtitle").text(this.options.city_subtitle);
+    this.changeTitles(this.options.city);
 
     $('.mamufas').fadeIn();
 
