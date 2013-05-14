@@ -79,7 +79,7 @@ var App = {
     this._initBindings();
 
     this.slider.onTimeChange = function(time) {
-      self.time = time;
+      self.time = time >> 0;
     }
 
     this.add_graph(this.options.city);
