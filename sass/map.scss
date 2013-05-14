@@ -220,8 +220,7 @@
     width: 207px;
     padding: 21px 36px 31px;
     margin: 0;
-
-    * { @include user-select(none); }
+    @include user-select(none);
 
     .info {
       position:relative;
@@ -295,8 +294,7 @@
     border-left: 1px solid rgba(#000E19, 0.85);
     z-index: 10;
     pointer-events: none;
-
-    * { @include user-select(none); }
+    @include user-select(none);
 
     &:after {
       display: block;
@@ -336,6 +334,7 @@
     bottom:25px;
     left:50px;
     z-index:450;
+    @include user-select(none);
 
     a {
       position:relative;
