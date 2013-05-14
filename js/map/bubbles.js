@@ -24,7 +24,7 @@
       animation: {
         animShowTime: 300,
         animHideTime: 600,
-        animDelayTime: 1800,
+        animDelayTime: 2300,
         slowShowTime: 1000,
         slowHideTime: 2500,
         slowShowTime: 1800,
