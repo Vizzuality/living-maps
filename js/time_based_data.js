@@ -32,8 +32,9 @@ TimeBasedData.prototype.fetch = function() {
   this.base_url = this.options.url;
 
   var sel = this.options.columns.join(',');
+  var geom = (this.options.geometry) ? " AND the_geom IS NOT NULL" : '';
 
-  $.getJSON(this.base_url + "?q=" + "SELECT " + sel + " FROM " + this.options.table + " WHERE city='" + this.options.city + "'", function(data) {
+  $.getJSON(this.base_url + "?q=" + "SELECT " + sel + " FROM " + this.options.table + " WHERE city='" + this.options.city + "'" + geom, function(data) {
     self.reset(data.rows);
   });
 }

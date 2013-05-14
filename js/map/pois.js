@@ -77,6 +77,7 @@
         table: 'pois',
         time_column: 'id',
         city: this.city,
+        geometry: true,
         columns: ['cartodb_id as id', 'st_x(the_geom) as lon', 'st_y(the_geom) as lat', 'heightrank', 'labelrank', 'name', 'city', 'type']
       });
       this.data.fetch();

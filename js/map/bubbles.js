@@ -80,6 +80,7 @@
         user: 'pulsemaps',
         table: 'bubbles',
         time_column: 'time',
+        geometry: true,
         city: this.city,
         columns: ['cartodb_id as id', 'city', 'st_x(the_geom) as lon', 'time', 'st_y(the_geom) as lat', 'type', 'description']
       });
