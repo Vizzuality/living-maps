@@ -50,7 +50,7 @@ Map.prototype = {
     });*/
 
     self.probsLayer = new StreetLayer({
-      table: this.options.city + "_2m_1mm"
+      table: this.options.city +"_manydays_live"
     });
     self.map.addLayer(self.probsLayer);
 
