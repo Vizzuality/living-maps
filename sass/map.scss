@@ -316,7 +316,7 @@
       top: 0;
       width: 33px;
       height: 33px;
-      opacity: 0.85;
+      opacity: 1;
 
       &.turist {background: image-url('poi_types.png');}
       &.transport {background: image-url('poi_types.png') -33px 0;}
@@ -327,7 +327,7 @@
 
     p {
       line-height: 16px;
-      color: rgba(#000E19, 0.80);
+      color: rgba(#000E19, 1);
       strong { font-weight: bold; }
       font-weight:bold;
     }
