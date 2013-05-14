@@ -178,7 +178,7 @@ body {
   width: 100%;
   z-index: 100;
   min-height: 100%;
-  @include background(linear-gradient(top, rgba(#0bd, .4), rgba(#356095, .4) 100%));
+  // @include background(linear-gradient(top, rgba(#0bd, .4), rgba(#356095, .4) 100%));
   pointer-events: none;
 }
 
@@ -190,12 +190,12 @@ body {
 
   &.top {
     top: 0;
-    background: image-url('gradient-top.png') repeat-x top;
+    @include background(linear-gradient(top, #0bd, rgba(#0bd, 0) 100%));
   }
 
   &.bottom {
     bottom: 0;
-    background: image-url('gradient-bottom.png') repeat-x bottom;
+    @include background(linear-gradient(bottom, #356095 0%, rgba(#356095, 0) 100%));
   }
 }
 
