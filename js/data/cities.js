@@ -21,7 +21,7 @@ window.AppData.CITIES = {
 
   'chicago': {
     map: {
-      center: [41.850, 87.650],
+      center: [41.850, -87.650],
       zoom: 12
     },
     time_scale: 15 * 60,
