@@ -59,7 +59,8 @@ var App = {
      Math.floor(real_time/60) + ':' + pad.substring(0, 2 - mins.length) + mins ;
   },
 
-  render: function(t0) {
+  render: function() {
+    var t0 = Date.now();
     var dt = 0.001 * (t0 - this.old_time); // seconds
     this.t += dt*this.speed*15*60; //15 minutes each second
     var otime = this.layer.time;
