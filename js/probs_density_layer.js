@@ -148,46 +148,6 @@ var StreetLayer = L.CanvasLayer.extend({
     ctx.globalAlpha = 1;
   },
 
-  _render: function() {
-    if(!this._canvas) return;
-    this._canvas.width = this._canvas.width;
-    var origin = this._map._getNewTopLeftPoint(this._map.getCenter(), this._map.getZoom());
-    /*
-    this._ctx.setTransform(1, 0, 0, 1, 0, 0);
-    this._ctx.fillStyle = 'rgba(23, 162, 206,'  + this.render_options.post_decay + ')';
-    this._ctx.fillRect(0, 0, this._canvas.width, this._canvas.height);
-    */
-    this._ctx.translate(-origin.x, -origin.y);
-    this._ctx.globalCompositeOperation = 'lighter';
-
-    var ctx = this._ctx;
-    var time = this.time;
-    var s = 2
-    for(var tile in this._tiles) {
-      var tt = this._tiles[tile]
-      var x = tt.x
-      var y = tt.y;
-      var count = this.render_options.filtered? tt.count_filtered:tt.count;
-      var len = tt.len
-      for(var i = 0; i < len; ++i) {
-        var base_time = this.MAX_UNITS * i + time
-        var c = count[base_time];
-        if(c) {
-          var sp = this.sprites[c]
-          ctx.drawImage(
-            sp,
-            x[i] - (sp.width>> 1),
-            y[i] - (sp.height>>1) + 2*c)
-        }
-      }
-    }
-
-    if(this.render_options.post_process) {
-      this._do_post_process(origin);
-    }
-
-  },
-
   tile: function(sql, callback) {
     var self = this;
     var base_url = 'http://pulsemaps.cartodb.com/'
@@ -200,71 +160,121 @@ var StreetLayer = L.CanvasLayer.extend({
   },
 
   pre_cache_data: function(rows, coord, zoom) {
-    var row;
-    var count;
-    var xcoords;
-    var ycoords;
-    var values;
-    var key;
+    var TIME_SLOTS = this.MAX_UNITS;
+    var timeIndex = new Int32Array(TIME_SLOTS); //index-size
+    var timeCount = new Int32Array(TIME_SLOTS); 
+    var x = new Int32Array(rows.length);
+    var y = new Int32Array(rows.length);
 
-    x = new Int32Array(rows.length);
-    y = new Int32Array(rows.length);
-    speeds = new Uint8Array(rows.length * this.MAX_UNITS);// 256 months
-    count = new Uint8Array(rows.length * this.MAX_UNITS);// 256 monthsrr
-    count_filtered = new Uint8Array(rows.length * this.MAX_UNITS);// 256 monthsrr
-
-    // base tile x, y
-    var total_pixels = 256 << zoom;
-    var max_val = 0;
-
-    for (var i in rows) {
-      row = rows[i];
-      pixels = meterToPixels(row.x, row.y, zoom); 
-      key = '' + (pixels[0] >> 0) + "_" + ((total_pixels - pixels[1])>>0)
-      x[i] = pixels[0] >> 0;
-      y[i] = (total_pixels - pixels[1])>>0;
-      var base_idx = i * this.MAX_UNITS;
-      //def[row.sd[0]] = row.se[0];
-      for (var j = 0; j < row.dates.length; ++j) {
-        //var dir = row.heads[j] + 90;
-        //var s = row.speeds[j]
-        //dx[base_idx + row.dates[j]] = Math.cos(dir*Math.PI/180);
-        //dy[base_idx + row.dates[j]] = Math.sin(dir*Math.PI/180);
-        //speeds[base_idx + row.dates[j]] = row.speeds[j];
-
-        count_filtered[base_idx + row.dates[j]] =   
-          count[base_idx + row.dates[j]] = row.vals[j]; //Math.min(6, Math.ceil(row.vals[j]/100)) >> 0 ;
-      }
-
-      /*
-      var passes = 2;
-      while(passes--) {
-        for (var j = 1; j < this.MAX_UNITS; ++j) {
-          count_filtered[base_idx + j] += count_filtered[base_idx + j - 1]/2.0
-        }
-      }
-      for (var j = 1; j < this.MAX_UNITS; ++j) {
-        count_filtered[base_idx + j] = Math.min(6, count_filtered[base_idx + j]) >> 0 ;
-      }
-      */
+    // count number of dates
+    var dates = 0;
+    for (var r in rows) {
+      var row = rows[r];
+      dates += row.dates.length;
     }
 
-    //this.force_keys = Object.keys(this.force_map);
+    // reserve memory for all the dates
+    var renderData = new Uint8Array(dates);
+    var renderDataPos = new Uint32Array(dates);
+
+    // precache pixel positions
+    var total_pixels = 256 << zoom;
+    for (var r in rows) {
+      var row = rows[r];
+      var pixels = meterToPixels(row.x, row.y, zoom); 
+      x[r] = pixels[0] | 0;
+      y[r] = (total_pixels - pixels[1]) | 0;
+    }
+
+    // for each timeslot search active buckets
+    var renderDataIndex = 0;
+    var timeSlotIndex = 0;
+    for(var i = 0; i < TIME_SLOTS; ++i) {
+      var c = 0;
+      for (var r in rows) {
+        var row = rows[r];
+        for (var j = 0, len = row.dates.length; j < len; ++j) {
+          if(row.dates[j] == i) {
+            ++c;
+            renderData[renderDataIndex] = row.vals[j];
+            renderDataPos[renderDataIndex] = r;
+            ++renderDataIndex;
+          }
+        }
+      }
+      timeIndex[i] = c;
+      timeCount[i] = timeSlotIndex;
+      timeSlotIndex += c;
+    }
 
     return {
-      count: count,
-      count_filtered: count_filtered,
       x: x,
-      y: y,
-      len: rows.length
-      /*length: rows.length,
-      xcoords: xcoords,
-      ycoords: ycoords,
-      speeds: speeds,
-      heads: heads,
-      size: 1 << (this.resolution * 2)
-      */
-    };
+      y: y
+      timeIndex: timeIndex,
+      renderDataPos: renderDataPos,
+      renderData: renderData
+    }
+  },
+
+  // tile format
+  //
+  // ** header
+  // - file tag: 84, 79, 82, 81, 85, 69  [int8 * 5] ("TORQUE" in ascii)
+  // - file version [int8] (0, 1, 2, 3...)
+  //
+  // ** data
+  // - n_pixels with data [uint32]
+  // - time_slots [uint32]
+  // - x coords [int32*n_pixels]
+  // - y coords [int32*n_pixels]
+  // - timeIndex [int32*time_slots]
+  // - timeCount [int32*time_slots]
+  //   this value return the index in renderData and renderDataPos for a time slot
+  // - renderDataPos [uint32, index in x,y array for time t] 
+  //    contains the positions for each pixel, indexed by time index
+  // - renderData
+  //    contains the values for pixels, indexed by timeIndex
+  //
+  //
+  // example: how to get the values and the pixel positions in the time slot "time"
+  // var index = timeIndex[time]
+  // var pixelsToRender = timeCount[index]
+  // for(var i = 0; i < pixelsToRender; ++i) {
+  //    var posIndex = renderDataPos[index + i]
+  //    var value = renderData[index + i];
+  //    render_at(x[posIndex], y[posIndex], value);
+  // }
+  //
+
+  _render: function() {
+    if(!this._canvas) return;
+    this._canvas.width = this._canvas.width;
+    var origin = this._map._getNewTopLeftPoint(this._map.getCenter(), this._map.getZoom());
+    this._ctx.translate(-origin.x, -origin.y);
+    this._ctx.globalCompositeOperation = 'lighter';
+
+    var ctx = this._ctx;
+    var time = this.time;
+    var s = 2
+    for(var tile in this._tiles) {
+      var tt = this._tiles[tile]
+      var activePixels = tt.timeCount[time];
+      if(activePixels) {
+        var pixelIndex = tt.timeIndex[time];
+        for(var p = 0; p < activePixels; ++p) {
+          var posIdx = tt.renderDataPos[pixelIndex + p];
+          var c = tt.renderData[pixelIndex + p];
+          if(c) {
+            var sp = this.sprites[c]
+            ctx.drawImage(
+              sp,
+              tt.x[posIdx] - (sp.width>> 1),
+              tt.y[posIdx] - (sp.height>>1) + 2*c)
+          }
+        }
+      }
+    }
+
   },
 
   // params for cities
