@@ -282,9 +282,9 @@ var StreetLayer = L.CanvasLayer.extend({
     }
 
     var sql = "WITH cte AS ( SELECT ST_SnapToGrid(i.the_geom_webmercator, " +
-                                  "CDB_XYZ_Resolution({0})*{1}) g"
+                                  "round((CDB_XYZ_Resolution({0})*{1})::numeric, 4)::float8) g"
                                   . format(zoom, this.options.resolution) +
-            ", {0} c " .format(this.options.countby) +
+            ", {0} c" .format(this.options.countby) +
             ", floor(({0}- {1})/{2}) d"
               .format(this.options.column, this.options.start_date, this.options.step) +
             " FROM {0} i\n".format(this.options.table) +
@@ -292,7 +292,7 @@ var StreetLayer = L.CanvasLayer.extend({
               .format(coord.x, coord.y, zoom) +
             "AND mm % {0} = 0 AND ac > 1200 ".format(this.options.decimate) +
             "GROUP BY g, d" +
-            ") SELECT round(st_x(g)::numeric, 4) x, round(st_y(g)::numeric, 4) y, " + 
+            ") SELECT st_x(g) x, st_y(g) y, " + 
             " array_agg(least(6, ceil(c/100))) vals, " +
             " array_agg(floor(d/{0})) dates " . format(this.options.decimate) +
             " FROM cte GROUP BY x,y";
