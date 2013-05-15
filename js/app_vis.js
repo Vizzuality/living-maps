@@ -15,7 +15,7 @@ var App = {
     this.initControls();
     this.t = 0;
     this.speed = 0.5
-    this.old_time = 0;
+    this.old_time = Date.now();
     this.time = document.getElementById('date');
     var self = this;
 
@@ -60,13 +60,15 @@ var App = {
   },
 
   render: function() {
-    var t0 = new Date().getTime()  
-    var dt = 0.001*(t0 - this.old_time)
-    dt = Math.min(1, dt);
-    this.old_time = t0;
-    this.layer._render(0.02);
+    var t0 = Date.now();
+    var dt = 0.001 * (t0 - this.old_time); // seconds
     this.t += dt*this.speed*15*60; //15 minutes each second
-    this.layer.set_time(this.t);
+    var otime = this.layer.time;
+    this.layer.set_time(this.t)
+    if ( this.layer.time != otime ) {
+      this.old_time = t0;
+      this.layer._render(0.02);
+    }
     this.set_date();
     /*if(this.controls.left) {
       this.t = Math.max(0, this.t - 1);
