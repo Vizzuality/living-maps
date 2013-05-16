@@ -30,7 +30,7 @@ type: city
     <div id="moon" class="moon"></div>
   </div>
 
-  <div id="time_slider" class="time_slider"><a href="#"></a></div>
+  <div id="time_slider" class="time_slider"></div>
   <span id="hour" class="hour">1:00 <sup>AM</sup></span>
 </div>
 
@@ -56,9 +56,9 @@ type: city
 
   <ul class="menu">
     <li>
-      <a href="#">Select a city</a>
+      <a href="#" id="dropdown_link">Select a city</a>
 
-      <ul class="cities_dropdown">
+      <ul id="dropdown_nav">
         <li>
           <a href="/cities/#london" class="city-link" data-map="london">
             <img src="/img/cities/london.jpg" alt="" title="">
@@ -68,7 +68,7 @@ type: city
         </li>
 
         <li>
-          <a href="/cities/#chicago" class="city-link" data-map="chicago">
+          <a href="/cities/#chicago" class="city-link disabled" data-map="chicago">
             <img src="/img/cities/chicago.jpg" alt="" title="">
             <h3 class="title">Chicago</h3>
             <p>The other Capital</p>
@@ -76,7 +76,7 @@ type: city
         </li>
 
         <li>
-          <a href="/cities/#rome" class="city-link" data-map="rome">
+          <a href="/cities/#rome" class="city-link disabled" data-map="rome">
             <img src="/img/cities/rome.jpg" alt="" title="">
             <h3 class="title">Rome</h3>
             <p>The other Capital</p>
@@ -84,7 +84,7 @@ type: city
         </li>
 
         <li>
-          <a href="/cities/#helsinki" class="city-link" data-map="helsinki">
+          <a href="/cities/#helsinki" class="city-link disabled" data-map="helsinki">
             <img src="/img/cities/helsinki.jpg" alt="" title="">
             <h3 class="title">Helsinki</h3>
             <p>The other Capital</p>
