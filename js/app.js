@@ -26,14 +26,14 @@ var App = {
       // scrollWheelZoom: false,
       // doubleClickZoom: false,
       base_layer: 'https://saleiva.cartodb.com/tiles/'+ this.options.map.name +'/{z}/{x}/{y}.png',
-      city: options.city
+      city: this.options.city
     });
-
-    // Carrousel
-    this.carrousel = new Carrousel($('#cities_nav'), this.options.city);
 
     // Mamufas
     this.mamufas = new Mamufas($('#mamufas'), this.options.city);
+
+    // Carrousel
+    this.carrousel = new Carrousel($('#cities_dropdown'), this.map);
 
     // ****
     // Map animated particled

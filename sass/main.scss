@@ -1,6 +1,8 @@
 @import "compass/reset";
 @import "compass/css3";
+@import "vendor/jquery.qtip";
 @import "map";
+@import "dropdowns";
 @import "debug";
 
 .clearfix:before,
@@ -117,4 +119,59 @@ body {
 .inner {
   width: 670px;
   padding: 0 20px;
+}
+
+// Navigation
+.navigation {
+  position: absolute;
+  z-index: 300;
+  bottom: 0;
+  border-top: 1px solid rgba(#fff, .4);
+  height: 72px;
+  width: 100%;
+  background: rgba(#fff, .2);
+
+  .title {
+    float: left;
+    margin-left: 50px;
+    font-size: 27px;
+    font-weight: bold;
+    line-height: 80px;
+
+    span { font-weight: 300; }
+  }
+
+  a { color: #fff; }
+}
+
+.menu {
+  float: right;
+  margin-right: 40px;
+
+  li {
+    float: left;
+    margin-left: 10px;
+  }
+
+  a {
+    padding: 0 10px;
+    text-decoration: none;
+    line-height: 80px;
+    color: #fff;
+  }
+
+  sup {
+    position: relative;
+    top: -4px;
+    font-size: 12px;
+  }
+}
+
+#dropdown_link {
+  padding-right: 20px;
+  background: image-url('caret.png') no-repeat right center;
+}
+
+#dropdown_nav {
+  display: none;
 }

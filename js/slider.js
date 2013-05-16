@@ -44,6 +44,9 @@ Slider.prototype = {
 
     this.valueStop = 0;
 
+    // init slider
+    this.el.slider();
+
     this.el
       .on("slide", function(event, ui) {
         self.onSlideStart(ui.value);
