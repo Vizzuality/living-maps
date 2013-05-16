@@ -1,0 +1,47 @@
+@import "compass/css3";
+
+.qtip-content {
+  padding: 10px 20px;
+}
+
+.tooltip_dropdown {
+  border: none;
+  width: 230px;
+  background: #fff;
+  @include border-radius(5px);
+  @include box-shadow(0 0 6px rgba(#000, .3));
+
+  a {
+    display: block;
+    padding: 15px 0;
+    font: 300 13px "Nokia Pure Text", Helvetica, Arial, sans-serif;
+    text-decoration: none;
+    color: #4692C4;
+
+    &.selected,
+    &:hover {
+      color: #545454;
+
+      &.disabled {
+        color: #4692C4;
+      }
+    }
+
+    &.disabled {
+      cursor: default;
+      @include opacity(.4);
+    }
+
+    h3 {
+      font-size: 21px;
+      line-height: 1;
+    }
+
+    img {
+      float: left;
+      margin: -4px 10px 0 0;
+    }
+  }
+
+  li + li a { border-top: 1px solid rgba(#ddd, .5); }
+}
