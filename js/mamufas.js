@@ -2,10 +2,9 @@
 function Mamufas(el, city) {
   var self = this;
 
-  this.el = el;
+  this.$el = el;
 
   this.city = city;
-  this.play = this.el.find("#play");
 
   this.spin_opts = {
     lines: 8, // The number of lines to draw
@@ -31,36 +30,52 @@ function Mamufas(el, city) {
 
 Mamufas.prototype = {
 
-  initialize: function(city) {
+  initialize: function() {
     this.city = city;
-    this._initBindings(city);
+    this._initBindings();
   },
 
-  _initBindings: function(city) {
+  _initBindings: function() {
     var self = this;
 
-    Events.on("animationdisabled", function(city) {
+    // Spinner
+    this.target = document.getElementById('spinner-container');
+    this.spinner_container = $("#spinner-container");
+    this.spinner = new Spinner(this.spin_opts);
+
+    Events.on("disableanimation", function(city) {
       self.city = city;
+
+      self.spinner_container.removeClass("play").html('');
+
       self._mamufasOn();
     });
 
     Events.on("stopanimation", function() {
       self.spinner.stop();
       self.spinner_container.addClass("play").html('<a href="#" id="play">Play animation</a>');
+
+      $("#play").on("click", function(e) {
+        e.preventDefault();
+
+        Events.trigger("enableanimation");
+      });
     });
 
-    this.play.on("click", function(e) {
-      e.preventDefault();
+    Events.on("enableanimation", function() {
+      Events.off('finish_loading');
+      $("#play").off("click");
+      self._mamufasOff();
 
       Events.trigger("resumeanimation");
     });
   },
 
   _mamufasOn: function() {
-    // Spinner
-    this.target = document.getElementById('spinner-container');
-    this.spinner_container = $("#spinner-container");
-    this.spinner = new Spinner(this.spin_opts);
+    var h = $(window).height() - $("#navigation").height();
+    this.$el.height(h);
+
+    this.$el.fadeIn();
 
     this.spinner.spin(this.target);
     this._changeTitles(this.city);
@@ -68,11 +83,13 @@ Mamufas.prototype = {
 
   _changeTitles: function(city) {
     $("#city_name").text(window.AppData.CITIES[city]['city_name']);
-    $("#city_title").text(window.AppData.CITIES[city]['city_title']);
+    $(".city_title").text(window.AppData.CITIES[city]['city_title']);
     $("#city_subtitle").text(window.AppData.CITIES[city]['city_subtitle']);
   },
 
   _mamufasOff: function() {
-    this.el.fadeOut();
+    var self = this;
+
+    this.$el.fadeOut();
   }
 }

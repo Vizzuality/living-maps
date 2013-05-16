@@ -1,7 +1,7 @@
 function Slider(el, options) {
   var self = this;
 
-  this.el = el;
+  this.$el = el;
 
   this.options = {
     timeMin: options.timeMin,
@@ -10,33 +10,8 @@ function Slider(el, options) {
     city: options.city
   };
 
-  /* _.defaults(options, {
-   step: 15,
-   timeRange: 300
-  }); */
-
   self.initialize();
 }
-
-var dragged = false;
-var clicked = false;
-var stopped = true;
-var valueStart = 0;
-
-Events.on("clickhandle", function(val) {
-  clicked = true;
-  valueStart = val;
-
-  $("#slider").addClass("glow");
-
-  $(document).on("mousemove", function() {
-    dragged = true;
-  });
-});
-
-Events.on("animationdisabled", function() {
-  // self.disable();
-});
 
 Slider.prototype = {
   initialize: function() {
@@ -44,39 +19,16 @@ Slider.prototype = {
 
     this.valueStop = 0;
 
-    // init slider
-    this.el.slider();
+    self.$el.slider();
+    this._initBindings();
+  },
 
-    this.el
-      .on("slide", function(event, ui) {
-        self.onSlideStart(ui.value);
-      })
-      .on("slidestop", function(event, ui) {
-        self.onSlideStop(ui.value);
-      })
-      .find("a")
-        .on("mousedown", function() {
-          Events.trigger("clickhandle", self.el.slider("value"));
-        })
-        .on("click", function() {
-          if(valueStart === self.valueStop) {
-            if(!stopped) {
-              Events.trigger("stopanimation");
-            } else {
-              Events.trigger("resumeanimation");
-            }
-          }
-        })
-        .on("mouseenter", function() {
-          $("#slider").addClass("glow");
-        })
-        .on("mouseleave", function() {
-          $("#slider").removeClass("glow");
-        });
+  _initBindings: function() {
+    var self = this;
 
     $(document).on("mouseup", function() {
       if(clicked) {
-        self.valueStop = self.el.slider("value");
+        self.valueStop = self.$el.slider("value");
 
         if(stopped) {
           updateHash(self.options.map, self.options.city, App.time);
@@ -88,35 +40,55 @@ Slider.prototype = {
         $(this).off('mousemove');
       }
     });
-  },
 
-  _initBindings: function() {
-    Events.on("animationenabled", function(map, city) {
-      self.options.map = map;
-      self.options.city = city;
+    this.$el
+      .on("slide", function(event, ui) {
+        self.onSlideStart(ui.value);
+      })
+      .on("slidestop", function(event, ui) {
+        self.onSlideStop(ui.value);
+      })
+      .find("a")
+        .on("mousedown", function() {
+          Events.trigger("clickhandle", self.$el.slider("value"));
+        })
+        .on("click", function() {
+          if(valueStart === self.valueStop) {
+            if(!stopped) {
+              Events.trigger("stopanimation");
+            } else {
+              Events.trigger("resumeanimation");
+            }
+          }
+        })
+        .on("mouseenter", function() {
+          self.$el.addClass("glow");
+        })
+        .on("mouseleave", function() {
+          self.$el.removeClass("glow");
+        });
 
-      self.add_graph(self.options.city);
+    Events.on("clickhandle", function(val) {
+      clicked = true;
+      valueStart = val;
 
-      self.el.html("");
+      self.$el.addClass("glow");
 
-      // init slider
-      self.el.slider();
+      $(document).on("mousemove", function() {
+        dragged = true;
+      });
     });
 
-    Events.on("resumeanimation", function() {
-      stopped = false;
-      $(".ui-slider-handle").removeClass("stopped");
-    });
-
-    Events.on("startanimation", function() {
-      $("#play").off("click");
+    Events.on("disableanimation", function(city, time) {
+      Events.trigger("changetime", time * 60);
+      self.set_time(time * 60);
     });
   },
 
   onSlideStart: function(pos) {
     var time = this.posToTime(pos);
 
-    this.onTimeChange && this.onTimeChange(time);
+    Events.trigger("changetime", time);
 
     this.updateHour(time);
     this.updateSky(pos);
@@ -125,9 +97,9 @@ Slider.prototype = {
   onSlideStop: function(pos) {
     var time = this.posToTime(pos);
 
-    this.el.slider("value", pos);
+    this.$el.slider("value", pos);
 
-    this.onTimeChange && this.onTimeChange(time);
+    Events.trigger("changetime", time);
 
     this.updateHour(time);
     this.updateSky(pos);
@@ -187,14 +159,14 @@ Slider.prototype = {
   },
 
   set_time: function(time) {
-    this.el.slider("value", this.timeToPos(time));
+    this.$el.slider("value", this.timeToPos(time));
 
     this.updateHour(time);
     this.updateSky(this.timeToPos(time));
   },
 
   disable: function() {
-    this.el.off("slide")
+    this.$el.off("slide")
       .off("slidestop")
       .find("a")
         .off("mousedown")

@@ -326,7 +326,6 @@
   width: 600px;
   font-size: 31px;
   line-height: 1;
-  @include text-shadow(0 0 5px rgba(#000, .2));
 
   &:before {
     content: "";
@@ -601,8 +600,8 @@
   position: absolute;
   top: 20%;
   left: 50%;
-  margin-left: -407px;
+  margin-left: -440px;
   padding: 0 40px;
-  width: 734px;
+  width: 800px;
   background: image-url('quotes.png') no-repeat 0 55px, image-url('quotes.png') no-repeat right bottom;
 }

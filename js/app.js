@@ -33,7 +33,7 @@ var App = {
     this.mamufas = new Mamufas($('#mamufas'), this.options.city);
 
     // Carrousel
-    this.carrousel = new Carrousel($('#cities_dropdown'), this.map);
+    this.carrousel = new Carrousel($('#cities_dropdown'), this.options.city);
 
     // ****
     // Map animated particled
@@ -60,10 +60,6 @@ var App = {
     Share.initialize();
 
     this._initBindings();
-
-    this.slider.onTimeChange = function(time) {
-      self.time = time >> 0;
-    }
     
     this.animables.push(this.map, this.slider, Bubbles, ContextualFacts);
     this._tick = this._tick.bind(this);
@@ -74,42 +70,35 @@ var App = {
         self.add_debug();
       }, 4000);
 
-    this.onFinishLoading();
+    Events.trigger("disableanimation", self.options.city, self.options.time);
   },
 
   _initBindings: function() {
+    var self = this;
+
+    Events.on('finish_loading', function() {
+      Events.trigger("stopanimation");
+    });
+    Events.on("enableanimation", this._onEnableAnimation, this);
+    Events.on("disableanimation", this._onDisableAnimation, this);
     Events.on("stopanimation", this._onStopAnimation, this);
     Events.on("resumeanimation", this._onResumeAnimation, this);
-    Events.on("animationenabled", this._onAnimationEnabled, this);
+    Events.on("changetime", function(time) {
+      self.time = time >> 0;
+    });
     Events.on("changeappscale", function(scale) {
       this.options.scale = scale || 2.0;
     }, this);
   },
 
-  _onStopAnimation: function() {
-    stopped = true;
-    $(".ui-slider-handle").addClass("stopped");
-
-    if(this.isPlayed) {
-      updateHash(this.map.map, this.options.city, App.time);
-    }
-  },
-
-  _onResumeAnimation: function() {
-    if (self.detectHiddenFeature()) {
-      document.addEventListener(self.vendorVisibilitychange, self.visibilityChanged);
-    }
-
-    // unbind finish loading, enablea animation, and resume animation
+  _onEnableAnimation: function() {
     Events.off('finish_loading');
-    Events.trigger("startanimation");
-
     this.isPlayed = true;
 
-    updateHash(this.map.map, this.options.city, window.AppData.init_time);
-  },
+    if (this.detectHiddenFeature()) {
+      document.addEventListener(this.vendorVisibilitychange, this.visibilityChanged);
+    }
 
-  _onAnimationEnabled: function() {
     $(document).on("keyup", function(e) {
       if (e.keyCode === 32) {
         if (!stopped && !Share.visible()) {
@@ -119,6 +108,27 @@ var App = {
         }
       }
     });
+
+    Events.trigger("resumeanimation");
+  },
+
+  _onDisableAnimation: function() {
+    $(document).off("keyup");
+  },
+
+  _onStopAnimation: function() {
+    stopped = true;
+    $(".ui-slider-handle").addClass("stopped");
+    if(this.isPlayed) {
+      updateHash(this.map.map, this.options.city, App.time);
+    }
+  },
+
+  _onResumeAnimation: function() {
+    stopped = false;
+    $(".ui-slider-handle").removeClass("stopped");
+
+    updateHash(this.map.map, this.options.city, window.AppData.init_time);
   },
 
   detectHiddenFeature: function() {
@@ -144,16 +154,6 @@ var App = {
 
     // Page Visibility API not supported
     return false;
-  },
-
-  onFinishLoading: function() {
-    var self = this;
-
-    Events.trigger("animationdisabled", this.options.city);
-
-    Events.on('finish_loading', function() {
-      Events.trigger("stopanimation");
-    });
   },
 
   _tick: function() {
@@ -222,26 +222,17 @@ var App = {
     // restart variables
     this.old_time = 0;
     this.time = 0;
+    this.isPlayed = false;
+
     dragged = false;
     clicked = false;
     stopped = true;
-    this.isPlayed = false;
 
     _.extend(this.options, options);
 
     city = this.options.city;
 
     this.map.set_city(this.options.map.center, this.options.map.zoom, this.options.city);
-
-    this.spinner_container.removeClass("play").html('');
-    this.changeTitles(this.options.city);
-
-    $('.mamufas').fadeIn();
-
-    $(document).off("keyup");
-
-    // Disable slider
-    this.slider.disable();
 
     // Restart all animated particled
     Bubbles.set_city(this.options.city);
@@ -251,11 +242,10 @@ var App = {
     // Set city in the zoom
     Zoom.set_city(this.options.city);
 
-    // Restart city graph
-    $("#graph").html("");
-    this.add_graph(this.options.city);
+    Events.trigger("disableanimation", self.options.city, self.options.time);
 
-    this.spinner.spin(this.target);
-    this.onFinishLoading();
+    Events.on('finish_loading', function() {
+      Events.trigger("stopanimation");
+    });
   }
 };
