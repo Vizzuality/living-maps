@@ -5,7 +5,7 @@
 
   var Share = {
 
-    el: '#backdrop',
+    el: '#share',
     _visible: false,
 
     options: {

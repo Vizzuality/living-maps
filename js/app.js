@@ -57,7 +57,7 @@ var App = {
     /* Map animated particled */
 
     // Slider
-    this.slider = new Slider($('#slider'), {
+    this.slider = new Slider($('#time_slider'), {
       timeMin: new Date(this.init_time).getTime(),
       timeRange: (this.last_time - this.init_time) * 1,
       map: this.map.map,
@@ -208,7 +208,7 @@ var App = {
     $.getJSON(sql, function(data) {
 
       data = data.rows.map(function(r) { return r.n });
-      $('#graph').html(graph(data, $('#slider').width(), 30, 'rgba(0, 0, 0, 0.1)'));
+      $('#graph').html(graph(data, $('#sky').width(), 30, 'rgba(0, 0, 0, 0.1)'));
     });
   },
 

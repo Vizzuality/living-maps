@@ -36,7 +36,7 @@ Events.on("clickhandle", function(val) {
   clicked = true;
   valueStart = val;
 
-  $("#selectors").addClass("glow");
+  $("#slider").addClass("glow");
 
   $(document).on("mousemove", function() {
     dragged = true;
@@ -53,6 +53,8 @@ Slider.prototype = {
     var self = this;
 
     this.valueStop = 0;
+
+    this.el.html("");
 
     // init slider
     this.el.slider();
@@ -78,10 +80,10 @@ Slider.prototype = {
           }
         })
         .on("mouseenter", function() {
-          $("#selectors").addClass("glow");
+          $("#slider").addClass("glow");
         })
         .on("mouseleave", function() {
-          $("#selectors").removeClass("glow");
+          $("#slider").removeClass("glow");
         });
 
     $(document).on("mouseup", function() {

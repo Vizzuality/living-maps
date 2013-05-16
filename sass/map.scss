@@ -1,9 +1,194 @@
 @import "compass";
 @import "helpers";
 
-.selectors {
+// Header
+.city .header {
   position: absolute;
-  right: -160px;
+  z-index: 300;
+  margin: 50px 0 0 50px;
+
+  .title {
+    font-size: 70px;
+    line-height: 1;
+  }
+}
+
+// Mamufas
+#mamufas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000;
+  background: rgba(#18A0CD, .6);
+
+  .title {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    margin-top: -150px;
+    font-size: 71px;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .description {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    margin-top: -60px;
+    font-size: 41px;
+    text-align: center;
+    white-space: nowrap;
+  }
+}
+
+.mamufas-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000;
+  background: image-url('mamufas.png') no-repeat center center;
+}
+
+.help {
+  position: absolute;
+  text-align: center;
+  background: image-url('help-sprites.png') no-repeat;
+
+  p {
+    position: relative;
+    top: 30%;
+    padding: 0 25px;
+    font-size: 15px;
+  }
+}
+
+#back_help {
+  top: 0;
+  left: 0;
+  width: 220px;
+  height: 166px;
+}
+
+#change_help {
+  bottom: 0;
+  left: 50%;
+  margin-left: -110px;
+  width: 220px;
+  height: 126px;
+  background-position: 0 -166px;
+
+  p { top: 50%; }
+}
+
+#scrub_help {
+  top: 75px;
+  right: 50px;
+  width: 205px;
+  height: 205px;
+  background-position: -220px 0;
+
+  p { top: 40%; }
+}
+
+#spinner-container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 60px;
+  width: 60px;
+  margin: 30px 0 0 -30px;
+  background: rgba(#000F1A, .85);
+  @include border-radius(3px);
+
+  &.play {
+    width: auto;
+    height: auto;
+    margin-left: -102px;
+
+    &:hover { background: rgba(#000F1A,1);}
+    &:active { background: rgba(#000F1A,1);}
+  }
+}
+
+#play {
+  display: inline-block;
+  line-height: 60px;
+  padding: 6px 26px 0 26px;
+  font-size: 25px;
+  text-decoration: none;
+  color: #fff;
+}
+
+.backdrop {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+}
+
+// Navigation
+.navigation {
+  position: absolute;
+  z-index: 300;
+  bottom: 0;
+  border-top: 1px solid rgba(#fff, .4);
+  height: 80px;
+  width: 100%;
+  background: rgba(#fff, .2);
+
+  .title {
+    float: left;
+    margin-left: 50px;
+    font-size: 27px;
+    font-weight: bold;
+    line-height: 80px;
+
+    span { font-weight: 300; }
+  }
+}
+
+.menu {
+  float: right;
+  margin-right: 40px;
+
+  li {
+    float: left;
+    margin-left: 10px;
+  }
+
+  a {
+    padding: 0 10px;
+    text-decoration: none;
+    line-height: 80px;
+    color: #fff;
+  }
+
+  sup {
+    position: relative;
+    top: -4px;
+    font-size: 12px;
+  }
+}
+
+.cities_dropdown {
+  display: none;
+}
+
+// Slider
+#slider {
+  position: absolute;
+  z-index: 100;
+  top: -50px;
+  right: -110px;
   width: 520px;
   height: 440px;
   text-align: center;
@@ -12,7 +197,7 @@
 
 .glow { background: image-url('glow.png') no-repeat; }
 
-.time_selector {
+.time_slider {
   width: 200px;
   margin: 7px auto;
 }
@@ -24,6 +209,8 @@
 
 .sky {
   position: relative;
+  margin: 0 auto;
+  width: 200px;
   height: 150px;
   overflow: hidden;
 }
@@ -55,7 +242,7 @@
   }
 }
 
-.slider {
+.time_slider {
   height: 1px;
   margin: 0 auto;
   border-top: 1px solid #fff;
@@ -87,16 +274,6 @@
 
     &.stopped { background-image: image-url('slider-stopped.png'); }
   }
-}
-
-.backdrop-inner {
-  position: absolute;
-  top: 20%;
-  left: 50%;
-  margin-left: -407px;
-  padding: 0 40px;
-  width: 734px;
-  background: image-url('quotes.png') no-repeat 0 55px, image-url('quotes.png') no-repeat right bottom;
 }
 
 #map_wrapper {
@@ -177,18 +354,40 @@
 .leaflet-container,
 .leaflet-tile { background: transparent !important; }
 
-
 .leaflet-control-attribution {
   display: none !important;
 }
 
-.contextFact{
-  display: none;
+// City facts
+#contextualfacts {
+  position: absolute;
+  z-index: 300;
+  top: 240px;
+  left: 40px;
+  pointer-events: none;
+}
+
+.time {
+  padding-left: 44px;
+  width: 600px;
+  font-size: 31px;
+  line-height: 1;
+  @include text-shadow(0 0 5px rgba(#000, .2));
+
+  &:before {
+    content: "";
+    display: block;
+    float: left;
+    margin-left: -44px;
+    margin-top: -10px;
+    width: 44px;
+    height: 48px;
+    background: image-url('clock.png') no-repeat center center;
+  }
 }
 
 
 /*
-  
   Z-index parameters:
 
     * Header = 3
@@ -197,7 +396,7 @@
     * Map = 1
       - POIS = 2
       - Bubbles = 3
-    * Cities nav = 3
+    * Navigation = 3
  */
 
 
@@ -211,240 +410,245 @@
     - Share
 */
 
-  // BUBBLE
-  .bubble {
-    position:absolute;
-    z-index: 10;
-    top: 0;
-    left: 0;
-    display: none;
-    width: 207px;
-    padding: 21px 36px 31px;
-    margin: 0;
-    @include user-select(none);
+// Bubble
+.bubble {
+  position:absolute;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  display: none;
+  width: 207px;
+  padding: 21px 36px 31px;
+  margin: 0;
+  @include user-select(none);
 
-    .info {
-      position:relative;
-      top:100px; left:0;
-      display:block;
-      width:177px;
-      padding:15px;
-      margin:0 0 0 36px;
-      text-align: center;
-      background: rgba(#000F1A, .85);
-      @include opacity(0);
+  .info {
+    position:relative;
+    top:100px; left:0;
+    display:block;
+    width:177px;
+    padding:15px;
+    margin:0 0 0 36px;
+    text-align: center;
+    background: rgba(#000F1A, .85);
+    @include opacity(0);
 
-      span.tail {
-        position:absolute;
-        bottom: -10px;
-        left: 50%;
-        width: 0;
-        height: 0;
-        margin: 0 0 0 -10px;
-        border-left: 10px solid transparent;
-        border-right: 10px solid transparent;
-        border-top: 10px solid rgba(#000F1A, .85);
-      }
-
-      span.type {
-        display:block;
-        width:100%;
-        height:60px;
-        &.bus {@include background(image-url('types/type_bus.png') no-repeat center center);}
-      }
-
-      a.go {
-        position: absolute;
-        top: -22px;
-        right: -22px;
-        display: block;
-        height: 45px;
-        width: 45px;
-        @include background(image-url('marker_go.png') no-repeat );
-      }
-
-      &:hover {
-        background-color: #CC0066;
-        cursor:pointer;
-        .go { @include background(image-url('marker_go-hover.png')); }
-        span.tail {border-top-color:#CC0066;}
-      }
-    }
-
-    .shadow {
-      position: absolute;
-      bottom:-31px; left:0;
-      display: block;
-      width: 100%;
-      height: 20px;
-      @include background(image-url('marker_shadow.png') no-repeat center 0);
-      @include opacity(0);
-    }
-  }
-
-
-
-  // POI
-  .poi {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 120px;
-    margin: 0;
-    padding-left: 10px;
-    border-left: 1px solid rgba(#000E19, 0.85);
-    z-index: 10;
-    pointer-events: none;
-    @include user-select(none);
-
-    &:after {
-      display: block;
-      position: absolute;
-      content: '';
+    span.tail {
+      position:absolute;
       bottom: -10px;
       left: 50%;
-      width: 152px;
-      height: 20px;
-      margin-left: -116px;
-      background: image-url('poi_shadow.png') no-repeat center 0;
+      width: 0;
+      height: 0;
+      margin: 0 0 0 -10px;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 10px solid rgba(#000F1A, .85);
     }
 
-    span {
+    span.type {
+      display:block;
+      width:100%;
+      height:60px;
+      &.bus {@include background(image-url('types/type_bus.png') no-repeat center center);}
+    }
+
+    a.go {
       position: absolute;
-      left: -45px;
-      top: 0;
-      width: 33px;
-      height: 33px;
-      opacity: 1;
-
-      &.turist {background: image-url('poi_types.png');}
-      &.transport {background: image-url('poi_types.png') -33px 0;}
-      &.sports {background: image-url('poi_types.png') -66px 0;}
-      &.airport {background: image-url('poi_types.png') -99px 0;}
-      &.port {background: image-url('poi_types.png') -132px 0;}
+      top: -22px;
+      right: -22px;
+      display: block;
+      height: 45px;
+      width: 45px;
+      @include background(image-url('marker_go.png') no-repeat );
     }
 
-    p {
-      line-height: 16px;
-      color: rgba(#000E19, 1);
-      strong { font-weight: bold; }
-      font-weight:bold;
+    &:hover {
+      background-color: #CC0066;
+      cursor:pointer;
+      .go { @include background(image-url('marker_go-hover.png')); }
+      span.tail {border-top-color:#CC0066;}
     }
   }
 
-  // Zoom control
-  #zoom_control {
-    position:absolute;
-    bottom:25px;
-    left:50px;
-    z-index:450;
-    @include user-select(none);
+  .shadow {
+    position: absolute;
+    bottom:-31px; left:0;
+    display: block;
+    width: 100%;
+    height: 20px;
+    @include background(image-url('marker_shadow.png') no-repeat center 0);
+    @include opacity(0);
+  }
+}
 
-    a {
-      position:relative;
-      @include inline-block();
-      width:26px;
-      height:26px;
-      @include background(image-url('zoom_control.png') no-repeat 0 0);
-      text-indent: -9999px;
-      &:hover {background-position:0 -26px;}
+// POI
+.poi {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120px;
+  margin: 0;
+  padding-left: 10px;
+  border-left: 1px solid rgba(#000E19, 0.85);
+  z-index: 10;
+  pointer-events: none;
+  @include user-select(none);
 
-      &.zoomIn {
-        background-position:-26px 0;
-        &:hover {background-position:-26px -26px;}
-      }
-    }
+  &:after {
+    display: block;
+    position: absolute;
+    content: '';
+    bottom: -10px;
+    left: 50%;
+    width: 152px;
+    height: 20px;
+    margin-left: -116px;
+    background: image-url('poi_shadow.png') no-repeat center 0;
   }
 
+  span {
+    position: absolute;
+    left: -45px;
+    top: 0;
+    width: 33px;
+    height: 33px;
+    opacity: 1;
 
-  // SHARE dialog
+    &.turist {background: image-url('poi_types.png');}
+    &.transport {background: image-url('poi_types.png') -33px 0;}
+    &.sports {background: image-url('poi_types.png') -66px 0;}
+    &.airport {background: image-url('poi_types.png') -99px 0;}
+    &.port {background: image-url('poi_types.png') -132px 0;}
+  }
 
-  #backdrop {
-    display: none;
-    z-index: 501;
-    background: rgba(#000, .8);
+  p {
+    line-height: 16px;
+    color: #000E19;
+    font-weight: bold;
+  }
+}
 
-    .title {
-      color: rgba(#fff, .5);
-      font-size: 33px;
-      font-weight: 300;
+// Zoom control
+#zoom_control {
+  position:absolute;
+  top: 165px;
+  left: 50px;
+  z-index: 450;
+  @include user-select(none);
+
+  a {
+    position:relative;
+    @include inline-block();
+    width:26px;
+    height:26px;
+    @include background(image-url('zoom_control.png') no-repeat 0 0);
+    text-indent: -9999px;
+    &:hover {background-position:0 -26px;}
+
+    &.zoomIn {
+      background-position:-26px 0;
+      &:hover {background-position:-26px -26px;}
     }
+  }
+}
 
-    textarea {
-      border: none;
-      width: 100%;
-      margin-bottom: -5px;
-      max-width: 100%;
-      min-width: 100%;
-      height: 175px;
-      min-height: 175px;
-      max-height: 175px;
-      padding: 5px 0;
-      font: 300 55px/1 "Nokia Pure Text", Helvetica, Arial, sans-serif;
-      letter-spacing: -3px;
-      color: #fff;
-      background: image-url('tweetarea.png') 0 -5px;
-      background-attachment: local;
-      outline: none;
-      resize: none;
-    }
+// Share
+#share {
+  display: none;
+  z-index: 501;
+  background: rgba(#000, .8);
 
-    a {
-      padding: 14px 15px 8px;
-      font-size: 25px;
-      font-weight: 300;
-      color: #0bd;
-      text-decoration: underline;
+  .title {
+    color: rgba(#fff, .5);
+    font-size: 33px;
+    font-weight: 300;
+  }
 
-      &.button {
-        float: right;
-        display: inline-block;
-        line-height: 1;
-        background: #fff;
-        color: #000;
-        @include border-radius(3px);
-        text-decoration: none;
+  textarea {
+    border: none;
+    width: 100%;
+    margin-bottom: -5px;
+    max-width: 100%;
+    min-width: 100%;
+    height: 175px;
+    min-height: 175px;
+    max-height: 175px;
+    padding: 5px 0;
+    font: 300 55px/1 "Nokia Pure Text", Helvetica, Arial, sans-serif;
+    letter-spacing: -3px;
+    color: #fff;
+    background: image-url('tweetarea.png') 0 -5px;
+    background-attachment: local;
+    outline: none;
+    resize: none;
+  }
 
-        &.share {
-          margin-left: 10px;
-          background: image-url('buttons-sprite.png') no-repeat 0 -5px;
-          color: #fff;
-          padding-left: 39px;
-        }
+  a {
+    padding: 14px 15px 8px;
+    font-size: 25px;
+    font-weight: 300;
+    color: #0bd;
+    text-decoration: underline;
 
-        &.facebook {
-          background-color: #3B559F;
+    &.button {
+      float: right;
+      display: inline-block;
+      line-height: 1;
+      background: #fff;
+      color: #000;
+      @include border-radius(3px);
+      text-decoration: none;
 
-          &:hover { background-color: darken(#3B559F, 5%); }
-        }
-
-        &.twitter {
-          background-color: #0bd;
-          background-position: 0 -54px;
-          padding-left: 49px;
-
-          &:hover { background-color: #009AB6; }
-        }
-      }
-
-      &.copy { float: left; }
-
-      &.close {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        display: inline-block;
-        padding: 0;
-        height: 38px;
-        width: 38px;
-        font: 300 21px/34px "Helvetica Neue", Helvetica, Arial, sans-serif;
-        text-align: center;
-        text-decoration: none;
-        background: image-url('close.png') no-repeat;
+      &.share {
+        margin-left: 10px;
+        background: image-url('buttons-sprite.png') no-repeat 0 -5px;
         color: #fff;
-        @include opacity(.9);
+        padding-left: 39px;
+      }
 
-        &:hover { @include opacity(1); }
+      &.facebook {
+        background-color: #3B559F;
+
+        &:hover { background-color: darken(#3B559F, 5%); }
+      }
+
+      &.twitter {
+        background-color: #0bd;
+        background-position: 0 -54px;
+        padding-left: 49px;
+
+        &:hover { background-color: #009AB6; }
       }
     }
+
+    &.copy { float: left; }
+
+    &.close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: inline-block;
+      padding: 0;
+      height: 38px;
+      width: 38px;
+      font: 300 21px/34px "Helvetica Neue", Helvetica, Arial, sans-serif;
+      text-align: center;
+      text-decoration: none;
+      background: image-url('close.png') no-repeat;
+      color: #fff;
+      @include opacity(.9);
+
+      &:hover { @include opacity(1); }
+    }
   }
+}
+
+.share-inner {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  margin-left: -407px;
+  padding: 0 40px;
+  width: 734px;
+  background: image-url('quotes.png') no-repeat 0 55px, image-url('quotes.png') no-repeat right bottom;
+}

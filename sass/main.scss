@@ -44,132 +44,10 @@ body {
   position: relative;
   height: 100%;
   width: 100%;
-  overflow: hidden!important;
+  overflow: hidden !important;
   font: 300 17px "Nokia Pure Text", Helvetica, Arial, sans-serif;
   color: #fff;
   background: #0bd;
-}
-
-// Loading mamufas
-.mamufas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 10000;
-  background: rgba(#18A0CD, .6);
-
-  .title {
-    position: absolute;
-    left: 0;
-    top: 50%;
-    width: 100%;
-    margin-top: -150px;
-    font-size: 71px;
-    text-align: center;
-    white-space: nowrap;
-  }
-
-  .description {
-    position: absolute;
-    left: 0;
-    top: 50%;
-    width: 100%;
-    margin-top: -60px;
-    font-size: 41px;
-    text-align: center;
-    white-space: nowrap;
-  }
-}
-
-.mamufas-inner {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 10000;
-  background: image-url('mamufas.png') no-repeat center center;
-}
-
-.help {
-  position: absolute;
-  text-align: center;
-  background: image-url('help-sprites.png') no-repeat;
-
-  p {
-    position: relative;
-    top: 30%;
-    padding: 0 25px;
-    font-size: 15px;
-  }
-}
-
-#back_help {
-  top: 0;
-  left: 0;
-  width: 220px;
-  height: 166px;
-}
-
-#change_help {
-  bottom: 0;
-  left: 50%;
-  margin-left: -110px;
-  width: 220px;
-  height: 126px;
-  background-position: 0 -166px;
-
-  p { top: 50%; }
-}
-
-#scrub_help {
-  top: 75px;
-  right: 50px;
-  width: 205px;
-  height: 205px;
-  background-position: -220px 0;
-
-  p { top: 40%; }
-}
-
-#spinner-container {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  height: 60px;
-  width: 60px;
-  margin: 30px 0 0 -30px;
-  background: rgba(#000F1A, .85);
-  @include border-radius(3px);
-
-  &.play {
-    width: auto;
-    height: auto;
-    margin-left: -102px;
-
-    &:hover { background: rgba(#000F1A,1);}
-    &:active { background: rgba(#000F1A,1);}
-  }
-}
-
-#play {
-  display: inline-block;
-  line-height: 60px;
-  padding: 6px 26px 0 26px;
-  font-size: 25px;
-  text-decoration: none;
-  color: #fff;
-}
-
-.backdrop {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  overflow: hidden;
 }
 
 .gradient {
@@ -188,8 +66,8 @@ body {
 
   &.top {
     top: 0;
-    height: 33%;
-    @include background(linear-gradient(top, #0bd 50%, rgba(#0bd, 0) 100%));
+    height: 50%;
+    @include background(linear-gradient(top, #0bd 50%, rgba(#0bd, 0) 80%, rgba(#0bd, 0) 100%));
   }
 
   &.bottom {
@@ -199,17 +77,8 @@ body {
   }
 }
 
-.logo {
-  display: block;
-  float: left;
-  margin-bottom: 20px;
-  pointer-events: auto;
-}
-
 .header {
-  position: relative;
-  z-index: 200;
-  margin: 0 50px 0 42px;
+  margin-top: 50px;
   pointer-events: none;
 
   .title,
@@ -217,49 +86,15 @@ body {
     display: inline-block;
     float: left;
     clear: left;
-    padding: 0 20px;
-    background: rgba(#000F1A, .85);
   }
 
-  .title {
-    margin-bottom: 30px;
-  }
+
+  .title { margin: 0 0 -10px -5px; }
 
   .subtitle {
     position: relative;
-    z-index: 100;
-    padding: 10px 23px 0 24px;
-    font-size: 25px;
-    margin: 0;
+    font-size: 31px;
     white-space: nowrap;
-  }
-
-  .spinner-container{
-    width: 30px;
-    height: 30px;
-  }
-
-}
-
-.menu_nav {
-  position: relative;
-  float: right;
-  margin-top: 30px;
-  pointer-events: auto;
-
-  li {
-    float: left;
-    margin-left: 20px;
-  }
-
-  a {
-    color: rgba(#000, .35);
-    font-size: 14px;
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
   }
 }
 
@@ -280,159 +115,4 @@ body {
 .inner {
   width: 670px;
   padding: 0 20px;
-}
-
-// City facts
-#contextualfacts {
-  position: relative;
-  pointer-events: none;
-
-  // Time
-  .time {
-    position:absolute;
-    top:0;
-    left:0;
-    display: none;
-    padding-left: 10px;
-    width: 600px;
-    font-size: 31px;
-    line-height: 1;
-
-    &:before {
-      content: "";
-      display: block;
-      float: left;
-      margin-left: -44px;
-      margin-top: -10px;
-      width: 44px;
-      height: 48px;
-      background: image-url('clock.png') no-repeat center center;
-    }
-  }
-}
-
-#carrousel {
-  position: absolute;
-  z-index: 500;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 280px;
-}
-
-#cities_container {
-  position: absolute;
-  z-index: 200;
-  left: 50%;
-  width: 100%;
-  height: 280px;
-}
-
-#cities_switch {
-  position: absolute;
-  z-index: 500;
-  top: 0 ;
-  margin-left: -50%;
-  line-height: 80px;
-  width: 100%;
-  text-align: center;
-  font-size: 13px;
-  text-transform: uppercase;
-  @include opacity(.5);
-}
-
-#cities_nav {
-  position: absolute;
-  top: 60px;
-  float: left;
-  text-align: center;
-  white-space: nowrap;
-
-  ul {
-    margin-left: -50%;
-  }
-
-  li {
-    float: left;
-    margin-left: 1px;
-  }
-
-  a {
-    display: block;
-    position: relative;
-    width: 200px;
-    height: 167px;
-    text-decoration: none;
-
-    &:hover,
-    &.selected {
-      top: -10px;
-
-      h3 {
-        bottom: -20px;
-        background: #000;
-        color: #fff;
-        padding: 23px 0 19px;
-      }
-    }
-  }
-
-  h3 {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    padding: 13px 0 9px;
-    font-size: 25px;
-    line-height: 1;
-    background: #fff;
-    color: #000;
-  }
-
-  .shadow {
-    display: block;
-    height: 28px;
-    width: 200px;
-    position: absolute;
-    bottom: 47px;
-    background: image-url('city_shadow.png') no-repeat bottom;
-  }
-}
-
-.home {
-  min-height: 690px;
-
-  .header {
-    .title {
-      font-size: 90px;
-      line-height: 105px;
-      width: 670px;
-      letter-spacing: -3px;
-    }
-  }
-
-  #cities_switch { display: none; }
-}
-
-.city {
-  overflow: hidden;
-
-  .header {
-    .title {
-      font-size: 70px;
-      padding-top: 20px;
-      line-height: 1;
-    }
-
-    .subtitle {
-      padding-top: 30px;
-      font-size: 25px;
-      line-height: 0;
-    }
-  }
-
-  #carrousel {
-    bottom: -200px;
-  }
-
-  #cities_nav { top: 100px; }
 }
