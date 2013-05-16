@@ -133,9 +133,6 @@ function parseHash(hash) {
           center: [lat, lon],
           zoom: zoom
         },
-        city_name: window.AppData.CITIES[city]['city_name'],
-        city_title: window.AppData.CITIES[city]['city_title'],
-        city_subtitle: window.AppData.CITIES[city]['city_subtitle'],
         time_scale: 15 * 60,
         scale: 2.0,
         time: time

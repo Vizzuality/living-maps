@@ -15,16 +15,7 @@ function Slider(el, options) {
    timeRange: 300
   }); */
 
-  Events.on("animationenabled", function(map, city) {
-    self.options.map = map;
-    self.options.city = city;
-
-    self.initialize();
-  });
-
-  Events.on("animationdisabled", function() {
-    // self.disable();
-  });
+  self.initialize();
 }
 
 var dragged = false;
@@ -43,9 +34,8 @@ Events.on("clickhandle", function(val) {
   });
 });
 
-Events.on("resumeanimation", function() {
-  stopped = false;
-  $(".ui-slider-handle").removeClass("stopped");
+Events.on("animationdisabled", function() {
+  // self.disable();
 });
 
 Slider.prototype = {
@@ -53,11 +43,6 @@ Slider.prototype = {
     var self = this;
 
     this.valueStop = 0;
-
-    this.el.html("");
-
-    // init slider
-    this.el.slider();
 
     this.el
       .on("slide", function(event, ui) {
@@ -102,6 +87,29 @@ Slider.prototype = {
     });
   },
 
+  _initBindings: function() {
+    Events.on("animationenabled", function(map, city) {
+      self.options.map = map;
+      self.options.city = city;
+
+      self.add_graph(self.options.city);
+
+      self.el.html("");
+
+      // init slider
+      self.el.slider();
+    });
+
+    Events.on("resumeanimation", function() {
+      stopped = false;
+      $(".ui-slider-handle").removeClass("stopped");
+    });
+
+    Events.on("startanimation", function() {
+      $("#play").off("click");
+    });
+  },
+
   onSlideStart: function(pos) {
     var time = this.posToTime(pos);
 
@@ -120,6 +128,15 @@ Slider.prototype = {
 
     this.updateHour(time);
     this.updateSky(pos);
+  },
+
+  add_graph: function(city) {
+    var sql = 'https://pulsemaps.cartodb.com/api/v2/sql?q=SELECT avg(activity[i]) n, i FROM '+ city +', generate_series(1,96) i group by i order by i asc'
+    $.getJSON(sql, function(data) {
+
+      data = data.rows.map(function(r) { return r.n });
+      $('#graph').html(graph(data, $('#sky').width(), 30, 'rgba(0, 0, 0, 0.1)'));
+    });
   },
 
   updateHour: function(time) {
