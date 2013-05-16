@@ -21,6 +21,7 @@
     options: {
       random: false, // Random bubble appearance 
       horizontalOffset: 140,
+      topEdgeMargin: 340,
       animation: {
         animShowTime: 300,
         animHideTime: 600,
@@ -65,10 +66,18 @@
         for (var i in self.bubbles) {
           var bubble = self.bubbles[i];
           if (bubble && bubble.lat && bubble.lon) {
+            
             var pos = latlonTo3DPixel(self.map, [bubble.lat, bubble.lon]);
+            var _opacity = 1;
+            if(pos.y < self.options.topEdgeMargin){
+              var _op = (1/(self.options.topEdgeMargin-pos.y))*10;
+              _opacity = (_op < 0.08) ? 0 : _op;
+            }
+
             bubble.$markup.css({
               top: pos.y - bubble.$markup.outerHeight(),
-              left: pos.x - self.options.horizontalOffset
+              left: pos.x - self.options.horizontalOffset,
+              opacity: _opacity
             })
           }
         }
