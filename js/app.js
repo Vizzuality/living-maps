@@ -52,7 +52,7 @@ var App = {
     });
 
     // Carrousel
-    this.carrousel = new Carrousel($('#carrousel'), this.map);
+    this.carrousel = new Carrousel($('#cities_dropdown'), this.map);
 
     /* Map animated particled */
 
