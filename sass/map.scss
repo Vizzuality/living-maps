@@ -188,7 +188,7 @@
 // Slider
 #slider {
   position: absolute;
-  z-index: 100;
+  z-index: 300;
   top: -50px;
   right: -110px;
   width: 520px;
@@ -415,7 +415,7 @@
 // Bubble
 .bubble {
   position:absolute;
-  z-index: 10;
+  z-index: 200;
   top: 0;
   left: 0;
   display: none;
