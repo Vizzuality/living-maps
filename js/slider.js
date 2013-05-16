@@ -54,8 +54,6 @@ Slider.prototype = {
 
     this.valueStop = 0;
 
-    this.el.html("");
-
     // init slider
     this.el.slider();
 
