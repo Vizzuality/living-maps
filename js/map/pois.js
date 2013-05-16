@@ -15,7 +15,8 @@
 
     options: {
       horizontalOffset: 0,
-      maxHeight: 141
+      maxHeight: 141,
+      topEdgeMargin: 340
     },
 
     el: '.map_components',
@@ -40,10 +41,17 @@
         for (var i in self.pois) {
           var poi = self.pois[i];
           if (poi) {
+
             var pos = latlonTo3DPixel(self.map, [poi.lat, poi.lon]);
+            var _opacity = 1;
+            if(pos.y < self.options.topEdgeMargin){
+              var _op = (1/(self.options.topEdgeMargin-pos.y))*10;
+              _opacity = (_op < 0.08) ? 0 : _op;
+            }
             poi.$markup.css({
               top: pos.y - (self.options.maxHeight / poi.heightrank),
-              left: pos.x - self.options.horizontalOffset
+              left: pos.x - self.options.horizontalOffset,
+              opacity: _opacity
             })
           }
         }
@@ -124,9 +132,15 @@
       if (!$markup)
         $markup = this.pois[data.id].$markup;
 
+      if(pos.y < this.options.topEdgeMargin){
+        var _op = (1/(this.options.topEdgeMargin-pos.y))*10;
+        var _opacity = (_op < 0.08) ? 0 : _op;
+      }
+
       $markup.css({
         top: pos.y - (this.options.maxHeight / data.heightrank),
-        left: pos.x - this.options.horizontalOffset
+        left: pos.x - this.options.horizontalOffset,
+        opacity: _opacity
       });
     },
 
