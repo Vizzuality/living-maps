@@ -38,16 +38,16 @@ window.AppData.CITIES = {
   'rome': {
     map: {
       center: [41.900, 12.500],
-      zoom: 12,
-      maxZoom: 13,
-      minZoom: 11
+      zoom: 13,
+      maxZoom: 14,
+      minZoom: 12
     },
     time_scale: 15 * 60,
     scale: 2.0,
     city: "rome",
-    city_name: "London",
-    city_title: "The big British capital.",
-    city_subtitle: "More than 3M points mapped over time.",
+    city_name: "Rome",
+    city_title: "Legendary founded in 753 BC.",
+    city_subtitle: "More than two and a half thousand years of history.",
     time: 0
   },
 
@@ -55,8 +55,8 @@ window.AppData.CITIES = {
     map: {
       center: [60.169738,24.937763],
       zoom: 12,
-      maxZoom: 13,
-      minZoom: 11
+      maxZoom: 14,
+      minZoom: 12
     },
     time_scale: 15 * 60,
     scale: 2.0,
