@@ -22,14 +22,16 @@ window.AppData.CITIES = {
   'chicago': {
     map: {
       center: [41.850, -87.650],
-      zoom: 12
+      zoom: 12,
+      maxZoom: 13,
+      minZoom: 11
     },
     time_scale: 15 * 60,
     scale: 2.0,
     city: "chicago",
     city_name: "Chicago",
-    city_title: "The big British capital.",
-    city_subtitle: "More than 3M points mapped over time.",
+    city_title: "The Windy City.",
+    city_subtitle: "The third most populous city in the United States.",
     time: 0
   },
 
@@ -51,7 +53,7 @@ window.AppData.CITIES = {
 
   'helsinki': {
     map: {
-      center: [62.430, 24.727],
+      center: [60.169738,24.937763],
       zoom: 12,
       maxZoom: 13,
       minZoom: 11
@@ -59,9 +61,9 @@ window.AppData.CITIES = {
     time_scale: 15 * 60,
     scale: 2.0,
     city: "helsinki",
-    city_name: "London",
-    city_title: "The big British capital.",
-    city_subtitle: "More than 3M points mapped over time.",
+    city_name: "Helsinki",
+    city_title: "The largest city of Finland.",
+    city_subtitle: "1,361,506 People in an arm of the Baltic Sea",
     time: 0
   },
 
