@@ -43,7 +43,7 @@ Carrousel.prototype = {
           }
         },
         hide: {
-          event: 'unfocus click',
+          event: 'click unfocus',
           effect: function() {
             $(this).animate({ opacity: 0, "top": "-=10px" }, { duration: 100 });
           }
@@ -60,14 +60,18 @@ Carrousel.prototype = {
 
       e.preventDefault();
 
-      if(selected_city != self.city && !$(this).hasClass("disabled")) {
+      if(selected_city != self.city) {
         $(".city-link").removeClass("selected");
         $(this).addClass("selected")
 
-        $("#qtip-0").qtip().hide();
+        self.hideDropdown();
 
         self.changeMap($(this).attr("data-city"), this.href);
       }
+    });
+
+    Events.on("clickedmap", function() {
+      self.hideDropdown();
     });
   },
 
@@ -76,5 +80,9 @@ Carrousel.prototype = {
 
     history.pushState(window.AppData.CITIES[city], null, hash);
     App.restart(window.AppData.CITIES[city]);
+  },
+
+  hideDropdown: function() {
+    $("#qtip-0").qtip().hide();
   }
 };

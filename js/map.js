@@ -6,6 +6,8 @@
 function Map(el, options) {
   this.el = el;
   this.options = options;
+  this.isDragging = false;
+
   this.initialize();
 }
 
@@ -57,6 +59,9 @@ Map.prototype = {
     var self = this;
 
     this.map
+      .on('mousedown', function() {
+        Events.trigger("clickedmap");
+      })
       .on('dragstart', function(e) {
         this.isDragging = true;
       })

@@ -2,6 +2,7 @@ function Slider(el, options) {
   var self = this;
 
   this.$el = el;
+  this.$slider_container = $("#slider");
 
   this.options = {
     timeMin: options.timeMin,
@@ -62,10 +63,10 @@ Slider.prototype = {
           }
         })
         .on("mouseenter", function() {
-          self.$el.addClass("glow");
+          self.$slider_container.addClass("glow");
         })
         .on("mouseleave", function() {
-          self.$el.removeClass("glow");
+          self.$slider_container.removeClass("glow");
         });
 
     Events.on("clickhandle", function(val) {
