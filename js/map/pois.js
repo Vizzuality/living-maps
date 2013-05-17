@@ -145,6 +145,8 @@
     },
 
     set_city: function(city) {
+      var self = this;
+
       // Set new city
       this.city = city;
       this.data.options.city = city;
@@ -156,7 +158,9 @@
       this._bindStart();
 
       // Get new data
-      this.data.fetch();
+      this.data.fetch(function() {
+        self.render();
+      });
     },
 
     clean: function() {

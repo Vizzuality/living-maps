@@ -1,4 +1,8 @@
-var city = 'london';
+var city = 'london',
+	dragged = false,
+	clicked = false,
+	stopped = true,
+	valueStart = 0;
 
 $(document).ready(function() {
  if( navigator.userAgent.match(/Android/i)

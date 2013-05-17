@@ -1,42 +1,37 @@
-
-
-function Carrousel(el, map) {
+function Carrousel(el, city) {
   var self = this;
 
-  this.el = el;
-  this.dropdown_link = $('#dropdown_link');
-  this.dropdown_nav = $('#dropdown_nav');
-  this.map = map;
+  this.$el = el;
+  this.$dropdown_link = $('#dropdown_link');
+  this.$dropdown_nav = $('#dropdown_nav');
 
-  Events.on("animationenabled", function() {
-    self.initialize();
-  });
+  this.city = city;
 
-  Events.on("animationdisabled", function() {
-    self.disable();
-  });
+  this.initialize(city);
 }
 
 
 Carrousel.prototype = {
 
-  initialize: function() {
+  initialize: function(city) {
     self = this;
 
+    $('a[data-city="' + this.city + '"]').addClass("selected");
+
     // dropdowns
-    this.dropdown_link.on('click', function(e) {
+    this.$dropdown_link.on('click', function(e) {
       e.preventDefault();
 
-      self.dropdown_link.qtip({
+      self.$dropdown_link.qtip({
         overwrite: false,
         content: {
-          text: self.dropdown_nav
+          text: self.$dropdown_nav
         },
         position: {
           my: 'bottom right',
           at: 'top right',
           adjust: {
-            y: -10,
+            y: 20,
             x: -2
           }
         },
@@ -54,40 +49,32 @@ Carrousel.prototype = {
           }
         },
         style: {
-          classes: 'tooltip_dropdown',
+          classes: 'cities_dropdown',
           tip: { width: 14, height: 6, corner: 'bottom right',  mimic: 'center', offset: 10 }
         }
       });
     });
 
-    $('a[data-map="' + city + '"]').addClass("selected");
-
     $(".city-link").on("click", function(e) {
-      var slected_map = $(this).attr("data-map");
+      var selected_city = $(this).attr("data-city");
 
       e.preventDefault();
 
-      if($(this).hasClass("disabled")) {
-        return false;
-      }
-
-      $("#qtip-0").qtip().hide();;
-
-      if(slected_map != city) {
-        self.changeMap($(this).attr("data-map"), this.href);
-
+      if(selected_city != self.city && !$(this).hasClass("disabled")) {
         $(".city-link").removeClass("selected");
-        $(this).addClass("selected");
+        $(this).addClass("selected")
+
+        $("#qtip-0").qtip().hide();
+
+        self.changeMap($(this).attr("data-city"), this.href);
       }
     });
   },
 
   changeMap: function(city, hash) {
+    this.city = city;
+
     history.pushState(window.AppData.CITIES[city], null, hash);
     App.restart(window.AppData.CITIES[city]);
-  },
-
-  disable: function() {
-    this.el.find("a").off("click");
   }
 };

@@ -97,7 +97,7 @@ Map.prototype = {
     }
 
     // ****
-    // THIS SHOULD BE ____AFTER___ probsLayer.setCity
+    // THIS SHOULD BE ___AFTER___ probsLayer.setCity
     // ****
 
     this.map.setView(center, zoom);
