@@ -14,8 +14,8 @@ window.AppData.CITIES = {
     scale: 2.0,
     city: "london",
     city_name: "London",
-    city_title: "The big British capital.",
-    city_subtitle: "More than 3M points mapped over time.",
+    city_title: "The Great British capital.",
+    city_subtitle: "The largest city in the European Union.",
     time: 0
   },
 
