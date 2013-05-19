@@ -82,8 +82,12 @@ Mamufas.prototype = {
   },
 
   _changeTitles: function(city) {
-    $("#city_name").text(window.AppData.CITIES[city]['city_name']);
-    $(".city_title").text(window.AppData.CITIES[city]['city_title']);
+    
+    //TODO: THIS THREE LINES SHOULD BE OUSTIDE THIS CLASS
+    $('#city_name').airport([window.AppData.CITIES[city]['city_name']]);
+    $('#city_subtitle_small').airport([window.AppData.CITIES[city]['city_title']]);
+
+    $("#mamufas_title").text(window.AppData.CITIES[city]['city_title']);
     $("#city_subtitle").text(window.AppData.CITIES[city]['city_subtitle']);
   },
 

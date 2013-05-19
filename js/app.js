@@ -247,5 +247,6 @@ var App = {
     Events.on('finish_loading', function() {
       Events.trigger("stopanimation");
     });
+
   }
 };
