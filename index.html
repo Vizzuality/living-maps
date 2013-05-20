@@ -4,9 +4,9 @@ type: home
 ---
 
 <!-- Sticky navigation -->
-<nav id="navigation" class="navigation top">
+<nav id="top_nav" class="navigation top">
   <div class="inner">
-    <a href="/"><h2 class="title">Living<span>Cities</span></h2></a>
+    <a href="/" id="logo"><h2 class="title">Living<span>Cities</span></h2></a>
 
     <ul class="menu sticky_menu">
       <li>
@@ -55,71 +55,110 @@ type: home
         </ul>
       </li>
 
-      <li><a href="#"><sup>The</sup>Contest</a></li>
-      <li><a href="#">About</a></li>
+      <li><a href="#" class="contest_link"><sup>The</sup>Contest</a></li>
+      <li><a href="#" class="about_link">About</a></li>
     </ul>
   </div>
 </nav>
 
 <section class="map">
-  <div class="inner">
-    <!-- Content -->
-    <div class="content">
-      <!-- Header -->
-      <header class="header clearfix">
-        <h1 class="title"><strong>Living</strong>Cities</h1>
-        <p class="subtitle">A joint experiment by HERE and CartoDB</p>
-      </header>
+  <div class="mamufas">
+    <div class="inner">
+      <!-- Loader -->
+      <div id="mamufas">
+        <div class="mamufas-inner">
+          <h1 id="mamufas_title" class="title city_title">The big British capital.</h1>
+          <p id="city_subtitle" class="description">More than 3M points mapped over time.</p>
+          <div id="spinner-container"></div>
+        </div>
 
-      <div class="content-inner">
-        <p class="last">At HERE we collect millions of GPS traces to build our always updated maps. This data help us to give you better directions and find the closest shop. But this data also says a lot about he cities where we lived. We have partnered with visualization experts CartoDB to show you some facts about 5 cities and we are inviting everybody to join us in a challenge to make your own visualizations.</p>
+        <!-- <div id="back_help" class="help"><p>Go back to the homepage</p></div>
+        <div id="change_help" class="help"><p>Change to another city whenever you want</p></div>
+        <div id="scrub_help" class="help"><p>Play with the time using the scrub control</p></div> -->
+      </div>
+
+      <!-- Content -->
+      <div id="content" class="content">
+        <!-- Header -->
+        <header class="header clearfix">
+          <h1 class="title"><strong>Living</strong>Cities</h1>
+          <p class="subtitle">A joint experiment by HERE and CartoDB</p>
+        </header>
+
+        <div class="content-inner">
+          <p class="last">At HERE we collect millions of GPS traces to build our always updated maps. This data help us to give you better directions and find the closest shop. But this data also says a lot about he cities where we lived. We have partnered with visualization experts CartoDB to show you some facts about 5 cities and we are inviting everybody to join us in a challenge to make your own visualizations.</p>
+        </div>
       </div>
     </div>
-
-    <div class="gradient all"></div>
-    <div class="gradient top"></div>
-    <div class="gradient bottom"></div>
   </div>
+
+  <!-- Slider -->
+  <div id="slider">
+    <div id="sky" class="sky">
+      <div id="graph"></div>
+      <div id="sun" class="sun"></div>
+      <div id="moon" class="moon"></div>
+    </div>
+
+    <div id="time_slider" class="time_slider"></div>
+    <span id="hour" class="hour">1:00 <sup>AM</sup></span>
+  </div>
+
+  <!-- Map components -->
+  <div class="map_components">
+    <div id="zoom_control">
+      <a href="#zoomIn" class="zoomIn">+</a>
+      <a href="#zoomOut" class="zoomOut">-</a>
+    </div>
+  </div>
+
+  <!-- Facts -->
+  <div id="contextualfacts"></div>
 
   <!-- Map -->
   <div id="map_wrapper" class="backdrop">
-    <!-- div id="map" class="home_map"></div -->
+    <div id="map" class="home_map"></div>
   </div>
 
-  <nav class="navigation bottom">
+  <!-- Gradients -->
+  <div class="gradient all"></div>
+  <div class="gradient top"></div>
+  <div class="gradient bottom"></div>
+
+  <nav id="bottom_nav" class="navigation bottom">
     <ul class="menu inner cities_menu">
       <li>
-        <a href="/cities/#london">London</a>
+        <a href="/cities/#london" class="city-link" data-city="london">London</a>
       </li>
 
       <li>
-        <a href="/cities/#chicago">Chicago</a>
+        <a href="/cities/#chicago" class="city-link" data-city="chicago">Chicago</a>
       </li>
 
       <li>
-        <a href="/cities/#rome">Rome</a>
+        <a href="/cities/#rome" class="city-link" data-city="rome">Rome</a>
       </li>
 
       <li>
-        <a href="/cities/#helsinki">Helsinki</a>
+        <a href="/cities/#helsinki" class="city-link" data-city="helsinki">Helsinki</a>
       </li>
 
       <li>
-        <a href="/cities/#mumbai">Mumbai</a>
+        <a href="/cities/#mumbai" class="city-link" data-city="mumbai">Mumbai</a>
       </li>
 
       <li>
-        <a href="#" class="highlight"><sup>The</sup>Contest</a>
+        <a href="#" class="highlight contest_link"><sup>The</sup>Contest</a>
       </li>
 
       <li>
-        <a href="#" class="last">About</a>
+        <a href="#" class="about_link last">About</a>
       </li>
     </ul>
   </nav>
 </section>
 
-<section class="contest clearfix">
+<section id="contest" class="contest clearfix">
   <div class="contest-inner">
     <div class="inner">
       <h2 class="section_title">The Contest</h2>
@@ -155,7 +194,24 @@ type: home
       <p>Enter to the contest by <span>submiting your visualization</span></p>
     </div>
   </div>
-
-  <h2 class="section_title">Why all this? More about this project</h2>
-  <p class="section_description">Win up to $3,000 by helping people to understand how the cities behave.<br />The game is simple, you just need to use our Data plus CartoDB.</p>
 </section>
+
+<section id="about" class="about">
+  <div class="inner">
+    <h2 class="section_title">Why all this? More about this project</h2>
+    <p class="section_description">Win up to $3,000 by helping people to understand how the cities behave.<br />The game is simple, you just need to use our Data plus CartoDB.</p>
+  </div>
+</section>
+
+<!-- Share dialog -->
+<div id="share" class="backdrop">
+  <a href="#/close" class="close" title="Close">×</a>
+
+  <div class="share-inner">
+    <h3 class="title">Share this fact!</h3>
+    <textarea class="tweet" maxlength="140" rows="3"></textarea>
+    <a href="http://twitter.com/share?text=" target="_blank" class="button twitter share">Share on Twitter</a>
+    <a href="http://facebook.com/share?text=" target="_blank" class="button facebook share">Share on Facebook</a>
+    <a href="#/copy-link" class="button copy">Copy Link</a>
+  </div>
+</div>

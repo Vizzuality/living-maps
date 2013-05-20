@@ -3,8 +3,14 @@ function Mamufas(el, city) {
   var self = this;
 
   this.$el = el;
+  this.$content = $("#content");
+  this.$body = $("body");
+  this.$map_container = $(".map");
+  this.$bottom_nav = $("#bottom_nav");
+  this.$top_nav = $("#top_nav");
 
   this.city = city;
+  this.isActive = false;
 
   this.spin_opts = {
     lines: 8, // The number of lines to draw
@@ -69,12 +75,74 @@ Mamufas.prototype = {
 
       Events.trigger("resumeanimation");
     });
+
+    Events.on("activemamufas", function() {
+      if(!self.isActive) {
+        self.isActive = true;
+
+        self.$body.css("overflow-y", "hidden");
+
+        var h = self.$map_container.height() + self.$bottom_nav.outerHeight();
+
+        self.$map_container.animate({
+          height: h
+        }, {
+          duration: 250,
+          queue: false,
+          easing: 'linear',
+          complete: function() {
+            self.$top_nav.removeClass("top");
+            self.$top_nav.addClass("mapped");
+
+            self.$top_nav.animate({
+              bottom: 0
+            });
+
+            self.$el.fadeIn();
+            self.$content.fadeOut();
+          }          
+        });
+      }
+    });
+
+    Events.on("disablemamufas", function() {
+      if(self.isActive) {
+        self.isActive = false;
+
+        self.$top_nav.animate({
+          bottom: "-72px"
+        }, {
+          duration: 250,
+          queue: false,
+          easing: 'linear',
+          complete: function() {
+            self.$top_nav.removeClass("mapped");
+            self.$top_nav.addClass("top");
+
+            var h = self.$map_container.height() - self.$bottom_nav.outerHeight();
+
+            self.$map_container.animate({
+              height: h
+            }, {
+              duration: 250,
+              queue: false,
+              easing: 'linear',
+              complete: function() {
+                self.$top_nav.removeClass("mapped");
+                self.$top_nav.addClass("top");
+                self.$body.css("overflow-y", "auto");
+              }          
+            });
+
+            self.$el.fadeOut();
+            self.$content.fadeIn();
+          }
+        });
+      }
+    });
   },
 
   _mamufasOn: function() {
-    var h = $(window).height() - $("#navigation").height();
-    this.$el.height(h);
-
     this.$el.fadeIn();
 
     this.spinner.spin(this.target);
@@ -95,5 +163,6 @@ Mamufas.prototype = {
     var self = this;
 
     this.$el.fadeOut();
-  }
+  },
+
 }

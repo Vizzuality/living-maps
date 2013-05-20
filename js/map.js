@@ -22,6 +22,7 @@ Map.prototype = {
     var self = this;
     this.options.fadeAnimation = false;
     this.options.trackResize = true;
+    this.options.dragging = false;
     this.map = L.map(this.el, this.options)
       .setView(this.options.center, this.options.zoom);
 

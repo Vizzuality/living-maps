@@ -29,11 +29,14 @@ var App = {
       city: this.options.city
     });
 
+    // Home
+    Home.initialize();
+
     // Mamufas
     this.mamufas = new Mamufas($('#mamufas'), this.options.city);
 
-    // Carrousel
-    this.carrousel = new Carrousel($('#cities_dropdown'), this.options.city);
+    // Navigation
+    this.navigation = new Navigation($('#cities_dropdown'), this.options.city);
 
     // ****
     // Map animated particled

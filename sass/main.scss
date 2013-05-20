@@ -82,13 +82,23 @@ section.map {
   background: #fff;
 
   &.top {
-    top: 0;
+    position: fixed;
+    z-index: 600;
+    top: -72px;
     @include box-shadow(0 0 20px rgba(#000, .2));
   }
 
   &.bottom {
     bottom: 0;
     border-bottom: 3px solid #ddd;
+  }
+
+  &.mapped {
+    position: fixed;
+    z-index: 600;
+    top: auto !important;
+    bottom: -72px;
+    @include box-shadow(0 0 20px rgba(#000, .2));
   }
 
   .title {
@@ -228,17 +238,17 @@ section.map {
   z-index: 500;
   margin-top: 130px;
   pointer-events: none;
-}
 
-.content-inner {
-  margin-top: 50px;
-  width: 600px;
+  .content-inner {
+    margin-top: 50px;
+    width: 600px;
 
-  p {
-    margin-bottom: 20px;
-    line-height: 1.2;
+    p {
+      margin-bottom: 20px;
+      line-height: 1.2;
 
-    &.last { margin-bottom: 0; }
+      &.last { margin-bottom: 0; }
+    }
   }
 }
 
@@ -247,14 +257,14 @@ section.map {
    CONTEST
    ========================================================================== */
 
-section.contest {
-  padding-bottom: 50px;
+section.contest,
+section.about {
   text-align: center;
   color: #999;
 }
 
 .contest-inner {
-  padding-top: 40px;
+  padding-top: 112px;
   background: #f6f6f6 image-url('contest-bg.png');
 }
 
@@ -342,7 +352,7 @@ section.contest {
   position: relative;
   border-top: 1px solid #CC3D3D;
   border-bottom: 1px solid #CC3D3D;
-  margin: 60px 0 40px;
+  margin: 60px 0;
   line-height: 98px;
   font-size: 33px;
   background: #FF4C4C;
@@ -359,4 +369,13 @@ section.contest {
   }
 
   span { text-decoration: underline; }
+}
+
+
+/* ==========================================================================
+   ABOUT
+   ========================================================================== */
+
+section.about {
+  padding-bottom: 50px;
 }

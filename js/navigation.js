@@ -1,9 +1,10 @@
-function Carrousel(el, city) {
+function Navigation(el, city) {
   var self = this;
 
   this.$el = el;
   this.$dropdown_link = $('#dropdown_link');
   this.$dropdown_nav = $('#dropdown_nav');
+  this.isVisible = false;
 
   this.city = city;
 
@@ -11,7 +12,7 @@ function Carrousel(el, city) {
 }
 
 
-Carrousel.prototype = {
+Navigation.prototype = {
 
   initialize: function(city) {
     self = this;
@@ -28,8 +29,8 @@ Carrousel.prototype = {
           text: self.$dropdown_nav
         },
         position: {
-          my: 'bottom right',
-          at: 'top right',
+          my: 'top right',
+          at: 'bottom right',
           adjust: {
             y: 20,
             x: -2
@@ -39,18 +40,22 @@ Carrousel.prototype = {
           event: e.type,
           ready: true,
           effect: function() {
+            self.isVisible = true;
+
             $(this).show().css('opacity', '0').animate({ opacity: 1 }, { duration: 100 });
           }
         },
         hide: {
           event: 'click unfocus',
           effect: function() {
+            self.isVisible = false;
+
             $(this).animate({ opacity: 0, "top": "-=10px" }, { duration: 100 });
           }
         },
         style: {
           classes: 'cities_dropdown',
-          tip: { width: 14, height: 6, corner: 'bottom right',  mimic: 'center', offset: 10 }
+          tip: { width: 14, height: 6, corner: 'top right',  mimic: 'center', offset: 10 }
         }
       });
     });
@@ -59,6 +64,8 @@ Carrousel.prototype = {
       var selected_city = $(this).attr("data-city");
 
       e.preventDefault();
+
+      Events.trigger("activemamufas");
 
       if(selected_city != self.city) {
         $(".city-link").removeClass("selected");
@@ -71,6 +78,10 @@ Carrousel.prototype = {
     });
 
     Events.on("clickedmap", function() {
+      self.hideDropdown();
+    });
+
+    Events.on("scrolledup", function() {
       self.hideDropdown();
     });
   },

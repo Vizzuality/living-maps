@@ -69,9 +69,10 @@ function vec3(xx, yy, zz) {
 }
 
 
-/**
- * transform 2d pixel pos of a css3d transformed div
+/*
+ * Transform 2d pixel pos of a css3d transformed div
  */
+
 function transform3d(pos, w, h) {
   var v = new vec3(pos.x,  pos.y, 0);
   v = v
@@ -178,4 +179,19 @@ function updateHash(map, city, time, zoom) {
     scale: 2.0,
     time: time
   }, null, hash);
+}
+
+/*
+ * Moves the scroll to the position of $el
+ */
+
+function goTo($el, opt, callback) {
+  if ($el) {
+    var speed  = (opt && opt.speed)  || 800;
+    var delay  = (opt && opt.delay)  || 100;
+    var margin = (opt && opt.margin) || 0;
+
+    $('html, body').delay(delay).animate({scrollTop:$el.offset().top - margin}, speed);
+    callback && callback();
+  }
 }
