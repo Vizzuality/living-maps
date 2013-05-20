@@ -173,6 +173,9 @@ var App = {
 
     if(!stopped && !clicked){
       this.time += dt;
+      if(this.time/60 >= this.last_time) {
+        this.time = 0;
+      }
       for(var i = 0; i < animables.length; ++i) {
         var a = animables[i];
         a.set_time(this.time);
@@ -186,9 +189,6 @@ var App = {
       }
     }
 
-    if(this.time/60 > this.last_time) {
-      this.time = 0;
-    }
   },
 
   add_debug: function() {

@@ -85,5 +85,5 @@ window.AppData.CITIES = {
 };
 
 window.AppData.init_time = 0;
-window.AppData.last_time = 1440;
+window.AppData.last_time = 1419;
 
