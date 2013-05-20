@@ -42,15 +42,11 @@ L.CanvasLayer = L.Class.extend({
     this._map = map;
     this._staticPane = map._createPane('leaflet-tile-pane', map._container);
 
-    this._backCanvas = this.addCanvasLayer()
     this._canvas = this.addCanvasLayer();
-    this._backCtx = this._backCanvas.getContext('2d');
     this._ctx = this._canvas.getContext('2d');
 
-    this._backCanvas.style['zIndex'] = '100';
     this._canvas.style['zIndex'] = '101';
 
-    this._canvasLayers.push(this._backCanvas);
     this._canvasLayers.push(this._canvas);
     this._map._panes.canvasPane = this._staticPane;
 
