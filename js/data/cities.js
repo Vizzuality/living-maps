@@ -16,7 +16,8 @@ window.AppData.CITIES = {
     city_name: "London",
     city_title: "The Great British capital.",
     city_subtitle: "The largest city in the European Union.",
-    time: 0
+    time: 0,
+    time_offset: -60 // minutes
   },
 
   'chicago': {
@@ -32,7 +33,8 @@ window.AppData.CITIES = {
     city_name: "Chicago",
     city_title: "The Windy City.",
     city_subtitle: "The third most populous city in the United States.",
-    time: 0
+    time: 0,
+    time_offset: -60 // minutes
   },
 
   'rome': {
@@ -48,7 +50,8 @@ window.AppData.CITIES = {
     city_name: "Rome",
     city_title: "Legendary founded in 753 BC.",
     city_subtitle: "More than two and a half thousand years of history.",
-    time: 0
+    time: 0,
+    time_offset: -60 // minutes
   },
 
   'helsinki': {
@@ -64,7 +67,8 @@ window.AppData.CITIES = {
     city_name: "Helsinki",
     city_title: "The largest city of Finland.",
     city_subtitle: "1,361,506 People in an arm of the Baltic Sea",
-    time: 0
+    time: 0,
+    time_offset: -60 // minutes
   },
 
   'mumbai': {
@@ -80,10 +84,11 @@ window.AppData.CITIES = {
     city_name: "Mumbai",
     city_title: "The city that never sleeps.",
     city_subtitle: "More than 3M points mapped over time.",
-    time: 0
+    time: 0,
+    time_offset: -60 // minutes
   }
 };
 
 window.AppData.init_time = 0;
-window.AppData.last_time = 1440;
+window.AppData.last_time = 1419;
 

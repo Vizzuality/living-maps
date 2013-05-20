@@ -17,6 +17,11 @@ var _render_queue = [];
   _render_queue.push(fn);
 }*/
 
+function fmod(a, b) {
+  var i = Math.floor(a/b);
+  return a - i*b;
+}
+
 function rand() {
   return 2.0*(Math.random() - 0.5)
 }
