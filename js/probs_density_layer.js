@@ -39,7 +39,8 @@ var StreetLayer = L.CanvasLayer.extend({
     step: 1,
     decimate: get_debug_param('decimation', 3),
     start_date: 1, //'2013-03-22 00:00:00+00:00',
-    end_date: 1419//'2013-03-22 23:59:57+00:00'
+    end_date: 1419,//'2013-03-22 23:59:57+00:00'
+    time_offset: 0
   },
 
   initialize: function(options) {
@@ -77,9 +78,10 @@ var StreetLayer = L.CanvasLayer.extend({
     this.precache_sprites();
   },
 
-  setCity: function(name) {
+  setCity: function(name, time_offset) {
     //this.options.table = name + "_2m_1mm";
     this.options.table = name + "_manydays_live";
+    this.options.time_offset = time_offset
   },
 
   _onMapMove: function() {
@@ -128,6 +130,8 @@ var StreetLayer = L.CanvasLayer.extend({
   },
 
   set_time: function(t) {
+    t += this.options.time_offset*60;
+    t = fmod(t, this.options.end_date*60);
     this.time = (t/60.0) >> 0;
     this.time = (this.time/this.options.decimate) >> 0;
   },
@@ -400,7 +404,7 @@ var StreetLayer = L.CanvasLayer.extend({
   getProbsData: function(coord, zoom) {
     var self = this;
 
-    var tiles_sql = encodeURIComponent("SELECT the_geom_webmercator,class,null as name,'osm_landusages' as layer FROM mumbai_osm_landusages UNION ALL SELECT the_geom_webmercator,class,null as name,'osm_landusages' as layer FROM london_osm_landusages UNION ALL SELECT the_geom_webmercator,class, name,'osm_waterareas' as layer FROM mumbai_osm_waterareas UNION ALL SELECT the_geom_webmercator,class, name,'osm_waterareas' as layer FROM london_osm_waterareas UNION ALL SELECT the_geom_webmercator,class,null as name,'osm_roads' as layer FROM mumbai_osm_roads UNION ALL SELECT the_geom_webmercator,class,null as name,'osm_roads' as layer FROM london_osm_roads");
+    var tiles_sql = encodeURIComponent("SELECT the_geom_webmercator,class,null as name,'osm_landusages' as layer FROM mumbai_osm_landusages UNION ALL SELECT the_geom_webmercator,class, name,'osm_waterareas' as layer FROM mumbai_osm_waterareas UNION ALL SELECT the_geom_webmercator,class,null as name,'osm_roads' as layer FROM mumbai_osm_roads UNION ALL SELECT the_geom_webmercator,class,null as name,'osm_landusages' as layer FROM london_osm_landusages UNION ALL SELECT the_geom_webmercator,class, name,'osm_waterareas' as layer FROM london_osm_waterareas UNION ALL SELECT the_geom_webmercator,class,null as name,'osm_roads' as layer FROM london_osm_roads  UNION ALL SELECT the_geom_webmercator,class,null as name,'osm_landusages' as layer FROM helsinki_osm_landusages UNION ALL SELECT the_geom_webmercator,class, name,'osm_waterareas' as layer FROM helsinki_osm_waterareas UNION ALL SELECT the_geom_webmercator,class,null as name,'osm_roads' as layer FROM helsinki_osm_roads  UNION ALL SELECT the_geom_webmercator,class, name,'osm_waterareas' as layer FROM chicago_osm_waterareas UNION ALL SELECT the_geom_webmercator,class,null as name,'osm_roads' as layer FROM chicago_osm_roads  UNION ALL SELECT the_geom_webmercator,class,null as name,'osm_landusages' as layer FROM chicago_osm_landusages UNION ALL SELECT the_geom_webmercator,class, name,'osm_waterareas' as layer FROM rome_osm_waterareas UNION ALL SELECT the_geom_webmercator,class,null as name,'osm_roads' as layer FROM rome_osm_roads  UNION ALL SELECT the_geom_webmercator,class,null as name,'osm_landusages' as layer FROM rome_osm_landusages");
     var tiles_url = "http://0.tiles.cartocdn.com/pulsemaps/tiles/pulse_basemap/{0}/{1}/{2}.png?cache_policy=persist&sql=" + tiles_sql + "&cache_policy=persist&cache_buster=2013-05-09T12%3A49%3A08%2B00%3A00&cache_buster=" + new Date().getTime();
 
     //var tiles_url = "http://0.tiles.cartocdn.com/pulsemaps/tiles/basemap_roads_live/{0}/{1}/{2}.png?cache_buster=101"

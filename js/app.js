@@ -26,7 +26,8 @@ var App = {
       // scrollWheelZoom: false,
       // doubleClickZoom: false,
       base_layer: 'https://saleiva.cartodb.com/tiles/'+ this.options.map.name +'/{z}/{x}/{y}.png',
-      city: this.options.city
+      city: this.options.city,
+      time_offset: this.options.time_offset
     });
 
     // Home
@@ -47,7 +48,7 @@ var App = {
       timeMin: new Date(this.init_time).getTime(),
       timeRange: (this.last_time - this.init_time) * 1,
       map: this.map.map,
-      city: this.options.city
+      city: this.options.city,
     });
 
     // Bubbles
@@ -121,6 +122,8 @@ var App = {
 
   _onStopAnimation: function() {
     stopped = true;
+    //TODO: this should be in slider
+    // jquery driven development is shit
     $(".ui-slider-handle").addClass("stopped");
     if(this.isPlayed) {
       updateHash(this.map.map, this.options.city, App.time);
@@ -129,6 +132,8 @@ var App = {
 
   _onResumeAnimation: function() {
     stopped = false;
+    //TODO: this should be in slider
+    // jquery driven development is shit
     $(".ui-slider-handle").removeClass("stopped");
 
     updateHash(this.map.map, this.options.city, window.AppData.init_time);
@@ -179,18 +184,15 @@ var App = {
       if(this.time/60 >= this.last_time) {
         this.time = 0;
       }
-      var real_time = this.time + this.options.time_offset*60;
-      if(real_time < 0) real_time += this.last_time*60;
-      real_time = fmod(real_time, this.last_time*60);
       for(var i = 0; i < animables.length; ++i) {
         var a = animables[i];
-        a.set_time(real_time);
+        a.set_time(this.time);
         a.render();
       }
     } else if (dragged) {
       for(var i = 0; i < animables.length; ++i) {
         var a = animables[i];
-        a.set_time(real_time);
+        a.set_time(this.time);
         a.render();
       }
     }
@@ -238,7 +240,7 @@ var App = {
 
     city = this.options.city;
 
-    this.map.set_city(this.options.map.center, this.options.map.zoom, this.options.city);
+    this.map.set_city(this.options.map.center, this.options.map.zoom, this.options.city, this.options.time_offset);
 
     // Restart all animated particled
     Bubbles.set_city(this.options.city);

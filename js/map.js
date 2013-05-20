@@ -48,7 +48,8 @@ Map.prototype = {
     });*/
 
     self.probsLayer = new StreetLayer({
-      table: this.options.city +"_manydays_live"
+      table: this.options.city +"_manydays_live",
+      time_offset: this.options.time_offset
     });
     self.map.addLayer(self.probsLayer);
 
@@ -95,11 +96,12 @@ Map.prototype = {
     }
   },
 
-  set_city: function(center, zoom, city) {
+  set_city: function(center, zoom, city, time_offset) {
     this.options.city = city;
+    this.options.time_offset = time_offset
 
     if(this.probsLayer) {
-      this.probsLayer.setCity(city);
+      this.probsLayer.setCity(city, time_offset);
     }
 
     // ****
