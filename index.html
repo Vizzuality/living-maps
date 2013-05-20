@@ -3,25 +3,159 @@ layout: application
 type: home
 ---
 
+<!-- Sticky navigation -->
+<nav id="navigation" class="navigation top">
+  <div class="inner">
+    <a href="/"><h2 class="title">Living<span>Cities</span></h2></a>
 
-<header class="header clearfix">
-  <a href="/" class="logo"><img src="/img/here-logo.png" alt="" /></a>
+    <ul class="menu sticky_menu">
+      <li>
+        <a href="#" id="dropdown_link">Select a city</a>
 
-  {% include menu_nav.html %}
+        <ul id="dropdown_nav">
+          <li>
+            <a href="/cities/#london" class="city-link" data-city="london">
+              <img src="/img/cities/london.jpg" alt="" title="">
+              <h3 class="title">London</h3>
+              <p class="description">The big British Capital</p>
+            </a>
+          </li>
 
-  <p class="subtitle">A joint experiment by Here.com and CartoDB</p>
-  <h1 class="title">Living cities maps</h1>
-</header>
+          <li>
+            <a href="/cities/#chicago" class="city-link" data-city="chicago">
+              <img src="/img/cities/chicago.jpg" alt="" title="">
+              <h3 class="title">Chicago</h3>
+              <p>The other Capital</p>
+            </a>
+          </li>
 
-<div class="content inner">
-  <p class="last">The path of a cosmonaut is not an easy, triumphant march to glory. You have to get to know the meaning not just of joy but also of grief, before being allowed in the spacecraft cabin. For those who have seen the Earth from space, and for the hundreds and perhaps thousands more who will, the experience most certainly changes your perspective. The things that we share in our world are far more valuable than those which divide us.</p>
-</div>
+          <li>
+            <a href="/cities/#rome" class="city-link" data-city="rome">
+              <img src="/img/cities/rome.jpg" alt="" title="">
+              <h3 class="title">Rome</h3>
+              <p>The other Capital</p>
+            </a>
+          </li>
 
-<div id="map_wrapper" class="backdrop">
-  <div id="map">
-    <div class="edge top"></div>
-    <div class="edge right"></div>
-    <div class="edge bottom"></div>
-    <div class="edge left"></div>
+          <li>
+            <a href="/cities/#helsinki" class="city-link" data-city="helsinki">
+              <img src="/img/cities/helsinki.jpg" alt="" title="">
+              <h3 class="title">Helsinki</h3>
+              <p>The other Capital</p>
+            </a>
+          </li>
+
+          <li>
+            <a href="/cities/#mumbai" class="city-link" data-city="mumbai">
+              <img src="/img/cities/mumbai.jpg" alt="" title="">
+              <h3 class="title">Mumbai</h3>
+              <p>The other Capital</p>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <li><a href="#"><sup>The</sup>Contest</a></li>
+      <li><a href="#">About</a></li>
+    </ul>
   </div>
-</div>
+</nav>
+
+<section class="map">
+  <div class="inner">
+    <!-- Content -->
+    <div class="content">
+      <!-- Header -->
+      <header class="header clearfix">
+        <h1 class="title"><strong>Living</strong>Cities</h1>
+        <p class="subtitle">A joint experiment by HERE and CartoDB</p>
+      </header>
+
+      <div class="content-inner">
+        <p class="last">At HERE we collect millions of GPS traces to build our always updated maps. This data help us to give you better directions and find the closest shop. But this data also says a lot about he cities where we lived. We have partnered with visualization experts CartoDB to show you some facts about 5 cities and we are inviting everybody to join us in a challenge to make your own visualizations.</p>
+      </div>
+    </div>
+
+    <div class="gradient all"></div>
+    <div class="gradient top"></div>
+    <div class="gradient bottom"></div>
+  </div>
+
+  <!-- Map -->
+  <div id="map_wrapper" class="backdrop">
+    <!-- div id="map" class="home_map"></div -->
+  </div>
+
+  <nav class="navigation bottom">
+    <ul class="menu inner cities_menu">
+      <li>
+        <a href="/cities/#london">London</a>
+      </li>
+
+      <li>
+        <a href="/cities/#chicago">Chicago</a>
+      </li>
+
+      <li>
+        <a href="/cities/#rome">Rome</a>
+      </li>
+
+      <li>
+        <a href="/cities/#helsinki">Helsinki</a>
+      </li>
+
+      <li>
+        <a href="/cities/#mumbai">Mumbai</a>
+      </li>
+
+      <li>
+        <a href="#" class="highlight"><sup>The</sup>Contest</a>
+      </li>
+
+      <li>
+        <a href="#" class="last">About</a>
+      </li>
+    </ul>
+  </nav>
+</section>
+
+<section class="contest clearfix">
+  <div class="contest-inner">
+    <div class="inner">
+      <h2 class="section_title">The Contest</h2>
+      <p class="section_description">Win up to $3,000 by helping people to understand how the cities behave.<br />The game is simple, you just need to use our Data plus CartoDB.</p>
+
+      <div class="cols clearfix">
+        <div class="col">
+          <h3 class="title">Rules and Prizes</h3>
+          <p>Submit your CartoDB plus Here visualization before 15th, Jun and win up to $3,000 and participate in our live hackattons in Berlin and Madrid.</p>
+          <a href="#" class="link">Check out the detailed rules</a>
+        </div>
+
+        <div class="col feat">
+          <h3 class="title">Get the data</h3>
+          <ul>
+            <li><a href="#">London</a></li>
+            <li><a href="#">Chicago</a></li>
+            <li><a href="#">Rome</a></li>
+            <li><a href="#">Helsinki</a></li>
+            <li><a href="#">Mumbai</a></li>
+          </ul>
+        </div>
+
+        <div class="col last">
+          <h3 class="title">Get Started</h3>
+          <p>Create your CartoDB, upgrade to Coronelli and instert the “<strong>HERETTON</strong>”. That will give you a free coronelli account during the first month.</p>
+          <a href="#" class="link">Create your CartoDB account</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="banner">
+      <p>Enter to the contest by <span>submiting your visualization</span></p>
+    </div>
+  </div>
+
+  <h2 class="section_title">Why all this? More about this project</h2>
+  <p class="section_description">Win up to $3,000 by helping people to understand how the cities behave.<br />The game is simple, you just need to use our Data plus CartoDB.</p>
+</section>

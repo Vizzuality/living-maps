@@ -1,14 +1,16 @@
 @import "compass/reset";
 @import "compass/css3";
 @import "vendor/jquery.qtip";
-@import "map";
 @import "dropdowns";
-@import "debug";
 
 .clearfix:before,
 .clearfix:after { content: ""; display: table; }
 .clearfix:after { clear: both; }
 
+
+/*
+ * Webfonts
+ */
 
 @font-face {
   font-family: 'Nokia Pure Text';
@@ -32,10 +34,10 @@
     url('/fonts/nokiapuretext_bd-webfont.svg#Nokia Pure Text') format('svg');
 }
 
-* {
-  margin: 0;
-  padding: 0;
-}
+
+/* ==========================================================================
+   LAYOUT
+   ========================================================================== */
 
 html {
   height: 100%;
@@ -44,18 +46,122 @@ html {
 
 body {
   position: relative;
+  overflow-x: hidden;
+  min-width: 960px;
   height: 100%;
-  width: 100%;
-  min-width: 900px;
-  overflow: hidden !important;
-  font: 300 17px "Nokia Pure Text", Helvetica, Arial, sans-serif;
+  font: 300 19px "Nokia Pure Text", Helvetica, Arial, sans-serif;
   color: #fff;
-  background: #0bd;
 }
+
+.inner {
+  margin: 0 auto;
+  width: 960px;
+}
+
+
+/* ==========================================================================
+   MAP
+   ========================================================================== */
+
+section.map {
+  position: relative;
+  background: #0bd;
+  height: 632px;
+}
+
+
+/*
+ * Navigation
+ */
+
+.navigation {
+  position: absolute;
+  z-index: 500;
+  height: 72px;
+  width: 100%;
+  background: #fff;
+
+  &.top {
+    top: 0;
+    @include box-shadow(0 0 20px rgba(#000, .2));
+  }
+
+  &.bottom {
+    bottom: 0;
+    border-bottom: 3px solid #ddd;
+  }
+
+  .title {
+    float: left;
+    font-size: 27px;
+    font-weight: bold;
+    line-height: 72px;
+
+    span { font-weight: 300; }
+  }
+
+  a {
+    color: #4690C0;
+
+    &:hover,
+    &.highlight { color: #FF4D4D; }
+
+    &:hover { text-decoration: underline; }
+  }
+}
+
+.menu {
+  margin: 0 auto;
+
+  li { float: left; }
+
+  a {
+    display: inline-block;
+    text-decoration: none;
+    line-height: 72px;
+  }
+
+  sup {
+    position: relative;
+    top: -4px;
+    font-size: 12px;
+  }
+}
+
+.sticky_menu {
+  float: right;
+
+  a { margin-left: 30px; }
+}
+
+.cities_menu {
+  float: none;
+
+  a {
+    border-left: 1px solid #ddd;
+    padding: 0 35px;
+
+    &.last { border-right: 1px solid #ddd; }
+  }
+}
+
+#dropdown_link {
+  padding-right: 20px;
+  background: image-url('caret-sprite.png') no-repeat right 0;
+
+  &:hover { background-position: right -72px; }
+}
+
+#dropdown_nav { display: none; }
+
+
+/*
+ * Gradients
+ */
 
 .gradient {
   position: absolute;
-  z-index: 20;
+  z-index: 400;
   left: 0;
   width: 100%;
   pointer-events: none;
@@ -74,7 +180,7 @@ body {
   }
 
   &.bottom {
-    bottom: -10px;
+    bottom: 0;
     height: 215px;
     @include background(
       linear-gradient(bottom, #356095 0%, rgba(#356095, 0) 100%),
@@ -82,10 +188,12 @@ body {
   }
 }
 
-.header {
-  margin-top: 50px;
-  pointer-events: none;
 
+/*
+ * Header
+ */
+ 
+.header {
   .title,
   .subtitle {
     display: inline-block;
@@ -93,21 +201,38 @@ body {
     clear: left;
   }
 
-
-  .title { margin: 0 0 -10px -5px; }
+  .title {
+    margin: 0 0 -5px -5px;
+    font-size: 85px;
+    line-height: 1;
+    letter-spacing: -3px;
+  }
 
   .subtitle {
     position: relative;
     font-size: 31px;
     white-space: nowrap;
+    letter-spacing: -1px;
   }
 }
 
+.title strong { font-weight: bold; }
+
+
+/*
+ * Content
+ */
+
 .content {
-  position: relative;
-  z-index: 300;
-  margin: 0 50px 0 42px;
-  @include text-shadow(0 0 40px #000);
+  position: absolute;
+  z-index: 500;
+  margin-top: 130px;
+  pointer-events: none;
+}
+
+.content-inner {
+  margin-top: 50px;
+  width: 600px;
 
   p {
     margin-bottom: 20px;
@@ -117,63 +242,121 @@ body {
   }
 }
 
-.inner {
-  width: 670px;
-  padding: 0 20px;
+
+/* ==========================================================================
+   CONTEST
+   ========================================================================== */
+
+section.contest {
+  padding-bottom: 50px;
+  text-align: center;
+  color: #999;
 }
 
-// Navigation
-.navigation {
-  position: absolute;
-  z-index: 300;
-  bottom: 0;
-  border-top: 1px solid rgba(#fff, .4);
-  height: 72px;
-  width: 100%;
-  background: rgba(#fff, .2);
+.contest-inner {
+  padding-top: 40px;
+  background: #f6f6f6 image-url('contest-bg.png');
+}
 
-  .title {
-    float: left;
-    margin-left: 50px;
-    font-size: 27px;
-    font-weight: bold;
-    line-height: 80px;
+.section_title {
+  font-size: 45px;
+  color: #545454;
+}
 
-    span { font-weight: 300; }
+.section_description {
+  font-size: 25px;
+  line-height: 1.2;
+}
+
+.cols {
+  margin-top: 70px;
+}
+
+.col {
+  position: relative;
+  float: left;
+  border: 1px solid #e3e3e3;
+  padding: 40px;
+  width: 250px;
+  min-height: 235px;
+  font-size: 18px;
+  text-align: left;
+  @include border-radius(5px);
+  background: #fff image-url('col-shadow.png') repeat-y right 0;
+
+  &.feat {
+    position: relative;
+    z-index: 1;
+    margin: -30px -20px 0;
+    padding-bottom: 30px;
+    width: 254px;
+    background: #fff;
+
+    .title { text-align: center; }
+
+    a {
+      display: block;
+      border-top: 1px solid #ddd;
+      line-height: 49px;
+      background: image-url('datalink.png') no-repeat right center;
+    }
   }
 
-  a { color: #fff; }
-}
+  &.last { background-position: left 0;}
 
-.menu {
-  float: right;
-  margin-right: 40px;
-
-  li {
-    float: left;
-    margin-left: 10px;
+  .title {
+    font-size: 33px;
+    color: #FF4D4D;
   }
 
   a {
-    display: inline-block;
-    padding: 0 10px;
+    font-size: 17px;
+    font-weight: 400;
     text-decoration: none;
-    line-height: 80px;
-    color: #fff;
+    color: #4792C4;
+
+    &:hover { text-decoration: underline; }
+
+    &.link {
+      position: absolute;
+      bottom: 40px;
+    }
   }
 
-  sup {
-    position: relative;
-    top: -4px;
-    font-size: 12px;
+  p {
+    line-height: 1.2;
+    margin: 20px 0;
+
+    strong {
+      font-weight: bold;
+      color: #777;
+    }
+  }
+
+  ul {
+    margin-top: 20px;
   }
 }
 
-#dropdown_link {
-  padding-right: 20px;
-  background: image-url('caret.png') no-repeat right center;
-}
+.banner {
+  position: relative;
+  border-top: 1px solid #CC3D3D;
+  border-bottom: 1px solid #CC3D3D;
+  margin: 60px 0 40px;
+  line-height: 98px;
+  font-size: 33px;
+  background: #FF4C4C;
+  color: #fff;
 
-#dropdown_nav {
-  display: none;
+  &:after {
+    position: absolute;
+    top: -9px;
+    content: "";
+    display: block;
+    width: 100%;
+    background: image-url('ribbon.png') no-repeat center 0;
+    height: 116px;
+  }
+
+  span { text-decoration: underline; }
 }
