@@ -29,6 +29,9 @@ var StreetLayer = L.CanvasLayer.extend({
     this.on('tileAdded', function(t) {
       this.getProbsData(t, t.zoom);
     }, this);
+
+    this._render = this._render1;
+    this.pre_cache_data = this.pre_cache_data1;
     this.options.steps = this.options.end_date - this.options.start_date
     this.MAX_UNITS = (this.options.steps + 2) | 0;
     this.force_map = {};
@@ -50,7 +53,7 @@ var StreetLayer = L.CanvasLayer.extend({
       part_type: 'glow'
     }
     this.precache_sprites = this.precache_sprites.bind(this)
-    this.init_post_process = this.init_post_process.bind(this);
+    //this.init_post_process = this.init_post_process.bind(this);
 
     this.precache_sprites();
   },
@@ -114,21 +117,23 @@ var StreetLayer = L.CanvasLayer.extend({
     map.on('move reset', this._onMapMove, this);
     L.CanvasLayer.prototype.onAdd.call(this, map);
     var origin = this._map._getNewTopLeftPoint(this._map.getCenter(), this._map.getZoom());
-    this.init_post_process();
+    //this.init_post_process();
     this._ctx.translate(-origin.x, -origin.y);
-    this._backCtx.translate(-origin.x, -origin.y);
+    this._ctx.globalCompositeOperation = 'lighter';
+
+    // streets layer
+    this._streetsLayer = this.addCanvasLayer();
+    this._streetsLayerCtx = this._streetsLayer.getContext('2d');
+    this._streetsLayer.style['zIndex'] = 50;
     this._streetsLayerCtx.translate(-origin.x, -origin.y);
   },
 
-  init_post_process: function() {
+  /*init_post_process: function() {
     var canvasPost = document.createElement('canvas');
     var ctxPost = canvasPost.getContext('2d');
     canvasPost.height = canvasPost.width = this.render_options.post_size;
     this.canvasPost = canvasPost;
     this.ctxPost = ctxPost;
-    this._streetsLayer = this.addCanvasLayer();
-    this._streetsLayerCtx = this._streetsLayer.getContext('2d');
-    this._streetsLayer.style['zIndex'] = 50;
   },
 
   _do_post_process: function(origin) {
@@ -146,26 +151,105 @@ var StreetLayer = L.CanvasLayer.extend({
     ctx.drawImage(this.canvasPost,origin.x, origin.y, this._canvas.width, this._canvas.height);
     ctx.globalCompositeOperation = 'ligthen'
     ctx.globalAlpha = 1;
-  },
+  },*/
 
   tile: function(sql, callback) {
     var self = this;
+    var prof = Profiler.get('tile fetching').start();
     var base_url = 'http://pulsemaps.cartodb.com/'
     $.getJSON(base_url + "api/v2/sql?q=" + encodeURIComponent(sql), function (data, text, xhr) {
+      prof.end();
       console.log("tile size: " + ((xhr.responseText.length/1024) >> 0) + "kb");
+      Profiler.new_value('tile_size', ((xhr.responseText.length/1024) >> 0));
       self.totalBytes += xhr.responseText.length;
       callback(data);
       console.log("total size: " + ((self.totalBytes/1024) >> 0) + "kb");
     });
   },
 
-  pre_cache_data: function(rows, coord, zoom) {
+  pre_cache_data2: function(rows, coord, zoom) {
+    var row;
+    var count;
+    var xcoords;
+    var ycoords;
+    var values;
+    var key;
+
+    x = new Int32Array(rows.length);
+    y = new Int32Array(rows.length);
+    speeds = new Uint8Array(rows.length * this.MAX_UNITS);// 256 months
+    count = new Uint8Array(rows.length * this.MAX_UNITS);// 256 monthsrr
+    count_filtered = new Uint8Array(rows.length * this.MAX_UNITS);// 256 monthsrr
+
+    Profiler.new_value('tiles mem 2', (2*4*rows.length + 3*rows.length*this.MAX_UNITS)/1024);
+
+    var prof = Profiler.get('preprocess time 2').start();
+
+    // base tile x, y
+    var total_pixels = 256 << zoom;
+    var max_val = 0;
+
+    for (var i in rows) {
+      row = rows[i];
+      pixels = meterToPixels(row.x, row.y, zoom); 
+      key = '' + (pixels[0] >> 0) + "_" + ((total_pixels - pixels[1])>>0)
+      x[i] = pixels[0] >> 0;
+      y[i] = (total_pixels - pixels[1])>>0;
+      var base_idx = i * this.MAX_UNITS;
+      //def[row.sd[0]] = row.se[0];
+      for (var j = 0; j < row.dates.length; ++j) {
+        //var dir = row.heads[j] + 90;
+        //var s = row.speeds[j]
+        //dx[base_idx + row.dates[j]] = Math.cos(dir*Math.PI/180);
+        //dy[base_idx + row.dates[j]] = Math.sin(dir*Math.PI/180);
+        //speeds[base_idx + row.dates[j]] = row.speeds[j];
+
+        count_filtered[base_idx + row.dates[j]] =   
+        count[base_idx + row.dates[j]] = Math.min(6, Math.ceil(row.vals[j]/(10 * this.options.step))) >> 0 ;
+      }
+
+      var passes = 2;
+      while(passes--) {
+        for (var j = 1; j < this.MAX_UNITS; ++j) {
+          count_filtered[base_idx + j] += count_filtered[base_idx + j - 1]/2.0
+        }
+      }
+      for (var j = 1; j < this.MAX_UNITS; ++j) {
+        count_filtered[base_idx + j] = Math.min(6, count_filtered[base_idx + j]) >> 0 ;
+      }
+    }
+
+    //this.force_keys = Object.keys(this.force_map);
+    //
+    prof.end()
+
+    return {
+      count: count,
+      count_filtered: count_filtered,
+      x: x,
+      y: y,
+      len: rows.length
+      /*length: rows.length,
+      xcoords: xcoords,
+      ycoords: ycoords,
+      speeds: speeds,
+      heads: heads,
+      size: 1 << (this.resolution * 2)
+      */
+    };
+  },
+
+  pre_cache_data1: function(rows, coord, zoom) {
     var TIME_SLOTS = this.MAX_UNITS;
     var timeIndex = new Int32Array(TIME_SLOTS); //index-size
     var timeCount = new Int32Array(TIME_SLOTS); 
     var x = new Int32Array(rows.length);
     var y = new Int32Array(rows.length);
 
+
+    var prof = Profiler.get('preprocess time').start();
+
+ 
     // count number of dates
     var dates = 0;
     for (var r in rows) {
@@ -176,6 +260,8 @@ var StreetLayer = L.CanvasLayer.extend({
     // reserve memory for all the dates
     var renderData = new Uint8Array(dates);
     var renderDataPos = new Uint32Array(dates);
+
+    Profiler.new_value('tiles mem', (rows.length*2*4 + 2*TIME_SLOTS*4 + dates*(1 + 4))/1024);
 
     // precache pixel positions
     var total_pixels = 256 << zoom;
@@ -202,52 +288,26 @@ var StreetLayer = L.CanvasLayer.extend({
           }
         }
       }
-      timeIndex[i] = c;
-      timeCount[i] = timeSlotIndex;
+      timeIndex[i] = timeSlotIndex;
+      timeCount[i] = c;
       timeSlotIndex += c;
     }
 
+    prof.end();
+
     return {
       x: x,
-      y: y
+      y: y,
+      timeCount: timeCount,
       timeIndex: timeIndex,
       renderDataPos: renderDataPos,
       renderData: renderData
     }
   },
 
-  // tile format
-  //
-  // ** header
-  // - file tag: 84, 79, 82, 81, 85, 69  [int8 * 5] ("TORQUE" in ascii)
-  // - file version [int8] (0, 1, 2, 3...)
-  //
-  // ** data
-  // - n_pixels with data [uint32]
-  // - time_slots [uint32]
-  // - x coords [int32*n_pixels]
-  // - y coords [int32*n_pixels]
-  // - timeIndex [int32*time_slots]
-  // - timeCount [int32*time_slots]
-  //   this value return the index in renderData and renderDataPos for a time slot
-  // - renderDataPos [uint32, index in x,y array for time t] 
-  //    contains the positions for each pixel, indexed by time index
-  // - renderData
-  //    contains the values for pixels, indexed by timeIndex
-  //
-  //
-  // example: how to get the values and the pixel positions in the time slot "time"
-  // var index = timeIndex[time]
-  // var pixelsToRender = timeCount[index]
-  // for(var i = 0; i < pixelsToRender; ++i) {
-  //    var posIndex = renderDataPos[index + i]
-  //    var value = renderData[index + i];
-  //    render_at(x[posIndex], y[posIndex], value);
-  // }
-  //
-
-  _render: function() {
+  _render1: function() {
     if(!this._canvas) return;
+    var prof = Profiler.get('render').start();
     this._canvas.width = this._canvas.width;
     var origin = this._map._getNewTopLeftPoint(this._map.getCenter(), this._map.getZoom());
     this._ctx.translate(-origin.x, -origin.y);
@@ -274,8 +334,47 @@ var StreetLayer = L.CanvasLayer.extend({
         }
       }
     }
+    prof.end();
+  },
+
+  _render2: function() {
+    if(!this._canvas) return;
+    var prof = Profiler.get('render2').start();
+    this._canvas.width = this._canvas.width;
+    var origin = this._map._getNewTopLeftPoint(this._map.getCenter(), this._map.getZoom());
+    /*
+    this._ctx.setTransform(1, 0, 0, 1, 0, 0);
+    this._ctx.fillStyle = 'rgba(23, 162, 206,'  + this.render_options.post_decay + ')';
+    this._ctx.fillRect(0, 0, this._canvas.width, this._canvas.height);
+    */
+    this._ctx.translate(-origin.x, -origin.y);
+
+    var ctx = this._ctx;
+    var time = this.time;
+    var s = 2
+    for(var tile in this._tiles) {
+      var tt = this._tiles[tile]
+      var x = tt.x
+      var y = tt.y;
+      var count = this.render_options.filtered? tt.count_filtered:tt.count;
+      var len = tt.len
+      for(var i = 0; i < len; ++i) {
+        var base_time = this.MAX_UNITS * i + time
+        var c = count[base_time];
+        if(c) {
+          var sp = this.sprites[c]
+          ctx.drawImage(
+            sp,
+            x[i] - (sp.width>> 1),
+            y[i] - (sp.height>>1) + 2*c)
+        }
+      }
+    }
+
+    prof.end();
 
   },
+
 
   // params for cities
   //  london: ac > 1200
