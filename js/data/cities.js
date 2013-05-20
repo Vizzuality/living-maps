@@ -57,7 +57,7 @@ window.AppData.CITIES = {
   'helsinki': {
     map: {
       center: [60.169738,24.937763],
-      zoom: 12,
+      zoom: 13,
       maxZoom: 14,
       minZoom: 12
     },

@@ -40,7 +40,7 @@
 							testChar(a,b+1,c,d);
 						else
 							testChar(a+1,0,c,d+1);
-					}, 10);
+					}, 1);
 				}
 			}
 			

@@ -12,7 +12,7 @@
     options: {
       showTime: 300,
       hideTime: 300,
-      delayTime: 2000
+      delayTime: 3000
     },
 
     el: '#contextualfacts',
