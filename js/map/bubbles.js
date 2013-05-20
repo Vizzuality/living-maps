@@ -213,12 +213,18 @@
       var unanim = 1 - done;
 
       // Info
+      var _opacity = 1;
+      if(pos.y < self.options.topEdgeMargin){
+        var _op = (1/(self.options.topEdgeMargin-pos.y))*10;
+        _opacity = (_op < 0.08) ? 0 : _op;
+      }
+
       this.bubbles[bubble_id].$markup
         .find('.info')
         .stop(true)
         .animate({
             top: 0,
-            opacity: 1
+            opacity: _opacity
           },
           (this.bubbles[bubble_id].over)
             ? this.options.animation.slowShowTime * unanim
