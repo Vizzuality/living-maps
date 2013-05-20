@@ -21,10 +21,11 @@ function tilePixelToPixel(tx, ty, tz, px, py) {
   var res = initialResolution / (1 << tz);
   var tileRes = res * 256;
   var mx = - originShift + tx * tileRes + px * res; // meters
-  var my = originShift - ty * tileRes - py * res; // meters
+  var my = originShift - ty * tileRes - (256 - py) * res; // meters
   var x = ((mx + originShift) / res) << 0;
   var y = ((my + originShift) / res) << 0;
-  return [x, y];
+  return [x, y]
+
 }
 
 
