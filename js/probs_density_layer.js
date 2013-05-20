@@ -8,6 +8,25 @@ function meterToPixels(mx, my, zoom) {
     return [px, py];
 }
 
+// @param tx tile x
+// @param ty tile y
+// @param tz tile zoom
+// @param px pixel x ordinate within the tile (0..255 range)
+// @param py pixel x ordinate within the tile (0..255 range)
+//
+// @returns an array where first element is global X and
+//          second element is global Y.
+//
+function tilePixelToPixel(tx, ty, tz, px, py) {
+  var res = initialResolution / (1 << tz);
+  var tileRes = res * 256;
+  var mx = - originShift + tx * tileRes + px * res; // meters
+  var my = originShift - ty * tileRes - py * res; // meters
+  var x = ((mx + originShift) / res) << 0;
+  var y = ((my + originShift) / res) << 0;
+  return [x, y];
+}
+
 
 var StreetLayer = L.CanvasLayer.extend({
 
@@ -169,17 +188,16 @@ var StreetLayer = L.CanvasLayer.extend({
 
   pre_cache_data2: function(rows, coord, zoom) {
     var row;
-    var count;
     var xcoords;
     var ycoords;
     var values;
     var key;
 
-    x = new Int32Array(rows.length);
-    y = new Int32Array(rows.length);
-    speeds = new Uint8Array(rows.length * this.MAX_UNITS);// 256 months
-    count = new Uint8Array(rows.length * this.MAX_UNITS);// 256 monthsrr
-    count_filtered = new Uint8Array(rows.length * this.MAX_UNITS);// 256 monthsrr
+    var x = new Int32Array(rows.length);
+    var y = new Int32Array(rows.length);
+    //speeds = new Uint8Array(rows.length * this.MAX_UNITS);// 256 months
+    var count = new Uint8Array(rows.length * this.MAX_UNITS);// 256 monthsrr
+    var count_filtered = new Uint8Array(rows.length * this.MAX_UNITS);// 256 monthsrr
 
     Profiler.new_value('tiles mem 2', (2*4*rows.length + 3*rows.length*this.MAX_UNITS)/1024);
 
@@ -191,8 +209,9 @@ var StreetLayer = L.CanvasLayer.extend({
 
     for (var i in rows) {
       row = rows[i];
-      pixels = meterToPixels(row.x, row.y, zoom); 
-      key = '' + (pixels[0] >> 0) + "_" + ((total_pixels - pixels[1])>>0)
+      //pixels = meterToPixels(row.x, row.y, zoom); 
+      pixels = tilePixelToPixel(coord.x, coord.y, zoom, row.x, row.y);
+      //key = '' + (pixels[0] >> 0) + "_" + ((total_pixels - pixels[1])>>0)
       x[i] = pixels[0] >> 0;
       y[i] = (total_pixels - pixels[1])>>0;
       var base_idx = i * this.MAX_UNITS;
@@ -205,7 +224,7 @@ var StreetLayer = L.CanvasLayer.extend({
         //speeds[base_idx + row.dates[j]] = row.speeds[j];
 
         count_filtered[base_idx + row.dates[j]] =   
-        count[base_idx + row.dates[j]] = Math.min(6, Math.ceil(row.vals[j]/(10 * this.options.step))) >> 0 ;
+        count[base_idx + row.dates[j]] = rows.vals[j];//Math.min(6, Math.ceil(row.vals[j]/(10 * this.options.step))) >> 0 ;
       }
 
       var passes = 2;
@@ -380,28 +399,6 @@ var StreetLayer = L.CanvasLayer.extend({
   //  london: ac > 1200
   getProbsData: function(coord, zoom) {
     var self = this;
-    sql = "WITH hgrid AS ( " +
-    "    SELECT CDB_RectangleGrid( " +
-    "       CDB_XYZ_Extent({0}, {1}, {2}), ".format(coord.x, coord.y, zoom) +
-    "       CDB_XYZ_Resolution({0}) * {1}, ".format(zoom, this.options.resolution) +
-    "       CDB_XYZ_Resolution({0}) * {1} ".format(zoom, this.options.resolution) +
-    "    ) as cell " +
-    " ) " +
-    " SELECT  " +
-    "    x, y, array_agg(least(6,  ceil(c/100))) vals, array_agg(floor(d/{0})) dates ".format(this.options.decimate) +
-    " FROM ( " +
-    "    SELECT " +
-    "      round(CAST (st_xmax(hgrid.cell) AS numeric),4) x, round(CAST (st_ymax(hgrid.cell) AS numeric),4) y, " +
-    "      {0} c, floor(({1}- {2})/{3}) d ".format(this.options.countby, this.options.column, this.options.start_date, this.options.step) +
-    "    FROM " +
-    "        hgrid, {0} i ".format(this.options.table) +
-    "    WHERE " +
-    "        i.the_geom_webmercator && CDB_XYZ_Extent({0}, {1}, {2}) ".format(coord.x, coord.y, zoom) +
-    "        AND mm % {0} = 0 AND ac > 1200 AND ST_Intersects(i.the_geom_webmercator, hgrid.cell) ".format(this.options.decimate) +
-    "    GROUP BY " +
-    "        hgrid.cell, floor(({0} - {1})/{2})".format(this.options.column, this.options.start_date, this.options.step) +
-    " ) f GROUP BY x, y";
-
 
     var tiles_sql = encodeURIComponent("SELECT the_geom_webmercator,class,null as name,'osm_landusages' as layer FROM mumbai_osm_landusages UNION ALL SELECT the_geom_webmercator,class,null as name,'osm_landusages' as layer FROM london_osm_landusages UNION ALL SELECT the_geom_webmercator,class, name,'osm_waterareas' as layer FROM mumbai_osm_waterareas UNION ALL SELECT the_geom_webmercator,class, name,'osm_waterareas' as layer FROM london_osm_waterareas UNION ALL SELECT the_geom_webmercator,class,null as name,'osm_roads' as layer FROM mumbai_osm_roads UNION ALL SELECT the_geom_webmercator,class,null as name,'osm_roads' as layer FROM london_osm_roads");
     var tiles_url = "http://0.tiles.cartocdn.com/pulsemaps/tiles/pulse_basemap/{0}/{1}/{2}.png?cache_policy=persist&sql=" + tiles_sql + "&cache_policy=persist&cache_buster=2013-05-09T12%3A49%3A08%2B00%3A00&cache_buster=" + new Date().getTime();
@@ -412,6 +409,24 @@ var StreetLayer = L.CanvasLayer.extend({
     img.onload = function() {
       self._renderSteets();
     }
+
+    var sql = "WITH par AS (" +
+              " SELECT CDB_XYZ_Resolution({0}) as res" . format(zoom) +
+              ", CDB_XYZ_Extent({0},{1},{2}) as ext "  
+                .format(coord.x, coord.y, zoom) +
+              "),\ncte AS ( SELECT ST_SnapToGrid(i.the_geom_webmercator, p.res) g" +
+              ", {0} c" .format(this.options.countby) +
+              ", floor(({0}- {1})/{2}) d"
+                .format(this.options.column, this.options.start_date, this.options.step) +
+              " FROM {0} i, par p " . format(this.options.table) +
+              "WHERE i.the_geom_webmercator && p.ext " +
+              "AND mm % {0} = 0 AND ac > 1200 ".format(this.options.decimate) +
+              "GROUP BY g, d" +
+              ") SELECT (st_x(g)-st_xmin(p.ext))/p.res x, " +
+                       "(st_y(g)-st_ymin(p.ext))/p.res y," +
+              " array_agg(least(6, ceil(c/100))) vals," +
+              " array_agg(floor(d/{0})) dates" . format(this.options.decimate) +
+              " FROM cte, par p GROUP BY x,y";
 
     this.tile(sql, function (data) {
       var time_data = self.pre_cache_data(data.rows, coord, zoom);
