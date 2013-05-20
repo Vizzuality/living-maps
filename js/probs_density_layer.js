@@ -39,7 +39,8 @@ var StreetLayer = L.CanvasLayer.extend({
     step: 1,
     decimate: get_debug_param('decimation', 3),
     start_date: 1, //'2013-03-22 00:00:00+00:00',
-    end_date: 1419//'2013-03-22 23:59:57+00:00'
+    end_date: 1419,//'2013-03-22 23:59:57+00:00'
+    time_offset: 0
   },
 
   initialize: function(options) {
@@ -77,9 +78,10 @@ var StreetLayer = L.CanvasLayer.extend({
     this.precache_sprites();
   },
 
-  setCity: function(name) {
+  setCity: function(name, time_offset) {
     //this.options.table = name + "_2m_1mm";
     this.options.table = name + "_manydays_live";
+    this.options.time_offset = time_offset
   },
 
   _onMapMove: function() {
@@ -128,6 +130,7 @@ var StreetLayer = L.CanvasLayer.extend({
   },
 
   set_time: function(t) {
+    t += this.options.time_offset*60;
     this.time = (t/60.0) >> 0;
     this.time = (this.time/this.options.decimate) >> 0;
   },
