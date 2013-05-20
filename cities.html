@@ -4,9 +4,9 @@ type: city
 ---
 
 <!-- Loader -->
-<div class="mamufas">
+<div id="mamufas" class="mamufas">
   <div class="mamufas-inner">
-    <h1 id="city_title" class="title">The big British capital.</h1>
+    <h1 class="title city_title">The big British capital.</h1>
     <p id="city_subtitle" class="description">More than 3M points mapped over time.</p>
     <div id="spinner-container"></div>
   </div>
@@ -18,33 +18,20 @@ type: city
 
 <!-- Header -->
 <header class="header clearfix">
-  <a href="/" class="logo"><img src="/img/here-logo.png" alt="HERE" title="" /></a>
-
-  <div id="selectors" class="selectors">
-    <div class="time_selector">
-      <div class="sky">
-        <div id="graph"></div>
-        <div id="sun" class="sun"></div>
-        <div id="moon" class="moon"></div>
-      </div>
-
-      <div id="slider" class="slider"></div>
-      <span id="hour" class="hour">1:00 <sup>AM</sup></span>
-    </div>
-  </div>
-
-  {% include menu_nav.html %}
-
-  <p class="subtitle">Living cities</p>
   <h1 id="city_name" class="title">London</h1>
+  <p class="subtitle city_title">The big British capital</p>
 </header>
 
-<!-- Facts -->
-<div id="contextualfacts" class="content inner"></div>
+<!-- Slider -->
+<div id="slider" class="slider">
+  <div id="sky" class="sky">
+    <div id="graph"></div>
+    <div id="sun" class="sun"></div>
+    <div id="moon" class="moon"></div>
+  </div>
 
-<!-- Map -->
-<div id="map_wrapper" class="backdrop">
-  <div id="map" class="city_map"></div>
+  <div id="time_slider" class="time_slider"></div>
+  <span id="hour" class="hour">1:00 <sup>AM</sup></span>
 </div>
 
 <!-- Map components -->
@@ -55,10 +42,75 @@ type: city
   </div>
 </div>
 
+<!-- Facts -->
+<div id="contextualfacts"></div>
+
+<!-- Map -->
+<div id="map_wrapper" class="backdrop">
+  <div id="map" class="city_map"></div>
+</div>
+
+<!-- Nav -->
+<nav id="navigation" class="navigation">
+  <a href="/"><h2 class="title">Living<span>Cities</span></h2></a>
+
+  <ul class="menu">
+    <li>
+      <a href="#" id="dropdown_link">Select a city</a>
+
+      <ul id="dropdown_nav">
+        <li>
+          <a href="/cities/#london" class="city-link" data-city="london">
+            <img src="/img/cities/london.jpg" alt="" title="">
+            <h3 class="title">London</h3>
+            <p class="description">The big British Capital</p>
+          </a>
+        </li>
+
+        <li>
+          <a href="/cities/#chicago" class="city-link disabled" data-city="chicago">
+            <img src="/img/cities/chicago.jpg" alt="" title="">
+            <h3 class="title">Chicago</h3>
+            <p>The other Capital</p>
+          </a>
+        </li>
+
+        <li>
+          <a href="/cities/#rome" class="city-link disabled" data-city="rome">
+            <img src="/img/cities/rome.jpg" alt="" title="">
+            <h3 class="title">Rome</h3>
+            <p>The other Capital</p>
+          </a>
+        </li>
+
+        <li>
+          <a href="/cities/#helsinki" class="city-link disabled" data-city="helsinki">
+            <img src="/img/cities/helsinki.jpg" alt="" title="">
+            <h3 class="title">Helsinki</h3>
+            <p>The other Capital</p>
+          </a>
+        </li>
+
+        <li>
+          <a href="/cities/#mumbai" class="city-link" data-city="mumbai">
+            <img src="/img/cities/mumbai.jpg" alt="" title="">
+            <h3 class="title">Mumbai</h3>
+            <p>The other Capital</p>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+    <li><a href="#"><sup>The</sup> Contest</a></li>
+    <li><a href="#">About</a></li>
+  </ul>
+</nav>
+
 <!-- Share dialog -->
-<div id="backdrop" class="backdrop">
+<div id="share" class="backdrop">
   <a href="#/close" class="close" title="Close">x</a>
-  <div class="backdrop-inner">
+
+  <div class="share-inner">
     <h3 class="title">Share this fact!</h3>
     <textarea class="tweet" maxlength="140" rows="3"></textarea>
     <a href="http://twitter.com/share?text=" target="_blank" class="button twitter share">Share on Twitter</a>

@@ -35,6 +35,7 @@
         table: 'contextualfacts',
         time_column: 'time',
         city: this.city,
+        geometry: false,
         columns: ['cartodb_id as id', 'time', 'city', 'description']
       });
       this.data.fetch();

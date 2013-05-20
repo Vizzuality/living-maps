@@ -21,10 +21,11 @@
     options: {
       random: false, // Random bubble appearance 
       horizontalOffset: 140,
+      topEdgeMargin: 340,
       animation: {
         animShowTime: 300,
         animHideTime: 600,
-        animDelayTime: 1800,
+        animDelayTime: 2300,
         slowShowTime: 1000,
         slowHideTime: 2500,
         slowShowTime: 1800,
@@ -65,10 +66,18 @@
         for (var i in self.bubbles) {
           var bubble = self.bubbles[i];
           if (bubble && bubble.lat && bubble.lon) {
+            
             var pos = latlonTo3DPixel(self.map, [bubble.lat, bubble.lon]);
+            var _opacity = 1;
+            if(pos.y < self.options.topEdgeMargin){
+              var _op = (1/(self.options.topEdgeMargin-pos.y))*10;
+              _opacity = (_op < 0.08) ? 0 : _op;
+            }
+
             bubble.$markup.css({
               top: pos.y - bubble.$markup.outerHeight(),
-              left: pos.x - self.options.horizontalOffset
+              left: pos.x - self.options.horizontalOffset,
+              opacity: _opacity
             })
           }
         }
@@ -80,6 +89,7 @@
         user: 'pulsemaps',
         table: 'bubbles',
         time_column: 'time',
+        geometry: true,
         city: this.city,
         columns: ['cartodb_id as id', 'city', 'st_x(the_geom) as lon', 'time', 'st_y(the_geom) as lat', 'type', 'description']
       });

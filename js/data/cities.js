@@ -68,9 +68,9 @@ window.AppData.CITIES = {
   'mumbai': {
     map: {
       center: [18.972, 72.822],
-      zoom: 12,
-      maxZoom: 13,
-      minZoom: 11
+      zoom: 13,
+      maxZoom: 14,
+      minZoom: 12
     },
     time_scale: 15 * 60,
     scale: 2.0,

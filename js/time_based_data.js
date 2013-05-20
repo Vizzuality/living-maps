@@ -9,7 +9,7 @@ function TimeBasedData(options) {
   this.time_index = {};
 }
 
-TimeBasedData.prototype.reset = function(data) {
+TimeBasedData.prototype.reset = function(data, callback) {
   this.entries = data;
   var time = this.options.time_column;
 
@@ -19,6 +19,8 @@ TimeBasedData.prototype.reset = function(data) {
     var e = this.entries[i];
     this.time_index[e[time]] = e;
   }
+
+  callback && callback();
 }
 
 // time - integer
@@ -26,14 +28,15 @@ TimeBasedData.prototype.getFortime = function(time) {
   return this.time_index[time];
 }
 
-TimeBasedData.prototype.fetch = function() {
+TimeBasedData.prototype.fetch = function(callback) {
   var self = this;
 
   this.base_url = this.options.url;
 
   var sel = this.options.columns.join(',');
+  var geom = (this.options.geometry) ? " AND the_geom IS NOT NULL" : '';
 
-  $.getJSON(this.base_url + "?q=" + "SELECT " + sel + " FROM " + this.options.table + " WHERE city='" + this.options.city + "'", function(data) {
-    self.reset(data.rows);
+  $.getJSON(this.base_url + "?q=" + "SELECT " + sel + " FROM " + this.options.table + " WHERE city='" + this.options.city + "'" + geom, function(data) {
+    self.reset(data.rows, callback);
   });
 }
