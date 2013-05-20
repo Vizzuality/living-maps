@@ -21,7 +21,7 @@ function tilePixelToPixel(tx, ty, tz, px, py) {
   var res = initialResolution / (1 << tz);
   var tileRes = res * 256;
   var mx = - originShift + tx * tileRes + px * res; // meters
-  var my = originShift - ty * tileRes - py * res; // meters
+  var my = originShift - ty * tileRes - (256 - py) * res; // meters
   var x = ((mx + originShift) / res) << 0;
   var y = ((my + originShift) / res) << 0;
   return [x, y];
@@ -286,7 +286,7 @@ var StreetLayer = L.CanvasLayer.extend({
     var total_pixels = 256 << zoom;
     for (var r in rows) {
       var row = rows[r];
-      var pixels = meterToPixels(row.x, row.y, zoom); 
+      var pixels = tilePixelToPixel(coord.x, coord.y, zoom, row.x, row.y); 
       x[r] = pixels[0] | 0;
       y[r] = (total_pixels - pixels[1]) | 0;
     }
