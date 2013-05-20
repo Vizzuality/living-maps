@@ -10,7 +10,7 @@ function Mamufas(el, city) {
   this.$top_nav = $("#top_nav");
 
   this.city = city;
-  this.isActive = false;
+  this.isEnabled = false;
 
   this.spin_opts = {
     lines: 8, // The number of lines to draw
@@ -76,13 +76,13 @@ Mamufas.prototype = {
       Events.trigger("resumeanimation");
     });
 
-    Events.on("activemamufas", function() {
-      if(!self.isActive) {
-        self.isActive = true;
+    Events.on("enablemamufas", function() {
+      if(!self.isEnabled) {
+        self.isEnabled = true;
 
         self.$body.css("overflow-y", "hidden");
 
-        var h = self.$map_container.height() + self.$bottom_nav.outerHeight();
+        var h = $(window).height() + self.$bottom_nav.outerHeight();
 
         self.$map_container.animate({
           height: h
@@ -96,18 +96,29 @@ Mamufas.prototype = {
 
             self.$top_nav.animate({
               bottom: 0
+            }, {
+              duration: 250,
+              queue: false,
+              easing: 'linear'
             });
 
-            self.$el.fadeIn();
             self.$content.fadeOut();
+            self.$el.fadeIn();
           }          
         });
+
+        Events.trigger("toggledropdowns", true);
       }
     });
 
     Events.on("disablemamufas", function() {
-      if(self.isActive) {
-        self.isActive = false;
+      if(self.isEnabled) {
+        self.isEnabled = false;
+
+        self.$el.fadeOut();
+        self.$content.fadeIn();
+
+        self.$body.css("overflow-y", "auto");
 
         self.$top_nav.animate({
           bottom: "-72px"
@@ -119,25 +130,17 @@ Mamufas.prototype = {
             self.$top_nav.removeClass("mapped");
             self.$top_nav.addClass("top");
 
-            var h = self.$map_container.height() - self.$bottom_nav.outerHeight();
-
             self.$map_container.animate({
-              height: h
+              height: "560px"
             }, {
               duration: 250,
               queue: false,
-              easing: 'linear',
-              complete: function() {
-                self.$top_nav.removeClass("mapped");
-                self.$top_nav.addClass("top");
-                self.$body.css("overflow-y", "auto");
-              }          
+              easing: 'linear'
             });
-
-            self.$el.fadeOut();
-            self.$content.fadeIn();
           }
         });
+
+        Events.trigger("toggledropdowns", false);
       }
     });
   },

@@ -49,13 +49,13 @@ var Home = {
 
     if($(window).scrollTop() >= this.$map_container.height()) {
       this.$nav.animate({top: "0"}, {
-        duration: 50,
+        duration: 250,
         queue: false,
         easing: 'linear'
       });
     } else {
       this.$nav.animate({top: "-72px"}, {
-        duration: 50,
+        duration: 250,
         queue: false,
         easing: 'linear',
         complete: function() {
