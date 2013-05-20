@@ -176,15 +176,18 @@ var App = {
       if(this.time/60 >= this.last_time) {
         this.time = 0;
       }
+      var real_time = this.time + this.options.time_offset*60;
+      if(real_time < 0) real_time += this.last_time*60;
+      real_time = fmod(real_time, this.last_time*60);
       for(var i = 0; i < animables.length; ++i) {
         var a = animables[i];
-        a.set_time(this.time);
+        a.set_time(real_time);
         a.render();
       }
     } else if (dragged) {
       for(var i = 0; i < animables.length; ++i) {
         var a = animables[i];
-        a.set_time(this.time);
+        a.set_time(real_time);
         a.render();
       }
     }
