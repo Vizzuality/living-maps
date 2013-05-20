@@ -131,6 +131,7 @@ var StreetLayer = L.CanvasLayer.extend({
 
   set_time: function(t) {
     t += this.options.time_offset*60;
+    t = fmod(t, this.options.end_date*60);
     this.time = (t/60.0) >> 0;
     this.time = (this.time/this.options.decimate) >> 0;
   },
