@@ -1,7 +1,9 @@
 
-var _requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.requestAnimationFrame;
+if(typeof(window) != 'undefined') {
+  var _requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.requestAnimationFrame;
 
-window.requestAnimationFrame = _requestAnimationFrame;
+  window.requestAnimationFrame = _requestAnimationFrame;
+}
 /*
 var _render_queue = [];
  *
@@ -149,6 +151,18 @@ function parseHash(hash) {
 
     return window.AppData.CITIES[city];
   }
+}
+
+var originShift = 2 * Math.PI * 6378137 / 2.0;
+var initialResolution = 2 * Math.PI * 6378137 / 256.0;
+function tilePixelToPixel(tx, ty, tz, px, py) {
+  var res = initialResolution / (1 << tz);
+  var tileRes = res * 256;
+  var mx = - originShift + tx * tileRes + px * res; // meters
+  var my = originShift - ty * tileRes - (256 - py) * res; // meters
+  var x = ((mx + originShift) / res) << 0;
+  var y = ((my + originShift) / res) << 0;
+  return [x, y];
 }
 
 function updateHash(map, city, time, zoom) {

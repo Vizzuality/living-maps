@@ -40,7 +40,9 @@ var StreetLayer = L.CanvasLayer.extend({
     decimate: get_debug_param('decimation', 3),
     start_date: 1, //'2013-03-22 00:00:00+00:00',
     end_date: 1419,//'2013-03-22 23:59:57+00:00'
-    time_offset: 0
+    time_offset: 0,
+    use_web_worker: true,
+    num_web_workers: 3
   },
 
   initialize: function(options) {
@@ -71,6 +73,14 @@ var StreetLayer = L.CanvasLayer.extend({
       post_decay: 0.07,
       filtered: false,
       part_type: 'glow'
+    }
+
+    if(this.options.use_web_worker) {
+      this.workers = [];
+      for(var i = 0; i < this.options.num_web_workers; ++i) {
+        this.workers.push(new Worker("/js/process_tile_worker.js"));
+      }
+      this._web_workers_callbacks = {}
     }
     this.precache_sprites = this.precache_sprites.bind(this)
     //this.init_post_process = this.init_post_process.bind(this);
@@ -176,18 +186,48 @@ var StreetLayer = L.CanvasLayer.extend({
     ctx.globalAlpha = 1;
   },*/
 
-  tile: function(sql, callback) {
+  tile: function(sql, callback, coord, zoom) {
     var self = this;
-    var prof = Profiler.get('tile fetching').start();
     var base_url = 'http://pulsemaps.cartodb.com/'
-    $.getJSON(base_url + "api/v2/sql?q=" + encodeURIComponent(sql), function (data, text, xhr) {
-      prof.end();
-      console.log("tile size: " + ((xhr.responseText.length/1024) >> 0) + "kb");
-      Profiler.new_value('tile_size', ((xhr.responseText.length/1024) >> 0));
-      self.totalBytes += xhr.responseText.length;
-      callback(data);
-      console.log("total size: " + ((self.totalBytes/1024) >> 0) + "kb");
-    });
+    var url = base_url + "api/v2/sql?q=" + encodeURIComponent(sql);
+    if(!this.options.use_web_worker) {
+      var prof = Profiler.get('tile fetching').start();
+      $.getJSON(url, function (data, text, xhr) {
+        prof.end();
+        console.log("tile size: " + ((xhr.responseText.length/1024) >> 0) + "kb");
+        Profiler.new_value('tile_size', ((xhr.responseText.length/1024) >> 0));
+        self.totalBytes += xhr.responseText.length;
+        callback(data);
+        console.log("total size: " + ((self.totalBytes/1024) >> 0) + "kb");
+      });
+    } else {
+      var worker = this.workers[(coord.x + coord.y + zoom) % this.workers.length];
+      var key = [coord.x, coord.y, zoom].join('/');
+      this._web_workers_callbacks[key] = callback;
+      var worker_callback = function(e) {
+        //self.worker.removeEventListener("message", worker_callback);
+        e = e.data;
+        var coord = e.coord;
+        var k = [coord.x, coord.y, coord.z].join('/')
+        var c = self._web_workers_callbacks[k]
+        if(c) {
+          console.log("<-", k);
+          delete self._web_workers_callbacks[k]
+          c(e);
+        }
+      }
+      worker.addEventListener("message", worker_callback, false);
+      console.log("->", key);
+      worker.postMessage(JSON.stringify({
+        url: url,
+        coord: {
+          x: coord.x,
+          y: coord.y,
+          z: zoom
+        },
+        TIME_SLOTS: this.MAX_UNITS
+      }));
+    }
   },
 
   pre_cache_data2: function(rows, coord, zoom) {
@@ -433,12 +473,17 @@ var StreetLayer = L.CanvasLayer.extend({
               " FROM cte, par p GROUP BY x,y";
 
     this.tile(sql, function (data) {
-      var time_data = self.pre_cache_data(data.rows, coord, zoom);
+      if(!self.options.use_web_worker) {
+        var time_data = self.pre_cache_data(data.rows, coord, zoom);
+      } else {
+        time_data = data;
+      }
       time_data.coord = coord;
       time_data.img = img;
+      console.log("loaded" , coord);
       self._tileLoaded(coord, time_data);
       self._renderSteets();
-    });
+    }, coord, zoom);
   },
 
   _onTilesStartLoading: function() {
