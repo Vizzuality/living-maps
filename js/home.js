@@ -24,10 +24,14 @@ var Home = {
       })
 
     this.$about_link.on("click", function(event) {
+      Events.trigger("disablemamufas");
+
       self.goto(event, self.$about);
     });
 
     this.$contest_link.on("click", function(event) {
+      Events.trigger("disablemamufas");
+
       self.goto(event, self.$contest);
     });
 
@@ -35,6 +39,10 @@ var Home = {
       self.goto(event, self.$map);
 
       Events.trigger("disablemamufas");
+    });
+
+    Events.on("enablemamufas", function() {
+      self.goto(event, self.$map);
     });
   },
 

@@ -109,6 +109,8 @@ Mamufas.prototype = {
 
         Events.trigger("toggledropdowns", true);
       }
+
+      self._mamufasOn();
     });
 
     Events.on("disablemamufas", function() {
@@ -131,7 +133,7 @@ Mamufas.prototype = {
             self.$top_nav.addClass("top");
 
             self.$map_container.animate({
-              height: "560px"
+              height: $(window).height()
             }, {
               duration: 250,
               queue: false,
@@ -142,6 +144,8 @@ Mamufas.prototype = {
 
         Events.trigger("toggledropdowns", false);
       }
+
+      self._mamufasOff();
     });
   },
 

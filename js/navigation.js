@@ -21,10 +21,6 @@ Navigation.prototype = {
 
     this.$dropdown_link.on('click', function(e) {
       e.preventDefault();
-    });
-
-    this.$dropdown_link.on('click', function(e) {
-      e.preventDefault();
 
       self.$dropdown_link.qtip({
         overwrite: false,
@@ -43,18 +39,33 @@ Navigation.prototype = {
           event: e.type,
           ready: true,
           effect: function() {
-            $(this).show().css('opacity', '0').animate({ opacity: 1 }, { duration: 100 });
+            $(this).show().css('opacity', '0').animate({
+              opacity: 1
+            }, {
+              duration: 100
+            });
           }
         },
         hide: {
           event: 'click unfocus',
           effect: function() {
-            $(this).animate({ opacity: 0, "top": "-=10px" }, { duration: 100 });
+            $(this).animate({
+              opacity: 0,
+              "top": "-=10px"
+            }, {
+              duration: 100
+            });
           }
         },
         style: {
           classes: 'cities_dropdown',
-          tip: { width: 14, height: 6, corner: self.my,  mimic: 'center', offset: 10 }
+          tip: {
+            width: 14,
+            height: 6,
+            corner: self.my,
+            mimic: 'center',
+            offset: 10
+          }
         }
       });
     });
@@ -83,7 +94,7 @@ Navigation.prototype = {
     });
 
     Events.on("scrolledup", function() {
-      // self.hideDropdown();
+      self.hideDropdown();
     });
 
     Events.on("toggledropdowns", function(mamufas) {
@@ -103,9 +114,13 @@ Navigation.prototype = {
 
   initDropdown: function(my, at, y) {
     var self = this;
-    console.log(my, at, y);
 
-    self.$dropdown_link.qtip('option', { 'position.my' : my,  'position.at' : at, 'position.adjust.y' : y, 'style.tip.corner' : my  });
+    self.$dropdown_link.qtip('option', {
+      'position.my' : my,
+      'position.at' : at,
+      'position.adjust.y' : y,
+      'style.tip.corner' : my
+    });
   },
 
   changeMap: function(city, hash) {

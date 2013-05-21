@@ -9,6 +9,7 @@ var App = {
 
   vendorHidden: "",
   vendorVisibilitychange: "",
+  isLoaded: false,
   isPlayed: false,
 
   initialize: function(options) {
@@ -73,26 +74,35 @@ var App = {
       setTimeout(function() {
         self.add_debug();
       }, 4000);
-
-    Events.trigger("disableanimation", self.options.city, self.options.time);
   },
 
   _initBindings: function() {
     var self = this;
 
     Events.on('finish_loading', function() {
-      Events.trigger("stopanimation");
+      // Events.trigger("stopanimation");
     });
+    Events.on("enablemamufas", this._onEnableMamufas, this);
+    Events.on("disablemamufas", this._onDisableMamufas, this);
     Events.on("enableanimation", this._onEnableAnimation, this);
     Events.on("disableanimation", this._onDisableAnimation, this);
-    Events.on("stopanimation", this._onStopAnimation, this);
     Events.on("resumeanimation", this._onResumeAnimation, this);
+    Events.on("stopanimation", this._onStopAnimation, this);
+
     Events.on("changetime", function(time) {
       self.time = time >> 0;
     });
     Events.on("changeappscale", function(scale) {
       this.options.scale = scale || 2.0;
     }, this);
+  },
+
+  _onEnableMamufas: function() {
+    Events.trigger("disableanimation", this.options.city, this.options.time);
+  },
+
+  _onDisableMamufas: function() {
+    Events.trigger("disableanimation", this.options.city, this.options.time);
   },
 
   _onEnableAnimation: function() {
@@ -120,6 +130,15 @@ var App = {
     $(document).off("keyup");
   },
 
+  _onResumeAnimation: function() {
+    stopped = false;
+    //TODO: this should be in slider
+    // jquery driven development is shit
+    $(".ui-slider-handle").removeClass("stopped");
+
+    updateHash(this.map.map, this.options.city, window.AppData.init_time);
+  },
+
   _onStopAnimation: function() {
     stopped = true;
     //TODO: this should be in slider
@@ -128,15 +147,6 @@ var App = {
     if(this.isPlayed) {
       updateHash(this.map.map, this.options.city, App.time);
     }
-  },
-
-  _onResumeAnimation: function() {
-    stopped = false;
-    //TODO: this should be in slider
-    // jquery driven development is shit
-    $(".ui-slider-handle").removeClass("stopped");
-
-    updateHash(this.map.map, this.options.city, window.AppData.init_time);
   },
 
   detectHiddenFeature: function() {
@@ -255,6 +265,5 @@ var App = {
     Events.on('finish_loading', function() {
       Events.trigger("stopanimation");
     });
-
   }
 };
