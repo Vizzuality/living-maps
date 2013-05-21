@@ -20,37 +20,26 @@ Map.prototype = {
   // creates the map and add it to the DOM
   initialize: function() {
     var self = this;
+
     this.options.fadeAnimation = false;
     this.options.trackResize = true;
-    this.options.dragging = false;
     this.map = L.map(this.el, this.options)
       .setView(this.options.center, this.options.zoom);
 
-    // Set map controls
-    Zoom.initialize(this.map, this.options.city);
-    // Add layers
-    this._addLayers();
+    // TODO: ADD BASELAYER
+
     // Set bindings
     this._addBindings();
   },
 
   _addLayers: function() {
     var self = this;
-    // base layer
-    /*cartodb.createLayer(this.map, 
-      'http://pulsemaps.cartodb.com/api/v1/viz/rds_s/viz.json', {
-        interaction: false
-      }
-    ).done(function(layer) {
-      self.map.addLayer(layer)
-      //self.probsLayer = new StreetLayer();
-      //self.map.addLayer(self.probsLayer);
-    });*/
 
     self.probsLayer = new StreetLayer({
       table: this.options.city +"_manydays_live",
       time_offset: this.options.time_offset
     });
+
     self.map.addLayer(self.probsLayer);
 
     // Add gradients layer
@@ -98,10 +87,13 @@ Map.prototype = {
 
   set_city: function(center, zoom, city, time_offset) {
     this.options.city = city;
-    this.options.time_offset = time_offset
+    this.options.time_offset = time_offset;
 
     if(this.probsLayer) {
       this.probsLayer.setCity(city, time_offset);
+    } else {
+      // Add layers
+      this._addLayers();
     }
 
     // ****
@@ -116,5 +108,4 @@ Map.prototype = {
       this.probsLayer._render();
     }
   }
-
 };

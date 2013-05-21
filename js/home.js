@@ -16,21 +16,18 @@ var Home = {
     var self = this;
 
     $(window)
-      .on("scroll", function() {
-        self._checkResize();
-      })
-      .on("resize", function() {
-        self._checkResize();
-      })
+      .scroll(_.debounce(function(){
+        self._positionScroll();
+      }, 100));
 
     this.$about_link.on("click", function(event) {
-      Events.trigger("disablemamufas");
+      Events.trigger("disablemamufas", "navigation");
 
       self.goto(event, self.$about);
     });
 
     this.$contest_link.on("click", function(event) {
-      Events.trigger("disablemamufas");
+      Events.trigger("disablemamufas", "navigation");
 
       self.goto(event, self.$contest);
     });
@@ -38,7 +35,7 @@ var Home = {
     this.$logo.on("click", function(event) {
       self.goto(event, self.$map);
 
-      Events.trigger("disablemamufas");
+      Events.trigger("disablemamufas", "navigation");
     });
 
     Events.on("enablemamufas", function() {
@@ -46,24 +43,18 @@ var Home = {
     });
   },
 
-  _checkResize: function() {
-    if (this.resize) clearTimeout(this.resize);
-
-    this.resize = setTimeout(this._positionScroll(), 100);
-  },
-
   _positionScroll: function() {
     var self = this;
 
     if($(window).scrollTop() >= this.$map_container.height()) {
       this.$nav.animate({top: "0"}, {
-        duration: 250,
+        duration: 100,
         queue: false,
         easing: 'linear'
       });
     } else {
-      this.$nav.animate({top: "-72px"}, {
-        duration: 250,
+      this.$nav.animate({top: "-92px"}, {
+        duration: 100,
         queue: false,
         easing: 'linear',
         complete: function() {

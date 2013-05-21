@@ -106,7 +106,7 @@ var StreetLayer = L.CanvasLayer.extend({
     var origin = this._map._getNewTopLeftPoint(this._map.getCenter(), this._map.getZoom());
     var c = this._streetsLayer;
     this._streetsLayer.width = this._streetsLayer.width;
-    this._streetsLayerCtx.fillStyle = 'rgba(23, 162, 206, 1)';
+    this._streetsLayerCtx.fillStyle = 'rgba(0, 0, 0, 0)';
     this._streetsLayerCtx.fillRect(0, 0, c.width, c.height);
     this._streetsLayerCtx.translate(-origin.x, -origin.y);
     this._streetsLayerCtx.globalAlpha = 0.75;

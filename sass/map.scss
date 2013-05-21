@@ -16,26 +16,23 @@
  *  - POIS = 2
  *  - Bubbles = 3
  *  - Facts = 3
- * Gradients = 4
+ * Gradients = 3
  * Navigation = 5
  *
  */
 
 
 /*
- * Navigation
+ * Header
  */
 
-.city {
-  .navigation {
-    border-top-color: rgba(#fff, .4);
-    background-color: rgba(#fff, .2);
-
-    a { color: #fff; }
-  }
-
-  #dropdown_link { background-position: right -144px; }
+.city_header {
+  position: absolute;
+  top: 70px;
+  left: 50px;
+  z-index: 300;
 }
+
 
 /*
  * Mamufas
@@ -282,14 +279,12 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 700px;
-  background: #00BBDD;
+  height: 100%;
   perspective: 1000px;
   -webkit-perspective: 1000px;
   -moz-perspective: 1000px;
   -o-perspective: 1000px;
   @include transform-style(preserve-3d);
-  @include opacity(.2);
   cursor: default;
 
   &.city_map { @include opacity(1); }
@@ -521,7 +516,7 @@
 
 #zoom_control {
   position:absolute;
-  top: 180px;
+  top: 205px;
   left: 50px;
   z-index: 450;
   @include user-select(none);
@@ -544,12 +539,46 @@
 
 
 /*
+ * Gradients
+ */
+
+.gradient {
+  position: absolute;
+  z-index: 200;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+
+  &.all {
+    top: 0;
+    z-index: 5;
+    min-height: 100%;
+    @include background(linear-gradient(top, rgba(#0bd, .2), rgba(#356095, .2) 100%));
+  }
+
+  &.top {
+    top: 0;
+    height: 50%;
+    @include background(linear-gradient(top, #0bd 50%, rgba(#0bd, 0) 80%, rgba(#0bd, 0) 100%));
+  }
+
+  &.bottom {
+    bottom: 0;
+    height: 215px;
+    @include background(
+      linear-gradient(bottom, #356095 0%, rgba(#356095, 0) 100%),
+      linear-gradient(bottom, rgba(#000, .15) 0%, rgba(#000, 0) 100%));
+  }
+}
+
+
+/*
  * Share
  */
 
 #share {
   display: none;
-  z-index: 501;
+  z-index: 600;
   background: rgba(#000, .8);
 
   .title {

@@ -1,22 +1,21 @@
-function Navigation(el, city) {
+function Navigation(el) {
   var self = this;
 
   this.$el = el;
   this.$dropdown_link = $('#dropdown_link');
   this.$dropdown_nav = $('#dropdown_nav');
   this.isEnabled = false;
-  this.city = city;
   this.my = 'top right';
   this.at = 'bottom right';
   this.y = -20;
 
-  this.initialize(city);
+  this.initialize();
 }
 
 
 Navigation.prototype = {
 
-  initialize: function(city) {
+  initialize: function() {
     self = this;
 
     this.$dropdown_link.on('click', function(e) {
@@ -70,22 +69,25 @@ Navigation.prototype = {
       });
     });
 
-    $('a[data-city="' + this.city + '"]').addClass("selected");
-
     $(".city-link").on("click", function(e) {
       var selected_city = $(this).attr("data-city");
 
       e.preventDefault();
 
-      Events.trigger("enablemamufas");
-
-      if(selected_city != self.city) {
-        $(".city-link").removeClass("selected");
-        $(this).addClass("selected")
+      if(typeof self.city != "undefined" && self.city === selected_city) {
+        if(App.isPlayed) {
+          Events.trigger("enablemamufas", "navbar");
+          Events.trigger("resumeanimation", true);
+        } else {
+          Events.trigger("enablemamufas", "navigation");
+        }
+      } else if(self.city != selected_city) {
+        $(".dropdown-city-link").removeClass("selected");
+        $('.dropdown-city-link[data-city="' + selected_city + '"]').addClass("selected");
 
         self.hideDropdown();
 
-        self.changeMap($(this).attr("data-city"), this.href);
+        self.changeMap(selected_city, this.href);
       }
     });
 
@@ -101,7 +103,7 @@ Navigation.prototype = {
       if(mamufas) {
         self.my = 'bottom right';
         self.at = 'top right';
-        self.y = 10;
+        self.y = 20;
       } else {
         self.my = 'top right';
         self.at = 'bottom right';
@@ -125,6 +127,8 @@ Navigation.prototype = {
 
   changeMap: function(city, hash) {
     this.city = city;
+
+    Events.trigger("enablemamufas", "navigation");
 
     history.pushState(window.AppData.CITIES[city], null, hash);
     App.restart(window.AppData.CITIES[city]);

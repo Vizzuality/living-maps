@@ -25,8 +25,7 @@ var App = {
       minZoom: this.options.map.minZoom,
       maxZoom: this.options.map.maxZoom,
       // scrollWheelZoom: false,
-      // doubleClickZoom: false,
-      base_layer: 'https://saleiva.cartodb.com/tiles/'+ this.options.map.name +'/{z}/{x}/{y}.png',
+      // doubleClickZoom: false
       city: this.options.city,
       time_offset: this.options.time_offset
     });
@@ -35,10 +34,10 @@ var App = {
     Home.initialize();
 
     // Mamufas
-    this.mamufas = new Mamufas($('#mamufas'), this.options.city);
+    this.mamufas = new Mamufas($('.mamufas'));
 
     // Navigation
-    this.navigation = new Navigation($('#cities_dropdown'), this.options.city);
+    this.navigation = new Navigation($('#cities_dropdown'));
 
     // ****
     // Map animated particled
@@ -49,8 +48,11 @@ var App = {
       timeMin: new Date(this.init_time).getTime(),
       timeRange: (this.last_time - this.init_time) * 1,
       map: this.map.map,
-      city: this.options.city,
+      city: this.options.city
     });
+
+    // Set map controls
+    Zoom.initialize(this.map.map, this.options.city);
 
     // Bubbles
     Bubbles.initialize(this.map.map, this.options.city);
@@ -79,15 +81,15 @@ var App = {
   _initBindings: function() {
     var self = this;
 
-    Events.on('finish_loading', function() {
-      // Events.trigger("stopanimation");
-    });
-    Events.on("enablemamufas", this._onEnableMamufas, this);
-    Events.on("disablemamufas", this._onDisableMamufas, this);
     Events.on("enableanimation", this._onEnableAnimation, this);
     Events.on("disableanimation", this._onDisableAnimation, this);
     Events.on("resumeanimation", this._onResumeAnimation, this);
     Events.on("stopanimation", this._onStopAnimation, this);
+    Events.on("toggledropdowns", function(mamufas) {
+      if(!mamufas) {
+        self._onStopAnimation();
+      }
+    });
 
     Events.on("changetime", function(time) {
       self.time = time >> 0;
@@ -95,14 +97,6 @@ var App = {
     Events.on("changeappscale", function(scale) {
       this.options.scale = scale || 2.0;
     }, this);
-  },
-
-  _onEnableMamufas: function() {
-    Events.trigger("disableanimation", this.options.city, this.options.time);
-  },
-
-  _onDisableMamufas: function() {
-    Events.trigger("disableanimation", this.options.city, this.options.time);
   },
 
   _onEnableAnimation: function() {
@@ -135,7 +129,6 @@ var App = {
     //TODO: this should be in slider
     // jquery driven development is shit
     $(".ui-slider-handle").removeClass("stopped");
-
     updateHash(this.map.map, this.options.city, window.AppData.init_time);
   },
 
@@ -144,6 +137,7 @@ var App = {
     //TODO: this should be in slider
     // jquery driven development is shit
     $(".ui-slider-handle").addClass("stopped");
+
     if(this.isPlayed) {
       updateHash(this.map.map, this.options.city, App.time);
     }
@@ -241,6 +235,7 @@ var App = {
     this.old_time = 0;
     this.time = 0;
     this.isPlayed = false;
+    this.isLoaded = false;
 
     dragged = false;
     clicked = false;
@@ -260,9 +255,10 @@ var App = {
     // Set city in the zoom
     Zoom.set_city(this.options.city);
 
-    Events.trigger("disableanimation", self.options.city, self.options.time);
+    Events.trigger("disableanimation", self.options.city, self.map.map, self.options.time);
 
     Events.on('finish_loading', function() {
+      self.isLoaded = true;
       Events.trigger("stopanimation");
     });
   }

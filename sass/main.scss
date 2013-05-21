@@ -47,7 +47,7 @@ html {
 body {
   position: relative;
   overflow-x: hidden;
-  min-width: 960px;
+  min-width: 980px;
   height: 100%;
   font: 300 19px "Nokia Pure Text", Helvetica, Arial, sans-serif;
   color: #fff;
@@ -55,6 +55,7 @@ body {
 
 .inner {
   margin: 0 auto;
+  padding: 0 10px;
   width: 960px;
 }
 
@@ -66,7 +67,8 @@ body {
 section.map {
   position: relative;
   background: #0bd;
-  height: 632px;
+  height: 622px;
+  overflow: hidden;
 }
 
 
@@ -84,7 +86,7 @@ section.map {
   &.top {
     position: fixed;
     z-index: 600;
-    top: -72px;
+    top: -92px;
     @include box-shadow(0 0 20px rgba(#000, .2));
   }
 
@@ -97,8 +99,26 @@ section.map {
     position: fixed;
     z-index: 600;
     top: auto !important;
-    bottom: -72px;
-    @include box-shadow(0 0 20px rgba(#000, .2));
+    bottom: -92px;
+    border-top: 1px solid rgba(#fff, .4);
+    background: rgba(#fff, .2);
+
+    a {
+      color: #fff;
+
+      &:hover { color: #fff; }
+    }
+
+    #dropdown_link { background-position: right -144px; }
+
+    .inner {
+      width: 100%;
+      min-width: 980px;
+    }
+
+    .title { margin-left: 50px; }
+
+    .menu { margin-right: 50px; }
   }
 
   .title {
@@ -117,10 +137,14 @@ section.map {
     &.highlight { color: #FF4D4D; }
 
     &:hover { text-decoration: underline; }
+
+    &.highlight { padding: 0 40px; }
   }
 }
 
 .menu {
+  float: right;
+
   margin: 0 auto;
 
   li { float: left; }
@@ -139,8 +163,6 @@ section.map {
 }
 
 .sticky_menu {
-  float: right;
-
   a { margin-left: 30px; }
 }
 
@@ -166,40 +188,6 @@ section.map {
 
 
 /*
- * Gradients
- */
-
-.gradient {
-  position: absolute;
-  z-index: 400;
-  left: 0;
-  width: 100%;
-  pointer-events: none;
-
-  &.all {
-    top: 0;
-    z-index: 5;
-    min-height: 100%;
-    @include background(linear-gradient(top, rgba(#0bd, .2), rgba(#356095, .2) 100%));
-  }
-
-  &.top {
-    top: 0;
-    height: 50%;
-    @include background(linear-gradient(top, #0bd 50%, rgba(#0bd, 0) 80%, rgba(#0bd, 0) 100%));
-  }
-
-  &.bottom {
-    bottom: 0;
-    height: 215px;
-    @include background(
-      linear-gradient(bottom, #356095 0%, rgba(#356095, 0) 100%),
-      linear-gradient(bottom, rgba(#000, .15) 0%, rgba(#000, 0) 100%));
-  }
-}
-
-
-/*
  * Header
  */
  
@@ -219,7 +207,6 @@ section.map {
   }
 
   .subtitle {
-    position: relative;
     font-size: 31px;
     white-space: nowrap;
     letter-spacing: -1px;

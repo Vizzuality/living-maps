@@ -1,16 +1,15 @@
-
-function Mamufas(el, city) {
+function Mamufas(el) {
   var self = this;
 
   this.$el = el;
-  this.$content = $("#content");
   this.$body = $("body");
   this.$map_container = $(".map");
+  this.$mamufas = $("#mamufas");
+  this.$content = $("#content");
   this.$bottom_nav = $("#bottom_nav");
   this.$top_nav = $("#top_nav");
 
-  this.city = city;
-  this.isEnabled = false;
+  this.isEnabled = true;
 
   this.spin_opts = {
     lines: 8, // The number of lines to draw
@@ -27,21 +26,16 @@ function Mamufas(el, city) {
     hwaccel: false, // Whether to use hardware acceleration
     className: 'spinner', // The CSS class to assign to the spinner
     zIndex: 2e9, // The z-index (defaults to 2000000000)
-    top: 'auto', // Top position relative to parent in px
-    left: 'auto' // Left position relative to parent in px
+    top: 15, // Top position relative to parent in px
+    left: 15 // Left position relative to parent in px
   };
 
-  this.initialize(city);
+  this.initialize();
 }
 
 Mamufas.prototype = {
 
   initialize: function() {
-    this.city = city;
-    this._initBindings();
-  },
-
-  _initBindings: function() {
     var self = this;
 
     // Spinner
@@ -49,12 +43,117 @@ Mamufas.prototype = {
     this.spinner_container = $("#spinner-container");
     this.spinner = new Spinner(this.spin_opts);
 
+    Events.on("enablemamufas", function(from) {
+      self.$body.css("overflow-y", "hidden");
+      self.$top_nav.removeClass("top");
+      self.$top_nav.addClass("mapped");
+
+      $(window).resize(_.debounce(function() {
+        self._resizeMap();
+      }, 100));
+
+      if(!App.isLoaded) {
+        self.spinner.spin(self.target);
+      }
+
+      self.$map_container.animate({
+        height: $(window).height()
+      }, {
+        duration: 250,
+        queue: false,
+        easing: 'linear',
+        complete: function() {
+          self.$bottom_nav.animate({
+            bottom: - $(window).height() - self.$top_nav.height()
+          }, {
+            duration: 250,
+            queue: false,
+            easing: 'linear',
+            complete: function() {
+              self.$top_nav.animate({
+                bottom: 0
+              }, {
+                duration: 250,
+                queue: false,
+                easing: 'linear'
+              });
+            }
+          });
+        }
+      });
+
+      if(from === "navigation") {
+        self.$content.fadeOut();
+        self.$mamufas.fadeIn();
+      }
+
+      if(from === "navbar") {
+        self._mamufasOff();
+      }
+
+      Events.trigger("toggledropdowns", true);
+    });
+
+    Events.on("disablemamufas", function(from) {
+      $(window).off('resize');
+
+      if(!self.isEnabled) {
+        self.$mamufas.hide();
+        self._mamufasOn();
+      }
+
+      self.spinner.stop();
+
+      self.$body.css("overflow-y", "auto");
+
+      self.$map_container.animate({
+        height: "622px"
+      }, {
+        duration: 250,
+        queue: false,
+        easing: 'linear',
+        complete: function() {
+          self.$top_nav.animate({
+            bottom: "-92px"
+          }, {
+            duration: 250,
+            queue: false,
+            easing: 'linear',
+            complete: function() {
+              self.$top_nav.removeClass("mapped");
+              self.$top_nav.addClass("top");
+
+              self.$bottom_nav.animate({
+                bottom: 0
+              }, {
+                duration: 250,
+                queue: false,
+                easing: 'linear'
+              });
+            }
+          });
+        }
+      });
+
+      if(from === "navigation") {
+        self.$mamufas.fadeOut();
+        self.$content.fadeIn();
+      }
+
+      Events.trigger("toggledropdowns", false);
+    });
+
     Events.on("disableanimation", function(city) {
       self.city = city;
 
       self.spinner_container.removeClass("play").html('');
-
+      self.spinner.spin(self.target);
       self._mamufasOn();
+    });
+
+    Events.on("enableanimation", function() {
+      $("#play").off("click");
+      self._mamufasOff();
     });
 
     Events.on("stopanimation", function() {
@@ -64,112 +163,42 @@ Mamufas.prototype = {
       $("#play").on("click", function(e) {
         e.preventDefault();
 
+        self.isEnabled = false;
         Events.trigger("enableanimation");
       });
-    });
-
-    Events.on("enableanimation", function() {
-      Events.off('finish_loading');
-      $("#play").off("click");
-      self._mamufasOff();
-
-      Events.trigger("resumeanimation");
-    });
-
-    Events.on("enablemamufas", function() {
-      if(!self.isEnabled) {
-        self.isEnabled = true;
-
-        self.$body.css("overflow-y", "hidden");
-
-        var h = $(window).height() + self.$bottom_nav.outerHeight();
-
-        self.$map_container.animate({
-          height: h
-        }, {
-          duration: 250,
-          queue: false,
-          easing: 'linear',
-          complete: function() {
-            self.$top_nav.removeClass("top");
-            self.$top_nav.addClass("mapped");
-
-            self.$top_nav.animate({
-              bottom: 0
-            }, {
-              duration: 250,
-              queue: false,
-              easing: 'linear'
-            });
-
-            self.$content.fadeOut();
-            self.$el.fadeIn();
-          }          
-        });
-
-        Events.trigger("toggledropdowns", true);
-      }
-
-      self._mamufasOn();
-    });
-
-    Events.on("disablemamufas", function() {
-      if(self.isEnabled) {
-        self.isEnabled = false;
-
-        self.$el.fadeOut();
-        self.$content.fadeIn();
-
-        self.$body.css("overflow-y", "auto");
-
-        self.$top_nav.animate({
-          bottom: "-72px"
-        }, {
-          duration: 250,
-          queue: false,
-          easing: 'linear',
-          complete: function() {
-            self.$top_nav.removeClass("mapped");
-            self.$top_nav.addClass("top");
-
-            self.$map_container.animate({
-              height: $(window).height()
-            }, {
-              duration: 250,
-              queue: false,
-              easing: 'linear'
-            });
-          }
-        });
-
-        Events.trigger("toggledropdowns", false);
-      }
-
-      self._mamufasOff();
     });
   },
 
   _mamufasOn: function() {
+    self.isEnabled = true;
     this.$el.fadeIn();
 
-    this.spinner.spin(this.target);
     this._changeTitles(this.city);
   },
 
   _changeTitles: function(city) {
-    
     //TODO: THIS THREE LINES SHOULD BE OUSTIDE THIS CLASS
-    $('#city_name').airport([window.AppData.CITIES[city]['city_name']]);
-    $('#city_subtitle_small').airport([window.AppData.CITIES[city]['city_title']]);
+    $('#city_name').text([window.AppData.CITIES[city]['city_name']]);
+    $('#city_subtitle_small').text([window.AppData.CITIES[city]['city_title']]);
 
     $("#mamufas_title").text(window.AppData.CITIES[city]['city_title']);
     $("#city_subtitle").text(window.AppData.CITIES[city]['city_subtitle']);
   },
 
-  _mamufasOff: function() {
-    var self = this;
-
-    this.$el.fadeOut();
+  _airportTitles: function(city) {
+    //TODO: THIS THREE LINES SHOULD BE OUSTIDE THIS CLASS
+    $('#city_name').airport([window.AppData.CITIES[city]['city_name']]);
+    $('#city_subtitle_small').airport([window.AppData.CITIES[city]['city_title']]);
   },
 
+  _resizeMap: function() {
+    this.$map_container.animate({
+      height: $(window).height()
+    });
+  },
+
+  _mamufasOff: function() {
+    this.$el.fadeOut();
+    this._airportTitles(this.city);
+  },
 }

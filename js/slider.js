@@ -6,9 +6,7 @@ function Slider(el, options) {
 
   this.options = {
     timeMin: options.timeMin,
-    timeRange: options.timeRange,
-    map: options.map,
-    city: options.city
+    timeRange: options.timeRange
   };
 
   self.initialize();
@@ -80,9 +78,12 @@ Slider.prototype = {
       });
     });
 
-    Events.on("disableanimation", function(city, time) {
+    Events.on("disableanimation", function(city, map, time) {
       Events.trigger("changetime", time * 60);
       self.set_time(time * 60);
+
+      self.options.city = city;
+      self.options.map = map;
     });
   },
 
