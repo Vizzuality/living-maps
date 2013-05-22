@@ -1,4 +1,4 @@
-function Navigation(el) {
+function Navigation(el, city) {
   var self = this;
 
   this.$el = el;
@@ -9,14 +9,18 @@ function Navigation(el) {
   this.at = 'bottom right';
   this.y = -20;
 
-  this.initialize();
+  this.city = city;
+
+  this.initialize(city);
 }
 
 
 Navigation.prototype = {
 
-  initialize: function() {
+  initialize: function(city) {
     self = this;
+
+    $('.dropdown-city-link[data-city="' + this.city + '"]').addClass("selected");
 
     this.$dropdown_link.on('click', function(e) {
       e.preventDefault();
@@ -74,14 +78,14 @@ Navigation.prototype = {
 
       e.preventDefault();
 
-      if(typeof self.city != "undefined" && self.city === selected_city) {
+      if(self.city === selected_city) {
         if(App.isPlayed) {
-          Events.trigger("enablemamufas", "navbar");
-          Events.trigger("resumeanimation", true);
+          Events.trigger("enablemamufas");
+          Events.trigger("resumeanimation");
         } else {
-          Events.trigger("enablemamufas", "navigation");
+          Events.trigger("enablemamufas");
         }
-      } else if(self.city != selected_city) {
+      } else {
         $(".dropdown-city-link").removeClass("selected");
         $('.dropdown-city-link[data-city="' + selected_city + '"]').addClass("selected");
 
@@ -89,10 +93,6 @@ Navigation.prototype = {
 
         self.changeMap(selected_city, this.href);
       }
-    });
-
-    Events.on("clickedmap", function() {
-      self.hideDropdown();
     });
 
     Events.on("scrolledup", function() {

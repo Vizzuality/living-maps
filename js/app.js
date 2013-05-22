@@ -25,7 +25,7 @@ var App = {
       minZoom: this.options.map.minZoom,
       maxZoom: this.options.map.maxZoom,
       // scrollWheelZoom: false,
-      // doubleClickZoom: false
+      // doubleClickZoom: false,
       city: this.options.city,
       time_offset: this.options.time_offset
     });
@@ -34,7 +34,7 @@ var App = {
     this.mamufas = new Mamufas($('.mamufas'));
 
     // Navigation
-    this.navigation = new Navigation($('#cities_dropdown'));
+    this.navigation = new Navigation($('#cities_dropdown'), this.options.city);
 
     // ****
     // Map animated particled
@@ -73,6 +73,11 @@ var App = {
       setTimeout(function() {
         self.add_debug();
       }, 4000);
+
+    Events.on('finish_loading', function() {
+      self.isLoaded = true;
+      Events.trigger("stopanimation");
+    });
   },
 
   _initBindings: function() {

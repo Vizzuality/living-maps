@@ -49,6 +49,10 @@ Mamufas.prototype = {
     this.spinner = new Spinner(this.spin_opts);
 
     // Links
+    $(window).scroll(_.debounce(function(){
+      self._positionScroll();
+    }, 100));
+
     this.$about_link.on("click", function(event) {
       Events.trigger("disablemamufas");
 
@@ -107,18 +111,12 @@ Mamufas.prototype = {
     });
 
     Events.on("disablemamufas", function(from) {
-      $(window).scroll(_.debounce(function(){
-        self._positionScroll();
-      }, 100));
-
       $(window).off('resize');
 
       if(!self.isEnabled) {
         self.$mamufas.hide();
         self._mamufasOn();
       }
-
-      self.spinner.stop();
 
       self.$top_nav.animate({
         bottom: "-92px"
@@ -133,6 +131,7 @@ Mamufas.prototype = {
             height: "622px"
           }, 250, function() {
             self.$mamufas.fadeOut();
+            self.spinner.stop();
             self.$content.fadeIn();
           });
         });

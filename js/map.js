@@ -26,7 +26,8 @@ Map.prototype = {
     this.map = L.map(this.el, this.options)
       .setView(this.options.center, this.options.zoom);
 
-    // TODO: ADD BASELAYER
+    // Add layers
+    this._addLayers();
 
     // Set bindings
     this._addBindings();
@@ -50,9 +51,6 @@ Map.prototype = {
     var self = this;
 
     this.map
-      .on('mousedown', function() {
-        Events.trigger("clickedmap");
-      })
       .on('dragstart', function(e) {
         this.isDragging = true;
       })
@@ -91,9 +89,6 @@ Map.prototype = {
 
     if(this.probsLayer) {
       this.probsLayer.setCity(city, time_offset);
-    } else {
-      // Add layers
-      this._addLayers();
     }
 
     // ****
