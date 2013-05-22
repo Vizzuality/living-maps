@@ -86,7 +86,7 @@ Mamufas.prototype = {
       } else {
         self.isEnabled = true;
 
-        self._goTo(event, self.$map_container);
+        goTo(self.$map_container);
 
         self.$top_nav.removeClass("top");
         self.$top_nav.addClass("mapped");
