@@ -215,7 +215,9 @@ Mamufas.prototype = {
     $('#city_name').airport([window.AppData.CITIES[city]['city_name']]);
     $('#city_subtitle_small').airport([window.AppData.CITIES[city]['city_title']]);
 
-    $('#hour').airport([$('#hour').text()]);
+    setTimeout(function() {
+      $('#hour').airport([$('#hour').text()]);
+    }, 100);
   },
 
   _resizeMap: function() {

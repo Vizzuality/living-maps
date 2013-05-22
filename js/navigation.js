@@ -95,6 +95,10 @@ Navigation.prototype = {
       }
     });
 
+    Events.on("clickedmap", function() {
+      self.hideDropdown();
+    });
+
     Events.on("scrolledup", function() {
       self.hideDropdown();
     });

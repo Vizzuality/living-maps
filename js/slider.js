@@ -29,10 +29,6 @@ Slider.prototype = {
       if(clicked) {
         self.valueStop = self.$el.slider("value");
 
-        if(stopped) {
-          updateHash(self.options.map, self.options.city, App.time);
-        }
-
         dragged = false;
         clicked = false;
 
