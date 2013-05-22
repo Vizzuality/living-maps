@@ -114,16 +114,16 @@ function isACity(city) {
 function parseHash(hash) {
   var args = hash.split("/");
 
-  if(isACity(args[0])) {
-    city = args[0]; // city is a global variable
+  if(isACity(args[1])) {
+    city = args[1]; // city is a global variable
 
-    var lat = parseFloat(args[1]).toFixed(3),
-        lon = parseFloat(args[2]).toFixed(3),
-        zoom = parseInt(args[3], 10),
-        time = args[4];
+    var lat = parseFloat(args[2]).toFixed(3),
+        lon = parseFloat(args[3]).toFixed(3),
+        zoom = parseInt(args[4], 10),
+        time = args[5];
 
     if(isNaN(lat) || isNaN(lon) || isNaN(zoom) || zoom < window.AppData.CITIES[city]['map']['minZoom'] || zoom > window.AppData.CITIES[city]['map']['maxZoom']) {
-      history.pushState(window.AppData.CITIES[city], null, "/cities/#" + city);
+      history.pushState(window.AppData.CITIES[city], null, "/#cities/" + city);
 
       return window.AppData.CITIES[city];
     } else {
@@ -132,7 +132,7 @@ function parseHash(hash) {
       }
 
       if(parseInt(time, 10) === 0) {
-        history.pushState(null, null, "/cities/#" + city + "/" + lat + "/" + lon + "/" + zoom + "/");
+        history.pushState(null, null, "/#cities/" + city + "/" + lat + "/" + lon + "/" + zoom + "/");
       }
 
       return {
@@ -148,7 +148,7 @@ function parseHash(hash) {
       };
     }
   } else {
-    history.pushState(window.AppData.CITIES[city], null, "/cities/#" + window.AppData.CITIES[city].city);
+    history.pushState(window.AppData.CITIES[city], null, "/#cities/" + window.AppData.CITIES[city].city);
 
     return window.AppData.CITIES[city];
   }
@@ -180,7 +180,7 @@ function updateHash(map, city, time, zoom) {
   var lat = map.getCenter().lat.toFixed(3);
   var lng = map.getCenter().lng.toFixed(3);
 
-  var hash = "/cities/#" + city + "/" + lat + "/" + lng + "/" + _zoom + "/";
+  var hash = "/#cities/" + city + "/" + lat + "/" + lng + "/" + _zoom + "/";
 
   if(_time != window.AppData.init_time && _time != window.AppData.last_time) {
     hash = hash + _time;

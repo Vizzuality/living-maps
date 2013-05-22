@@ -287,7 +287,6 @@
   -moz-perspective: 1000px;
   -o-perspective: 1000px;
   @include transform-style(preserve-3d);
-  cursor: default;
 
   &.city_map { @include opacity(1); }
 }
