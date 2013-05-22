@@ -74,6 +74,10 @@ var App = {
         self.add_debug();
       }, 4000);
 
+    if(this.options.time != 0) {
+      Events.trigger("disableanimation", this.options.city, this.map.map, this.options.time);
+    }
+
     Events.on('finish_loading', function() {
       self.isLoaded = true;
       Events.trigger("stopanimation");
@@ -89,7 +93,9 @@ var App = {
     Events.on("stopanimation", this._onStopAnimation, this);
     Events.on("toggledropdowns", function(mamufas) {
       if(!mamufas) {
-        self._onStopAnimation();
+        // fake stop animation when disable mamufas
+        stopped = true;
+        $(".ui-slider-handle").addClass("stopped");
       }
     });
 

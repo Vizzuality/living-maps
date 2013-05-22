@@ -23,5 +23,7 @@ $(document).ready(function() {
   } else {
     // be careful, parseHash sets the global variable city
     App.initialize(parseHash(hash));
+
+    Events.trigger("enablemamufas");
   }
 });

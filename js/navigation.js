@@ -83,7 +83,7 @@ Navigation.prototype = {
           Events.trigger("enablemamufas");
           Events.trigger("resumeanimation");
         } else {
-          Events.trigger("enablemamufas");
+          Events.trigger("enablemamufas", selected_city);
         }
       } else {
         $(".dropdown-city-link").removeClass("selected");
@@ -128,7 +128,7 @@ Navigation.prototype = {
   changeMap: function(city, hash) {
     this.city = city;
 
-    Events.trigger("enablemamufas", "navigation");
+    Events.trigger("enablemamufas", this.city);
 
     history.pushState(window.AppData.CITIES[city], null, hash);
     App.restart(window.AppData.CITIES[city]);

@@ -15,7 +15,7 @@ function Mamufas(el, city) {
   this.$contest_link = $(".contest_link");
   this.$logo = $("#logo");
 
-  this.isEnabled = true;
+  this.isEnabled = false;
 
   this.spin_opts = {
     lines: 8, // The number of lines to draw
@@ -75,52 +75,65 @@ Mamufas.prototype = {
     });
 
     // Mamufas
-    Events.on("enablemamufas", function(from) {
-      $(window).resize(_.debounce(function() {
-        self._resizeMap();
-      }, 100));
+    Events.on("enablemamufas", function(city) {
+      if(self.isEnabled) {
+        if(self.city != city) {
+          self._changeMamufasTitles(city);
+          self._changeCityTitles(city);
 
-      self._goTo(event, self.$map_container);
+          self.city = city;
+        }
+      } else {
+        self.isEnabled = true;
 
-      self.$top_nav.removeClass("top");
-      self.$top_nav.addClass("mapped");
+        self._goTo(event, self.$map_container);
 
-      self.$map_container.animate({
-        height: $(window).height()
-      }, 250, function() {
-        self.$bottom_nav.animate({
-          bottom: "-92px"
+        self.$top_nav.removeClass("top");
+        self.$top_nav.addClass("mapped");
+
+        self.$map_container.animate({
+          height: $(window).height()
         }, 250, function() {
-          self.$top_nav.animate({
-            bottom: 0
+          self.$bottom_nav.animate({
+            bottom: "-92px"
           }, 250, function() {
-            if(App.isPlayed) {
-              self._mamufasOff();
-            } else {
-              self.$content.fadeOut();
-              self.$mamufas.fadeIn();
-              self._changeMamufasTitles(self.city);
-
+            self.$top_nav.animate({
+              bottom: 0
+            }, 250, function() {
               if(!App.isLoaded) {
                 self.spinner.spin(self.target);
               }
-            }
+
+              if(App.isPlayed) {
+                self._mamufasOff();
+                self.$components.fadeIn();
+              } else {
+                self.$content.fadeOut();
+                self._changeMamufasTitles(self.city);
+                self.$mamufas.fadeIn();
+                self.$components.fadeIn();
+                self._changeCityTitles(self.city);
+              }
+            });
           });
         });
-      });
 
-      $("body").css("overflow-y", "hidden");
+        $(window).resize(_.debounce(function() {
+          self._resizeMap();
+        }, 100));
 
-      Events.trigger("toggledropdowns", true);
+        $("body").css("overflow-y", "hidden");
+
+        Events.trigger("toggledropdowns", true);
+      }
+
+      // history.pushState(window.AppData.CITIES[self.city], null, "/#cities/" + self.city);
     });
 
     Events.on("disablemamufas", function(from) {
-      $(window).off('resize');
+      self.isEnabled = false;
 
-      if(!self.isEnabled) {
-        self.$mamufas.hide();
-        self._mamufasOn();
-      }
+      $(window).off('resize');
 
       self.$top_nav.animate({
         bottom: "-92px"
@@ -134,9 +147,19 @@ Mamufas.prototype = {
           self.$map_container.animate({
             height: "642px"
           }, 250, function() {
+            if(!App.isLoaded) {
+              self.spinner.stop();
+            }
+
+            self.$components.fadeOut();
             self.$mamufas.fadeOut();
-            self.spinner.stop();
-            self.$content.fadeIn();
+
+            if(App.isPlayed) {
+              self.$content.show();
+              self._mamufasOn();
+            } else {
+              self.$content.fadeIn();
+            }
           });
         });
       });
@@ -144,6 +167,8 @@ Mamufas.prototype = {
       $("body").css("overflow-y", "auto");
 
       Events.trigger("toggledropdowns", false);
+
+      history.pushState(window.AppData.CITIES[self.city], null, "/");
     });
 
     Events.on("disableanimation", function(city) {
@@ -168,7 +193,6 @@ Mamufas.prototype = {
       $("#play").on("click", function(e) {
         e.preventDefault();
 
-        self.isEnabled = false;
         Events.trigger("enableanimation");
       });
     });
@@ -190,6 +214,8 @@ Mamufas.prototype = {
     //TODO: THIS THREE LINES SHOULD BE OUSTIDE THIS CLASS
     $('#city_name').airport([window.AppData.CITIES[city]['city_name']]);
     $('#city_subtitle_small').airport([window.AppData.CITIES[city]['city_title']]);
+
+    $('#hour').airport([$('#hour').text()]);
   },
 
   _resizeMap: function() {
@@ -211,18 +237,10 @@ Mamufas.prototype = {
   },
 
   _mamufasOn: function() {
-    self.isEnabled = true;
-
-    this.$components.fadeOut();
     this.$el.fadeIn();
-
-    this._changeMamufasTitles(this.city);
   },
 
   _mamufasOff: function() {
-    this.$components.fadeIn();
     this.$el.fadeOut();
-
-    this._changeCityTitles(this.city);
   }
 }
