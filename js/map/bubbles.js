@@ -39,7 +39,7 @@ var Bubbles = {
     2: '_hideBubble'
   },
 
-  el: '.map_components',
+  el: '#map_components',
 
   bubbles: {},
 

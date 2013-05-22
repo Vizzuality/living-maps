@@ -8,19 +8,21 @@
  *
  * Mamufas = 6
  * Share = 6
- * Header = 5
- * Content = 5
- * Slider = 3
- * Controls = 3
+ * Header = 4
+ * Content = 4
+ * Slider = 4
+ * Controls = 4
  * Map = 1
- *  - POIS = 2
+ *  - POIS = 3
  *  - Bubbles = 3
  *  - Facts = 3
  * Gradients = 3
- * Navigation = 5
+ * Navigation = 6
  *
  */
 
+
+.components { display: none; }
 
 /*
  * Header
@@ -30,7 +32,7 @@
   position: absolute;
   top: 70px;
   left: 50px;
-  z-index: 300;
+  z-index: 400;
 }
 
 
@@ -170,7 +172,7 @@
 
 #slider {
   position: absolute;
-  z-index: 300;
+  z-index: 400;
   top: -35px;
   right: -110px;
   width: 520px;
@@ -469,7 +471,7 @@
   margin: 0;
   padding-left: 10px;
   border-left: 1px solid rgba(#000E19, 0.85);
-  z-index: 200;
+  z-index: 300;
   pointer-events: none;
   @include user-select(none);
 
@@ -518,7 +520,7 @@
   position:absolute;
   top: 205px;
   left: 50px;
-  z-index: 450;
+  z-index: 400;
   @include user-select(none);
 
   a {
@@ -563,6 +565,7 @@
   }
 
   &.bottom {
+    z-index: 500;
     bottom: 0;
     height: 215px;
     @include background(

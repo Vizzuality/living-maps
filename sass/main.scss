@@ -67,7 +67,7 @@ body {
 section.map {
   position: relative;
   background: #0bd;
-  height: 622px;
+  height: 642px;
   overflow: hidden;
 }
 
@@ -114,6 +114,7 @@ section.map {
     .inner {
       width: 100%;
       min-width: 980px;
+      padding: 0;
     }
 
     .title { margin-left: 50px; }
@@ -138,7 +139,7 @@ section.map {
 
     &:hover { text-decoration: underline; }
 
-    &.highlight { padding: 0 40px; }
+    &.highlight { padding: 0 38px; }
   }
 }
 
@@ -162,9 +163,7 @@ section.map {
   }
 }
 
-.sticky_menu {
-  a { margin-left: 30px; }
-}
+.sticky_menu a { margin-left: 30px; }
 
 .cities_menu {
   float: none;
@@ -223,7 +222,7 @@ section.map {
 .content {
   position: absolute;
   z-index: 500;
-  margin-top: 70px;
+  margin-top: 130px;
   pointer-events: none;
 
   .content-inner {
@@ -253,6 +252,8 @@ section.about {
 .contest-inner {
   padding-top: 112px;
   background: #f6f6f6 image-url('contest-bg.png');
+
+  .section_description { padding: 0 50px; }
 }
 
 .section_title {
@@ -310,7 +311,7 @@ section.about {
     font-size: 17px;
     font-weight: 400;
     text-decoration: none;
-    color: #4792C4;
+    color: #13A5D0;
 
     &:hover { text-decoration: underline; }
 
@@ -318,15 +319,23 @@ section.about {
       position: absolute;
       bottom: 40px;
     }
+
+    sup {
+      position: relative;
+      top: -4px;
+      font-size: 11px;
+    }
   }
 
   p {
     line-height: 1.2;
     margin: 20px 0;
 
-    strong {
-      font-weight: bold;
-      color: #777;
+    a {
+      text-decoration: underline;
+      color: #999;
+
+      &:hover { color: #777; }
     }
   }
 
@@ -344,6 +353,7 @@ section.about {
   font-size: 33px;
   background: #FF4C4C;
   color: #fff;
+  @include box-shadow(0 0 12px rgba(#000, .2));
 
   &:after {
     position: absolute;
@@ -365,4 +375,56 @@ section.about {
 
 section.about {
   padding-bottom: 50px;
+
+  .inner { width: 1140px;}
+}
+
+.colophon {
+  margin: 40px auto 0;
+  width: 1030px;
+  text-align: left;
+
+  h3 {
+    color: #333;
+    margin-bottom: 10px;
+  }
+
+  li {
+    float: left;
+    margin-left: 35px;
+    width: 305px;
+    line-height: 1.2;
+
+    &.first {
+      margin-left: 0;
+      width: 342px;
+    }
+  }
+}
+
+
+/* ==========================================================================
+   ABOUT
+   ========================================================================== */
+
+.footer {
+  @include background(linear-gradient(top, #09B2D7, #2F87BE 100%));
+  @include box-shadow(0 18px 12px  -12px rgba(#000, .1) inset);
+  padding: 45px 0 35px;
+}
+
+.footer-inner {
+  margin: 0 auto;
+  width: 1030px;
+
+  p {
+    float: left;
+    font-size: 17px;
+  }
+}
+
+.logos {
+  float: right;
+  width: 330px;
+  text-align: center;
 }

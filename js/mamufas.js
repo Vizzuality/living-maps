@@ -1,4 +1,4 @@
-function Mamufas(el) {
+function Mamufas(el, city) {
   var self = this;
 
   this.$el = el;
@@ -6,6 +6,7 @@ function Mamufas(el) {
   this.$map_container = $("section.map");
   this.$mamufas = $("#mamufas");
   this.$content = $("#content");
+  this.$components = $(".components");
   this.$bottom_nav = $("#bottom_nav");
   this.$top_nav = $("#top_nav");
   this.$about = $("#about");
@@ -34,6 +35,8 @@ function Mamufas(el) {
     top: 15, // Top position relative to parent in px
     left: 15 // Left position relative to parent in px
   };
+
+  this.city = city;
 
   this.initialize();
 }
@@ -128,7 +131,7 @@ Mamufas.prototype = {
           bottom: 0
         }, 250, function() {
           self.$map_container.animate({
-            height: "622px"
+            height: "642px"
           }, 250, function() {
             self.$mamufas.fadeOut();
             self.spinner.stop();
@@ -211,13 +214,17 @@ Mamufas.prototype = {
 
   _mamufasOn: function() {
     self.isEnabled = true;
+
+    this.$components.fadeOut();
     this.$el.fadeIn();
 
     this._changeTitles(this.city);
   },
 
   _mamufasOff: function() {
+    this.$components.fadeIn();
     this.$el.fadeOut();
+
     this._airportTitles(this.city);
   }
 }

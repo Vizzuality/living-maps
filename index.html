@@ -55,7 +55,7 @@ type: home
         </ul>
       </li>
 
-      <li><a href="#" class="contest_link"><sup>The</sup>Contest</a></li>
+      <li><a href="#" class="contest_link"><sup>The</sup> Contest</a></li>
       <li><a href="#" class="about_link">About</a></li>
     </ul>
   </div>
@@ -86,20 +86,22 @@ type: home
         </header>
 
         <div class="content-inner">
-          <p class="last">At HERE we collect millions of GPS traces to build our always updated maps. This data help us to give you better directions and find the closest shop. But this data also says a lot about he cities where we lived. We have partnered with visualization experts CartoDB to show you some facts about 5 cities and we are inviting everybody to join us in a challenge to make your own visualizations.</p>
+          <p>GPS and Mobile devices act as sensors collecting data on the status of the city. This data is used to get better directions and find the closest shop. But this data can also tell a lot of different stories. On this visualization developed by CartoDB we want to show you some and we invite developers to create their own ones.</p>
+
+          <p class="last">Click on any city to get started!</p>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Titles -->
-  <div class="header city_header">
+  <div class="header city_header components">
     <h1 class="title" id="city_name">London</h1>
     <p class="subtitle" id="city_subtitle_small">The Great British capital.</p>
   </div>
 
   <!-- Slider -->
-  <div id="slider">
+  <div id="slider" class="components">
     <div id="sky" class="sky">
       <div id="graph"></div>
       <div id="sun" class="sun"></div>
@@ -111,7 +113,7 @@ type: home
   </div>
 
   <!-- Map components -->
-  <div class="map_components">
+  <div id="map_components" class="components">
     <div id="zoom_control">
       <a href="#zoomIn" class="zoomIn">+</a>
       <a href="#zoomOut" class="zoomOut">-</a>
@@ -119,7 +121,7 @@ type: home
   </div>
 
   <!-- Facts -->
-  <div id="contextualfacts"></div>
+  <div id="contextualfacts" class="components"></div>
 
   <!-- Map -->
   <div id="map_wrapper" class="backdrop">
@@ -154,7 +156,7 @@ type: home
       </li>
 
       <li>
-        <a href="#" class="highlight contest_link"><sup>The</sup>Contest</a>
+        <a href="#" class="highlight contest_link"><sup>The</sup> Contest</a>
       </li>
 
       <li>
@@ -168,11 +170,11 @@ type: home
   <div class="contest-inner">
     <div class="inner">
       <h2 class="section_title">The Contest</h2>
-      <p class="section_description">Win up to $3,000 by helping people to understand how the cities behave.<br />The game is simple, you just need to use our Data plus CartoDB.</p>
+      <p class="section_description">We are releasing all the data behind this visualization and make it available for any developer who wants to participate.</p>
 
       <div class="cols clearfix">
         <div class="col">
-          <h3 class="title">Rules and Prizes</h3>
+          <h3 class="title">Create your own</h3>
           <p>Submit your CartoDB plus Here visualization before 15th, Jun and win up to $3,000 and participate in our live hackattons in Berlin and Madrid.</p>
           <a href="#" class="link">Check out the detailed rules</a>
         </div>
@@ -180,17 +182,17 @@ type: home
         <div class="col feat">
           <h3 class="title">Get the data</h3>
           <ul>
-            <li><a href="#">London</a></li>
-            <li><a href="#">Chicago</a></li>
-            <li><a href="#">Rome</a></li>
-            <li><a href="#">Helsinki</a></li>
-            <li><a href="#">Mumbai</a></li>
+            <li><a href="#">London <sup>(17MB)</sup></a></li>
+            <li><a href="#">Chicago <sup>(20MB)</sup></a></li>
+            <li><a href="#">Rome <sup>(20MB)</sup></a></li>
+            <li><a href="#">Helsinki <sup>(17MB)</sup></a></li>
+            <li><a href="#">Mumbai <sup>(17MB)</sup></a></li>
           </ul>
         </div>
 
         <div class="col last">
           <h3 class="title">Get Started</h3>
-          <p>Create your CartoDB, upgrade to Coronelli and instert the “<strong>HERETTON</strong>”. That will give you a free coronelli account during the first month.</p>
+          <p>Get a FREE CartoDB Coronelli account for one month to make visualizations. <a href="#">Check out this video</a> to get some inspiration, and click on the following link.</p>
           <a href="#" class="link">Create your CartoDB account</a>
         </div>
       </div>
@@ -204,10 +206,35 @@ type: home
 
 <section id="about" class="about">
   <div class="inner">
-    <h2 class="section_title">Why all this? More about this project</h2>
-    <p class="section_description">Win up to $3,000 by helping people to understand how the cities behave.<br />The game is simple, you just need to use our Data plus CartoDB.</p>
+    <h2 class="section_title"><strong>Living</strong>Cities visualization</h2>
+    <p class="section_description">Cities are a fundamental part of everybody’s lives, but at Here we also see they have their own life. With this visualization we want to inspire developers to take a look at data APIs and CartoDB technology to develop great visualizations on cities.</p>
+
+    <ul class="colophon clearfix">
+      <li class="first">
+        <h3>About the data</h3>
+        <p>The data behind this visualization is collected by HERE continuously from connected devices. We do not collect personal data, we collect small data changes to know how is the traffic in the city, if a road is closed, is a new road is open, etc. This is how we construct our fresh maps that are used online and in so many devices.</p>
+      </li>
+
+      <li>
+        <h3>About the visualization</h3>
+        <p>We believe this data can be used for many different things and we are partnering with CartoDB to look for interesting visualizations that tell us different stories. In this visualization you can see traffic density over maps and lot of facts derived from the aggregated vision we get from the city.</p>
+      </li>
+
+      <li class="last">
+        <h3>Technology</h3>
+        <p>The visualization has been built by CartoDB team using their cloud infrastructure. It make use of the HTML5 Torque technology to animate geospatial datasets over time. Follow the CartoDB blog over the next days to learn more about how specifically this has been done.</p>
+      </li>
+    </ul>
   </div>
 </section>
+
+<footer class="footer">
+  <div class="footer-inner clearfix">
+    <p>A joint experiment by</p>
+    <div class="logos"><a href="http://here.com/"><img src="/img/here-logo.png" /></a></div>
+    <div class="logos"><a href="http://cartodb.com/"><img src="/img/cartodb-logo.png" /></a></div>
+  </div>
+</footer>
 
 <!-- Share dialog -->
 <div id="share" class="backdrop">

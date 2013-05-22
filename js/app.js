@@ -31,7 +31,7 @@ var App = {
     });
 
     // Mamufas
-    this.mamufas = new Mamufas($('.mamufas'));
+    this.mamufas = new Mamufas($('.mamufas'), this.options.city);
 
     // Navigation
     this.navigation = new Navigation($('#cities_dropdown'), this.options.city);

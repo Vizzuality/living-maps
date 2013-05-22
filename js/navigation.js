@@ -11,13 +11,13 @@ function Navigation(el, city) {
 
   this.city = city;
 
-  this.initialize(city);
+  this.initialize();
 }
 
 
 Navigation.prototype = {
 
-  initialize: function(city) {
+  initialize: function() {
     self = this;
 
     $('.dropdown-city-link[data-city="' + this.city + '"]').addClass("selected");
