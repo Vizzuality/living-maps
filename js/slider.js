@@ -75,11 +75,15 @@ Slider.prototype = {
     });
 
     Events.on("disableanimation", function(city, map, time) {
-      Events.trigger("changetime", time * 60);
-      self.set_time(time * 60);
-
       self.options.city = city;
       self.options.map = map;
+
+      Events.trigger("changetime", time * 60);
+
+      self.$el.slider("value", self.timeToPos(time * 60));
+
+      self.updateOddHour(time * 60);
+      self.updateSky(self.timeToPos(time * 60));
     });
   },
 
@@ -117,10 +121,19 @@ Slider.prototype = {
     var hours = timeUpdated.getHours();
     var minutes = timeUpdated.getMinutes();
 
-    if (minutes%2 === 0) {
+    if(minutes%2 === 0) {
       minutes = (minutes<10?'0':'') + minutes;
       $("#hour").text(hours + ":" + minutes);
     };
+  },
+
+  updateOddHour: function(time) {
+    var timeUpdated = new Date(this.options.timeMin + 1000 * time);
+    var hours = timeUpdated.getHours();
+    var minutes = timeUpdated.getMinutes();
+
+    minutes = (minutes<10?'0':'') + minutes;
+    $("#hour").text(hours + ":" + minutes);
   },
 
   updateSky: function(pos) {
