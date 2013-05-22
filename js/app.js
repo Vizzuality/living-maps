@@ -236,8 +236,8 @@ var App = {
     // restart variables
     this.old_time = 0;
     this.time = 0;
-    this.isPlayed = false;
     this.isLoaded = false;
+    this.isPlayed = false;
 
     dragged = false;
     clicked = false;

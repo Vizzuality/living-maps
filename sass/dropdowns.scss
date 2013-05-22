@@ -1,8 +1,6 @@
 @import "compass/css3";
 
-.qtip-content {
-  padding: 5px 20px ;
-}
+.qtip-content { padding: 5px 20px ; }
 
 .cities_dropdown {
   border: 1px solid #ddd;
@@ -21,15 +19,6 @@
     &.selected,
     &:hover {
       color: #545454;
-
-      &.disabled {
-        color: #4692C4;
-      }
-    }
-
-    &.disabled {
-      cursor: default;
-      @include opacity(.4);
     }
 
     h3 {

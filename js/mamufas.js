@@ -2,8 +2,8 @@ function Mamufas(el, city) {
   var self = this;
 
   this.$el = el;
-  this.$body = $("body");
   this.$map_container = $("section.map");
+  this.$map = $("#map");
   this.$mamufas = $("#mamufas");
   this.$content = $("#content");
   this.$components = $(".components");
@@ -99,6 +99,7 @@ Mamufas.prototype = {
             } else {
               self.$content.fadeOut();
               self.$mamufas.fadeIn();
+              self._changeMamufasTitles(self.city);
 
               if(!App.isLoaded) {
                 self.spinner.spin(self.target);
@@ -179,16 +180,13 @@ Mamufas.prototype = {
     goTo(el);
   },
 
-  _changeTitles: function(city) {
+  _changeMamufasTitles: function(city) {
     //TODO: THIS THREE LINES SHOULD BE OUSTIDE THIS CLASS
-    $('#city_name').text([window.AppData.CITIES[city]['city_name']]);
-    $('#city_subtitle_small').text([window.AppData.CITIES[city]['city_title']]);
-
-    $("#mamufas_title").text(window.AppData.CITIES[city]['city_title']);
-    $("#city_subtitle").text(window.AppData.CITIES[city]['city_subtitle']);
+    $("#mamufas_title").airport([window.AppData.CITIES[city]['city_title']]);
+    $("#city_subtitle").airport([window.AppData.CITIES[city]['city_subtitle']]);
   },
 
-  _airportTitles: function(city) {
+  _changeCityTitles: function(city) {
     //TODO: THIS THREE LINES SHOULD BE OUSTIDE THIS CLASS
     $('#city_name').airport([window.AppData.CITIES[city]['city_name']]);
     $('#city_subtitle_small').airport([window.AppData.CITIES[city]['city_title']]);
@@ -218,13 +216,13 @@ Mamufas.prototype = {
     this.$components.fadeOut();
     this.$el.fadeIn();
 
-    this._changeTitles(this.city);
+    this._changeMamufasTitles(this.city);
   },
 
   _mamufasOff: function() {
     this.$components.fadeIn();
     this.$el.fadeOut();
 
-    this._airportTitles(this.city);
+    this._changeCityTitles(this.city);
   }
 }
