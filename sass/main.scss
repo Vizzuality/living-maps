@@ -250,7 +250,7 @@ section.about {
 }
 
 .contest-inner {
-  padding-top: 112px;
+  padding-top: 40px;
   background: #f6f6f6 image-url('contest-bg.png');
 
   .section_description { padding: 0 50px; }
@@ -275,12 +275,14 @@ section.about {
   float: left;
   border: 1px solid #e3e3e3;
   padding: 40px;
-  width: 250px;
+  width: 240px;
   min-height: 235px;
-  font-size: 18px;
+  font-size: 17px;
   text-align: left;
   @include border-radius(5px);
   background: #fff image-url('col-shadow.png') repeat-y right 0;
+
+  &.first { padding-right: 50px; }
 
   &.feat {
     position: relative;
@@ -300,10 +302,13 @@ section.about {
     }
   }
 
-  &.last { background-position: left 0;}
+  &.last {
+    padding-left: 50px;
+    background-position: left 0;
+  }
 
   .title {
-    font-size: 33px;
+    font-size: 31px;
     color: #FF4D4D;
   }
 
