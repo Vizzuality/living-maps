@@ -529,11 +529,18 @@
     height:26px;
     @include background(image-url('zoom_control.png') no-repeat 0 0);
     text-indent: -9999px;
-    &:hover {background-position:0 -26px;}
+
+    &:hover {background-position: 0 -26px;}
 
     &.zoomIn {
       background-position:-26px 0;
-      &:hover {background-position:-26px -26px;}
+
+      &:hover {background-position: -26px -26px;}
+    }
+
+    &.disabled {
+      @include opacity(.5);
+      pointer-events: none;
     }
   }
 }
