@@ -135,6 +135,6 @@ Navigation.prototype = {
   },
 
   hideDropdown: function() {
-    $("#qtip-0").qtip().hide();
+    $(".cities_dropdown").qtip('hide');
   }
 };

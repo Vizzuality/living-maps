@@ -30,9 +30,6 @@ var App = {
       time_offset: this.options.time_offset
     });
 
-    // Home
-    Home.initialize();
-
     // Mamufas
     this.mamufas = new Mamufas($('.mamufas'));
 

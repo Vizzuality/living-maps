@@ -3,11 +3,16 @@ function Mamufas(el) {
 
   this.$el = el;
   this.$body = $("body");
-  this.$map_container = $(".map");
+  this.$map_container = $("section.map");
   this.$mamufas = $("#mamufas");
   this.$content = $("#content");
   this.$bottom_nav = $("#bottom_nav");
   this.$top_nav = $("#top_nav");
+  this.$about = $("#about");
+  this.$about_link = $(".about_link");
+  this.$contest = $("#contest");
+  this.$contest_link = $(".contest_link");
+  this.$logo = $("#logo");
 
   this.isEnabled = true;
 
@@ -40,61 +45,72 @@ Mamufas.prototype = {
 
     // Spinner
     this.target = document.getElementById('spinner-container');
-    this.spinner_container = $("#spinner-container");
+    this.$spinner_container = $("#spinner-container");
     this.spinner = new Spinner(this.spin_opts);
 
-    Events.on("enablemamufas", function(from) {
-      self.$body.css("overflow-y", "hidden");
-      self.$top_nav.removeClass("top");
-      self.$top_nav.addClass("mapped");
+    // Links
+    this.$about_link.on("click", function(event) {
+      Events.trigger("disablemamufas");
 
+      self._goTo(event, self.$about);
+    });
+
+    this.$contest_link.on("click", function(event) {
+      Events.trigger("disablemamufas");
+
+      self._goTo(event, self.$contest);
+    });
+
+    this.$logo.on("click", function(event) {
+      self._goTo(event, self.$map_container);
+
+      Events.trigger("disablemamufas");
+    });
+
+    // Mamufas
+    Events.on("enablemamufas", function(from) {
       $(window).resize(_.debounce(function() {
         self._resizeMap();
       }, 100));
 
-      if(!App.isLoaded) {
-        self.spinner.spin(self.target);
-      }
+      self._goTo(event, self.$map_container);
+
+      self.$top_nav.removeClass("top");
+      self.$top_nav.addClass("mapped");
 
       self.$map_container.animate({
         height: $(window).height()
-      }, {
-        duration: 250,
-        queue: false,
-        easing: 'linear',
-        complete: function() {
-          self.$bottom_nav.animate({
-            bottom: - $(window).height() - self.$top_nav.height()
-          }, {
-            duration: 250,
-            queue: false,
-            easing: 'linear',
-            complete: function() {
-              self.$top_nav.animate({
-                bottom: 0
-              }, {
-                duration: 250,
-                queue: false,
-                easing: 'linear'
-              });
+      }, 250, function() {
+        self.$bottom_nav.animate({
+          bottom: "-92px"
+        }, 250, function() {
+          self.$top_nav.animate({
+            bottom: 0
+          }, 250, function() {
+            if(App.isPlayed) {
+              self._mamufasOff();
+            } else {
+              self.$content.fadeOut();
+              self.$mamufas.fadeIn();
+
+              if(!App.isLoaded) {
+                self.spinner.spin(self.target);
+              }
             }
           });
-        }
+        });
       });
 
-      if(from === "navigation") {
-        self.$content.fadeOut();
-        self.$mamufas.fadeIn();
-      }
-
-      if(from === "navbar") {
-        self._mamufasOff();
-      }
+      $("body").css("overflow-y", "hidden");
 
       Events.trigger("toggledropdowns", true);
     });
 
     Events.on("disablemamufas", function(from) {
+      $(window).scroll(_.debounce(function(){
+        self._positionScroll();
+      }, 100));
+
       $(window).off('resize');
 
       if(!self.isEnabled) {
@@ -104,41 +120,25 @@ Mamufas.prototype = {
 
       self.spinner.stop();
 
-      self.$body.css("overflow-y", "auto");
+      self.$top_nav.animate({
+        bottom: "-92px"
+      }, 250, function() {
+        self.$top_nav.removeClass("mapped");
+        self.$top_nav.addClass("top");
 
-      self.$map_container.animate({
-        height: "622px"
-      }, {
-        duration: 250,
-        queue: false,
-        easing: 'linear',
-        complete: function() {
-          self.$top_nav.animate({
-            bottom: "-92px"
-          }, {
-            duration: 250,
-            queue: false,
-            easing: 'linear',
-            complete: function() {
-              self.$top_nav.removeClass("mapped");
-              self.$top_nav.addClass("top");
-
-              self.$bottom_nav.animate({
-                bottom: 0
-              }, {
-                duration: 250,
-                queue: false,
-                easing: 'linear'
-              });
-            }
+        self.$bottom_nav.animate({
+          bottom: 0
+        }, 250, function() {
+          self.$map_container.animate({
+            height: "622px"
+          }, 250, function() {
+            self.$mamufas.fadeOut();
+            self.$content.fadeIn();
           });
-        }
+        });
       });
 
-      if(from === "navigation") {
-        self.$mamufas.fadeOut();
-        self.$content.fadeIn();
-      }
+      $("body").css("overflow-y", "auto");
 
       Events.trigger("toggledropdowns", false);
     });
@@ -146,19 +146,21 @@ Mamufas.prototype = {
     Events.on("disableanimation", function(city) {
       self.city = city;
 
-      self.spinner_container.removeClass("play").html('');
+      self.$spinner_container.removeClass("play").html('');
       self.spinner.spin(self.target);
+
       self._mamufasOn();
     });
 
     Events.on("enableanimation", function() {
       $("#play").off("click");
+
       self._mamufasOff();
     });
 
     Events.on("stopanimation", function() {
       self.spinner.stop();
-      self.spinner_container.addClass("play").html('<a href="#" id="play">Play animation</a>');
+      self.$spinner_container.addClass("play").html('<a href="#" id="play">Play animation</a>');
 
       $("#play").on("click", function(e) {
         e.preventDefault();
@@ -169,11 +171,10 @@ Mamufas.prototype = {
     });
   },
 
-  _mamufasOn: function() {
-    self.isEnabled = true;
-    this.$el.fadeIn();
+  _goTo: function(e, el) {
+    e.preventDefault();
 
-    this._changeTitles(this.city);
+    goTo(el);
   },
 
   _changeTitles: function(city) {
@@ -197,8 +198,27 @@ Mamufas.prototype = {
     });
   },
 
+  _positionScroll: function() {
+    var self = this;
+
+    if($(window).scrollTop() >= this.$map_container.height()) {
+      this.$top_nav.animate({top: "0"}, 100);
+    } else {
+      this.$top_nav.animate({top: "-92px"}, 100, function() {
+        Events.trigger("scrolledup");
+      });
+    }
+  },
+
+  _mamufasOn: function() {
+    self.isEnabled = true;
+    this.$el.fadeIn();
+
+    this._changeTitles(this.city);
+  },
+
   _mamufasOff: function() {
     this.$el.fadeOut();
     this._airportTitles(this.city);
-  },
+  }
 }
