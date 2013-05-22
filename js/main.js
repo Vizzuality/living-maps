@@ -21,6 +21,7 @@ $(document).ready(function() {
   if(hash.length === 0) {
     App.initialize(window.AppData.CITIES[city]);
   } else {
-    App.initialize(_.extend({}, window.AppData.CITIES[city], parseHash(hash)));
+    // be careful, parseHash sets the global variable city
+    App.initialize(parseHash(hash));
   }
 });

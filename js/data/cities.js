@@ -34,7 +34,7 @@ window.AppData.CITIES = {
     city_title: "The Windy City.",
     city_subtitle: "The third most populous city in the United States.",
     time: 0,
-    time_offset: -60 // minutes
+    time_offset: 5*60 // minutes
   },
 
   'rome': {
@@ -68,7 +68,7 @@ window.AppData.CITIES = {
     city_title: "The largest city of Finland.",
     city_subtitle: "1,361,506 People in an arm of the Baltic Sea",
     time: 0,
-    time_offset: -60 // minutes
+    time_offset: -2*60 // minutes
   },
 
   'mumbai': {
@@ -85,7 +85,7 @@ window.AppData.CITIES = {
     city_title: "The city that never sleeps.",
     city_subtitle: "More than 3M points mapped over time.",
     time: 0,
-    time_offset: -60 // minutes
+    time_offset: -5*60 // minutes
   }
 };
 
