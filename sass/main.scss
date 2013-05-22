@@ -387,7 +387,8 @@ section.about {
 
 .colophon {
   margin: 40px auto 0;
-  width: 1030px;
+  padding: 0 10px;
+  width: 960px;
   text-align: left;
 
   h3 {
@@ -398,12 +399,12 @@ section.about {
   li {
     float: left;
     margin-left: 35px;
-    width: 305px;
+    width: 296px;
+    font-size: 17px;
     line-height: 1.2;
 
     &.first {
       margin-left: 0;
-      width: 342px;
     }
   }
 }
@@ -421,7 +422,8 @@ section.about {
 
 .footer-inner {
   margin: 0 auto;
-  width: 1030px;
+  padding: 0 10px;
+  width: 960px;
 
   p {
     float: left;
