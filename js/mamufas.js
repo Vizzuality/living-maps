@@ -182,8 +182,8 @@ Mamufas.prototype = {
 
   _changeMamufasTitles: function(city) {
     //TODO: THIS THREE LINES SHOULD BE OUSTIDE THIS CLASS
-    $("#mamufas_title").airport([window.AppData.CITIES[city]['city_title']]);
-    $("#city_subtitle").airport([window.AppData.CITIES[city]['city_subtitle']]);
+    $("#mamufas_title").text(window.AppData.CITIES[city]['city_title']);
+    $("#city_subtitle").text(window.AppData.CITIES[city]['city_subtitle']);
   },
 
   _changeCityTitles: function(city) {
