@@ -508,6 +508,11 @@
     color: #000E19;
     font-weight: bold;
   }
+
+  strong {
+    cursor: pointer;
+    pointer-events: auto;
+  }
 }
 
 

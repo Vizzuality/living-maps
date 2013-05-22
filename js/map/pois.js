@@ -78,6 +78,10 @@ var POIS = {
     Events.once("animationenabled", this.render, this);
   },
 
+  _bindStop: function() {
+    Events.off("animationenabled", this.render, this);
+  },
+
   getData: function() {
     var self = this;
 
@@ -141,6 +145,25 @@ var POIS = {
       left: pos.x - this.options.horizontalOffset,
       opacity: _opacity
     });
+
+    // Bind Poi
+    this._bindPoi(this.pois[data.id]);
+  },
+
+  _bindPoi: function(poi) {
+    var self = this;
+
+    poi.$markup
+      .find('strong')
+      .on('click', function() {
+        self.map.setView([poi.lat, poi.lon], self.map.getZoom());
+      })
+  },
+
+  _unbindPoi: function(poi) {
+    poi.$markup
+      .find('strong')
+      .off('click');
   },
 
   set_city: function(city) {
@@ -165,7 +188,10 @@ var POIS = {
   clean: function() {
     for (var i in this.pois) {
       this.pois[i].$markup.remove();
+
+      this._unbindPoi(this.pois[i]);
     }
+
     this.pois = [];
   }
 };
