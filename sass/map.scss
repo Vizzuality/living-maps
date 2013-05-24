@@ -358,13 +358,22 @@
 #contextualfacts {
   position: absolute;
   z-index: 300;
-  top: 255px;
-  left: 40px;
+  top: 155px;
+  left: 0;
+  height: 340px;
+  width: 784px;
   pointer-events: none;
 }
 
+.facts-inner {
+  height: 340px;
+  width: 784px;
+  background: image-url('facts-bg.png') no-repeat -120px center;
+}
+
 .time {
-  padding-left: 44px;
+  padding-top: 100px;
+  padding-left: 85px;
   width: 600px;
   font-size: 31px;
   line-height: 1;

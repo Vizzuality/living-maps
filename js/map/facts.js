@@ -6,7 +6,7 @@
   var ContextualFacts = {
 
     templates: {
-      markup: "<p class='time'><%= description %></p>"
+      markup: "<div class='facts-inner'><p class='time'><%= description %></p></div>"
     },
 
     options: {
