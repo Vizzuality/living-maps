@@ -74,7 +74,7 @@ Slider.prototype = {
       });
     });
 
-    Events.on("disableanimation", function(city, map, time) {
+    Events.on("disableanimation", function(map, city, time) {
       self.options.city = city;
       self.options.map = map;
 

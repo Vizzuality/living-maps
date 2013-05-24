@@ -31,7 +31,7 @@ var App = {
     });
 
     // Mamufas
-    this.mamufas = new Mamufas($('.mamufas'), this.options.city);
+    this.mamufas = new Mamufas($('.mamufas'), this.map.map, this.options.city);
 
     // Navigation
     this.navigation = new Navigation($('#cities_dropdown'), this.options.city);
@@ -75,7 +75,7 @@ var App = {
       }, 4000);
 
     if(this.options.time != 0) {
-      Events.trigger("disableanimation", this.options.city, this.map.map, this.options.time);
+      Events.trigger("disableanimation", this.map.map, this.options.city, this.options.time);
     }
 
     Events.on('finish_loading', function() {
@@ -263,7 +263,7 @@ var App = {
     // Set city in the zoom
     Zoom.set_city(this.options.city);
 
-    Events.trigger("disableanimation", self.options.city, self.map.map, self.options.time);
+    Events.trigger("disableanimation", self.map.map, self.options.city, self.options.time);
 
     Events.on('finish_loading', function() {
       self.isLoaded = true;
