@@ -1,22 +1,6 @@
 
 importScripts('/js/util.js');
-
-function get(url, callback) {
-  var req = new XMLHttpRequest();
-  req.onreadystatechange = function() {
-    if (req.readyState == 4){
-      if (req.status == 200){
-        callback(req);
-      } else {
-        callback(null);
-      }
-    }
-  };
-  req.open("GET", url, true)
-  //req.responseType = 'arraybuffer';
-  req.send(null)
-  return req;
-}
+importScripts('/js/bin_decoder.js');
 
 var queue = [];
 var processing = false;
@@ -26,15 +10,16 @@ function next() {
     processing = true;
     var n = queue.pop()
     if(n) {
-      get_data(n.url, n.coord, n.coord.z, n.TIME_SLOTS);
+      get_data(n.url + "&format=bin", n.coord, n.coord.z, n.TIME_SLOTS);
     } else {
       processing = false
     }
   }
 }
+
 function get_data(url, coord, zoom, TIME_SLOTS) {
     get(url, function (xhr) {
-      var data = JSON.parse(xhr.responseText);
+      var data = new ArrayBufferSer(xhr.response)
       postMessage(pre_cache_data1(data.rows, coord, zoom, TIME_SLOTS))
       processing = false;
       next();

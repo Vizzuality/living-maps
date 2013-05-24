@@ -41,7 +41,7 @@ var StreetLayer = L.CanvasLayer.extend({
     start_date: 1, //'2013-03-22 00:00:00+00:00',
     end_date: 1419,//'2013-03-22 23:59:57+00:00'
     time_offset: 0,
-    use_web_worker: true,
+    use_web_worker: false,
     num_web_workers: 3
   },
 
@@ -192,11 +192,16 @@ var StreetLayer = L.CanvasLayer.extend({
     var url = base_url + "api/v2/sql?q=" + encodeURIComponent(sql);
     if(!this.options.use_web_worker) {
       var prof = Profiler.get('tile fetching').start();
-      $.getJSON(url, function (data, text, xhr) {
+      get(url + "&format=bin", function (xhr) {
         prof.end();
-        console.log("tile size: " + ((xhr.responseText.length/1024) >> 0) + "kb");
-        Profiler.new_value('tile_size', ((xhr.responseText.length/1024) >> 0));
-        self.totalBytes += xhr.responseText.length;
+        var length = xhr.response ? xhr.response.byteLength : 0;
+        console.log("tile size: " + ((length/1024) >> 0) + "kb");
+        Profiler.new_value('tile_size', ((length/1024) >> 0));
+        self.totalBytes += length;
+        var data = null;
+        if(xhr.response) {
+          data = new ArrayBufferSer(xhr.response)
+        }
         callback(data);
         console.log("total size: " + ((self.totalBytes/1024) >> 0) + "kb");
       });
@@ -315,9 +320,9 @@ var StreetLayer = L.CanvasLayer.extend({
  
     // count number of dates
     var dates = 0;
-    for (var r in rows) {
-      var row = rows[r];
-      dates += row.dates.length;
+    for (var r = 0; r < rows.get('dates__uint16').length; ++r) {
+      var row = rows.get('dates__uint16')[r];
+      dates += row.length;
     }
 
     // reserve memory for all the dates
@@ -328,9 +333,10 @@ var StreetLayer = L.CanvasLayer.extend({
 
     // precache pixel positions
     var total_pixels = 256 << zoom;
-    for (var r in rows) {
-      var row = rows[r];
-      var pixels = tilePixelToPixel(coord.x, coord.y, zoom, row.x, row.y); 
+    var xx = rows.get('x__uint8');
+    var yy = rows.get('y__uint8');
+    for (var r = 0; r < rows.length; ++r) {
+      var pixels = tilePixelToPixel(coord.x, coord.y, zoom, xx[r], yy[r]); 
       x[r] = pixels[0] | 0;
       y[r] = (total_pixels - pixels[1]) | 0;
     }
@@ -340,12 +346,13 @@ var StreetLayer = L.CanvasLayer.extend({
     var timeSlotIndex = 0;
     for(var i = 0; i < TIME_SLOTS; ++i) {
       var c = 0;
-      for (var r in rows) {
-        var row = rows[r];
-        for (var j = 0, len = row.dates.length; j < len; ++j) {
-          if(row.dates[j] == i) {
+      for (var r = 0; r < rows.length; ++r) {
+        var dates = rows.get('dates__uint16')[r];
+        var vals = rows.get('vals__uint8')[r];
+        for (var j = 0, len = dates.length; j < len; ++j) {
+          if(dates[j] == i) {
             ++c;
-            renderData[renderDataIndex] = row.vals[j];
+            renderData[renderDataIndex] = vals[j];
             renderDataPos[renderDataIndex] = r;
             ++renderDataIndex;
           }
@@ -466,15 +473,18 @@ var StreetLayer = L.CanvasLayer.extend({
               "WHERE i.the_geom_webmercator && p.ext " +
               "AND mm % {0} = 0 AND ac > 1200 ".format(this.options.decimate) +
               "GROUP BY g, d" +
-              ") SELECT (st_x(g)-st_xmin(p.ext))/p.res x, " +
-                       "(st_y(g)-st_ymin(p.ext))/p.res y," +
-              " array_agg(least(6, ceil(c/100))) vals," +
-              " array_agg(floor(d/{0})) dates" . format(this.options.decimate) +
-              " FROM cte, par p GROUP BY x,y";
+              ") SELECT least((st_x(g)-st_xmin(p.ext))/p.res, 255) x__uint8, " +
+                       "least((st_y(g)-st_ymin(p.ext))/p.res, 255) y__uint8," +
+              " array_agg(least(6, ceil(c/100))) vals__uint8," +
+              " array_agg(floor(d/{0})) dates__uint16" . format(this.options.decimate) +
+              " FROM cte, par p GROUP BY x__uint8, y__uint8";
 
     this.tile(sql, function (data) {
       if(!self.options.use_web_worker) {
-        var time_data = self.pre_cache_data(data.rows, coord, zoom);
+        var time_data = { timeCount: [] };
+        if(data) {
+          time_data = self.pre_cache_data(data, coord, zoom);
+        }
       } else {
         time_data = data;
       }
