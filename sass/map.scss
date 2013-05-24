@@ -601,23 +601,20 @@
     font-weight: 300;
   }
 
-  textarea {
+  #textarea {
     border: none;
-    width: 100%;
-    margin-bottom: -5px;
-    max-width: 100%;
-    min-width: 100%;
+    width: 800px;
     height: 175px;
-    min-height: 175px;
-    max-height: 175px;
+    max-height: 290px;
     padding: 5px 0;
     font: 300 55px/1 "Nokia Pure Text", Helvetica, Arial, sans-serif;
     letter-spacing: -3px;
     color: #fff;
-    background: image-url('tweetarea.png') 0 -5px;
-    background-attachment: local;
+    overflow: auto;
     outline: none;
     resize: none;
+    background: image-url('tweetarea.png') 0 -5px;
+    background-attachment: local;
   }
 
   a {

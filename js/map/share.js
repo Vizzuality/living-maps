@@ -16,6 +16,7 @@ var Share = {
 
   initialize: function() {
     this.$el = $(this.el);
+    this.$textarea = $("#textarea");
     this._initBindings();
 
     return this;
@@ -29,11 +30,11 @@ var Share = {
   },
 
   _initKeyBindings: function() {
-    $(document).on('keyup', null, this, this._checkKey);
+    $(document).on('keydown', null, this, this._checkKey);
   },
 
   _disableKeyBindings: function() {
-    $(document).off('keyup', this._checkKey);
+    $(document).off('keydown', this._checkKey);
   },
 
   _shareOnTwitter: function(e) {
@@ -52,57 +53,54 @@ var Share = {
 
   _checkKey: function(e) {
     var keycode = e.which || e.keyCode;
-    if (e) {
-      var stop = false;
+
+    if(e) {
       var self = e.data;
+      var stop = false;
 
       // ESC?
-      if (keycode == 27) {
+      if(keycode == 27) {
         self._onCloseShare(e);
+      } else if(keycode == 13) {
+        e.preventDefault();
       } else {
-        self._checkHeight(true);
+        self._checkHeight();
       }
 
-      if (stop) e.stopPropagation();
+      if(stop) e.stopPropagation();
     }
   },
 
   _checkHeight: function(animate) {
-    var $textarea = this.$el.find('textarea');
-
-    if(animate) {
-      if($textarea.val().length > 80) {
-        $textarea.animate({
-          height: "290px",
-          "min-height": "290px",
-          "max-height": "290px"
-        });
-      }
-    } else if($textarea.val().length + 21 > 80) {
-      $textarea.css({
-        height: "290px",
-        "min-height": "290px",
-        "max-height": "290px"
+    if(this.$textarea.height() != 290 && this.$textarea.val().length > 80) {
+      this.$textarea.animate({
+        height: "290px"
+      }, function() {
+        $(".zclip").css("top", $("a.copy").position().top);
       });
     }
   },
 
   _setText: function(text) {
-    var $textarea = this.$el.find('textarea');
     var self = this;
-    $textarea.val(this._sanitizeText(text));
 
-    this._checkHeight(false);
+    this.$textarea.val(this._sanitizeText(text));
 
     // Disable textarea
-    $textarea.attr('disabled','');
+    this.$textarea.attr('disabled','');
 
     // Get link short
     this._generateShortUrl(window.location.href, function(url) {
-      $textarea.val(self._sanitizeText(text + " - " + url));
+      self.$textarea.val(self._sanitizeText(text + " - " + url));
       // Enable textarea
-      $textarea.removeAttr('disabled');
-    })
+      self.$textarea.removeAttr('disabled');
+    });
+
+    if(this.$textarea.val().length + 21 > 80) {
+      this.$textarea.css({
+        height: "290px"
+      });
+    }
   },
 
   _generateShortUrl: function(url, callback) {
@@ -143,6 +141,8 @@ var Share = {
       self.$el.find('a.copy').zclip({
         path:'/flash/ZeroClipboard.swf',
         copy: function() {
+          $(this).text("Copied!");
+
           return self.$el.find("textarea").val();
         }
       });
@@ -159,19 +159,21 @@ var Share = {
   },
 
   _onCloseShare: function(e) {
-    e.preventDefault();
     var self = e.data;
+
+    e.preventDefault();
+
     self.hide();
     self._disableCopy();
     self._disableKeyBindings();
     Events.trigger("resumeanimation");
 
     setTimeout(function(){
-      self.$el.find('textarea').css({
-        height: "175px",
-        "min-height": "175px",
-        "max-height": "175px"
+      self.$textarea.css({
+        height: "175px"
       });
+
+       $("a.copy").text("Copy Link");
     }, 1000);
   },
 
