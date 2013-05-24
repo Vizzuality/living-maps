@@ -41,7 +41,7 @@ var StreetLayer = L.CanvasLayer.extend({
     start_date: 1, //'2013-03-22 00:00:00+00:00',
     end_date: 1419,//'2013-03-22 23:59:57+00:00'
     time_offset: 0,
-    use_web_worker: false,
+    use_web_worker: true,
     num_web_workers: 3
   },
 
