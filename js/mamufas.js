@@ -1,4 +1,4 @@
-function Mamufas(el, city) {
+function Mamufas(el, map, city) {
   var self = this;
 
   this.$el = el;
@@ -37,6 +37,7 @@ function Mamufas(el, city) {
   };
 
   this.city = city;
+  this.map = map;
 
   this.initialize();
 }
@@ -130,7 +131,7 @@ Mamufas.prototype = {
       // history.pushState(window.AppData.CITIES[self.city], null, "/#cities/" + self.city);
     });
 
-    Events.on("disablemamufas", function(from) {
+    Events.on("disablemamufas", function() {
       self.isEnabled = false;
 
       $(window).off('resize');
@@ -171,8 +172,9 @@ Mamufas.prototype = {
       history.pushState(window.AppData.CITIES[self.city], null, "/");
     });
 
-    Events.on("disableanimation", function(city) {
+    Events.on("disableanimation", function(map, city) {
       self.city = city;
+      self.map = map;
 
       self.$spinner_container.removeClass("play").html('');
       self.spinner.spin(self.target);
@@ -221,8 +223,12 @@ Mamufas.prototype = {
   },
 
   _resizeMap: function() {
+    var self = this;
+
     this.$map_container.animate({
       height: $(window).height()
+    }, function() {
+      self.map.invalidateSize();
     });
   },
 
