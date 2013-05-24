@@ -46,7 +46,11 @@
     _emit: function(data) {
       var self = this;
 
-      if (this.contextualFacts[data.id]) return false;
+      if (this.contextualFacts[data.id]) {
+        return false;
+      } else {
+        this.contextualFacts[data.id] = {};
+      }
 
       var el = _.template(this.templates.markup)(data);
       var $markup = $(el);
@@ -67,16 +71,18 @@
         $(this)
           .delay(self.options.delayTime)
           .animate({
-              marginTop: '-30px',
-              opacity: 0
-            },
-          self.options.hideTime,
-          self._removeFact);
+            marginTop: '-30px',
+            opacity: 0
+          }, self.options.hideTime,
+          function() {
+            self._removeFact(data.id);
+          });
         });
     },
 
-    _removeFact: function() {
-      $(this).remove();
+    _removeFact: function(fact_id) {
+      this.contextualFacts[fact_id].$markup.remove();
+      delete this.contextualFacts[fact_id];
     },
 
     set_time: function(time) {
