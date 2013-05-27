@@ -21,6 +21,7 @@ var Zoom = {
     this.$el.find('a.zoomOut').on('click', null, this, this._onZoomOut);
     this.$el.find('a.zoomIn, a.zoomOut').on('hover', this._stopPropagation);
     Events.on("dblclickedmap", this._onDblClickZoomIn, this);
+    Events.on("poiclick", this._onPoiClick, this);
   },
 
   _onDblClickZoomIn: function(e) {
@@ -28,7 +29,7 @@ var Zoom = {
     var self = this;
     var max_zoom = window.AppData.CITIES[self.city].map.maxZoom;
 
-    if (self.map.getZoom() < max_zoom) {
+    if(self.map.getZoom() < max_zoom) {
       var zoom = self.map.getZoom() + 1;
 
       if(!stopped) {
@@ -42,12 +43,32 @@ var Zoom = {
     }
   },
 
+  _onPoiClick: function(poi, zoom) {
+    var self = this;
+    var max_zoom = window.AppData.CITIES[self.city].map.maxZoom;
+
+    if(self.map.getZoom() < max_zoom) {
+      var zoom = self.map.getZoom() + 1;
+
+      if(!stopped) {
+        updateHash(self.map, self.city, window.AppData.init_time, zoom);
+      } else {
+        updateHash(self.map, self.city, App.time, zoom);
+      }
+
+      self._checkMaxMin(zoom);
+      self.map.zoomIn();
+    } else {
+      self.map.setView([poi.lat, poi.lon], zoom);
+    }
+  },
+
   _onZoomIn: function(e) {
     e.preventDefault();
     var self = e.data;
     var max_zoom = window.AppData.CITIES[self.city].map.maxZoom;
 
-    if (self.map.getZoom() < max_zoom) {
+    if(self.map.getZoom() < max_zoom) {
       var zoom = self.map.getZoom() + 1;
 
       if(!stopped) {

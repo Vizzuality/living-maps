@@ -501,6 +501,8 @@
     width: 33px;
     height: 33px;
     opacity: 1;
+    cursor: pointer;
+    pointer-events: auto;
 
     &.turist {background: image-url('poi_types.png');}
     &.transport {background: image-url('poi_types.png') -33px 0;}

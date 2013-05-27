@@ -196,9 +196,49 @@ var Bubbles = {
         : (AppData.CITIES[this.city].scale || 2.0)
     );
 
-    /* Animation */
-    // Parent
-    if (pos) {
+    // *
+    // Animation
+    // *
+
+    if(pos) {
+      // Calculate time depending how much has been animated
+      var done = parseFloat(this.bubbles[bubble_id].$markup.find('.info').css('opacity'));
+      var unanim = 1 - done;
+
+      // Info
+      var _opacity = 1;
+      if(pos.y < self.options.topEdgeMargin){
+        var _op = (1/(self.options.topEdgeMargin-pos.y))*10;
+        _opacity = (_op < 0.08) ? 0 : _op;
+      }
+
+      this.bubbles[bubble_id].$markup
+        .find('.info')
+        .stop(true)
+        .animate({
+            top: 0,
+            opacity: _opacity
+          },
+          (this.bubbles[bubble_id].over)
+            ? this.options.animation.slowShowTime * unanim
+            : this.options.animation.animShowTime * unanim,
+          function() {
+            self._waitBubble(bubble_id);
+          }
+        );
+
+      // Shadow
+      this.bubbles[bubble_id].$markup
+        .find('.shadow')
+        .stop(true)
+        .animate({
+            opacity: 1
+          },
+          (this.bubbles[bubble_id].over)
+            ? this.options.animation.slowShowTime * unanim
+            : this.options.animation.animShowTime * unanim
+        );
+
       this.bubbles[bubble_id].$markup.css({
         top: pos.y - this.bubbles[bubble_id].$markup.outerHeight(),
         left: pos.x - this.options.horizontalOffset,
@@ -206,44 +246,6 @@ var Bubbles = {
         opacity: 1
       });  
     }
-
-    // Calculate time depending how much has been animated
-    var done = parseFloat(this.bubbles[bubble_id].$markup.find('.info').css('opacity'));
-    var unanim = 1 - done;
-
-    // Info
-    var _opacity = 1;
-    if(pos.y < self.options.topEdgeMargin){
-      var _op = (1/(self.options.topEdgeMargin-pos.y))*10;
-      _opacity = (_op < 0.08) ? 0 : _op;
-    }
-
-    this.bubbles[bubble_id].$markup
-      .find('.info')
-      .stop(true)
-      .animate({
-          top: 0,
-          opacity: _opacity
-        },
-        (this.bubbles[bubble_id].over)
-          ? this.options.animation.slowShowTime * unanim
-          : this.options.animation.animShowTime * unanim,
-        function() {
-          self._waitBubble(bubble_id);
-        }
-      );
-
-    // Shadow
-    this.bubbles[bubble_id].$markup
-      .find('.shadow')
-      .stop(true)
-      .animate({
-          opacity: 1
-        },
-        (this.bubbles[bubble_id].over)
-          ? this.options.animation.slowShowTime * unanim
-          : this.options.animation.animShowTime * unanim
-      );
   },
 
   _waitBubble: function(bubble_id) {

@@ -156,13 +156,23 @@ var POIS = {
     poi.$markup
       .find('strong')
       .on('click', function() {
-        self.map.setView([poi.lat, poi.lon], self.map.getZoom());
-      })
+        Events.trigger("poiclick", poi, self.map.getZoom());
+      });
+
+    poi.$markup
+      .find('span')
+      .on('click', function() {
+        Events.trigger("poiclick", poi, self.map.getZoom());
+      });
   },
 
   _unbindPoi: function(poi) {
     poi.$markup
       .find('strong')
+      .off('click');
+
+    poi.$markup
+      .find('span')
       .off('click');
   },
 
