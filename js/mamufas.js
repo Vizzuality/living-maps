@@ -101,6 +101,8 @@ Mamufas.prototype = {
             self.$top_nav.animate({
               bottom: 0
             }, 250, function() {
+              self.map.invalidateSize();
+
               if(!App.isLoaded) {
                 self.spinner.spin(self.target);
               }
