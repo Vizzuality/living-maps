@@ -41,8 +41,8 @@ The workflow to deploy static assets is as follow:
 ```
 grunt clean       <- clean deploy directories
 compass compile   <- regenerate stylesheets
-jekyll build      <- regenerate markup
-grunt copy        <- copy static files to _staging
+jekyll build      <- regenerate markup to _staging
+grunt copy        <- copy static files to _production
 grunt cssmin      <- minify stylesheets
 grunt concat      <- concat javascript files
 grunt uglify      <- compress and uglify javascript files

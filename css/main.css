@@ -481,6 +481,9 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
   opacity: 0;
 }
+.bubble .info p {
+  line-height: 23px;
+}
 .bubble .info span.tail {
   position: absolute;
   bottom: -10px;
@@ -895,7 +898,7 @@ section.map {
 .navigation {
   position: absolute;
   z-index: 500;
-  height: 72px;
+  height: 68px;
   width: 100%;
   background: #fff;
 }
