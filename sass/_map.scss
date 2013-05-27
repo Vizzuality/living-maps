@@ -416,6 +416,10 @@
     background: rgba(#000F1A, .85);
     @include opacity(0);
 
+    p{
+      line-height: 23px;
+    }
+
     span.tail {
       position:absolute;
       bottom: -10px;
