@@ -17,52 +17,62 @@
   <meta property="og:description" content="Living Maps - A joint experiment by HERE and CartoDB"/> 
   <meta property="og:type" content="Visualization"/>
   <meta property="og:url" content="/" />
-  <meta property="og:image" content="/img/thumbnail.jpg"/>
+  <meta property="og:image" content="img/thumbnail.jpg"/>
 
+  <!-- build:css css/living-maps.min.css -->
   <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v2/themes/css/cartodb.css" />
-  <link rel="stylesheet" href="/css/vendor/jquery.qtip.css" />
-
-  <link href="/css/main.css" rel="stylesheet" />
-  <link href="/css/home.css" rel="stylesheet" />
-  <link href="/css/map.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/vendor/jquery.qtip.css" />
+  <link rel="stylesheet" href="css/main.css"/>
+  <!-- endbuild -->
 
   <script src="http://libs.cartocdn.com/cartodb.js/v2/cartodb.uncompressed.js"></script>
 </head>
 <body>
   {{ content }}
 
-  <script src="/js/vendor/jquery-2.0.0.min.js"></script>
-  <script src="/js/vendor/jquery-migrate-1.1.1.min.js"></script>
-  <script src="/js/vendor/jquery-ui-1.10.2.custom.js"></script>
-  <script src="/js/vendor/dat.gui.min.js"></script>
-  <script src="/js/vendor/underscore.js"></script>
-  <script src="/js/vendor/zclip.js"></script>
-  <script src="/js/vendor/jquery.qtip.js"></script>
-  <script src="/js/vendor/jquery.airport-1.1.js"></script>
+  <!-- build:js js/data/cities.min.js -->
+  <script src="js/data/cities.js"></script>
+  <!-- endbuild -->
 
-  <script src="/js/profiler.js"></script>
-  <script src="/js/data/cities.js"></script>
+  <!-- build:js js/living-maps.min.js -->
+  <script src="js/vendor/jquery-2.0.1.js"></script>
+  <script src="js/vendor/jquery-migrate-1.2.1.min.js"></script>
+  <script src="js/vendor/jquery-ui-1.10.2.custom.js"></script>
+  <script src="js/vendor/dat.gui.min.js"></script>
+  <script src="js/vendor/underscore.js"></script>
+  <script src="js/vendor/zclip.js"></script>
+  <script src="js/vendor/jquery.qtip.js"></script>
+  <script src="js/vendor/jquery.airport-1.1.js"></script>
 
-  <script src="/js/events.js"></script>
-  <script src="/js/util.js"></script>
-  <script src="/js/leaflet_tileloader_mixin.js"></script>
-  <script src="/js/canvas_layer.js"></script>
-  <script src="/js/sprites.js"></script>
-  <script src="/js/probs_density_layer.js"></script>
-  <script src="/js/graph.js"></script>
+  <script src="js/profiler.js"></script>
 
-  <script src="/js/navigation.js"></script>
-  <script src="/js/slider.js"></script>
-  <script src="/js/mamufas.js"></script>
-  <script src="/js/time_based_data.js"></script>
-  <script src="/js/map/pois.js"></script>
-  <script src="/js/map/bubbles.js"></script>
-  <script src="/js/map/facts.js"></script>
-  <script src="/js/map/share.js"></script>
-  <script src="/js/map/zoom.js"></script>
-  <script src="/js/map.js"></script>
-  <script src="/js/app.js"></script>
-  <script src="/js/main.js"></script>
+  <script src="js/events.js"></script>
+  <script src="js/leaflet_tileloader_mixin.js"></script>
+  <script src="js/canvas_layer.js"></script>
+  <script src="js/sprites.js"></script>
+  <script src="js/graph.js"></script>
+
+  <script src="js/navigation.js"></script>
+  <script src="js/slider.js"></script>
+  <script src="js/mamufas.js"></script>
+  <script src="js/time_based_data.js"></script>
+  <script src="js/map/pois.js"></script>
+  <script src="js/map/bubbles.js"></script>
+  <script src="js/map/facts.js"></script>
+  <script src="js/map/share.js"></script>
+  <script src="js/map/zoom.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/main.js"></script>
+  <!-- endbuild -->
+
+  <!-- build:js js/util.min.js -->
+  <script src="js/util.js"></script>
+  <!-- endbuild -->
+
+  <!-- build:js js/probs_density_layer.min.js -->
+  <script src="js/probs_density_layer.js"></script>
+  <!-- endbuild -->
 </body>
 </html>
   

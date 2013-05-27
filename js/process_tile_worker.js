@@ -1,5 +1,5 @@
 
-importScripts('/js/util.js');
+importScripts('util.min.js');
 
 function get(url, callback) {
   var req = new XMLHttpRequest();

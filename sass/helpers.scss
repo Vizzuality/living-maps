@@ -1,9 +1,0 @@
-
-  @import "compass";
-
-  @mixin user-select($v) {
-    -webkit-user-select: $v;  
-    -moz-user-select: $v;    
-    -ms-user-select: $v;      
-    user-select: $v;
-  }

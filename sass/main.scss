@@ -1,6 +1,8 @@
 @import "compass/reset";
 @import "compass/css3";
+@import "map";
 @import "dropdowns";
+@import "debug";
 
 .clearfix:before,
 .clearfix:after { content: ""; display: table; }
@@ -14,23 +16,23 @@
 @font-face {
   font-family: 'Nokia Pure Text';
   font-weight: light;
-  src: url('/fonts/nokiapuretext_lt-webfont.eot');
+  src: url('../fonts/nokiapuretext_lt-webfont.eot');
   src:
-    url('/fonts/nokiapuretext_lt-webfont.eot?#iefix') format('embedded-opentype'),
-    url('/fonts/nokiapuretext_lt-webfont.woff') format('woff'),
-    url('/fonts/nokiapuretext_lt-webfont.ttf')  format('truetype'),
-    url('/fonts/nokiapuretext_lt-webfont.svg#Nokia Pure Text') format('svg');
+    url('../fonts/nokiapuretext_lt-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/nokiapuretext_lt-webfont.woff') format('woff'),
+    url('../fonts/nokiapuretext_lt-webfont.ttf')  format('truetype'),
+    url('../fonts/nokiapuretext_lt-webfont.svg#Nokia Pure Text') format('svg');
 }
 
 @font-face {
   font-family: 'Nokia Pure Text';
   font-weight: bold;
-  src: url('/fonts/nokiapuretext_bd-webfont.eot');
+  src: url('../fonts/nokiapuretext_bd-webfont.eot');
   src:
-    url('/fonts/nokiapuretext_bd-webfont.eot?#iefix') format('embedded-opentype'),
-    url('/fonts/nokiapuretext_bd-webfont.woff') format('woff'),
-    url('/fonts/nokiapuretext_bd-webfont.ttf')  format('truetype'),
-    url('/fonts/nokiapuretext_bd-webfont.svg#Nokia Pure Text') format('svg');
+    url('../fonts/nokiapuretext_bd-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/nokiapuretext_bd-webfont.woff') format('woff'),
+    url('../fonts/nokiapuretext_bd-webfont.ttf')  format('truetype'),
+    url('../fonts/nokiapuretext_bd-webfont.svg#Nokia Pure Text') format('svg');
 }
 
 
@@ -170,7 +172,7 @@ section.map {
 
   a {
     border-left: 1px solid #ddd;
-    padding: 0 35px;
+    padding: 0 49px;
 
     &.last { border-right: 1px solid #ddd; }
   }

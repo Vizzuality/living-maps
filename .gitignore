@@ -1,6 +1,6 @@
-Gemfile.lock
-_site/
-.bundle/
+_staging/
+_production/
+node_modules/
 .DS_Store
 .ruby-version
 .sass-cache/

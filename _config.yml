@@ -1,3 +1,3 @@
-destination: _site
+destination: _staging
 permalink: pretty
-exclude: [sass, config.rb, Procfile]
+exclude: [node_modules, sass, tests, config.rb, gruntfile.js, package.json, Procfile, README.md]
