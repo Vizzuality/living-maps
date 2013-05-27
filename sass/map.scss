@@ -613,9 +613,9 @@
 
   #textarea {
     border: none;
-    width: 800px;
+    width: 830px;
     height: 175px;
-    max-height: 290px;
+    max-height: 320px;
     padding: 5px 0;
     font: 300 55px/1 "Nokia Pure Text", Helvetica, Arial, sans-serif;
     letter-spacing: -3px;
@@ -689,10 +689,10 @@
 
 .share-inner {
   position: absolute;
-  top: 20%;
+  top: 100px;
   left: 50%;
   margin-left: -440px;
   padding: 0 40px;
-  width: 800px;
+  width: 830px;
   background: image-url('quotes.png') no-repeat 0 55px, image-url('quotes.png') no-repeat right bottom;
 }

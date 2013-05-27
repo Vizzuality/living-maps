@@ -72,9 +72,9 @@ var Share = {
   },
 
   _checkHeight: function(animate) {
-    if(this.$textarea.height() != 290 && this.$textarea.val().length > 80) {
+    if(this.$textarea.height() != 320 && this.$textarea.val().length > 80) {
       this.$textarea.animate({
-        height: "290px"
+        height: "320px"
       }, function() {
         $(".zclip").css("top", $("a.copy").position().top);
       });
