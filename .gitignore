@@ -1,7 +1,9 @@
 _staging/
-_production/
 node_modules/
+Gemfile
+Gemfile.lock
 .DS_Store
 .ruby-version
+.bundle/
 .sass-cache/
 css/
