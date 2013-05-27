@@ -45,7 +45,7 @@ Navigation.prototype = {
             $(this).show().css('opacity', '0').animate({
               opacity: 1
             }, {
-              duration: 250
+              duration: 100
             });
           }
         },
@@ -53,9 +53,10 @@ Navigation.prototype = {
           event: 'click unfocus',
           effect: function() {
             $(this).animate({
-              opacity: 0
+              opacity: 0,
+              "top": "-=10px"
             }, {
-              duration: 250
+              duration: 100
             });
           }
         },
