@@ -1,23 +1,8 @@
 
 // importScripts('util.min.js');
+//importScripts('bin_decoder.min.js');
 importScripts('util.js');
-
-function get(url, callback) {
-  var req = new XMLHttpRequest();
-  req.onreadystatechange = function() {
-    if (req.readyState == 4){
-      if (req.status == 200){
-        callback(req);
-      } else {
-        callback(null);
-      }
-    }
-  };
-  req.open("GET", url, true)
-  //req.responseType = 'arraybuffer';
-  req.send(null)
-  return req;
-}
+importScripts('bin_decoder.js');
 
 var queue = [];
 var processing = false;
@@ -27,22 +12,37 @@ function next() {
     processing = true;
     var n = queue.pop()
     if(n) {
-      get_data(n.url, n.coord, n.coord.z, n.TIME_SLOTS);
+      get_data(n.url + "&format=bin", n.coord, n.coord.z, n.TIME_SLOTS);
     } else {
       processing = false
     }
   }
 }
+
 function get_data(url, coord, zoom, TIME_SLOTS) {
     get(url, function (xhr) {
-      var data = JSON.parse(xhr.responseText);
-      postMessage(pre_cache_data1(data.rows, coord, zoom, TIME_SLOTS))
+      var data = null;
+      if(xhr.response) {
+        data = new ArrayBufferSer(xhr.response)
+      }
+      postMessage(pre_cache_data1(data, coord, zoom, TIME_SLOTS))
+
       processing = false;
       next();
     });
 }
 
 function pre_cache_data1(rows, coord, zoom, TIME_SLOTS) {
+    if(!rows) {
+      return {
+        coord: {
+          x: coord.x,
+          y: coord.y,
+          z: zoom,
+        },
+        timeCount: [],
+      }
+    }
     var timeIndex = new Int32Array(TIME_SLOTS); //index-size
     var timeCount = new Int32Array(TIME_SLOTS); 
     var x = new Int32Array(rows.length);
@@ -50,9 +50,9 @@ function pre_cache_data1(rows, coord, zoom, TIME_SLOTS) {
  
     // count number of dates
     var dates = 0;
-    for (var r in rows) {
-      var row = rows[r];
-      dates += row.dates.length;
+    for (var r = 0; r < rows.get('dates__uint16').length; ++r) {
+      var row = rows.get('dates__uint16')[r];
+      dates += row.length;
     }
 
     // reserve memory for all the dates
@@ -61,9 +61,10 @@ function pre_cache_data1(rows, coord, zoom, TIME_SLOTS) {
 
     // precache pixel positions
     var total_pixels = 256 << zoom;
-    for (var r in rows) {
-      var row = rows[r];
-      var pixels = tilePixelToPixel(coord.x, coord.y, zoom, row.x, row.y); 
+    var xx = rows.get('x__uint8');
+    var yy = rows.get('y__uint8');
+    for (var r = 0; r < rows.length; ++r) {
+      var pixels = tilePixelToPixel(coord.x, coord.y, zoom, xx[r], yy[r]); 
       x[r] = pixels[0] | 0;
       y[r] = (total_pixels - pixels[1]) | 0;
     }
@@ -73,12 +74,13 @@ function pre_cache_data1(rows, coord, zoom, TIME_SLOTS) {
     var timeSlotIndex = 0;
     for(var i = 0; i < TIME_SLOTS; ++i) {
       var c = 0;
-      for (var r in rows) {
-        var row = rows[r];
-        for (var j = 0, len = row.dates.length; j < len; ++j) {
-          if(row.dates[j] == i) {
+      for (var r = 0; r < rows.length; ++r) {
+        var dates = rows.get('dates__uint16')[r];
+        var vals = rows.get('vals__uint8')[r];
+        for (var j = 0, len = dates.length; j < len; ++j) {
+          if(dates[j] == i) {
             ++c;
-            renderData[renderDataIndex] = row.vals[j];
+            renderData[renderDataIndex] = vals[j];
             renderDataPos[renderDataIndex] = r;
             ++renderDataIndex;
           }
