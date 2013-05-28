@@ -42,6 +42,7 @@ module.exports = function(grunt) {
         files: {
           '_production/js/living-maps.min.js': ['_staging/js/living-maps.js'],
           '_production/js/util.min.js': ['_staging/js/util.js'],
+          '_production/js/bin_decoder.min.js': ['_staging/js/bin_decoder.js'],
           '_production/js/probs_density_layer.min.js': ['_staging/js/probs_density_layer.js'],
           '_production/js/process_tile_worker.min.js': ['_staging/js/process_tile_worker.js'],
           '_production/js/data/cities.min.js': ['_staging/js/data/cities.js']
