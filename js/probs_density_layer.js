@@ -200,7 +200,7 @@ var StreetLayer = L.CanvasLayer.extend({
         Profiler.new_value('tile_size', ((length/1024) >> 0));
         self.totalBytes += length;
         var data = null;
-        if(xhr.response) {
+        if(xhr.response && xhr.response.byteLength) {
           data = new ArrayBufferSer(xhr.response)
         }
         callback(data);
