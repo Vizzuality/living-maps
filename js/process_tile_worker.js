@@ -22,7 +22,7 @@ function next() {
 function get_data(url, coord, zoom, TIME_SLOTS) {
     get(url, function (xhr) {
       var data = null;
-      if(xhr.response) {
+      if(xhr.response && xhr.response.byteLength) {
         data = new ArrayBufferSer(xhr.response)
       }
       postMessage(pre_cache_data1(data, coord, zoom, TIME_SLOTS))
