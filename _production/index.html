@@ -76,15 +76,21 @@
         </ul>
       </li>
 
-      <!-- li><a href="#" class="contest_link"><sup>The</sup> Contest</a></li -->
       <li><a href="#" class="about_link">About</a></li>
+
+      <li>
+        <!-- Social -->
+        <div class="social">
+          <a href="http://www.facebook.com/sharer/sharer.php?u=" target="_blank" class="button facebook"><span>Share on Facebook</span></a>
+          <a href="http://twitter.com/share?text=" target="_blank" class="button twitter"><span>Share on Twitter</span></a>
+        </div>
+      </li>
     </ul>
   </div>
 </nav>
 
 <section class="map">
   <div class="mamufas">
-    <div class="inner">
       <!-- Loader -->
       <div id="mamufas">
         <div class="mamufas-inner">
@@ -92,22 +98,26 @@
           <p id="city_subtitle" class="description">More than 3M points mapped over time.</p>
           <div id="spinner-container"></div>
         </div>
-
-        <!-- <div id="back_help" class="help"><p>Go back to the homepage</p></div>
-        <div id="change_help" class="help"><p>Change to another city whenever you want</p></div>
-        <div id="scrub_help" class="help"><p>Play with the time using the scrub control</p></div> -->
       </div>
 
       <!-- Content -->
-      <div id="content" class="content">
+      <div id="content" class="inner">
+        <!-- Social -->
+        <div class="social">
+          <a href="http://www.facebook.com/sharer/sharer.php?u=" target="_blank" class="button facebook"><span>Share on Facebook</span></a>
+          <a href="http://twitter.com/share?text=" target="_blank" class="button twitter"><span>Share on Twitter</span></a>
+        </div>
+
         <!-- Header -->
         <header class="header clearfix">
+          <a href="/" class="logo"><img src="img/here-logo.png" /></a>
+
           <h1 class="title"><strong>Living</strong>Cities</h1>
           <p class="subtitle">A joint experiment by HERE and CartoDB</p>
         </header>
 
         <div class="content-inner">
-          <p>GPS and Mobile devices act as sensors collecting data on the status of the city. This data is used to get better directions and find the closest shop. But this data can also tell a lot of different stories. On this visualization developed by CartoDB we want to show you some and we invite developers to create their own ones.</p>
+          <p>GPS and Mobile devices act as sensors collecting data on the status of the city. This data is used to get better directions and find the closest shop. But this data can also tell a lot of different stories.</p>
 
           <p class="last">Click on any city to get started!</p>
         </div>
@@ -176,10 +186,6 @@
         <a href="#cities/mumbai" class="city-link" data-city="mumbai">Mumbai</a>
       </li>
 
-      <!-- li>
-        <a href="#" class="highlight contest_link"><sup>The</sup> Contest</a>
-      </li -->
-
       <li>
         <a href="#" class="about_link last">About</a>
       </li>
@@ -187,75 +193,29 @@
   </nav>
 </section>
 
-<!-- section id="contest" class="contest clearfix">
-  <div class="contest-inner">
-    <div class="inner">
-      <h2 class="section_title">The Contest</h2>
-      <p class="section_description">We are releasing all the data behind this visualization and make it available for any developer who wants to participate.</p>
-
-      <div class="cols clearfix">
-        <div class="col first">
-          <h3 class="title">Create your own</h3>
-          <p>Make use of the data published here and any other dataset you want. Use CartoDB or other tools. Submit your visualization before 20th June and you could earn $1,000.</p>
-          <a href="#" class="link">Check out the detailed rules</a>
-        </div>
-
-        <div class="col feat">
-          <h3 class="title">Get the data</h3>
-          <ul>
-            <li><a href="#">London <sup>(17MB)</sup></a></li>
-            <li><a href="#">Chicago <sup>(20MB)</sup></a></li>
-            <li><a href="#">Rome <sup>(20MB)</sup></a></li>
-            <li><a href="#">Helsinki <sup>(17MB)</sup></a></li>
-            <li><a href="#">Mumbai <sup>(17MB)</sup></a></li>
-          </ul>
-        </div>
-
-        <div class="col last">
-          <h3 class="title">Get Started</h3>
-          <p>Get a FREE CartoDB Coronelli account for one month to make visualizations. <a href="#">Check out this video</a> to get some inspiration, and click on the following link.</p>
-          <a href="#" class="link">Create your CartoDB account</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="banner">
-      <p>Enter to the contest by <span>submiting your visualization</span></p>
-    </div>
-  </div>
-</section -->
-
 <section id="about" class="about">
   <div class="inner">
-    <h2 class="section_title"><strong>Living</strong>Cities visualization</h2>
-    <p class="section_description">Cities are a fundamental part of everybody’s lives, but at Here we also see they have their own life. With this visualization we want to inspire developers to take a look at data APIs and CartoDB technology to develop great visualizations on cities.</p>
+    <h2 class="title section_title">About <strong>Living</strong>Cities</h2>
+    <p class="section_description">Cities are a fundamental part of everybody’s lives, but at Here we also see they have their own life.</p>
+
+    <ul class="features">
+      <li class="data">
+        <h3>The data</h3>
+        <p>The data behind this visualization is collected by HERE continuously from connected devices. We do not collect personal data, we collect small data changes to know how is the traffic in the city, if a road is closed, is a new road is open, etc.</p>
+      </li>
+
+      <li class="tech">
+        <h3>Technology</h3>
+        <p>The visualization has been built by CartoDB team using their cloud infrastructure and their Torque technology to animate geospatial datasets over time.</p>
+      </li>
+
+      <li class="vizz">
+        <h3>The visualization</h3>
+        <p>We believe this data can be used for many different things and we are partnering with CartoDB to look for interesting visualizations that tell us different stories. In this visualization you can see traffic density over maps and lot of facts derived from the aggregated vision we get from the city.</p>
+      </li>
+    </ul>
   </div>
-
-  <ul class="colophon clearfix">
-    <li class="first">
-      <h3>About the data</h3>
-      <p>The data behind this visualization is collected by HERE continuously from connected devices. We do not collect personal data, we collect small data changes to know how is the traffic in the city, if a road is closed, is a new road is open, etc. This is how we construct our fresh maps that are used online and in so many devices.</p>
-    </li>
-
-    <li>
-      <h3>About the visualization</h3>
-      <p>We believe this data can be used for many different things and we are partnering with CartoDB to look for interesting visualizations that tell us different stories. In this visualization you can see traffic density over maps and lot of facts derived from the aggregated vision we get from the city.</p>
-    </li>
-
-    <li class="last">
-      <h3>Technology</h3>
-      <p>The visualization has been built by CartoDB team using their cloud infrastructure. It make use of the HTML5 Torque technology to animate geospatial datasets over time. Follow the CartoDB blog over the next days to learn more about how specifically this has been done.</p>
-    </li>
-  </ul>
 </section>
-
-<footer class="footer">
-  <div class="footer-inner clearfix">
-    <p>A joint experiment by</p>
-    <div class="logos"><a href="http://here.com/"><img src="img/here-logo.png" /></a></div>
-    <div class="logos"><a href="http://cartodb.com/"><img src="img/cartodb-logo.png" /></a></div>
-  </div>
-</footer>
 
 <!-- Share dialog -->
 <div id="share" class="backdrop">
@@ -270,6 +230,18 @@
     <a href="#/copy-link" class="button copy">Copy Link</a>
   </div>
 </div>
+
+<footer class="footer">
+  <div class="inner clearfix">
+    <p><strong>Living</strong>Cities<br /><a href="#">Lorem ipsum</a> dolor sit amet.</p>
+
+    <ul class="logos">
+      <li class="first">A joint<br />experiment by</li>
+      <li><a href="http://here.com/" class="button"><img src="img/here-button.png" /></a></li>
+      <li><a href="http://cartodb.com/" class="button"><img src="img/cartodb-button.png" /></a></li>
+    </ul>
+  </div>
+</footer>
 
 
   <script src="js/data/cities.min.js"></script>
