@@ -54,6 +54,7 @@ From now on, the `_production` directory will be commited, and for every deploy 
 ```
 git subtree push --prefix _production origin gh-pages
 ```
+* right now the `gh-pages` branch *must be deleted every time before* the deploys, I'm researching to improve this
 
 For more information:
 
