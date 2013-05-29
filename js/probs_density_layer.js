@@ -78,8 +78,8 @@ var StreetLayer = L.CanvasLayer.extend({
     if(this.options.use_web_worker) {
       this.workers = [];
       for(var i = 0; i < this.options.num_web_workers; ++i) {
-        // this.workers.push(new Worker("js/process_tile_worker.js"));
-        this.workers.push(new Worker("js/process_tile_worker.min.js"));
+        this.workers.push(new Worker("js/process_tile_worker.js"));
+        // this.workers.push(new Worker("js/process_tile_worker.min.js"));
       }
       this._web_workers_callbacks = {}
     }
@@ -193,6 +193,7 @@ var StreetLayer = L.CanvasLayer.extend({
     var url = base_url + "api/v2/sql?q=" + encodeURIComponent(sql);
     if(!this.options.use_web_worker) {
       var prof = Profiler.get('tile fetching').start();
+
       get(url + "&format=bin", function (xhr) {
         prof.end();
         var length = xhr.response ? xhr.response.byteLength : 0;
@@ -201,7 +202,7 @@ var StreetLayer = L.CanvasLayer.extend({
         self.totalBytes += length;
         var data = null;
         if(xhr.response && xhr.response.byteLength) {
-          data = new ArrayBufferSer(xhr.response)
+          data = new ArrayBufferSer(xhr.response);
         }
         callback(data);
         console.log("total size: " + ((self.totalBytes/1024) >> 0) + "kb");
@@ -456,12 +457,12 @@ var StreetLayer = L.CanvasLayer.extend({
     var tiles_url = "http://0.tiles.cartocdn.com/pulsemaps/tiles/nokia_basemap/{0}/{1}/{2}.png?cache_policy=persist&sql=" + tiles_sql + "&cache_policy=persist&cache_buster=2013-05-09T12%3A49%3A08%2B00%3A00&cache_buster=" + new Date().getTime();
 
     var img = new Image();
+
     img.src = tiles_url.format(zoom, coord.x, coord.y);
+
     img.onload = function() {
       self._renderSteets();
     }
-
-    // saveImage(img.src, md5(img.src));
 
     var sql = "WITH par AS (" +
               " SELECT CDB_XYZ_Resolution({0}) as res" . format(zoom) +

@@ -41,20 +41,4 @@ TimeBasedData.prototype.fetch = function(callback) {
   $.getJSON(url, function(data) {
     self.reset(data.rows, callback);
   });
-
-  // if(location.search.indexOf('debug') != -1) {
-  //   $.getJSON(url, function(data) {
-  //     self.reset(data.rows, callback);
-  //   });
-  // } else {
-  //   $.getJSON("js/data/" + md5(url) + ".json", function(data) {
-  //     self.reset(data.rows, callback);
-  //   });
-  // }
-
-  // $.getJSON(url, function(data) {
-  //   var _data = JSON.stringify(data);
-
-  //   saveContent(_data, md5(url), "json");
-  // });
 }
