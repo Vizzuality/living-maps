@@ -26,7 +26,7 @@ ArrayBufferSer.FLOAT32 = 8;
 ArrayBufferSer.STRING = 10;
 ArrayBufferSer.BUFFER = 11;
 
-window.Uint8ClampedArray = typeof(window['Uint8ClampedArray']) == 'undefined' ? Uint8Array: Uint8ClampedArray;
+this.Uint8ClampedArray = typeof(this['Uint8ClampedArray']) == 'undefined' ? Uint8Array: Uint8ClampedArray;
 
 
 ArrayBufferSer.prototype = {
