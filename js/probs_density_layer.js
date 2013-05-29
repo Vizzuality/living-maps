@@ -41,7 +41,7 @@ var StreetLayer = L.CanvasLayer.extend({
     start_date: 1, //'2013-03-22 00:00:00+00:00',
     end_date: 1419,//'2013-03-22 23:59:57+00:00'
     time_offset: 0,
-    use_web_worker: false,
+    use_web_worker: true,
     num_web_workers: 3
   },
 
@@ -202,8 +202,7 @@ var StreetLayer = L.CanvasLayer.extend({
         var _url = "js/data/bin/" + md5(url + "&format=bin") + ".bin";
       }
 
-      // get(url + "&format=bin", function (xhr) {
-      get(_url, function (xhr) {
+      get(_url, function(xhr) {
         prof.end();
         var length = xhr.response ? xhr.response.byteLength : 0;
         console.log("tile size: " + ((length/1024) >> 0) + "kb");
@@ -473,7 +472,8 @@ var StreetLayer = L.CanvasLayer.extend({
     if(location.search.indexOf('debug') != -1) {
       img.src = _img;
     } else {
-      img.src = "img/tiles/" + md5(_img) + ".png"
+      img.src = _img;
+      // img.src = "img/tiles/" + md5(_img) + ".png"
     }
 
     img.onload = function() {
