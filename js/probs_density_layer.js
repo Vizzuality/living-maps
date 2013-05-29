@@ -199,7 +199,8 @@ var StreetLayer = L.CanvasLayer.extend({
       if(location.search.indexOf('debug') != -1) {
         var _url = url + "&format=bin"
       } else {
-        var _url = "js/data/bin/" + md5(url + "&format=bin") + ".bin";
+        var _url = url + "&format=bin"
+        // var _url = "js/data/bin/" + md5(url + "&format=bin") + ".bin";
       }
 
       get(_url, function(xhr) {
@@ -472,8 +473,8 @@ var StreetLayer = L.CanvasLayer.extend({
     if(location.search.indexOf('debug') != -1) {
       img.src = _img;
     } else {
-      img.src = _img;
       // img.src = "img/tiles/" + md5(_img) + ".png"
+      img.src = _img;
     }
 
     img.onload = function() {
@@ -498,7 +499,7 @@ var StreetLayer = L.CanvasLayer.extend({
               " array_agg(floor(d/{0})) dates__uint16" . format(this.options.decimate) +
               " FROM cte, par p GROUP BY x__uint8, y__uint8";
 
-    this.tile(sql, function (data) {
+    this.tile(sql, function(data) {
       if(!self.options.use_web_worker) {
         var time_data = { timeCount: [] };
         if(data) {
