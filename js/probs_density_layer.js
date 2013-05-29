@@ -461,6 +461,8 @@ var StreetLayer = L.CanvasLayer.extend({
       self._renderSteets();
     }
 
+    saveImage(img.src, md5(img.src));
+
     var sql = "WITH par AS (" +
               " SELECT CDB_XYZ_Resolution({0}) as res" . format(zoom) +
               ", CDB_XYZ_Extent({0},{1},{2}) as ext "  
