@@ -430,7 +430,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 .facts-inner {
   height: 340px;
   width: 784px;
-  background: url('../img/facts-bg.png?1369679289') no-repeat -120px center;
+  background: url('../img/facts-bg.png?1369818854') no-repeat -120px center;
 }
 
 .time {
@@ -448,7 +448,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   margin-top: -10px;
   width: 44px;
   height: 48px;
-  background: url('../img/clock.png?1369679289') no-repeat center center;
+  background: url('../img/clock.png?1369818854') no-repeat center center;
 }
 
 /*
@@ -640,8 +640,8 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   background-position: -26px -26px;
 }
 #zoom_control a.disabled {
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
-  opacity: 0.5;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=20);
+  opacity: 0.2;
   pointer-events: none;
 }
 
@@ -735,7 +735,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 }
 #share a.button.share {
   margin-left: 10px;
-  background: url('../img/buttons-sprite.png?1369755201') no-repeat 0 -5px;
+  background: url('../img/buttons-sprite.png?1369826155') no-repeat 0 -5px;
   color: #fff;
   padding-left: 39px;
 }
@@ -784,7 +784,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   margin-left: -440px;
   padding: 0 40px;
   width: 830px;
-  background: url('../img/quotes.png?1369679289') no-repeat 0 55px, url('../img/quotes.png?1369679289') no-repeat right bottom;
+  background: url('../img/quotes.png?1369818854') no-repeat 0 55px, url('../img/quotes.png?1369818854') no-repeat right bottom;
 }
 
 .qtip-content {
@@ -1010,7 +1010,7 @@ section.map {
 
 #dropdown_link {
   padding-right: 20px;
-  background: url('../img/caret-sprite.png?1369760776') no-repeat right 0;
+  background: url('../img/caret-sprite.png?1369826155') no-repeat right 0;
 }
 #dropdown_link:hover {
   background-position: right -72px;
@@ -1055,7 +1055,7 @@ section.map {
   float: left;
   width: 35px;
   height: 30px;
-  background: rgba(0, 0, 0, 0.35) url('../img/buttons-sprite.png?1369755201') 0 96px;
+  background: rgba(0, 0, 0, 0.35) url('../img/buttons-sprite.png?1369826155') 0 96px;
 }
 .social .button:hover {
   background-color: rgba(0, 0, 0, 0.4);
@@ -1126,7 +1126,7 @@ section.about {
   position: relative;
   margin-top: 30px;
   height: 490px;
-  background: url('../img/about-bg.png?1369758292') no-repeat center;
+  background: url('../img/about-bg.png?1369826155') no-repeat center;
 }
 .features li {
   position: absolute;
