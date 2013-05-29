@@ -117,7 +117,8 @@ Slider.prototype = {
   },
 
   updateHour: function(time) {
-    var timeUpdated = new Date(this.options.timeMin + 1000 * time);
+    var offset = new Date().getTimezoneOffset()*60*1000;
+    var timeUpdated = new Date(this.options.timeMin + 1000 * time  + offset);
     var hours = timeUpdated.getHours();
     var minutes = timeUpdated.getMinutes();
 
@@ -128,7 +129,8 @@ Slider.prototype = {
   },
 
   updateOddHour: function(time) {
-    var timeUpdated = new Date(this.options.timeMin + 1000 * time);
+    var offset = new Date().getTimezoneOffset()*60*1000;
+    var timeUpdated = new Date(this.options.timeMin + 1000 * time + offset);
     var hours = timeUpdated.getHours();
     var minutes = timeUpdated.getMinutes();
 
