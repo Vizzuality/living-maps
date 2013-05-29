@@ -458,6 +458,3 @@ function saveImage(fileContents, fileName) {
   link.href = fileContents;
   link.click();
 }
-
-// function saveBin(fileContents) {
-// }
