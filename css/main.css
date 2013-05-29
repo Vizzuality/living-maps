@@ -1092,15 +1092,11 @@ section.map {
 }
 
 .content-inner {
-  margin-top: 50px;
+  margin-top: 25px;
   width: 600px;
 }
 .content-inner p {
-  margin-bottom: 20px;
   line-height: 1.2;
-}
-.content-inner p.last {
-  margin-bottom: 0;
 }
 
 /* ==========================================================================

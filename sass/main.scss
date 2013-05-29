@@ -267,15 +267,10 @@ section.map {
 }
 
 .content-inner {
-  margin-top: 50px;
+  margin-top: 25px;
   width: 600px;
 
-  p {
-    margin-bottom: 20px;
-    line-height: 1.2;
-
-    &.last { margin-bottom: 0; }
-  }
+  p { line-height: 1.2; }
 }
 
 

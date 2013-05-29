@@ -136,8 +136,9 @@ var Zoom = {
     e.stopPropagation();
   },
 
-  set_city: function(city) {
+  set_city: function(city, map) {
     this.city = city;
+    this.map = map;
     this._checkMaxMin(this.map.getZoom());
   }
 }

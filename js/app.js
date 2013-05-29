@@ -253,6 +253,9 @@ var App = {
 
     city = this.options.city;
 
+    this.map.map.options.minZoom = this.options.map.minZoom;
+    this.map.map.options.maxZoom = this.options.map.maxZoom;
+
     this.map.set_city(this.options.map.center, this.options.map.zoom, this.options.city, this.options.time_offset);
 
     // Restart all animated particled
@@ -261,7 +264,7 @@ var App = {
     POIS.set_city(this.options.city);
 
     // Set city in the zoom
-    Zoom.set_city(this.options.city);
+    Zoom.set_city(this.options.city, self.map.map);
 
     Events.trigger("disableanimation", self.map.map, self.options.city, self.options.time);
 
