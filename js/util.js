@@ -226,7 +226,7 @@ function updateHash(map, city, time, zoom) {
 
 function goTo($el, opt, callback) {
   if ($el) {
-    var speed  = (opt && opt.speed)  || 800;
+    var speed  = (opt && opt.speed)  || 400;
     var delay  = (opt && opt.delay)  || 100;
     var margin = (opt && opt.margin) || 0;
 
