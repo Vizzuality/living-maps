@@ -194,7 +194,16 @@ var StreetLayer = L.CanvasLayer.extend({
     if(!this.options.use_web_worker) {
       var prof = Profiler.get('tile fetching').start();
 
-      get(url + "&format=bin", function (xhr) {
+      var _url = "";
+
+      if(location.search.indexOf('debug') != -1) {
+        var _url = url + "&format=arraybuffer"
+      } else {
+        var _url = url + "&format=arraybuffer"
+        // var _url = "js/data/bin/" + md5(url + "&format=arraybuffer") + ".bin";
+      }
+
+      get(_url, function(xhr) {
         prof.end();
         var length = xhr.response ? xhr.response.byteLength : 0;
         console.log("tile size: " + ((length/1024) >> 0) + "kb");
@@ -454,11 +463,19 @@ var StreetLayer = L.CanvasLayer.extend({
     var self = this;
 
     var tiles_sql = encodeURIComponent("SELECT the_geom_webmercator,feat_type as class,null as name,0 as attr2, 'nokia_landusage' as layer FROM london_landuse_nokia UNION ALL SELECT the_geom_webmercator,feat_type as class,null as name, 0 as attr2, 'nokia_landusage' as layer FROM chicago_landuse_nokia UNION ALL SELECT the_geom_webmercator,feat_type as class,null as name,0 as attr2, 'nokia_landusage' as layer FROM helsinki_landuse_nokia UNION ALL SELECT the_geom_webmercator,feat_type as class,null as name,0 as attr2, 'nokia_landusage' as layer FROM mumbai_landuse_nokia UNION ALL SELECT the_geom_webmercator,feat_type as class,null as name,0 as attr2,'nokia_landusage' as layer FROM rome_landuse_nokia UNION ALL SELECT the_geom_webmercator,feat_type as class, polygon_nm as name,0 as attr2, 'nokia_waterareas' as layer FROM london_waterareas_nokia UNION ALL SELECT the_geom_webmercator,feat_type as class, polygon_nm as name,0 as attr2, 'nokia_waterareas' as layer FROM chicago_waterareas_nokia UNION ALL SELECT the_geom_webmercator,feat_type as class, polygon_nm as name,0 as attr2, 'nokia_waterareas' as layer FROM helsinki_waterareas_nokia UNION ALL SELECT the_geom_webmercator,feat_type as class, polygon_nm as name,0 as attr2, 'nokia_waterareas' as layer FROM mumbai_waterareas_nokia UNION ALL SELECT the_geom_webmercator,feat_type as class, polygon_nm as name,0 as attr2, 'nokia_waterareas' as layer FROM rome_waterareas_nokia UNION ALL SELECT the_geom_webmercator,null as class,null as name,fc as att2, 'nokia_fullroads' as layer FROM cities_fullroads_nokia");
-    var tiles_url = "http://0.tiles.cartocdn.com/pulsemaps/tiles/nokia_basemap/{0}/{1}/{2}.png?cache_policy=persist&sql=" + tiles_sql + "&cache_policy=persist&cache_buster=2013-05-09T12%3A49%3A08%2B00%3A00&cache_buster=" + new Date().getTime();
+    var tiles_base_url = "http://0.tiles.cartocdn.com/pulsemaps/tiles/nokia_basemap/";
+    var tiles_url = "{0}/{1}/{2}.png?sql=" + tiles_sql + "&cache_policy=persist&cache_buster=1";
 
     var img = new Image();
 
-    img.src = tiles_url.format(zoom, coord.x, coord.y);
+    var _img = tiles_base_url + tiles_url.format(zoom, coord.x, coord.y);
+
+    if(location.search.indexOf('debug') != -1) {
+      img.src = _img;
+    } else {
+      // img.src = "img/tiles/" + md5(_img) + ".png"
+      img.src = _img;
+    }
 
     img.onload = function() {
       self._renderSteets();
@@ -482,7 +499,7 @@ var StreetLayer = L.CanvasLayer.extend({
               " array_agg(floor(d/{0})) dates__uint16" . format(this.options.decimate) +
               " FROM cte, par p GROUP BY x__uint8, y__uint8";
 
-    this.tile(sql, function (data) {
+    this.tile(sql, function(data) {
       if(!self.options.use_web_worker) {
         var time_data = { timeCount: [] };
         if(data) {
