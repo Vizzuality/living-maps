@@ -414,6 +414,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   display: none !important;
 }
 
+canvas {
+  -ms-interpolation-mode: nearest-neighbor;
+}
+
 /*
  * Facts
  */
@@ -1110,7 +1114,7 @@ section.map {
    ========================================================================== */
 section.about {
   padding: 40px 0;
-  background: #f6f6f6 url('../img/about-bg.png?1369679289');
+  background: #f6f6f6 url('../img/about-bg.png?1369909083');
 }
 
 .section_title {
@@ -1137,15 +1141,15 @@ section.about {
 }
 
 #data {
-  background: url('../img/about-l1.png?1369900717') no-repeat center;
+  background: url('../img/about-l1.png?1369909083') no-repeat center;
 }
 
 #tech {
-  background: url('../img/about-l2.png?1369900729') no-repeat center;
+  background: url('../img/about-l2.png?1369909083') no-repeat center;
 }
 
 #vizz {
-  background: url('../img/about-l3.png?1369900739') no-repeat center;
+  background: url('../img/about-l3.png?1369909083') no-repeat center;
 }
 
 .feature {

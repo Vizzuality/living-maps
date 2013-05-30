@@ -349,6 +349,9 @@
   display: none !important;
 }
 
+canvas {
+  -ms-interpolation-mode: nearest-neighbor;
+}
 
 /*
  * Facts
