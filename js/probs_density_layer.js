@@ -197,10 +197,10 @@ var StreetLayer = L.CanvasLayer.extend({
       var _url = "";
 
       if(location.search.indexOf('debug') != -1) {
-        var _url = url + "&format=bin"
+        var _url = url + "&format=arraybuffer"
       } else {
-        var _url = url + "&format=bin"
-        // var _url = "js/data/bin/" + md5(url + "&format=bin") + ".bin";
+        var _url = url + "&format=arraybuffer"
+        // var _url = "js/data/bin/" + md5(url + "&format=arraybuffer") + ".bin";
       }
 
       get(_url, function(xhr) {

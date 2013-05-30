@@ -5,7 +5,7 @@ function TimeBasedData(options) {
   options.time_column = options.time_column || 'time';
   options.columns = options.columns || ['*'];
   this.options = options;
-  this.options.url = 'http://' + this.options.user + '.cartodb.com//api/v2/sql';
+  this.options.url = 'http://' + this.options.user + '.cartodb.com/api/v2/sql';
   this.time_index = {};
 }
 

@@ -13,7 +13,7 @@ function next() {
     var n = queue.pop();
 
     if(n) {
-      get_data(n.url + "&format=bin", n.coord, n.coord.z, n.TIME_SLOTS);
+      get_data(n.url + "&format=arraybuffer", n.coord, n.coord.z, n.TIME_SLOTS);
     } else {
       processing = false;
     }
