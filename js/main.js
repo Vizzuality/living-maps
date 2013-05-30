@@ -2,7 +2,9 @@ var city = 'london',
 	dragged = false,
 	clicked = false,
 	stopped = true,
-	valueStart = 0;
+	valueStart = 0,
+    isSlowBrowser = false;
+
 
 $(document).ready(function() {
  if( navigator.userAgent.match(/Android/i)

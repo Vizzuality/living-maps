@@ -38,7 +38,8 @@ Map.prototype = {
 
     self.probsLayer = new StreetLayer({
       table: this.options.city +"_manydays_live",
-      time_offset: this.options.time_offset
+      time_offset: this.options.time_offset,
+      reduction: this.options.reduction
     });
 
     self.map.addLayer(self.probsLayer);
@@ -86,12 +87,12 @@ Map.prototype = {
     }
   },
 
-  set_city: function(center, zoom, city, time_offset) {
+  set_city: function(center, zoom, city, time_offset, reduction) {
     this.options.city = city;
     this.options.time_offset = time_offset;
 
     if(this.probsLayer) {
-      this.probsLayer.setCity(city, time_offset);
+      this.probsLayer.setCity(city, time_offset, reduction);
     }
 
     // ****
