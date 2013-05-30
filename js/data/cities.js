@@ -8,7 +8,11 @@ window.AppData.CITIES = {
       center: [51.511, -0.100],
       zoom: 12,
       maxZoom: 13,
-      minZoom: 11
+      minZoom: 11,
+      maxBounds: [
+        [51.6658689535146, 0.139838309451462],
+        [51.3861403977661, -0.348236804682573]
+      ]
     },
     time_scale: 15 * 60,
     scale: 2.0,
@@ -25,7 +29,11 @@ window.AppData.CITIES = {
       center: [41.850, -87.650],
       zoom: 12,
       maxZoom: 13,
-      minZoom: 11
+      minZoom: 11,
+      maxBounds: [
+        [42.0226052431361, -87.5245571136],
+        [41.6445683186, -87.9193200670193]
+      ]
     },
     time_scale: 15 * 60,
     scale: 2.0,
@@ -42,7 +50,11 @@ window.AppData.CITIES = {
       center: [41.900, 12.500],
       zoom: 13,
       maxZoom: 14,
-      minZoom: 12
+      minZoom: 12,
+      maxBounds: [
+        [42.0904208095211, 12.8069148710051],
+        [41.7543071894641, 12.2988076118757]
+      ]
     },
     time_scale: 15 * 60,
     scale: 2.0,
@@ -59,7 +71,11 @@ window.AppData.CITIES = {
       center: [60.169738,24.937763],
       zoom: 13,
       maxZoom: 14,
-      minZoom: 12
+      minZoom: 12,
+      maxBounds: [
+        [60.3252853491389, 25.1981615056761],
+        [60.1398453840818, 24.5206260681]
+      ]
     },
     time_scale: 15 * 60,
     scale: 2.0,
@@ -76,7 +92,11 @@ window.AppData.CITIES = {
       center: [19.102, 72.852],
       zoom: 12,
       maxZoom: 13,
-      minZoom: 12
+      minZoom: 12,
+      maxBounds: [
+        [19.2610380202874, 72.983583740247],
+        [18.9058804949, 72.7925160539108]
+      ]
     },
     time_scale: 15 * 60,
     scale: 2.0,

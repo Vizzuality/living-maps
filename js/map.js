@@ -26,8 +26,7 @@ Map.prototype = {
     this.map = L.map(this.el, this.options)
       .setView(this.options.center, this.options.zoom);
 
-    var _bounds = [[this.map.getBounds()._northEast.lat, this.map.getBounds()._northEast.lng], [this.map.getBounds()._southWest.lat, this.map.getBounds()._southWest.lng]];
-    this.map.setMaxBounds(_bounds);
+    this.map.setMaxBounds(this.options.maxBounds);
 
     // Add layers
     this._addLayers();

@@ -24,6 +24,7 @@ var App = {
       zoom: this.options.map.zoom,
       minZoom: this.options.map.minZoom,
       maxZoom: this.options.map.maxZoom,
+      maxBounds: this.options.map.maxBounds,
       // scrollWheelZoom: false,
       // doubleClickZoom: false,
       city: this.options.city,
