@@ -642,7 +642,13 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 #zoom_control a.disabled {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=20);
   opacity: 0.2;
-  pointer-events: none;
+  cursor: no-drop;
+}
+#zoom_control a.disabled:hover {
+  background-position: 0 0;
+}
+#zoom_control a.disabled.zoomIn:hover {
+  background-position: -26px 0;
 }
 
 /*
