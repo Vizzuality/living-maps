@@ -57,6 +57,7 @@ var Zoom = {
       }
 
       self._checkMaxMin(zoom);
+      self.map.setView([poi.lat, poi.lon], zoom);
       self.map.zoomIn();
     } else {
       self.map.setView([poi.lat, poi.lon], zoom);
