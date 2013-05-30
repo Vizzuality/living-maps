@@ -353,14 +353,19 @@ section.about {
 }
 
 .footer {
+  border-top: 1px solid rgba(#000, .15);
   padding: 55px 0;
   font-size: 14px;
   color: #c6c6c6;
-  text-align: right;
 
   p { float: left; }
 
-  a { color: #c6c6c6; }
+  a {
+    color: #c6c6c6;
+    @include transition(all .2s);
+
+    &:hover { color: darken(#c6c6c6, 10%); }
+  }
 
   ul { float: right; }
 
@@ -368,7 +373,10 @@ section.about {
     float: left;
     margin-left: 5px;
 
-    &.first { padding-right: 20px; }
+    &.first {
+      padding-right: 20px;
+      text-align: right;
+    }
   }
 
   .button {

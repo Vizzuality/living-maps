@@ -1203,16 +1203,23 @@ section.about {
 }
 
 .footer {
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
   padding: 55px 0;
   font-size: 14px;
   color: #c6c6c6;
-  text-align: right;
 }
 .footer p {
   float: left;
 }
 .footer a {
   color: #c6c6c6;
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  -o-transition: all 0.2s;
+  transition: all 0.2s;
+}
+.footer a:hover {
+  color: #adadad;
 }
 .footer ul {
   float: right;
@@ -1223,6 +1230,7 @@ section.about {
 }
 .footer li.first {
   padding-right: 20px;
+  text-align: right;
 }
 .footer .button {
   display: block;
