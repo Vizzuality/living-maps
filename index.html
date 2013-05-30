@@ -176,22 +176,26 @@ layout: application
     <h2 class="title section_title">About <strong>Living</strong>Cities</h2>
     <p class="section_description">Cities are a fundamental part of everybody’s lives, but at Here we also see they have their own life.</p>
 
-    <ul class="features">
-      <li class="data">
-        <h3>The data</h3>
-        <p>The data behind this visualization is collected by HERE continuously from connected devices. We do not collect personal data, we collect small data changes to know how is the traffic in the city, if a road is closed, is a new road is open, etc.</p>
-      </li>
-
-      <li class="tech">
+    <div id="layers" class="layers">
+      <div class="feature feature-l tech" data-rel="tech">
         <h3>Technology</h3>
         <p>The visualization has been built by CartoDB team using their cloud infrastructure and their Torque technology to animate geospatial datasets over time.</p>
-      </li>
+      </div>
 
-      <li class="vizz">
+      <div class="feature feature-l data" data-rel="data">
+        <h3>The data</h3>
+        <p>The data behind this visualization is collected by HERE continuously from connected devices. We do not collect personal data, we collect small data changes to know how is the traffic in the city, if a road is closed, is a new road is open, etc.</p>
+      </div>
+
+      <div class="feature feature-r vizz" data-rel="vizz">
         <h3>The visualization</h3>
         <p>We believe this data can be used for many different things and we are partnering with CartoDB to look for interesting visualizations that tell us different stories. In this visualization you can see traffic density over maps and lot of facts derived from the aggregated vision we get from the city.</p>
-      </li>
-    </ul>
+      </div>
+
+      <div id="data" class="layer"></div>
+      <div id="tech" class="layer"></div>
+      <div id="vizz" class="layer"></div>
+    </div>
   </div>
 </section>
 

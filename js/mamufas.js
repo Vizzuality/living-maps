@@ -14,6 +14,7 @@ function Mamufas(el, map, city) {
   this.$contest = $("#contest");
   this.$contest_link = $(".contest_link");
   this.$logo = $("#logo");
+  this.$layers = $("#layers");
 
   this.isEnabled = false;
 
@@ -74,6 +75,29 @@ Mamufas.prototype = {
 
       Events.trigger("disablemamufas");
     });
+
+    this.$layers.find(".feature")
+      .on("mouseenter", function() {
+        var layer = $(this).attr("data-rel");
+
+        for (var i = 0; i < $(".layer").length; i++) {
+          if($(".layer")[i].id != layer) {
+            $($(".layer")[i]).animate({
+              opacity: ".2"
+            }, {
+              duration: 200,
+              queue: false
+            });
+          }
+        }
+      }).on("mouseleave", function() {
+        $(".layer").animate({
+          opacity: 1
+        }, {
+          duration: 200,
+          queue: false
+        });
+      });
 
     // Mamufas
     Events.on("enablemamufas", function(city) {

@@ -267,15 +267,10 @@ section.map {
 }
 
 .content-inner {
-  margin-top: 50px;
+  margin-top: 25px;
   width: 600px;
 
-  p {
-    margin-bottom: 20px;
-    line-height: 1.2;
-
-    &.last { margin-bottom: 0; }
-  }
+  p { line-height: 1.2; }
 }
 
 
@@ -285,7 +280,7 @@ section.map {
 
 section.about {
   padding: 40px 0;
-  background: #f6f6f6 image-url('contest-bg.png');
+  background: #f6f6f6 image-url('about-bg.png');
 }
 
 .section_title {
@@ -299,65 +294,78 @@ section.about {
   color: #777;
 }
 
-.features {
+.layers {
   position: relative;
   margin-top: 30px;
   height: 490px;
-  background: image-url('about-bg.png') no-repeat center;
+}
 
-  li {
-    position: absolute;
-    padding: 20px 30px;
-    width: 287px;
-    font-size: 17px;
-    color: #777;
-    background: rgba(#fff, .75);
-    @include border-radius(4px);
-    @include opacity(.4);
-    @include transition(all .2s);
+.layer {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
 
-    &:hover {
-      @include opacity(1);
+#data { background: image-url('about-l1.png') no-repeat center; }
+#tech { background: image-url('about-l2.png') no-repeat center; }
+#vizz { background: image-url('about-l3.png') no-repeat center; }
 
-      &.data { left: -25px; }
-      &.tech { left: -25px; }
-      &.vizz { right: -5px; }
-    }
+.feature {
+  position: absolute;
+  z-index: 100;
+  padding: 20px 30px;
+  width: 287px;
+  font-size: 17px;
+  line-height: 1.2;
+  color: #666;
+  background: rgba(#fff, .75);
+  @include border-radius(4px);
+  @include opacity(.4);
+  @include transition(all .2s);
 
-    &.data {
-      top: 0;
-      left: -30px;
-    }
+  &:hover { @include opacity(1); }
 
-    &.tech {
-      bottom: 0;
-      left: -30px;
-    }
+  &.feature-l:hover { margin-left: 5px; }
+  &.feature-r:hover { margin-right: -5px; }
 
-    &.vizz {
-      top: 175px;
-      right: 0;
-      width: 310px;
-      text-align: right;
-    }
-
-    h3 {
-      margin-bottom: 10px;
-      font-weight: 400;
-      color: #202020;
-    }
+  h3 {
+    margin-bottom: 10px;
+    font-weight: 400;
+    color: #202020;
   }
 }
 
+.data {
+  top: 0;
+  left: -30px;
+}
+
+.tech {
+  bottom: 0;
+  left: -30px;
+}
+
+.vizz {
+  top: 175px;
+  right: 0;
+  width: 310px;
+  text-align: right;
+}
+
 .footer {
+  border-top: 1px solid rgba(#000, .15);
   padding: 55px 0;
   font-size: 14px;
   color: #c6c6c6;
-  text-align: right;
 
   p { float: left; }
 
-  a { color: #c6c6c6; }
+  a {
+    color: #c6c6c6;
+    @include transition(all .2s);
+
+    &:hover { color: darken(#c6c6c6, 10%); }
+  }
 
   ul { float: right; }
 
@@ -365,7 +373,10 @@ section.about {
     float: left;
     margin-left: 5px;
 
-    &.first { padding-right: 20px; }
+    &.first {
+      padding-right: 20px;
+      text-align: right;
+    }
   }
 
   .button {

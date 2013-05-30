@@ -57,6 +57,7 @@ var Zoom = {
       }
 
       self._checkMaxMin(zoom);
+      self.map.setView([poi.lat, poi.lon], zoom);
       self.map.zoomIn();
     } else {
       self.map.setView([poi.lat, poi.lon], zoom);
@@ -136,8 +137,9 @@ var Zoom = {
     e.stopPropagation();
   },
 
-  set_city: function(city) {
+  set_city: function(city, map) {
     this.city = city;
+    this.map = map;
     this._checkMaxMin(this.map.getZoom());
   }
 }
