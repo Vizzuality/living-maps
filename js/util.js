@@ -163,7 +163,8 @@ function parseHash(hash) {
         time_scale: 15 * 60,
         scale: 2.0,
         time: time,
-        time_offset: window.AppData.CITIES[city].time_offset
+        time_offset: window.AppData.CITIES[city].time_offset,
+        reductionSlowBrowser: window.AppData.CITIES[city].reductionSlowBrowser
       };
     }
   } else {

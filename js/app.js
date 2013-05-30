@@ -17,6 +17,10 @@ var App = {
 
     this.options = _.extend({}, options);
 
+    var reduction = isSlowBrowser ?
+        (this.options.reductionSlowBrowser || 0):
+        0;
+
     this.map = new Map('map', {
       zoomControl: false,
       scrollWheelZoom: false,
@@ -27,7 +31,8 @@ var App = {
       // scrollWheelZoom: false,
       // doubleClickZoom: false,
       city: this.options.city,
-      time_offset: this.options.time_offset
+      time_offset: this.options.time_offset,
+      reduction: reduction
     });
 
     // Mamufas
@@ -255,8 +260,12 @@ var App = {
 
     this.map.map.options.minZoom = this.options.map.minZoom;
     this.map.map.options.maxZoom = this.options.map.maxZoom;
+    
+    var reduction = isSlowBrowser ?
+        (this.options.reductionSlowBrowser || 0):
+        0;
 
-    this.map.set_city(this.options.map.center, this.options.map.zoom, this.options.city, this.options.time_offset);
+    this.map.set_city(this.options.map.center, this.options.map.zoom, this.options.city, this.options.time_offset, reduction);
 
     // Restart all animated particled
     Bubbles.set_city(this.options.city);
