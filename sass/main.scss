@@ -207,7 +207,7 @@ section.map {
 
   .logo {
     float: left;
-    margin-bottom: 90px;
+    margin-bottom: 70px;
     pointer-events: auto;
   }
 
@@ -268,7 +268,7 @@ section.map {
 
 .content-inner {
   margin-top: 25px;
-  width: 600px;
+  width: 680px;
 
   p { line-height: 1.2; }
 }
@@ -316,7 +316,7 @@ section.about {
   padding: 20px 30px;
   width: 287px;
   font-size: 17px;
-  line-height: 1.2;
+  line-height: 1.3;
   color: #666;
   background: rgba(#fff, .75);
   @include border-radius(4px);
