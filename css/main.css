@@ -128,13 +128,13 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   left: 0;
   right: 0;
   bottom: 0;
-  background: url('../img/mamufas.png?1369679289') no-repeat center center;
+  background: url('../img/mamufas.png?1368011372') no-repeat center center;
 }
 
 .help {
   position: absolute;
   text-align: center;
-  background: url('../img/help-sprites.png?1369679289') no-repeat;
+  background: url('../img/help-sprites.png?1368011372') no-repeat;
 }
 .help p {
   position: relative;
@@ -232,7 +232,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 }
 
 .glow {
-  background: url('../img/glow.png?1369679289') no-repeat;
+  background: url('../img/glow.png?1368011372') no-repeat;
 }
 
 .time_slider {
@@ -262,11 +262,11 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   top: 185px;
   height: 75px;
   width: 75px;
-  background: url('../img/sun.png?1369679289') no-repeat;
+  background: url('../img/sun.png?1368011373') no-repeat;
 }
 
 .moon {
-  background-image: url('../img/moon.png?1369679289');
+  background-image: url('../img/moon.png?1368011372');
   left: 54px;
   top: 63px;
 }
@@ -297,7 +297,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   content: '';
   height: 13px;
   width: 13px;
-  background: white url('../img/slider.png?1369679289') no-repeat center center;
+  background: white url('../img/slider.png?1368011373') no-repeat center center;
   cursor: move;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
@@ -315,7 +315,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   width: 19px;
 }
 .time_slider a.stopped {
-  background-image: url('../img/slider-stopped.png?1369679289');
+  background-image: url('../img/slider-stopped.png?1368011373');
 }
 
 /*
@@ -385,24 +385,24 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   top: 0;
   left: 0;
   height: 300px;
-  background: url('../img/edge-top.png?1370005744') repeat-x;
+  background: url('../img/edge-top.png?1370008613') repeat-x;
 }
 .edge.bottom {
   bottom: 0;
   left: 0;
   height: 100px;
-  background: url('../img/edge-bottom.png?1370005834') repeat-x;
+  background: url('../img/edge-bottom.png?1370008613') repeat-x;
 }
 .edge.left {
   height: 100%;
   width: 200px;
-  background: url('../img/edge-left.png?1370005887') repeat-y;
+  background: url('../img/edge-left.png?1370008613') repeat-y;
 }
 .edge.right {
   right: 0;
   height: 100%;
   width: 200px;
-  background: url('../img/edge-right.png?1370005870') repeat-y;
+  background: url('../img/edge-right.png?1370008613') repeat-y;
 }
 
 .leaflet-container,
@@ -434,7 +434,7 @@ canvas {
 .facts-inner {
   height: 340px;
   width: 784px;
-  background: url('../img/facts-bg.png?1369818854') no-repeat -120px center;
+  background: url('../img/facts-bg.png?1369661881') no-repeat -120px center;
 }
 
 .time {
@@ -452,7 +452,7 @@ canvas {
   margin-top: -10px;
   width: 44px;
   height: 48px;
-  background: url('../img/clock.png?1369818854') no-repeat center center;
+  background: url('../img/clock.png?1369414184') no-repeat center center;
 }
 
 /*
@@ -505,7 +505,7 @@ canvas {
   height: 60px;
 }
 .bubble .info span.type.bus {
-  background: url('../img/types/type_bus.png?1369679289') no-repeat center center;
+  background: url('../img/types/type_bus.png?1368011373') no-repeat center center;
 }
 .bubble .info a.go {
   position: absolute;
@@ -514,14 +514,14 @@ canvas {
   display: block;
   height: 45px;
   width: 45px;
-  background: url('../img/marker_go.png?1369679289') no-repeat;
+  background: url('../img/marker_go.png?1368975391') no-repeat;
 }
 .bubble .info:hover {
   background-color: #CC0066;
   cursor: pointer;
 }
 .bubble .info:hover .go {
-  background: url('../img/marker_go-hover.png?1369679289');
+  background: url('../img/marker_go-hover.png?1368975370');
 }
 .bubble .info:hover span.tail {
   border-top-color: #CC0066;
@@ -533,7 +533,7 @@ canvas {
   display: block;
   width: 100%;
   height: 20px;
-  background: url('../img/marker_shadow.png?1369679289') no-repeat center 0;
+  background: url('../img/marker_shadow.png?1368011372') no-repeat center 0;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
   opacity: 0;
 }
@@ -565,7 +565,7 @@ canvas {
   width: 152px;
   height: 20px;
   margin-left: -116px;
-  background: url('../img/poi_shadow.png?1369679289') no-repeat center 0;
+  background: url('../img/poi_shadow.png?1368011373') no-repeat center 0;
 }
 .poi span {
   position: absolute;
@@ -578,25 +578,25 @@ canvas {
   pointer-events: auto;
 }
 .poi span.turist {
-  background: url('../img/poi_types.png?1369679289');
+  background: url('../img/poi_types.png?1369053223');
 }
 .poi span.transport {
-  background: url('../img/poi_types.png?1369679289') -33px 0;
+  background: url('../img/poi_types.png?1369053223') -33px 0;
 }
 .poi span.sports {
-  background: url('../img/poi_types.png?1369679289') -66px 0;
+  background: url('../img/poi_types.png?1369053223') -66px 0;
 }
 .poi span.airport {
-  background: url('../img/poi_types.png?1369679289') -99px 0;
+  background: url('../img/poi_types.png?1369053223') -99px 0;
 }
 .poi span.beach {
-  background: url('../img/poi_types.png?1369679289') -132px 0;
+  background: url('../img/poi_types.png?1369053223') -132px 0;
 }
 .poi span.park {
-  background: url('../img/poi_types.png?1369679289') -165px 0;
+  background: url('../img/poi_types.png?1369053223') -165px 0;
 }
 .poi span.church {
-  background: url('../img/poi_types.png?1369679289') -198px 0;
+  background: url('../img/poi_types.png?1369053223') -198px 0;
 }
 .poi p {
   line-height: 16px;
@@ -631,7 +631,7 @@ canvas {
   *display: inline;
   width: 26px;
   height: 26px;
-  background: url('../img/zoom_control.png?1369679289') no-repeat 0 0;
+  background: url('../img/zoom_control.png?1368438789') no-repeat 0 0;
   text-indent: -9999px;
 }
 #zoom_control a:hover {
@@ -646,7 +646,7 @@ canvas {
 #zoom_control a.disabled {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=20);
   opacity: 0.2;
-  cursor: no-drop;
+  cursor: default;
 }
 #zoom_control a.disabled:hover {
   background-position: 0 0;
@@ -720,7 +720,7 @@ canvas {
   overflow: auto;
   outline: none;
   resize: none;
-  background: url('../img/tweetarea.png?1369679289') 0 -5px;
+  background: url('../img/tweetarea.png?1368460954') 0 -5px;
   background-attachment: local;
 }
 #share a {
@@ -745,7 +745,7 @@ canvas {
 }
 #share a.button.share {
   margin-left: 10px;
-  background: url('../img/buttons-sprite.png?1369826155') no-repeat 0 -5px;
+  background: url('../img/buttons-sprite.png?1369906588') no-repeat 0 -5px;
   color: #fff;
   padding-left: 39px;
 }
@@ -777,7 +777,7 @@ canvas {
   font: 300 21px/34px "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-align: center;
   text-decoration: none;
-  background: url('../img/close.png?1369679289') no-repeat;
+  background: url('../img/close.png?1368460954') no-repeat;
   color: #fff;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=90);
   opacity: 0.9;
@@ -794,7 +794,7 @@ canvas {
   margin-left: -440px;
   padding: 0 40px;
   width: 830px;
-  background: url('../img/quotes.png?1369818854') no-repeat 0 55px, url('../img/quotes.png?1369818854') no-repeat right bottom;
+  background: url('../img/quotes.png?1369661881') no-repeat 0 55px, url('../img/quotes.png?1369661881') no-repeat right bottom;
 }
 
 .qtip-content {
@@ -1020,7 +1020,7 @@ section.map {
 
 #dropdown_link {
   padding-right: 20px;
-  background: url('../img/caret-sprite.png?1369826155') no-repeat right 0;
+  background: url('../img/caret-sprite.png?1369906588') no-repeat right 0;
 }
 #dropdown_link:hover {
   background-position: right -72px;
@@ -1065,7 +1065,7 @@ section.map {
   float: left;
   width: 35px;
   height: 30px;
-  background: rgba(0, 0, 0, 0.35) url('../img/buttons-sprite.png?1369826155') 0 96px;
+  background: rgba(0, 0, 0, 0.35) url('../img/buttons-sprite.png?1369906588') 0 96px;
 }
 .social .button:hover {
   background-color: rgba(0, 0, 0, 0.4);
@@ -1114,7 +1114,7 @@ section.map {
    ========================================================================== */
 section.about {
   padding: 40px 0;
-  background: #f6f6f6 url('../img/about-bg.png?1369909083');
+  background: #f6f6f6 url('../img/about-bg.png?1370008613');
 }
 
 .section_title {
@@ -1141,15 +1141,15 @@ section.about {
 }
 
 #data {
-  background: url('../img/about-l1.png?1369909083') no-repeat center;
+  background: url('../img/about-l1.png?1370008613') no-repeat center;
 }
 
 #tech {
-  background: url('../img/about-l2.png?1369909083') no-repeat center;
+  background: url('../img/about-l2.png?1370008613') no-repeat center;
 }
 
 #vizz {
-  background: url('../img/about-l3.png?1369909083') no-repeat center;
+  background: url('../img/about-l3.png?1370008613') no-repeat center;
 }
 
 .feature {

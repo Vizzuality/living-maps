@@ -561,7 +561,7 @@ canvas {
 
     &.disabled {
       @include opacity(.2);
-      cursor: no-drop;
+      cursor: default;
 
       &:hover { background-position: 0 0; }
       &.zoomIn:hover { background-position: -26px 0; }
