@@ -46,7 +46,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(#18A0CD, .8);
+  background: rgba(#134BAB, .8);
 }
 
 #mamufas {
@@ -349,6 +349,9 @@
   display: none !important;
 }
 
+canvas {
+  -ms-interpolation-mode: nearest-neighbor;
+}
 
 /*
  * Facts
@@ -582,13 +585,13 @@
     top: 0;
     z-index: 5;
     min-height: 100%;
-    @include background(linear-gradient(top, rgba(#0bd, .2), rgba(#356095, .2) 100%));
+    @include background(linear-gradient(top, rgba(#1c6dca, .2), rgba(#356095, .2) 100%));
   }
 
   &.top {
     top: 0;
     height: 50%;
-    @include background(linear-gradient(top, #0bd 50%, rgba(#0bd, 0) 80%, rgba(#0bd, 0) 100%));
+    @include background(linear-gradient(top, #1c6dca 50%, rgba(#1c6dca, 0) 80%, rgba(#1c6dca, 0) 100%));
   }
 
   &.bottom {
