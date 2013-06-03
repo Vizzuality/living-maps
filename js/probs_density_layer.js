@@ -82,7 +82,7 @@ var StreetLayer = L.CanvasLayer.extend({
         this.workers.push(new Worker("js/process_tile_worker.js"));
         // this.workers.push(new Worker("js/process_tile_worker.min.js"));
       }
-      this._web_workers_callbacks = {}
+      this._web_workers_callbacks = {};
     }
     this.precache_sprites = this.precache_sprites.bind(this)
     //this.init_post_process = this.init_post_process.bind(this);

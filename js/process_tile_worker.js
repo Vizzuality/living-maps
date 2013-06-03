@@ -2,7 +2,6 @@
 // importScripts('util.min.js');
 // importScripts('bin_decoder.min.js');
 importScripts('util.js');
-importScripts('bin_decoder.js');
 
 var queue = [];
 var processing = false;

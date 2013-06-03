@@ -18,8 +18,8 @@ var App = {
     this.options = _.extend({}, options);
 
     var reduction = isSlowBrowser ?
-        (this.options.reductionSlowBrowser || 0):
-        0;
+      (this.options.reductionSlowBrowser || 0):
+      0;
 
     this.map = new Map('map', {
       zoomControl: false,
@@ -32,7 +32,8 @@ var App = {
       // doubleClickZoom: false,
       city: this.options.city,
       time_offset: this.options.time_offset,
-      reduction: reduction
+      reduction: reduction,
+      use_web_worker: isWebWorkers
     });
 
     // Mamufas
