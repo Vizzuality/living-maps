@@ -21,8 +21,7 @@ function get(url, callback) {
   if(location.search.indexOf('debug') != -1) {
     req.open("GET", url, true);
   } else {
-    req.open("GET", url, true);
-    // req.open("GET", "data/bin/"+md5(url)+".bin", true);
+    req.open("GET", "data/bin/"+md5(url)+".bin", true);
   }
 
   req.responseType = 'arraybuffer';

@@ -25,13 +25,12 @@ function get_data(url, coord, zoom, TIME_SLOTS) {
   if(location.search.indexOf('debug') != -1) {
     var _url = url;
   } else {
-    // var _url = "js/data/bin/" + md5(url) + ".bin";
-    var _url = url;
+    var _url = "js/data/bin/" + md5(url) + ".bin";
   }
 
   get(url, function(xhr) {
     var data = null;
-    if(xhr.response && xhr.response.byteLength) {
+    if(xhr && xhr.response && xhr.response.byteLength) {
       data = new ArrayBufferSer(xhr.response);
     }
 
