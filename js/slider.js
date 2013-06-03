@@ -153,10 +153,13 @@ Slider.prototype = {
       "top": 125 + (r * Math.sin(posM)) + "px"
     });
 
-    // darker n * 1/pos, lighter 255 - (100-pos)
-    // $("#wrapper").css({
-    //   "background": "-webkit-linear-gradient(top, rgba(0, 187, 221, 0.4), rgba(53, 96, 149, 0.4) 100%)"
-    // });
+    $(".day").css({
+      "opacity": Math.sin(pos/Math.PI/10)
+    });
+
+    $(".night").css({
+      "opacity": 1 - Math.sin(pos/Math.PI/10)
+    });
   },
 
   posToTime: function(pos) {

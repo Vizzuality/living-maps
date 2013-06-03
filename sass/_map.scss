@@ -15,6 +15,7 @@
  *  - POIS = 3
  *  - Bubbles = 3
  *  - Facts = 3
+ * Night = 0
  * Gradients = 3
  * Navigation = 6
  *
@@ -46,7 +47,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(#134BAB, .8);
+  background: rgba(#0bd, .8);
 }
 
 #mamufas {
@@ -73,6 +74,10 @@
     text-align: center;
     white-space: nowrap;
   }
+}
+
+#mamufas_night {
+  background: rgba(#134BAB, .8);
 }
 
 .mamufas-inner {
@@ -311,34 +316,33 @@
 .edge {
   position: absolute;
   z-index: 200;
-  width: 100%;
-  height: 100px;
 
   &.top {
     top: 0;
     left: 0;
-    height: 300px;
-    background: image-url('edge-top.png') repeat-x;
-  }
-
-  &.bottom {
-    bottom: 0;
-    left: 0;
     height: 100px;
-    background: image-url('edge-bottom.png') repeat-x;
+    width: 100%;
+    background: image-url('edge-top.png') repeat-x;
+
+    &.night { background: image-url('edge-top-night.png') repeat-x; }
   }
 
   &.left {
     height: 100%;
     width: 200px;
     background: image-url('edge-left.png') repeat-y;
+
+    &.night { background: image-url('edge-left-night.png') repeat-y; }
   }
 
   &.right {
     right: 0;
+    left: auto;
     height: 100%;
     width: 200px;
     background: image-url('edge-right.png') repeat-y;
+
+    &.night { background: image-url('edge-right-night.png') repeat-y; }
   }
 }
 
@@ -569,6 +573,24 @@ canvas {
   }
 }
 
+/*
+ * Night
+ */
+
+.night {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  overflow: hidden;
+  width: 100%;
+}
+
+#map_night {
+  background: #1c6dca;
+}
+
 
 /*
  * Gradients
@@ -585,22 +607,28 @@ canvas {
     top: 0;
     z-index: 5;
     min-height: 100%;
-    @include background(linear-gradient(top, rgba(#1c6dca, .2), rgba(#356095, .2) 100%));
+    @include background(linear-gradient(top, rgba(#0bd, .2), rgba(#4F79BD, .2) 100%));
+
+    &.night {
+      @include background(linear-gradient(top, rgba(#1c6dca, .2), rgba(#4F79BD, .2) 100%));
+    }
   }
 
   &.top {
     top: 0;
     height: 50%;
-    @include background(linear-gradient(top, #1c6dca 50%, rgba(#1c6dca, 0) 80%, rgba(#1c6dca, 0) 100%));
+    @include background(linear-gradient(top, #0bd 50%, rgba(#0bd, 0) 80%, rgba(#0bd, 0) 100%));
+
+    &.night {
+      @include background(linear-gradient(top, #1c6dca 50%, rgba(#1c6dca, 0) 80%, rgba(#1c6dca, 0) 100%));
+    }
   }
 
   &.bottom {
     z-index: 500;
     bottom: 0;
     height: 215px;
-    @include background(
-      linear-gradient(bottom, #356095 0%, rgba(#356095, 0) 100%),
-      linear-gradient(bottom, rgba(#000, .15) 0%, rgba(#000, 0) 100%));
+    @include background(linear-gradient(bottom, rgba(#000, .15) 0%, rgba(#000, 0) 100%));
   }
 }
 

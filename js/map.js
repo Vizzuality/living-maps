@@ -14,7 +14,7 @@ function Map(el, options) {
 Map.prototype = {
 
   templates: {
-    gradients: '<div class="edge top"></div><div class="edge right"></div><div class="edge left"></div>'
+    gradients: '<div class="edge top"></div><div class="edge top night"></div><div class="edge right"></div><div class="edge right night"></div><div class="edge left"></div><div class="edge left night"></div>'
   },
 
   // creates the map and add it to the DOM

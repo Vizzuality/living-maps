@@ -70,7 +70,7 @@ strong { font-weight: bold; }
 
 section.map {
   position: relative;
-  background: #1c6dca;
+  background: #0bd;
   height: 642px;
   overflow: hidden;
 }
@@ -261,6 +261,7 @@ section.map {
  */
 
 #content {
+  position: relative;
   z-index: 500;
   margin-top: 40px;
   pointer-events: none;
@@ -270,7 +271,7 @@ section.map {
   margin-top: 25px;
   width: 680px;
 
-  p{line-height: 1.2;}
+  p { line-height: 1.2; }
 }
 
 
