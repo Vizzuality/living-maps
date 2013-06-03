@@ -34,10 +34,12 @@ $(document).ready(function() {
 
   if(hash.length === 0) {
     App.initialize(window.AppData.CITIES[city]);
-  } else {
+  } else if(hash.split("/")[0] === "cities") {
     // be careful, parseHash sets the global variable city
     App.initialize(parseHash(hash));
 
     Events.trigger("enablemamufas");
+  } else {
+    document.location = "/404.html";
   }
 });

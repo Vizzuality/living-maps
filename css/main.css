@@ -389,10 +389,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   left: 0;
   height: 100px;
   width: 100%;
-  background: url('../img/edge-top.png?1370246756') repeat-x;
+  background: url('../img/edge-top.png?1370257138') repeat-x;
 }
 .edge.top.night {
-  background: url('../img/edge-top-night.png?1370246756') repeat-x;
+  background: url('../img/edge-top-night.png?1370257138') repeat-x;
 }
 .edge.left {
   height: 100%;
@@ -400,7 +400,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   background: url('../img/edge-left.png?1370246756') repeat-y;
 }
 .edge.left.night {
-  background: url('../img/edge-left-night.png?1370246756') repeat-y;
+  background: url('../img/edge-left-night.png?1370257138') repeat-y;
 }
 .edge.right {
   right: 0;
@@ -410,7 +410,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   background: url('../img/edge-right.png?1370246756') repeat-y;
 }
 .edge.right.night {
-  background: url('../img/edge-right-night.png?1370246756') repeat-y;
+  background: url('../img/edge-right-night.png?1370257138') repeat-y;
 }
 
 .leaflet-container,
@@ -1072,15 +1072,15 @@ section.map {
 /*
  * Header
  */
-.header {
+.map_header {
   width: 600px;
 }
-.header .logo {
+.map_header .logo {
   float: left;
   margin-bottom: 70px;
   pointer-events: auto;
 }
-.header .title {
+.map_header .title {
   float: left;
   clear: left;
   margin: 0 -5px -5px;
@@ -1088,7 +1088,7 @@ section.map {
   line-height: 1;
   letter-spacing: -3px;
 }
-.header .subtitle {
+.map_header .subtitle {
   float: left;
   clear: left;
   font-size: 31px;
@@ -1247,13 +1247,9 @@ section.about {
 }
 
 .footer {
-  border-top: 1px solid rgba(0, 0, 0, 0.15);
-  padding: 55px 0;
   font-size: 14px;
+  line-height: 1.2;
   color: #c6c6c6;
-}
-.footer p {
-  float: left;
 }
 .footer a {
   color: #c6c6c6;
@@ -1264,17 +1260,6 @@ section.about {
 }
 .footer a:hover {
   color: #adadad;
-}
-.footer ul {
-  float: right;
-}
-.footer li {
-  float: left;
-  margin-left: 5px;
-}
-.footer li.first {
-  padding-right: 20px;
-  text-align: right;
 }
 .footer .button {
   display: block;
@@ -1293,4 +1278,58 @@ section.about {
 }
 .footer .button:hover {
   background: #ccc;
+}
+
+.map_footer {
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
+  padding: 55px 0;
+}
+.map_footer p {
+  float: left;
+}
+.map_footer ul {
+  float: right;
+}
+.map_footer li {
+  float: left;
+  margin-left: 5px;
+}
+.map_footer li.first {
+  padding-right: 20px;
+  text-align: right;
+}
+
+/* ==========================================================================
+   NOT FOUND
+   ========================================================================== */
+.notfound {
+  text-align: center;
+  color: #666;
+}
+.notfound .header {
+  margin: 175px auto 60px;
+}
+.notfound .title {
+  display: inline-block;
+  margin-bottom: 30px;
+  font-size: 131px;
+  line-height: 1;
+  border-bottom: 3px solid #666;
+}
+.notfound .description {
+  font-size: 25px;
+  line-height: 1.2;
+}
+.notfound .content a {
+  color: #0bd;
+}
+.notfound .footer {
+  padding: 120px 0 65px;
+}
+.notfound .footer ul {
+  margin-bottom: 15px;
+}
+.notfound .footer li {
+  display: inline-block;
+  margin-left: 5px;
 }
