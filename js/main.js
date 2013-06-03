@@ -4,7 +4,8 @@ var city = 'london',
 	stopped = true,
 	valueStart = 0,
   isSlowBrowser = false,
-  isWebWorkers = true;
+  isWebWorkers = true,
+  isDebug = false;
 
 if(navigator.userAgent.match(/Android/i)
   || navigator.userAgent.match(/webOS/i)
@@ -31,6 +32,9 @@ if(navigator.userAgent.match(/Android/i)
 
 $(document).ready(function() {
   var hash = location.hash.split("#").pop();
+
+  if(location.hash.indexOf('debug') != -1)
+    isDebug = true;
 
   if(hash.length === 0) {
     App.initialize(window.AppData.CITIES[city]);

@@ -1,5 +1,9 @@
-function Slider(el, options) {
+function Slider(el, options, map, city) {
   var self = this;
+
+  this.map = map;
+  this.city = city;
+  console.log(this.map, this.city);
 
   this.$el = el;
   this.$slider_container = $("#slider");
@@ -98,6 +102,7 @@ Slider.prototype = {
 
   onSlideStop: function(pos) {
     var time = this.posToTime(pos);
+    var zoom = this.map.getZoom();
 
     this.$el.slider("value", pos);
 
@@ -105,6 +110,12 @@ Slider.prototype = {
 
     this.updateHour(time);
     this.updateSky(pos);
+
+    if(!stopped) {
+      updateHash(this.map, this.city, window.AppData.init_time, zoom);
+    } else {
+      updateHash(this.map, this.city, App.time, zoom);
+    }
   },
 
   add_graph: function(city) {
@@ -179,6 +190,11 @@ Slider.prototype = {
 
     this.updateHour(time);
     this.updateSky(this.timeToPos(time));
+  },
+
+  set_city: function(city, map) {
+    this.city = city;
+    this.map = map;
   },
 
   disable: function() {

@@ -133,6 +133,9 @@ Navigation.prototype = {
 
     Events.trigger("enablemamufas", this.city);
 
+    if(isDebug)
+      hash = hash + "/?debug=true";
+
     history.pushState(window.AppData.CITIES[city], null, hash);
     App.restart(window.AppData.CITIES[city]);
   },

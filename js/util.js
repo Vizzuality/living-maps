@@ -132,7 +132,12 @@ function parseHash(hash) {
         time = args[5];
 
     if(isNaN(lat) || isNaN(lon) || isNaN(zoom) || zoom < window.AppData.CITIES[city]['map']['minZoom'] || zoom > window.AppData.CITIES[city]['map']['maxZoom']) {
-      history.pushState(window.AppData.CITIES[city], null, "#cities/" + city);
+      var url = "#cities/" + city + "/";
+
+      if(isDebug)
+        url = url + "?debug=true"
+
+      history.pushState(window.AppData.CITIES[city], null, url);
 
       return window.AppData.CITIES[city];
     } else {
@@ -141,7 +146,12 @@ function parseHash(hash) {
       }
 
       if(parseInt(time, 10) === 0) {
-        history.pushState(null, null, "#cities/" + city + "/" + lat + "/" + lon + "/" + zoom + "/");
+        var url = "/#cities/" + city + "/" + lat + "/" + lon + "/" + zoom + "/";
+
+        if(isDebug)
+          url = url + "?debug=true"
+
+        history.pushState(window.AppData.CITIES[city], null, url);
       }
 
       return {
@@ -158,7 +168,12 @@ function parseHash(hash) {
       };
     }
   } else {
-    history.pushState(window.AppData.CITIES[city], null, "#cities/" + window.AppData.CITIES[city].city);
+    var url = "#cities/" + window.AppData.CITIES[city].city + "/"
+
+    if(isDebug)
+      url = url + "?debug=true"
+
+    history.pushState(window.AppData.CITIES[city], null, url);
 
     return window.AppData.CITIES[city];
   }
@@ -184,7 +199,6 @@ function updateHash(map, city, time, zoom) {
   } else {
     _zoom = map.getZoom();
   }
-
   var _time = parseInt(time/60, 10);
 
   var lat = map.getCenter().lat.toFixed(3);
@@ -192,9 +206,11 @@ function updateHash(map, city, time, zoom) {
 
   var hash = "#cities/" + city + "/" + lat + "/" + lng + "/" + _zoom + "/";
 
-  if(_time != window.AppData.init_time && _time != window.AppData.last_time) {
-    hash = hash + _time;
-  }
+  if(_time != window.AppData.init_time && _time != window.AppData.last_time)
+    hash = hash + _time + "/";
+
+  if(isDebug)
+    hash = hash + "?debug=true";
 
   history.pushState({
     city: city,
