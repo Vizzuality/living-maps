@@ -277,7 +277,7 @@ var App = {
     Zoom.set_city(this.options.city, self.map.map);
 
     // Set city in the slider
-    Slider.set_city(this.options.city, self.map.map);
+    this.slider.set_city(this.options.city, self.map.map);
 
     Events.trigger("disableanimation", self.map.map, self.options.city, self.options.time);
 

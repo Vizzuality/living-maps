@@ -3,7 +3,6 @@ function Slider(el, options, map, city) {
 
   this.map = map;
   this.city = city;
-  console.log(this.map, this.city);
 
   this.$el = el;
   this.$slider_container = $("#slider");
