@@ -42,7 +42,8 @@ var StreetLayer = L.CanvasLayer.extend({
     end_date: 1419,//'2013-03-22 23:59:57+00:00'
     time_offset: 0,
     use_web_worker: true,
-    num_web_workers: 3
+    num_web_workers: 3,
+    reduction: 0
   },
 
   initialize: function(options) {
@@ -81,7 +82,7 @@ var StreetLayer = L.CanvasLayer.extend({
         this.workers.push(new Worker("js/process_tile_worker.js"));
         // this.workers.push(new Worker("js/process_tile_worker.min.js"));
       }
-      this._web_workers_callbacks = {}
+      this._web_workers_callbacks = {};
     }
     this.precache_sprites = this.precache_sprites.bind(this)
     //this.init_post_process = this.init_post_process.bind(this);
@@ -89,10 +90,11 @@ var StreetLayer = L.CanvasLayer.extend({
     this.precache_sprites();
   },
 
-  setCity: function(name, time_offset) {
+  setCity: function(name, time_offset, reduction) {
     //this.options.table = name + "_2m_1mm";
     this.options.table = name + "_manydays_live";
     this.options.time_offset = time_offset
+    this.options.reduction = reduction;
   },
 
   _onMapMove: function() {
@@ -393,6 +395,7 @@ var StreetLayer = L.CanvasLayer.extend({
     var origin = this._map._getNewTopLeftPoint(this._map.getCenter(), this._map.getZoom());
     this._ctx.translate(-origin.x, -origin.y);
     this._ctx.globalCompositeOperation = 'lighter';
+    var reduction = this.options.reduction;
 
     var ctx = this._ctx;
     var time = this.time;
@@ -405,7 +408,7 @@ var StreetLayer = L.CanvasLayer.extend({
         for(var p = 0; p < activePixels; ++p) {
           var posIdx = tt.renderDataPos[pixelIndex + p];
           var c = tt.renderData[pixelIndex + p];
-          if(c) {
+          if(c - reduction > 0) {
             var sp = this.sprites[c]
             ctx.drawImage(
               sp,

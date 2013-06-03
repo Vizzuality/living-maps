@@ -21,7 +21,9 @@ window.AppData.CITIES = {
     city_title: "The Great British capital.",
     city_subtitle: "The largest city in the European Union.",
     time: 0,
-    time_offset: -60 // minutes
+    // time_offset: -60, // minutes
+    time_offset: 0, // minutes
+    reductionSlowBrowser: 1
   },
 
   'chicago': {

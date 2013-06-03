@@ -14,7 +14,7 @@ function Map(el, options) {
 Map.prototype = {
 
   templates: {
-    gradients: '<div class="edge top"></div><div class="edge right"></div><div class="edge left"></div>'
+    gradients: '<div class="edge top"></div><div class="edge top night"></div><div class="edge right"></div><div class="edge right night"></div><div class="edge left"></div><div class="edge left night"></div>'
   },
 
   // creates the map and add it to the DOM
@@ -23,8 +23,7 @@ Map.prototype = {
 
     this.options.fadeAnimation = false;
     this.options.trackResize = true;
-    this.map = L.map(this.el, this.options)
-      .setView(this.options.center, this.options.zoom);
+    this.map = L.map(this.el, this.options);
 
     this.map.setMaxBounds(this.options.maxBounds);
 
@@ -40,7 +39,9 @@ Map.prototype = {
 
     self.probsLayer = new StreetLayer({
       table: this.options.city +"_manydays_live",
-      time_offset: this.options.time_offset
+      time_offset: this.options.time_offset,
+      reduction: this.options.reduction,
+      use_web_worker: this.options.use_web_worker
     });
 
     self.map.addLayer(self.probsLayer);
@@ -88,12 +89,12 @@ Map.prototype = {
     }
   },
 
-  set_city: function(center, zoom, city, time_offset) {
+  set_city: function(center, zoom, city, time_offset, reduction) {
     this.options.city = city;
     this.options.time_offset = time_offset;
 
     if(this.probsLayer) {
-      this.probsLayer.setCity(city, time_offset);
+      this.probsLayer.setCity(city, time_offset, reduction);
     }
 
     // ****

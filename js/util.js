@@ -4,20 +4,6 @@ if(typeof(window) != 'undefined') {
 
   window.requestAnimationFrame = _requestAnimationFrame;
 }
-/*
-var _render_queue = [];
- *
- * function(fn) {
-  if(_render_queue.length == 0) {
-    _requestAnimationFrame(function() {
-      var f;
-      while(f = _render_queue.pop()) {
-        f();
-      }
-    });
-  }
-  _render_queue.push(fn);
-}*/
 
 function get(url, callback) {
   var req = new XMLHttpRequest();
@@ -43,7 +29,6 @@ function get(url, callback) {
   req.send(null)
   return req;
 }
-
 
 function fmod(a, b) {
   var i = Math.floor(a/b);
@@ -125,6 +110,11 @@ function latlonTo3DPixel(map, latlon) {
   return transform3d(pos, s.x, s.y);
 }
 
+
+/*
+ * Parse and push URLs
+ */
+
 function isACity(city) {
   var really = false;
 
@@ -170,7 +160,8 @@ function parseHash(hash) {
         time_scale: 15 * 60,
         scale: 2.0,
         time: time,
-        time_offset: window.AppData.CITIES[city].time_offset
+        time_offset: window.AppData.CITIES[city].time_offset,
+        reductionSlowBrowser: window.AppData.CITIES[city].reductionSlowBrowser
       };
     }
   } else {
@@ -227,6 +218,7 @@ function updateHash(map, city, time, zoom) {
   }, null, hash);
 }
 
+
 /*
  * Moves the scroll to the position of $el
  */
@@ -241,6 +233,7 @@ function goTo($el, opt, callback) {
     callback && callback();
   }
 }
+
 
 /*
  * Return URL or md5 file
@@ -465,3 +458,141 @@ function saveImage(fileContents, fileName) {
   link.href = fileContents;
   link.click();
 }
+
+
+/*
+ * Detect IE10
+ */
+
+function getInternetExplorerVersion()
+// Returns the version of Internet Explorer or a -1
+// (indicating the use of another browser).
+{
+  var rv = -1; // Return value assumes failure.
+  if (navigator.appName == 'Microsoft Internet Explorer')
+  {
+    var ua = navigator.userAgent;
+    var re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+    if (re.exec(ua) != null)
+      rv = parseFloat( RegExp.$1 );
+  }
+  return rv;
+}
+
+function checkVersion() {
+  var ver = getInternetExplorerVersion();
+
+  if (ver > -1 && ver === 10.0) {
+    isSlowBrowser = true;
+  }
+}
+
+
+/*
+ * ArrayBuffer
+ */
+
+function ArrayBufferSer(arrayBuffer) {
+  this.buffer = arrayBuffer;
+  this.offset = 0;
+  this.sections = this.readArray();
+  this.headers = this.sections[0];
+  this._headersIndex = {};
+  for(var i = 0; i < this.headers.length; ++i) {
+    this._headersIndex[this.headers[i]] = i;
+  }
+  if(this.sections.length > 1) {
+    this.length = this.sections[1].length;
+  }
+}
+
+ArrayBufferSer.INT8 = 1;
+ArrayBufferSer.UINT8 = 2;
+ArrayBufferSer.UINT8_CLAMP = 3;
+ArrayBufferSer.INT16 = 4;
+ArrayBufferSer.UINT16 = 5;
+ArrayBufferSer.INT32 = 6;
+ArrayBufferSer.UINT32 = 7;
+ArrayBufferSer.FLOAT32 = 8;
+//ArrayBufferSer.FLOAT64 = 9; not supported
+ArrayBufferSer.STRING = 10;
+ArrayBufferSer.BUFFER = 11;
+
+this.Uint8ClampedArray = typeof(this['Uint8ClampedArray']) == 'undefined' ? Uint8Array: Uint8ClampedArray;
+
+
+ArrayBufferSer.prototype = {
+
+   sizes: [NaN, 1, 1, 1, 2, 2, 4, 4, 4, 8],
+
+   types: [
+    null,
+    Int8Array,
+    Uint8Array,
+    Uint8ClampedArray,
+    Int16Array,
+    Uint16Array,
+    Int32Array,
+    Uint32Array,
+    Float32Array,
+    Float64Array
+   ],
+
+  get: function(columnName) {
+    var i = this._headersIndex[columnName]
+    if(i != undefined) {
+      return this.sections[i + 1]
+    }
+    return;
+  },
+
+  _paddingFor: function(offset, type) {
+    var s = this.sizes[type]
+    if(s) {
+      var r = offset % s;
+      return r == 0 ? 0 : s - r;
+    }
+    return 0;
+  },
+
+  readUInt32: function() {
+    var i = new DataView(this.buffer).getUint32(this.offset);
+    this.offset += 4;
+    return i
+  },
+
+  readArray: function() {
+    var type = this.readUInt32();
+    var size = this.readUInt32();
+    if(type < ArrayBufferSer.STRING) {
+      var a = new this.types[type](this.buffer, this.offset, size/this.sizes[type]);
+      this.offset += size;
+      return a;
+    } else if(type == ArrayBufferSer.STRING) {
+      var target = this.offset + size;
+      var b = [];
+      while(this.offset < target) {
+        this.offset += this._paddingFor(this.offset, ArrayBufferSer.INT32);
+        var arr = this.readArray();
+        if(arr) {
+          var str = '';
+          for(var i = 0; i < arr.length; ++i) {
+            str += String.fromCharCode(arr[i]);
+          }
+          b.push(str);
+        }
+        // parse sttring
+      }
+      return b;
+    } else if(type == ArrayBufferSer.BUFFER) {
+      var b = [];
+      var target = this.offset + size;
+      while(this.offset < target) {
+        this.offset += this._paddingFor(this.offset, ArrayBufferSer.INT32);
+        b.push(this.readArray());
+      }
+      return b;
+    }
+  }
+
+};

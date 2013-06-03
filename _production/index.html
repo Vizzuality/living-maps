@@ -89,36 +89,38 @@
 
 <section class="map">
   <div class="mamufas">
-      <!-- Loader -->
-      <div id="mamufas">
-        <div class="mamufas-inner">
-          <h1 id="mamufas_title" class="title">The big British capital.</h1>
-          <p id="city_subtitle" class="description">More than 3M points mapped over time.</p>
-          <div id="spinner-container"></div>
-        </div>
+    <!-- Mamufas night -->
+    <div id="mamufas_night" class="night"></div>
+
+    <!-- Loader -->
+    <div id="mamufas">
+      <div class="mamufas-inner">
+        <h1 id="mamufas_title" class="title">The big British capital.</h1>
+        <p id="city_subtitle" class="description">More than 3M points mapped over time.</p>
+        <div id="spinner-container"></div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div id="content" class="inner">
+      <!-- Social -->
+      <div class="social">
+        <a href="http://www.facebook.com/sharer/sharer.php?u=" target="_blank" class="button facebook"><span>Share on Facebook</span></a>
+        <a href="http://twitter.com/share?text=" target="_blank" class="button twitter"><span>Share on Twitter</span></a>
       </div>
 
-      <!-- Content -->
-      <div id="content" class="inner">
-        <!-- Social -->
-        <div class="social">
-          <a href="http://www.facebook.com/sharer/sharer.php?u=" target="_blank" class="button facebook"><span>Share on Facebook</span></a>
-          <a href="http://twitter.com/share?text=" target="_blank" class="button twitter"><span>Share on Twitter</span></a>
-        </div>
+      <!-- Header -->
+      <header class="header clearfix">
+        <a href="/" class="logo"><img src="img/here-logo.png" /></a>
 
-        <!-- Header -->
-        <header class="header clearfix">
-          <a href="/" class="logo"><img src="img/here-logo.png" /></a>
+        <h1 class="title"><strong>Living</strong>Cities</h1>
+        <p class="subtitle">A shared cartographic experiment from HERE and CartoDB</p>
+      </header>
 
-          <h1 class="title"><strong>Living</strong>Cities</h1>
-          <p class="subtitle">A joint experiment by HERE and CartoDB</p>
-        </header>
+      <div class="content-inner">
+        <p>Mobile phones and GPS devices sense the world and collect lots of urban data. Of course these data are used to get good directions and find the nearest shop. But the combined data can also tell many different stories. With these map visualisations, developed at CartoDB, you'll see one of the ways that data can reveal the hidden life of cities. Choose a city to get started.</p>
 
-        <div class="content-inner">
-          <p>GPS and Mobile devices act as sensors collecting data on the status of the city. This data is used to get better directions and find the closest shop. But this data can also tell a lot of different stories.</p>
-
-          <p class="last">Click on any city to get started!</p>
-        </div>
+        <!-- <p class="last"></p> -->
       </div>
     </div>
   </div>
@@ -138,7 +140,7 @@
     </div>
 
     <div id="time_slider" class="time_slider"></div>
-    <span id="hour" class="hour">1:00</span>
+    <span id="hour" class="hour">23:00</span>
   </div>
 
   <!-- Map components -->
@@ -155,11 +157,16 @@
   <!-- Map -->
   <div id="map_wrapper" class="backdrop">
     <div id="map" class="home_map"></div>
+
+    <!-- Map night -->
+    <div id="map_night" class="night"></div>
   </div>
 
   <!-- Gradients -->
-  <div class="gradient all"></div>
-  <div class="gradient top"></div>
+  <div class="gradient all day"></div>
+  <div class="gradient all night"></div>
+  <div class="gradient top day"></div>
+  <div class="gradient top night"></div>
   <div class="gradient bottom"></div>
 
   <nav id="bottom_nav" class="navigation bottom">
@@ -194,22 +201,22 @@
 <section id="about" class="about">
   <div class="inner">
     <h2 class="title section_title">About <strong>Living</strong>Cities</h2>
-    <p class="section_description">Cities are a fundamental part of everybody’s lives, but at Here we also see they have their own life.</p>
+    <p class="section_description">If you live in a city, the city's a fundamental part of your life. At Nokia, we think the city also has a life of it's own. Through our data visualisation, we aim to inspire developers to take a look at data APIs and CartoDB technology to develop great city visualisations of their own.</p>
 
     <div id="layers" class="layers">
       <div class="feature feature-l tech" data-rel="tech">
         <h3>Technology</h3>
-        <p>The visualization has been built by CartoDB team using their cloud infrastructure and their Torque technology to animate geospatial datasets over time.</p>
+        <p>The visualisation was built by CartoDB using their cloud infrastructure. It makes use of HTML5 Torque technology to animate geospatial data sets over time.</p>
       </div>
 
       <div class="feature feature-l data" data-rel="data">
         <h3>The data</h3>
-        <p>The data behind this visualization is collected by HERE continuously from connected devices. We do not collect personal data, we collect small data changes to know how is the traffic in the city, if a road is closed, is a new road is open, etc.</p>
+        <p>The data behind this visualisation is continuously collected by HERE through connected devices. We don't collect personal data: we collect small data changes to find out how the traffic is flowing (or not) in the city, if a road is closed, if a new road has opened etc. This is how we construct fresh maps that are used online and in loads of devices.</p>
       </div>
 
       <div class="feature feature-r vizz" data-rel="vizz">
-        <h3>The visualization</h3>
-        <p>We believe this data can be used for many different things and we are partnering with CartoDB to look for interesting visualizations that tell us different stories. In this visualization you can see traffic density over maps and lot of facts derived from the aggregated vision we get from the city.</p>
+        <h3>The visualisation</h3>
+        <p>We believe this data can be used for many different things, and we've partnered with CartoDB to explore interesting visualisations that tell different stories. In our visualisation, you can see traffic density and lot of visual facts derived from the aggregated data we get about the city.</p>
       </div>
 
       <div id="data" class="layer"></div>
