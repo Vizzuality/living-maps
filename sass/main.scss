@@ -105,9 +105,13 @@ section.map {
     @include box-shadow(0 0 20px rgba(#000, .2));
 
     .button {
-      background-color: #4690C0;
+      background-color: #124191;
+      @include opacity(.8);
 
-      &:hover { background-color: darken(#4690C0, 5%); }
+      &:hover {
+        background-color: #124191;
+        @include opacity(1);
+      }
     }
   }
 
@@ -144,7 +148,7 @@ section.map {
   }
 
   a {
-    color: #4690C0;
+    color: #124191;
     font-weight: 300;
 
     .title {
@@ -232,6 +236,7 @@ section.map {
     float: left;
     clear: left;
     font-size: 31px;
+    font-weight: 300;
     white-space: nowrap;
     letter-spacing: -1px;
   }
@@ -293,7 +298,7 @@ section.about {
 }
 
 .section_title {
-  color: #4690C0;
+  color: #0bd;
   font-size: 44px;
   letter-spacing: -1px;
 }
@@ -383,22 +388,15 @@ section.about {
     width: 100px;
     height: 80px;
     @include transition(all .2s);
+    @include opacity(.8);
 
-    &.here {
-      @include opacity(.8);
-
-      &:hover {
+    &:hover {
       @include opacity(1);
-      }
     }
 
     &.cartodb {
-      background: #ddd;
+      background: #124191;
       @include border-radius(4px);
-
-      &:hover {
-        background: #ccc;
-      }
     }
   }
 }
@@ -446,14 +444,30 @@ section.about {
   .description {
     font-size: 25px;
     line-height: 1.2;
+    font-weight: 300;
   }
 
-  .content a {
-    color: #0bd;
+  .content {
+    font-weight: 300;
+
+    a {
+      text-decoration: none;
+      color: #124191;
+
+      &:hover {
+        color: #0bd;
+      }
+    }
   }
 
   .footer {
     padding: 120px 0 65px;
+    font-weight: 300;
+
+    strong {
+      display: block;
+      font-weight: 400;
+    }
 
     ul { margin-bottom: 15px; }
 

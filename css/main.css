@@ -109,7 +109,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   width: 100%;
   margin-top: -150px;
   font-size: 71px;
-  font-weight: 400;
   text-align: center;
   white-space: nowrap;
 }
@@ -120,7 +119,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   width: 100%;
   margin-top: -60px;
   font-size: 41px;
-  font-weight: 400;
+  font-weight: 300;
   text-align: center;
   white-space: nowrap;
 }
@@ -938,10 +937,14 @@ section.map {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 }
 .navigation.top .button {
-  background-color: #4690C0;
+  background-color: #124191;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+  opacity: 0.8;
 }
 .navigation.top .button:hover {
-  background-color: #3c83b0;
+  background-color: #124191;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
 }
 .navigation.bottom {
   bottom: 0;
@@ -976,7 +979,7 @@ section.map {
   margin-right: 50px;
 }
 .navigation a {
-  color: #4690C0;
+  color: #124191;
   font-weight: 300;
 }
 .navigation a .title {
@@ -1028,7 +1031,7 @@ section.map {
 
 #dropdown_link {
   padding-right: 20px;
-  background: url('../img/caret-sprite.png?1369826155') no-repeat right 0;
+  background: url('../img/caret-sprite.png?1370343359') no-repeat right 0;
 }
 #dropdown_link:hover {
   background-position: right -72px;
@@ -1061,6 +1064,7 @@ section.map {
   float: left;
   clear: left;
   font-size: 31px;
+  font-weight: 300;
   white-space: nowrap;
   letter-spacing: -1px;
 }
@@ -1127,7 +1131,7 @@ section.about {
 }
 
 .section_title {
-  color: #4690C0;
+  color: #0bd;
   font-size: 44px;
   letter-spacing: -1px;
 }
@@ -1245,25 +1249,20 @@ section.about {
   -moz-transition: all 0.2s;
   -o-transition: all 0.2s;
   transition: all 0.2s;
-}
-.footer .button.here {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
   opacity: 0.8;
 }
-.footer .button.here:hover {
+.footer .button:hover {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
   opacity: 1;
 }
 .footer .button.cartodb {
-  background: #ddd;
+  background: #124191;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   -ms-border-radius: 4px;
   -o-border-radius: 4px;
   border-radius: 4px;
-}
-.footer .button.cartodb:hover {
-  background: #ccc;
 }
 
 .map_footer {
@@ -1305,12 +1304,25 @@ section.about {
 .notfound .description {
   font-size: 25px;
   line-height: 1.2;
+  font-weight: 300;
+}
+.notfound .content {
+  font-weight: 300;
 }
 .notfound .content a {
+  text-decoration: none;
+  color: #124191;
+}
+.notfound .content a:hover {
   color: #0bd;
 }
 .notfound .footer {
   padding: 120px 0 65px;
+  font-weight: 300;
+}
+.notfound .footer strong {
+  display: block;
+  font-weight: 400;
 }
 .notfound .footer ul {
   margin-bottom: 15px;

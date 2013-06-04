@@ -1,6 +1,5 @@
 
 // importScripts('util.min.js');
-// importScripts('bin_decoder.min.js');
 importScripts('util.js');
 
 var queue = [];
