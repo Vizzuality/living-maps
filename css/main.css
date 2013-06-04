@@ -139,7 +139,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 .help {
   position: absolute;
   text-align: center;
-  background: url('../img/help-sprites.png?1369679289') no-repeat;
+  background: url('../img/help-sprites.png') no-repeat;
 }
 .help p {
   position: relative;
@@ -298,10 +298,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   display: block;
   position: absolute;
   left: 0;
-  top: -6px;
+  top: -9px;
   content: '';
-  height: 13px;
-  width: 13px;
+  height: 17px;
+  width: 17px;
   background: white url('../img/slider.png?1369679289') no-repeat center center;
   cursor: move;
   -webkit-border-radius: 2px;
@@ -314,10 +314,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   pointer-events: auto;
 }
 .time_slider a:hover, .time_slider a:active {
-  top: -9px;
-  margin-left: -3px;
-  height: 19px;
-  width: 19px;
+  top: -13px;
+  margin-left: -4px;
+  height: 24px;
+  width: 24px;
 }
 .time_slider a.stopped {
   background-image: url('../img/slider-stopped.png?1369679289');
@@ -442,7 +442,7 @@ canvas {
 .facts-inner {
   height: 340px;
   width: 784px;
-  background: url('../img/facts-bg.png?1369818854') no-repeat -120px center;
+  background: url('../img/facts-bg.png?1370333647') no-repeat -120px center;
 }
 
 .time {
@@ -513,7 +513,28 @@ canvas {
   height: 60px;
 }
 .bubble .info span.type.bus {
-  background: url('../img/types/type_bus.png?1369679289') no-repeat center center;
+  background: url('../img/types/type_bus.png') no-repeat center center;
+}
+.bubble .info span.type.turist {
+  background: url('../img/poi_types.png?1369679289');
+}
+.bubble .info span.type.transport {
+  background: url('../img/poi_types.png?1369679289') -33px 0;
+}
+.bubble .info span.type.sports {
+  background: url('../img/poi_types.png?1369679289') -66px 0;
+}
+.bubble .info span.type.airport {
+  background: url('../img/poi_types.png?1369679289') -99px 0;
+}
+.bubble .info span.type.beach {
+  background: url('../img/poi_types.png?1369679289') -132px 0;
+}
+.bubble .info span.type.park {
+  background: url('../img/poi_types.png?1369679289') -165px 0;
+}
+.bubble .info span.type.church {
+  background: url('../img/poi_types.png?1369679289') -198px 0;
 }
 .bubble .info a.go {
   position: absolute;
@@ -522,17 +543,17 @@ canvas {
   display: block;
   height: 45px;
   width: 45px;
-  background: url('../img/marker_go.png?1369679289') no-repeat;
+  background: url('../img/go-sprite.png?1370332735') no-repeat 0 0;
 }
 .bubble .info:hover {
   background-color: #CC0066;
   cursor: pointer;
 }
 .bubble .info:hover .go {
-  background: url('../img/marker_go-hover.png?1369679289');
+  background: url('../img/go-sprite.png?1370332735') no-repeat 0 -45px;
 }
 .bubble .info:hover span.tail {
-  border-top-color: #CC0066;
+  border-top-color: #c06;
 }
 .bubble .shadow {
   position: absolute;
@@ -652,8 +673,8 @@ canvas {
   background-position: -26px -26px;
 }
 #zoom_control a.disabled {
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=20);
-  opacity: 0.2;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=10);
+  opacity: 0.1;
   cursor: default;
 }
 #zoom_control a.disabled:hover {
@@ -1265,6 +1286,8 @@ section.about {
   display: block;
   width: 100px;
   height: 80px;
+}
+.footer .button.cartodb {
   background: #ddd;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -1276,7 +1299,7 @@ section.about {
   -o-transition: all 0.2s;
   transition: all 0.2s;
 }
-.footer .button:hover {
+.footer .button.cartodb:hover {
   background: #ccc;
 }
 
