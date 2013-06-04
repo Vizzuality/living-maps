@@ -40,7 +40,7 @@ module.exports = function(grunt) {
       },
       dist: {
         files: {
-          '_production/js/vendor/modernizr.custom.13205': ['_staging/js/vendor/modernizr.custom.13205.js'],
+          '_production/js/vendor/modernizr.custom.13205.js': ['_staging/js/vendor/modernizr.custom.13205.js'],
           '_production/js/living-maps.min.js': ['_staging/js/living-maps.js'],
           '_production/js/util.min.js': ['_staging/js/util.js'],
           '_production/js/probs_density_layer.min.js': ['_staging/js/probs_density_layer.js'],
