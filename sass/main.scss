@@ -26,6 +26,17 @@
 
 @font-face {
   font-family: 'Nokia Pure Text';
+  font-weight: regular;
+  src: url('../fonts/nokiapuretext_rg-webfont.eot');
+  src:
+    url('../fonts/nokiapuretext_rg-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/nokiapuretext_rg-webfont.woff') format('woff'),
+    url('../fonts/nokiapuretext_rg-webfont.ttf')  format('truetype'),
+    url('../fonts/nokiapuretext_rg-webfont.svg#Nokia Pure Text') format('svg');
+}
+
+@font-face {
+  font-family: 'Nokia Pure Text';
   font-weight: bold;
   src: url('../fonts/nokiapuretext_bd-webfont.eot');
   src:
@@ -50,7 +61,7 @@ body {
   overflow-x: hidden;
   min-width: 980px;
   height: 100%;
-  font: 300 19px "Nokia Pure Text", Helvetica, Arial, sans-serif;
+  font: 19px "Nokia Pure Text", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   color: #fff;
 }
@@ -103,8 +114,6 @@ section.map {
   &.bottom {
     bottom: 0;
     border-bottom: 3px solid #ddd;
-
-    .about_link { color: #FF4D4D; }
   }
 
   &.mapped {
@@ -134,21 +143,20 @@ section.map {
     .menu { margin-right: 50px; }
   }
 
-  .title {
-    float: left;
-    font-size: 27px;
-    font-weight: bold;
-    line-height: 68px;
-
-    span { font-weight: 300; }
-  }
-
   a {
     color: #4690C0;
+    font-weight: 300;
+
+    .title {
+      float: left;
+      font-size: 27px;
+      line-height: 68px;
+      font-weight: 400;
+      letter-spacing: -1px;
+    }
 
     &:hover {
-      color: #FF4D4D;
-      text-decoration: underline;
+      color: #0bd;
     }
   }
 
@@ -285,8 +293,9 @@ section.about {
 }
 
 .section_title {
-  color: #FF4C4C;
+  color: #4690C0;
   font-size: 44px;
+  letter-spacing: -1px;
 }
 
 .section_description {
@@ -331,9 +340,10 @@ section.about {
 
   h3 {
     margin-bottom: 10px;
-    font-weight: 400;
     color: #202020;
   }
+
+  p { font-weight: 300; }
 }
 
 .data {
@@ -355,8 +365,11 @@ section.about {
 
 .footer {
   font-size: 14px;
+  font-weight: 300;
   line-height: 1.2;
   color: #c6c6c6;
+
+  strong { font-weight: 400; }
 
   a {
     color: #c6c6c6;
@@ -369,11 +382,19 @@ section.about {
     display: block;
     width: 100px;
     height: 80px;
+    @include transition(all .2s);
+
+    &.here {
+      @include opacity(.8);
+
+      &:hover {
+      @include opacity(1);
+      }
+    }
 
     &.cartodb {
       background: #ddd;
       @include border-radius(4px);
-      @include transition(all .2s);
 
       &:hover {
         background: #ccc;

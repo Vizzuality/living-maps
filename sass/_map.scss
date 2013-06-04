@@ -60,6 +60,7 @@
     width: 100%;
     margin-top: -150px;
     font-size: 71px;
+    font-weight: 400;
     text-align: center;
     white-space: nowrap;
   }
@@ -71,6 +72,7 @@
     width: 100%;
     margin-top: -60px;
     font-size: 41px;
+    font-weight: 400;
     text-align: center;
     white-space: nowrap;
   }
@@ -78,47 +80,6 @@
 
 #mamufas_night {
   background: rgba(#134BAB, .6);
-}
-
-.help {
-  position: absolute;
-  text-align: center;
-  background: image-url('help-sprites.png') no-repeat;
-
-  p {
-    position: relative;
-    top: 30%;
-    padding: 0 25px;
-    font-size: 15px;
-  }
-}
-
-#back_help {
-  top: 0;
-  left: 0;
-  width: 220px;
-  height: 166px;
-}
-
-#change_help {
-  bottom: 0;
-  left: 50%;
-  margin-left: -110px;
-  width: 220px;
-  height: 126px;
-  background-position: 0 -166px;
-
-  p { top: 50%; }
-}
-
-#scrub_help {
-  top: 75px;
-  right: 50px;
-  width: 205px;
-  height: 205px;
-  background-position: -220px 0;
-
-  p { top: 40%; }
 }
 
 #spinner-container {
@@ -216,6 +177,7 @@
 .hour {
   margin-bottom: 20px;
   font-size: 70px;
+  font-weight: 300;
 
   sup {
     vertical-align: 35px;
@@ -404,18 +366,20 @@ canvas {
   @include user-select(none);
 
   .info {
-    position:relative;
-    top:100px; left:0;
-    display:block;
-    width:177px;
-    padding:15px;
-    margin:0 0 0 36px;
+    position: relative;
+    top: 100px;
+    left: 0;
+    display: block;
+    width: 177px;
+    padding: 15px;
+    margin: 0 0 0 36px;
     text-align: center;
     background: rgba(#000F1A, .85);
     @include opacity(0);
 
-    p{
+    p {
       line-height: 23px;
+      font-weight: 300;
     }
 
     span.tail {
@@ -431,17 +395,17 @@ canvas {
     }
 
     span.type {
-      display:block;
-      width:100%;
-      height:60px;
-      &.bus {@include background(image-url('types/type_bus.png') no-repeat center center);}
-      // &.turist {background: image-url('poi_types.png');}
-      // &.transport {background: image-url('poi_types.png') -33px 0;}
-      // &.sports {background: image-url('poi_types.png') -66px 0;}
-      // &.airport {background: image-url('poi_types.png') -99px 0;}
-      // &.beach {background: image-url('poi_types.png') -132px 0;}
-      // &.park {background: image-url('poi_types.png') -165px 0;}
-      // &.church {background: image-url('poi_types.png') -198px 0;}
+      display: block;
+      width: 100%;
+      height: 60px;
+      background: image-url('bubbles-sprites.png') no-repeat center 0;
+
+      &.transport { background-position: center -60px; }
+      &.sports { background-position: center -120px; }
+      &.airport { background-position: center -180px; }
+      &.beach { background-position: center -240px; }
+      &.park { background-position: center -300px; }
+      &.church { background-position: center -360px; }
     }
 
     a.go {
@@ -513,14 +477,14 @@ canvas {
     opacity: 1;
     cursor: pointer;
     pointer-events: auto;
+    background: image-url('poi_types.png') no-repeat;
 
-    &.turist {background: image-url('poi_types.png');}
-    &.transport {background: image-url('poi_types.png') -33px 0;}
-    &.sports {background: image-url('poi_types.png') -66px 0;}
-    &.airport {background: image-url('poi_types.png') -99px 0;}
-    &.beach {background: image-url('poi_types.png') -132px 0;}
-    &.park {background: image-url('poi_types.png') -165px 0;}
-    &.church {background: image-url('poi_types.png') -198px 0;}
+    &.transport { background-position: -33px 0; }
+    &.sports { background-position: -66px 0; }
+    &.airport { background-position: -99px 0; }
+    &.beach { background-position: -132px 0; }
+    &.park { background-position: -165px 0; }
+    &.church { background-position: -198px 0; }
   }
 
   p {

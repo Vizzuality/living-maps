@@ -109,6 +109,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   width: 100%;
   margin-top: -150px;
   font-size: 71px;
+  font-weight: 400;
   text-align: center;
   white-space: nowrap;
 }
@@ -119,54 +120,13 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   width: 100%;
   margin-top: -60px;
   font-size: 41px;
+  font-weight: 400;
   text-align: center;
   white-space: nowrap;
 }
 
 #mamufas_night {
   background: rgba(19, 75, 171, 0.6);
-}
-
-.help {
-  position: absolute;
-  text-align: center;
-  background: url('../img/help-sprites.png') no-repeat;
-}
-.help p {
-  position: relative;
-  top: 30%;
-  padding: 0 25px;
-  font-size: 15px;
-}
-
-#back_help {
-  top: 0;
-  left: 0;
-  width: 220px;
-  height: 166px;
-}
-
-#change_help {
-  bottom: 0;
-  left: 50%;
-  margin-left: -110px;
-  width: 220px;
-  height: 126px;
-  background-position: 0 -166px;
-}
-#change_help p {
-  top: 50%;
-}
-
-#scrub_help {
-  top: 75px;
-  right: 50px;
-  width: 205px;
-  height: 205px;
-  background-position: -220px 0;
-}
-#scrub_help p {
-  top: 40%;
 }
 
 #spinner-container {
@@ -270,6 +230,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 .hour {
   margin-bottom: 20px;
   font-size: 70px;
+  font-weight: 300;
 }
 .hour sup {
   vertical-align: 35px;
@@ -486,6 +447,7 @@ canvas {
 }
 .bubble .info p {
   line-height: 23px;
+  font-weight: 300;
 }
 .bubble .info span.tail {
   position: absolute;
@@ -502,9 +464,25 @@ canvas {
   display: block;
   width: 100%;
   height: 60px;
+  background: url('../img/bubbles-sprites.png?1370338091') no-repeat center 0;
 }
-.bubble .info span.type.bus {
-  background: url('../img/types/type_bus.png') no-repeat center center;
+.bubble .info span.type.transport {
+  background-position: center -60px;
+}
+.bubble .info span.type.sports {
+  background-position: center -120px;
+}
+.bubble .info span.type.airport {
+  background-position: center -180px;
+}
+.bubble .info span.type.beach {
+  background-position: center -240px;
+}
+.bubble .info span.type.park {
+  background-position: center -300px;
+}
+.bubble .info span.type.church {
+  background-position: center -360px;
 }
 .bubble .info a.go {
   position: absolute;
@@ -575,27 +553,25 @@ canvas {
   opacity: 1;
   cursor: pointer;
   pointer-events: auto;
-}
-.poi span.turist {
-  background: url('../img/poi_types.png?1369679289');
+  background: url('../img/poi_types.png?1370338464') no-repeat;
 }
 .poi span.transport {
-  background: url('../img/poi_types.png?1369679289') -33px 0;
+  background-position: -33px 0;
 }
 .poi span.sports {
-  background: url('../img/poi_types.png?1369679289') -66px 0;
+  background-position: -66px 0;
 }
 .poi span.airport {
-  background: url('../img/poi_types.png?1369679289') -99px 0;
+  background-position: -99px 0;
 }
 .poi span.beach {
-  background: url('../img/poi_types.png?1369679289') -132px 0;
+  background-position: -132px 0;
 }
 .poi span.park {
-  background: url('../img/poi_types.png?1369679289') -165px 0;
+  background-position: -165px 0;
 }
 .poi span.church {
-  background: url('../img/poi_types.png?1369679289') -198px 0;
+  background-position: -198px 0;
 }
 .poi p {
   line-height: 16px;
@@ -893,6 +869,13 @@ canvas {
 
 @font-face {
   font-family: 'Nokia Pure Text';
+  font-weight: regular;
+  src: url("../fonts/nokiapuretext_rg-webfont.eot");
+  src: url("../fonts/nokiapuretext_rg-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/nokiapuretext_rg-webfont.woff") format("woff"), url("../fonts/nokiapuretext_rg-webfont.ttf") format("truetype"), url("../fonts/nokiapuretext_rg-webfont.svg#Nokia Pure Text") format("svg");
+}
+
+@font-face {
+  font-family: 'Nokia Pure Text';
   font-weight: bold;
   src: url("../fonts/nokiapuretext_bd-webfont.eot");
   src: url("../fonts/nokiapuretext_bd-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/nokiapuretext_bd-webfont.woff") format("woff"), url("../fonts/nokiapuretext_bd-webfont.ttf") format("truetype"), url("../fonts/nokiapuretext_bd-webfont.svg#Nokia Pure Text") format("svg");
@@ -911,7 +894,7 @@ body {
   overflow-x: hidden;
   min-width: 980px;
   height: 100%;
-  font: 300 19px "Nokia Pure Text", Helvetica, Arial, sans-serif;
+  font: 19px "Nokia Pure Text", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   color: #fff;
 }
@@ -964,9 +947,6 @@ section.map {
   bottom: 0;
   border-bottom: 3px solid #ddd;
 }
-.navigation.bottom .about_link {
-  color: #FF4D4D;
-}
 .navigation.mapped {
   position: fixed;
   z-index: 600;
@@ -995,21 +975,19 @@ section.map {
 .navigation.mapped .menu {
   margin-right: 50px;
 }
-.navigation .title {
-  float: left;
-  font-size: 27px;
-  font-weight: bold;
-  line-height: 68px;
-}
-.navigation .title span {
-  font-weight: 300;
-}
 .navigation a {
   color: #4690C0;
+  font-weight: 300;
+}
+.navigation a .title {
+  float: left;
+  font-size: 27px;
+  line-height: 68px;
+  font-weight: 400;
+  letter-spacing: -1px;
 }
 .navigation a:hover {
-  color: #FF4D4D;
-  text-decoration: underline;
+  color: #0bd;
 }
 .navigation .social {
   margin-top: 19px;
@@ -1149,8 +1127,9 @@ section.about {
 }
 
 .section_title {
-  color: #FF4C4C;
+  color: #4690C0;
   font-size: 44px;
+  letter-spacing: -1px;
 }
 
 .section_description {
@@ -1216,8 +1195,10 @@ section.about {
 }
 .feature h3 {
   margin-bottom: 10px;
-  font-weight: 400;
   color: #202020;
+}
+.feature p {
+  font-weight: 300;
 }
 
 .data {
@@ -1239,8 +1220,12 @@ section.about {
 
 .footer {
   font-size: 14px;
+  font-weight: 300;
   line-height: 1.2;
   color: #c6c6c6;
+}
+.footer strong {
+  font-weight: 400;
 }
 .footer a {
   color: #c6c6c6;
@@ -1256,6 +1241,18 @@ section.about {
   display: block;
   width: 100px;
   height: 80px;
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  -o-transition: all 0.2s;
+  transition: all 0.2s;
+}
+.footer .button.here {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+  opacity: 0.8;
+}
+.footer .button.here:hover {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
 }
 .footer .button.cartodb {
   background: #ddd;
@@ -1264,10 +1261,6 @@ section.about {
   -ms-border-radius: 4px;
   -o-border-radius: 4px;
   border-radius: 4px;
-  -webkit-transition: all 0.2s;
-  -moz-transition: all 0.2s;
-  -o-transition: all 0.2s;
-  transition: all 0.2s;
 }
 .footer .button.cartodb:hover {
   background: #ccc;
