@@ -127,15 +127,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   background: rgba(19, 75, 171, 0.6);
 }
 
-.mamufas-inner {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: url('../img/mamufas.png?1369679289') no-repeat center center;
-}
-
 .help {
   position: absolute;
   text-align: center;
@@ -514,27 +505,6 @@ canvas {
 }
 .bubble .info span.type.bus {
   background: url('../img/types/type_bus.png') no-repeat center center;
-}
-.bubble .info span.type.turist {
-  background: url('../img/poi_types.png?1369679289');
-}
-.bubble .info span.type.transport {
-  background: url('../img/poi_types.png?1369679289') -33px 0;
-}
-.bubble .info span.type.sports {
-  background: url('../img/poi_types.png?1369679289') -66px 0;
-}
-.bubble .info span.type.airport {
-  background: url('../img/poi_types.png?1369679289') -99px 0;
-}
-.bubble .info span.type.beach {
-  background: url('../img/poi_types.png?1369679289') -132px 0;
-}
-.bubble .info span.type.park {
-  background: url('../img/poi_types.png?1369679289') -165px 0;
-}
-.bubble .info span.type.church {
-  background: url('../img/poi_types.png?1369679289') -198px 0;
 }
 .bubble .info a.go {
   position: absolute;
