@@ -47,7 +47,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(#0bd, .6);
+  background: rgba(#0bd, .3);
 }
 
 #mamufas {
@@ -71,63 +71,14 @@
     width: 100%;
     margin-top: -60px;
     font-size: 41px;
+    font-weight: 300;
     text-align: center;
     white-space: nowrap;
   }
 }
 
 #mamufas_night {
-  background: rgba(#134BAB, .6);
-}
-
-.mamufas-inner {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: image-url('mamufas.png') no-repeat center center;
-}
-
-.help {
-  position: absolute;
-  text-align: center;
-  background: image-url('help-sprites.png') no-repeat;
-
-  p {
-    position: relative;
-    top: 30%;
-    padding: 0 25px;
-    font-size: 15px;
-  }
-}
-
-#back_help {
-  top: 0;
-  left: 0;
-  width: 220px;
-  height: 166px;
-}
-
-#change_help {
-  bottom: 0;
-  left: 50%;
-  margin-left: -110px;
-  width: 220px;
-  height: 126px;
-  background-position: 0 -166px;
-
-  p { top: 50%; }
-}
-
-#scrub_help {
-  top: 75px;
-  right: 50px;
-  width: 205px;
-  height: 205px;
-  background-position: -220px 0;
-
-  p { top: 40%; }
+  background: rgba(#134BAB, .3);
 }
 
 #spinner-container {
@@ -225,6 +176,7 @@
 .hour {
   margin-bottom: 20px;
   font-size: 70px;
+  font-weight: 300;
 
   sup {
     vertical-align: 35px;
@@ -244,10 +196,10 @@
     display: block;
     position: absolute;
     left: 0;
-    top: -6px;
+    top: -9px;
     content: '';
-    height: 13px;
-    width: 13px;
+    height: 17px;
+    width: 17px;
     background: #fff image-url('slider.png') no-repeat center center;
     cursor: move;
     @include border-radius(2px);
@@ -257,10 +209,10 @@
 
     &:hover,
     &:active {
-      top: -9px;
-      margin-left: -3px;
-      height: 19px;
-      width: 19px;
+      top: -13px;
+      margin-left: -4px;
+      height: 24px;
+      width: 24px;
     }
 
     &.stopped { background-image: image-url('slider-stopped.png'); }
@@ -413,18 +365,20 @@ canvas {
   @include user-select(none);
 
   .info {
-    position:relative;
-    top:100px; left:0;
-    display:block;
-    width:177px;
-    padding:15px;
-    margin:0 0 0 36px;
+    position: relative;
+    top: 100px;
+    left: 0;
+    display: block;
+    width: 177px;
+    padding: 15px;
+    margin: 0 0 0 36px;
     text-align: center;
     background: rgba(#000F1A, .85);
     @include opacity(0);
 
-    p{
+    p {
       line-height: 23px;
+      font-weight: 300;
     }
 
     span.tail {
@@ -440,10 +394,17 @@ canvas {
     }
 
     span.type {
-      display:block;
-      width:100%;
-      height:60px;
-      &.bus {@include background(image-url('types/type_bus.png') no-repeat center center);}
+      display: block;
+      width: 100%;
+      height: 60px;
+      background: image-url('bubbles-sprites.png') no-repeat center 0;
+
+      &.transport { background-position: center -60px; }
+      &.sports { background-position: center -120px; }
+      &.airport { background-position: center -180px; }
+      &.beach { background-position: center -240px; }
+      &.park { background-position: center -300px; }
+      &.church { background-position: center -360px; }
     }
 
     a.go {
@@ -453,14 +414,16 @@ canvas {
       display: block;
       height: 45px;
       width: 45px;
-      @include background(image-url('marker_go.png') no-repeat );
+      background: image-url('go-sprite.png') no-repeat 0 0;
     }
 
     &:hover {
       background-color: #CC0066;
       cursor:pointer;
-      .go { @include background(image-url('marker_go-hover.png')); }
-      span.tail {border-top-color:#CC0066;}
+
+      .go { background: image-url('go-sprite.png') no-repeat 0 -45px; }
+
+      span.tail { border-top-color:#c06; }
     }
   }
 
@@ -513,14 +476,14 @@ canvas {
     opacity: 1;
     cursor: pointer;
     pointer-events: auto;
+    background: image-url('poi_types.png') no-repeat;
 
-    &.turist {background: image-url('poi_types.png');}
-    &.transport {background: image-url('poi_types.png') -33px 0;}
-    &.sports {background: image-url('poi_types.png') -66px 0;}
-    &.airport {background: image-url('poi_types.png') -99px 0;}
-    &.beach {background: image-url('poi_types.png') -132px 0;}
-    &.park {background: image-url('poi_types.png') -165px 0;}
-    &.church {background: image-url('poi_types.png') -198px 0;}
+    &.transport { background-position: -33px 0; }
+    &.sports { background-position: -66px 0; }
+    &.airport { background-position: -99px 0; }
+    &.beach { background-position: -132px 0; }
+    &.park { background-position: -165px 0; }
+    &.church { background-position: -198px 0; }
   }
 
   p {
@@ -552,7 +515,7 @@ canvas {
     @include inline-block();
     width:26px;
     height:26px;
-    @include background(image-url('zoom_control.png') no-repeat 0 0);
+    background: image-url('zoom_control.png') no-repeat 0 0;
     text-indent: -9999px;
 
     &:hover { background-position: 0 -26px; }
@@ -564,7 +527,7 @@ canvas {
     }
 
     &.disabled {
-      @include opacity(.2);
+      @include opacity(.1);
       cursor: default;
 
       &:hover { background-position: 0 0; }

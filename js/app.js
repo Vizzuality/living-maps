@@ -53,7 +53,7 @@ var App = {
       timeRange: (this.last_time - this.init_time) * 1,
       map: this.map.map,
       city: this.options.city
-    });
+    }, this.map.map, this.options.city);
 
     // Set map controls
     Zoom.initialize(this.map.map, this.options.city);
@@ -76,7 +76,7 @@ var App = {
     this._tick = this._tick.bind(this);
     requestAnimationFrame(this._tick);
 
-    if(location.search.indexOf('debug') != -1)
+    if(isDebug)
       setTimeout(function() {
         self.add_debug();
       }, 4000);
@@ -276,6 +276,9 @@ var App = {
 
     // Set city in the zoom
     Zoom.set_city(this.options.city, self.map.map);
+
+    // Set city in the slider
+    this.slider.set_city(this.options.city, self.map.map);
 
     Events.trigger("disableanimation", self.map.map, self.options.city, self.options.time);
 
