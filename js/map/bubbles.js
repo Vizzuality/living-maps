@@ -54,6 +54,7 @@ var Bubbles = {
 
     this.getData();
     this._initBindings();
+    // this._calculateRandomPositions();
 
     return this;
   },
@@ -92,7 +93,7 @@ var Bubbles = {
       city: this.city,
       columns: ['cartodb_id as id', 'city', 'st_x(the_geom) as lon', 'time', 'st_y(the_geom) as lat', 'type', 'description']
     });
-    this.data.fetch();
+    this.data.fetch(this._calculateRandomPositions);
   },
 
   render: function() {},
@@ -344,6 +345,15 @@ var Bubbles = {
     }
   },
 
+  _calculateRandomPositions: function(data){
+    
+    var bb = this.AppData.CITIES[this.city].map.bubbleBounds;
+
+    for(var i = 0; i<data.length ; i++){
+      data[i].lat = (Math.random() * (bb[0][0] - bb[1][0]) + bb[1][0]);
+      data[i].lon = (Math.random() * (bb[0][1] - bb[1][1]) + bb[1][1]);
+    }
+  },
 
   set_time: function(time) {
     var e = this.data.getFortime((time/60.0)>>0);

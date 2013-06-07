@@ -20,7 +20,7 @@ TimeBasedData.prototype.reset = function(data, callback) {
     this.time_index[e[time]] = e;
   }
 
-  callback && callback();
+  callback && callback(data);
 }
 
 // time - integer
