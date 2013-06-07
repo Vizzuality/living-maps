@@ -216,7 +216,7 @@ Mamufas.prototype = {
 
     Events.on("stopanimation", function() {
       self.spinner.stop();
-      self.$spinner_container.addClass("play").html('<a href="#" id="play">Start simulation</a>');
+      self.$spinner_container.addClass("play").html('<a href="#" id="play">Explore The Living City</a>');
 
       $("#play").on("click", function(e) {
         e.preventDefault();

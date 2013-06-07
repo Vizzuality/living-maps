@@ -284,7 +284,12 @@ section.map {
   margin-top: 25px;
   width: 680px;
 
-  p { line-height: 1.2; }
+  p {
+    line-height: 1.2;
+    margin-bottom: 15px;
+
+    &.last { margin-bottom: 0; }
+  }
 }
 
 
@@ -374,8 +379,6 @@ section.about {
   line-height: 1.2;
   color: #c6c6c6;
 
-  strong { font-weight: 400; }
-
   a {
     color: #c6c6c6;
     @include transition(all .2s);
@@ -463,11 +466,6 @@ section.about {
   .footer {
     padding: 120px 0 65px;
     font-weight: 300;
-
-    strong {
-      display: block;
-      font-weight: 400;
-    }
 
     ul { margin-bottom: 15px; }
 
