@@ -1,5 +1,5 @@
-// importScripts('util.min.js');
-importScripts('util.js');
+importScripts('util.min.js');
+// importScripts('util.js');
 
 var queue = [];
 var processing = false;

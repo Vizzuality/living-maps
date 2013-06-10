@@ -11,8 +11,8 @@ if($.browser.mobile) {
     isDebug = false;
 
   Modernizr.load({
-    load: ['scripts/data/cities.js', 'scripts/util.js', 'scripts/living-cities.js', 'scripts/probs_density_layer.js'],
-    // load: ['scripts/data/cities.min.js', 'scripts/util.min.js', 'scripts/living-cities.min.js', 'scripts/probs_density_layer.min.js'],
+    // load: ['scripts/data/cities.js', 'scripts/util.js', 'scripts/living-cities.js', 'scripts/probs_density_layer.js'],
+    load: ['scripts/data/cities.min.js', 'scripts/util.min.js', 'scripts/living-cities.min.js', 'scripts/probs_density_layer.min.js'],
     complete: function() {
       if(!Modernizr.webworkers) {
         isWebWorkers = false;
