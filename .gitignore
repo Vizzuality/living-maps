@@ -1,8 +1,7 @@
-_staging/
-css/main.css
 node_modules/
-Gemfile.lock
+dist
+test
 .DS_Store
 .ruby-version
-.bundle/
+.tmp/
 .sass-cache/
