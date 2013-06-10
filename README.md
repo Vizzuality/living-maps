@@ -31,6 +31,7 @@ The workflow to create and deploy the static assets is as follow:
 ```
 grunt build
 ```
+* There are some lines in the code which must be commented/uncommented prior to the build, for minification purposes
 
 From now on, the `dist` directory will be commited, and for every deploy to `gh-pages` we must run the next command after commiting the changes:
 
