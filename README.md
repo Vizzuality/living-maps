@@ -36,7 +36,7 @@ grunt build
 From now on, the `dist` directory will be commited, and for every deploy to `gh-pages` we must run the next command after commiting the changes:
 
 ```
-git subtree push --prefix _production origin gh-pages
+git subtree push --prefix dist origin gh-pages
 ```
 
 For more information:
