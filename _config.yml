@@ -1,3 +1,0 @@
-destination: _staging
-permalink: pretty
-exclude: [node_modules, sass, tests, config.rb, gruntfile.js, package.json, Procfile, README.md]

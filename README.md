@@ -1,16 +1,12 @@
 Installation
 ============
 
-We use `bundler` to manage the dependencies, to start working just type the next command in your shell:
+We use `Grunt` for the development and deployment process. Make sure you have Node.js and Git installed (plus Ruby and Compass too) then install the recommended tools by running:
 
 ```
-bundle install
+npm install -g yo grunt-cli bower
 ```
-Which will install `jekyll`, `compass` and `foreman` gems
-
-I assume we use `rbenv`for the Ruby environment:
-
-* https://github.com/sstephenson/rbenv/
+Which will install `yeoman`, `grunt` and `bower`
 
 
 Use
@@ -19,46 +15,30 @@ Use
 To start the server type the next command in your shell:
 
 ```
-foreman start
+grunt server
 ```
 
 And access normally in your browser to the next address:
 
-* http://localhost.lan:4000
+* http://localhost.lan:9000
 
 
 Deploy
 ======
 
-In order to create the static files for deploy we use `Grunt`. `Grunt` and Grunt tasks are installed and managed via an existing `package.json`. Remember to update your `node` and `npm` installation first.
+The workflow to create and deploy the static assets is as follow:
 
 ```
-npm install
+grunt build
 ```
+* There are some lines in the code which must be commented/uncommented prior to the build, for minification purposes
 
-The workflow to deploy static assets is as follow:
-
-```
-grunt clean       <- clean deploy directories
-compass compile   <- regenerate stylesheets
-jekyll build      <- regenerate markup to _staging
-grunt copy        <- copy static files to _production
-grunt cssmin      <- minify stylesheets
-grunt concat      <- concat javascript files
-grunt uglify      <- compress and uglify javascript files
-grunt usemin      <- update paths in markup with minifies files
-```
-
-From now on, the `_production` directory will be commited, and for every deploy to `gh-pages` we must run the next command after the previous instructions and commiting the changes:
+From now on, the `dist` directory will be commited, and for every deploy to `gh-pages` we must run the next command after commiting the changes:
 
 ```
 git subtree push --prefix _production origin gh-pages
 ```
-* right now the `gh-pages` branch *must be deleted every time before* the deploys, I'm researching to improve this
 
 For more information:
 
-* https://github.com/mojombo/jekyll
-* http://compass-style.org/
-* https://github.com/ddollar/foreman
-* http://gruntjs.com/
+* http://yeoman.io/
