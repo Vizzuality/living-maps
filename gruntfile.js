@@ -1,79 +1,353 @@
-module.exports = function(grunt) {
+// Generated on 2013-06-10 using generator-webapp 0.2.2
+'use strict';
+var LIVERELOAD_PORT = 35729;
+var lrSnippet = require('connect-livereload')({port: LIVERELOAD_PORT});
+var mountFolder = function (connect, dir) {
+    return connect.static(require('path').resolve(dir));
+};
 
-  grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
-    jshint: {
-      files: ['gruntfile.js', '_staging/**/*.js'],
-      options: {
-        globals: {
-          jQuery: true,
-          console: true,
-          document: true
-        }
-      }
-    },
-    clean: {
-      dist: ['_staging', '_production']
-    },
-    copy: {            
-      dist: {
-        files: [
-          {expand: true, cwd: '_staging/', src: ['*'], dest: '_production/', filter: 'isFile'},
-          {expand: true, cwd: '_staging/flash/', src: ['**'], dest: '_production/flash/'},
-          {expand: true, cwd: '_staging/fonts/', src: ['**'], dest: '_production/fonts/'},
-          {expand: true, cwd: '_staging/img/', src: ['**'], dest: '_production/img/'}
-        ]
-      }
-    },
-    concat: {
-      options: {
-        separator: ';'
-      },
-      dist: {
-        src: ['_staging/js/vendor/*.js', '_staging/js/profiler.js', '_staging/js/events.js', '_staging/js/leaflet_tileloader_mixin.js', '_staging/js/canvas_layer.js', '_staging/js/sprites.js', '_staging/js/graph.js', '_staging/js/navigation.js', '_staging/js/slider.js', '_staging/js/mamufas.js', '_staging/js/time_based_data.js', '_staging/js/map/*.js', '_staging/js/map.js', '_staging/js/app.js', '_staging/js/main.js' ],
-        dest: '_staging/js/living-maps.js'
-      }
-    },
-    uglify: {
-      options: {
-        banner: '/*! living-maps <%= grunt.template.today("dd-mm-yyyy") %> */\n'
-      },
-      dist: {
-        files: {
-          '_production/js/vendor/modernizr.custom.13205.js': ['_staging/js/vendor/modernizr.custom.13205.js'],
-          '_production/js/living-maps.min.js': ['_staging/js/living-maps.js'],
-          '_production/js/util.min.js': ['_staging/js/util.js'],
-          '_production/js/probs_density_layer.min.js': ['_staging/js/probs_density_layer.js'],
-          '_production/js/process_tile_worker.min.js': ['_staging/js/process_tile_worker.js'],
-          '_production/js/data/cities.min.js': ['_staging/js/data/cities.js']
-        }
-      }
-    },
-    cssmin: {
-      add_banner: {
-        options: {
-          banner: '/*! living-maps <%= grunt.template.today("dd-mm-yyyy") %> */\n',
+// # Globbing
+// for performance reasons we're only matching one level down:
+// 'test/spec/{,*/}*.js'
+// use this if you want to recursively match all subfolders:
+// 'test/spec/**/*.js'
+
+module.exports = function (grunt) {
+    // load all grunt tasks
+    require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+
+    // configurable paths
+    var yeomanConfig = {
+        app: 'app',
+        dist: 'dist'
+    };
+
+    grunt.initConfig({
+        yeoman: yeomanConfig,
+        watch: {
+            options: {
+                nospawn: true
+            },
+            coffee: {
+                files: ['<%= yeoman.app %>/scripts/{,*/}*.coffee'],
+                tasks: ['coffee:dist']
+            },
+            coffeeTest: {
+                files: ['test/spec/{,*/}*.coffee'],
+                tasks: ['coffee:test']
+            },
+            compass: {
+                files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
+                tasks: ['compass:server']
+            },
+            livereload: {
+                options: {
+                    livereload: LIVERELOAD_PORT
+                },
+                files: [
+                    '<%= yeoman.app %>/*.html',
+                    '{.tmp,<%= yeoman.app %>}/styles/{,*/}*.css',
+                    '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
+                    '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
+                ]
+            }
         },
-        files: {
-          '_production/css/living-maps.min.css': ['_staging/css/vendor/*.css', '_staging/css/*.css']
+        connect: {
+            options: {
+                port: 9000,
+                // change this to '0.0.0.0' to access the server from outside
+                hostname: 'localhost'
+            },
+            livereload: {
+                options: {
+                    middleware: function (connect) {
+                        return [
+                            mountFolder(connect, '.tmp'),
+                            mountFolder(connect, yeomanConfig.app),
+                            lrSnippet
+                        ];
+                    }
+                }
+            },
+            test: {
+                options: {
+                    middleware: function (connect) {
+                        return [
+                            mountFolder(connect, '.tmp'),
+                            mountFolder(connect, 'test')
+                        ];
+                    }
+                }
+            },
+            dist: {
+                options: {
+                    middleware: function (connect) {
+                        return [
+                            mountFolder(connect, yeomanConfig.dist)
+                        ];
+                    }
+                }
+            }
+        },
+        open: {
+            server: {
+                path: 'http://localhost:<%= connect.options.port %>'
+            }
+        },
+        clean: {
+            dist: {
+                files: [{
+                    dot: true,
+                    src: [
+                        '.tmp',
+                        '<%= yeoman.dist %>/*',
+                        '!<%= yeoman.dist %>/.git*'
+                    ]
+                }]
+            },
+            server: '.tmp'
+        },
+        jshint: {
+            options: {
+                jshintrc: '.jshintrc'
+            },
+            all: [
+                'Gruntfile.js',
+                '<%= yeoman.app %>/scripts/{,*/}*.js',
+                '!<%= yeoman.app %>/scripts/vendor/*',
+                'test/spec/{,*/}*.js'
+            ]
+        },
+        mocha: {
+            all: {
+                options: {
+                    run: true,
+                    urls: ['http://localhost:<%= connect.options.port %>/index.html']
+                }
+            }
+        },
+        coffee: {
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= yeoman.app %>/scripts',
+                    src: '{,*/}*.coffee',
+                    dest: '.tmp/scripts',
+                    ext: '.js'
+                }]
+            },
+            test: {
+                files: [{
+                    expand: true,
+                    cwd: 'test/spec',
+                    src: '{,*/}*.coffee',
+                    dest: '.tmp/spec',
+                    ext: '.js'
+                }]
+            }
+        },
+        compass: {
+            options: {
+                sassDir: '<%= yeoman.app %>/styles',
+                cssDir: '.tmp/styles',
+                generatedImagesDir: '.tmp/images/generated',
+                imagesDir: '<%= yeoman.app %>/images',
+                // imagesDir: '/living-maps/images',
+                javascriptsDir: '<%= yeoman.app %>/scripts',
+                fontsDir: '<%= yeoman.app %>/fonts',
+                importPath: '<%= yeoman.app %>/bower_components',
+                httpImagesPath: '/images',
+                httpGeneratedImagesPath: '/images/generated',
+                relativeAssets: false
+                // relativeAssets: true
+            },
+            dist: {},
+            server: {
+                options: {
+                    debugInfo: true
+                }
+            }
+        },
+        // not used since Uglify task does concat,
+        // but still available if needed
+        concat: {
+            dist: {
+                src: ['<%= yeoman.app %>/scripts/vendor/*.js', '<%= yeoman.app %>/scripts/profiler.js', '<%= yeoman.app %>/scripts/events.js', '<%= yeoman.app %>/scripts/leaflet_tileloader_mixin.js', '<%= yeoman.app %>/scripts/canvas_layer.js', '<%= yeoman.app %>/scripts/sprites.js', '<%= yeoman.app %>/scripts/graph.js', '<%= yeoman.app %>/scripts/navigation.js', '<%= yeoman.app %>/scripts/slider.js', '<%= yeoman.app %>/scripts/mamufas.js', '<%= yeoman.app %>/scripts/time_based_data.js', '<%= yeoman.app %>/scripts/map/*.js', '<%= yeoman.app %>/scripts/map.js', '<%= yeoman.app %>/scripts/app.js' ],
+                dest: '<%= yeoman.app %>/scripts/living-cities.js'
+            }
+        },
+        // not enabled since usemin task does concat and uglify
+        // check index.html to edit your build targets
+        // enable this task if you prefer defining your build targets here
+        uglify: {
+          dist: {
+            files: {
+              '<%= yeoman.dist %>/scripts/vendor/modernizr.min.js': ['<%= yeoman.app %>/scripts/vendor/modernizr.js'],
+              '<%= yeoman.dist %>/scripts/main.min.js': ['<%= yeoman.app %>/scripts/vendor/jquery/jquery-2.0.1.js', '<%= yeoman.app %>/scripts/vendor/jquery/jquery-2.0.1.js', '<%= yeoman.app %>/scripts/vendor/jquery/jquery-migrate-1.2.1.min.js', '<%= yeoman.app %>/scripts/vendor/jquery/detectdevice.js', '<%= yeoman.app %>/scripts/main.js'],
+              '<%= yeoman.dist %>/scripts/living-cities.min.js': ['<%= yeoman.app %>/scripts/living-cities.js'],
+              '<%= yeoman.dist %>/scripts/util.min.js': ['<%= yeoman.app %>/scripts/util.js'],
+              '<%= yeoman.dist %>/scripts/probs_density_layer.min.js': ['<%= yeoman.app %>/scripts/probs_density_layer.js'],
+              '<%= yeoman.dist %>/scripts/process_tile_worker.min.js': ['<%= yeoman.app %>/scripts/process_tile_worker.js'],
+              '<%= yeoman.dist %>/scripts/data/cities.min.js': ['<%= yeoman.app %>/scripts/data/cities.js']
+            }
+          }
+        },
+        rev: {
+            dist: {
+                files: {
+                    src: [
+                        '<%= yeoman.dist %>/scripts/{,*/}*.js',
+                        '<%= yeoman.dist %>/styles/{,*/}*.css',
+                        '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}',
+                        '<%= yeoman.dist %>/styles/fonts/*'
+                    ]
+                }
+            }
+        },
+        useminPrepare: {
+            options: {
+                dest: '<%= yeoman.dist %>'
+            },
+            html: '<%= yeoman.app %>/index.html'
+        },
+        usemin: {
+            options: {
+                dirs: ['<%= yeoman.dist %>']
+            },
+            html: ['<%= yeoman.dist %>/{,*/}*.html'],
+            css: ['<%= yeoman.dist %>/styles/{,*/}*.css']
+        },
+        imagemin: {
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= yeoman.app %>/images',
+                    src: '{,*/}*.{png,jpg,jpeg}',
+                    dest: '<%= yeoman.dist %>/images'
+                }]
+            }
+        },
+        svgmin: {
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= yeoman.app %>/images',
+                    src: '{,*/}*.svg',
+                    dest: '<%= yeoman.dist %>/images'
+                }]
+            }
+        },
+        cssmin: {
+            dist: {
+                files: {
+                    '<%= yeoman.dist %>/styles/main.min.css': ['<%= yeoman.app %>/styles/vendor/*.css', '.tmp/styles/main.css', '.tmp/styles/map.css'],
+                    '<%= yeoman.dist %>/styles/oldbrowsers.min.css': ['.tmp/styles/main.css']
+                }
+            }
+        },
+        htmlmin: {
+            dist: {
+                options: {
+                    /*removeCommentsFromCDATA: true,
+                    // https://github.com/yeoman/grunt-usemin/issues/44
+                    //collapseWhitespace: true,
+                    collapseBooleanAttributes: true,
+                    removeAttributeQuotes: true,
+                    removeRedundantAttributes: true,
+                    useShortDoctype: true,
+                    removeEmptyAttributes: true,
+                    removeOptionalTags: true*/
+                },
+                files: [{
+                    expand: true,
+                    cwd: '<%= yeoman.app %>',
+                    src: '*.html',
+                    dest: '<%= yeoman.dist %>'
+                }]
+            }
+        },
+        // Put files not handled in other tasks here
+        copy: {
+            dist: {
+                files: [{
+                    expand: true,
+                    dot: true,
+                    cwd: '<%= yeoman.app %>',
+                    dest: '<%= yeoman.dist %>',
+                    src: [
+                        '*.{ico,txt}',
+                        '.htaccess',
+                        'images/{,*/}*.{webp,gif}',
+                        // 'styles/fonts/*'
+                        'fonts/*',
+                        'flash/*'
+                    ]
+                }, {
+                    expand: true,
+                    cwd: '.tmp/images',
+                    dest: '<%= yeoman.dist %>/images',
+                    src: [
+                        'generated/*'
+                    ]
+                }]
+            }
+        },
+        concurrent: {
+            server: [
+                'coffee:dist',
+                'compass:server'
+            ],
+            test: [
+                'coffee',
+                'compass'
+            ],
+            dist: [
+                'coffee',
+                'compass:dist',
+                'imagemin',
+                'svgmin',
+                'htmlmin'
+            ]
         }
-      }
-    },
-    useminPrepare: {
-      html: '_production/index.html'
-    },
-    usemin: {
-      html: ['_production/**/*.html']
-    }
-  });
+    });
 
-  grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-cssmin');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-usemin');
+    grunt.registerTask('server', function (target) {
+        if (target === 'dist') {
+            return grunt.task.run(['build', 'open', 'connect:dist:keepalive']);
+        }
 
-  grunt.registerTask('default', ['jshint clean copy concat uglify useminPrepare usemin']);
+        grunt.task.run([
+            'clean:server',
+            'concurrent:server',
+            'connect:livereload',
+            'open',
+            'watch'
+        ]);
+    });
+
+    grunt.registerTask('test', [
+        'clean:server',
+        'concurrent:test',
+        'connect:test',
+        'mocha'
+    ]);
+
+    grunt.registerTask('build', [
+        'clean:dist',
+        'useminPrepare',
+        'concurrent:dist',
+        'copy',
+        'concat',
+        'cssmin',
+        'uglify',
+        // 'copy',
+        // 'rev',
+        'usemin'
+    ]);
+
+    grunt.registerTask('default', [
+        'jshint',
+        'test',
+        'build'
+    ]);
 };
