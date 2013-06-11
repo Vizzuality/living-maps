@@ -1,6 +1,8 @@
 node_modules/
 test/
 dist/
+app/scripts/data/cities/
+app/scripts/data/bin/
 .DS_Store
 .ruby-version
 .tmp/
