@@ -250,27 +250,6 @@ function goTo($el, opt, callback) {
 
 
 /*
- * Return URL or md5 file
- */
-
-function getNokiaJSON(url) {
-  var _data = null;
-
-  if(location.search.indexOf('debug') != -1) {
-    $.getJSON(url, function(data) {
-      _data = data.rows;
-    });
-  } else {
-    $.getJSON("js/data/" + md5(url) + ".json", function(data){
-      _data = data.rows;
-    });
-  }
-
-  return _data;
-}
-
-
-/*
  * Generate md5 of a string
  */
 

@@ -43,7 +43,7 @@ TimeBasedData.prototype.fetch = function(callback) {
       self.reset(data.rows, callback);
     });
   } else {
-    $.getJSON("js/data/" + md5(url) + ".json", function(data) {
+    $.getJSON("scripts/data/" + md5(url) + ".json", function(data) {
       self.reset(data.rows, callback);
     });
   }

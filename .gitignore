@@ -1,5 +1,6 @@
 node_modules/
-test
+test/
+dist/
 .DS_Store
 .ruby-version
 .tmp/

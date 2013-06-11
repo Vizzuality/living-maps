@@ -171,7 +171,7 @@ module.exports = function (grunt) {
         concat: {
             dist: {
                 src: ['<%= yeoman.app %>/scripts/vendor/*.js', '<%= yeoman.app %>/scripts/profiler.js', '<%= yeoman.app %>/scripts/events.js', '<%= yeoman.app %>/scripts/leaflet_tileloader_mixin.js', '<%= yeoman.app %>/scripts/canvas_layer.js', '<%= yeoman.app %>/scripts/sprites.js', '<%= yeoman.app %>/scripts/graph.js', '<%= yeoman.app %>/scripts/navigation.js', '<%= yeoman.app %>/scripts/slider.js', '<%= yeoman.app %>/scripts/mamufas.js', '<%= yeoman.app %>/scripts/time_based_data.js', '<%= yeoman.app %>/scripts/map/*.js', '<%= yeoman.app %>/scripts/map.js', '<%= yeoman.app %>/scripts/app.js' ],
-                dest: '<%= yeoman.app %>/scripts/living-cities.js'
+                dest: '.tmp/scripts/living-cities.js'
             }
         },
         // not enabled since usemin task does concat and uglify
@@ -182,7 +182,7 @@ module.exports = function (grunt) {
             files: {
               '<%= yeoman.dist %>/scripts/vendor/modernizr.min.js': ['<%= yeoman.app %>/scripts/vendor/modernizr.js'],
               '<%= yeoman.dist %>/scripts/main.min.js': ['<%= yeoman.app %>/scripts/vendor/jquery/jquery-2.0.1.js', '<%= yeoman.app %>/scripts/vendor/jquery/jquery-2.0.1.js', '<%= yeoman.app %>/scripts/vendor/jquery/jquery-migrate-1.2.1.min.js', '<%= yeoman.app %>/scripts/vendor/jquery/detectdevice.js', '<%= yeoman.app %>/scripts/main.js'],
-              '<%= yeoman.dist %>/scripts/living-cities.min.js': ['<%= yeoman.app %>/scripts/living-cities.js'],
+              '<%= yeoman.dist %>/scripts/living-cities.min.js': ['.tmp/scripts/living-cities.js'],
               '<%= yeoman.dist %>/scripts/util.min.js': ['<%= yeoman.app %>/scripts/util.js'],
               '<%= yeoman.dist %>/scripts/probs_density_layer.min.js': ['<%= yeoman.app %>/scripts/probs_density_layer.js'],
               '<%= yeoman.dist %>/scripts/process_tile_worker.min.js': ['<%= yeoman.app %>/scripts/process_tile_worker.js'],
