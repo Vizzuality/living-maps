@@ -6,6 +6,7 @@ We use `Grunt` for the development and deployment process. Make sure you have No
 ```
 npm install -g yo grunt-cli bower
 ```
+
 Which will install `yeoman`, `grunt` and `bower`
 
 
@@ -31,13 +32,18 @@ The workflow to create and deploy the static assets is as follow:
 ```
 grunt build
 ```
+
 * There are some lines in the code which must be commented/uncommented prior to the build, for minification purposes
 
-From now on, the `dist` directory will be commited, and for every deploy to `gh-pages` we must run the next command after commiting the changes:
+```
+app/scripts/main.js
+app/scripts/probs_density_layer.js
+app/scripts/process_tile_worker.js
+```
 
-```
-git subtree push --prefix dist origin gh-pages
-```
+We don't need to commit the resulting `dist` directory, which will be deployed to the next URL via `S3` command:
+
+* http://com.vizzuality.livingcities.s3-website-us-east-1.amazonaws.com/
 
 For more information:
 
