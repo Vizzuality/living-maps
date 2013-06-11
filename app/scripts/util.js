@@ -16,8 +16,13 @@ function get(url, callback) {
       }
     }
   };
-  // req.open("GET", "data/"+md5(url)+".bin", true)
-  req.open("GET", url, true)
+
+  if(location.search.indexOf('debug') != -1) {
+    req.open("GET", url, true);
+  } else {
+    req.open("GET", "data/bin/"+md5(url)+".bin", true);
+  }
+
   req.responseType = 'arraybuffer';
   req.send(null)
   return req;

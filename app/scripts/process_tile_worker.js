@@ -1,5 +1,5 @@
-importScripts('util.min.js');
-// importScripts('util.js');
+// importScripts('util.min.js');
+importScripts('util.js');
 
 var queue = [];
 var processing = false;
@@ -17,16 +17,23 @@ function next() {
 }
 
 function get_data(url, coord, zoom, TIME_SLOTS) {
-    get(url, function (xhr) {
-      var data = null;
-      if(xhr.response && xhr.response.byteLength) {
-        data = new ArrayBufferSer(xhr.response)
-      }
-      postMessage(pre_cache_data1(data, coord, zoom, TIME_SLOTS))
+  if(location.search.indexOf('debug') != -1) {
+    var _url = url;
+  } else {
+    var _url = "js/data/bin/" + md5(url) + ".bin";
+  }
 
-      processing = false;
-      next();
-    });
+  get(url, function(xhr) {
+    var data = null;
+    if(xhr && xhr.response && xhr.response.byteLength) {
+      data = new ArrayBufferSer(xhr.response);
+    }
+
+    postMessage(pre_cache_data1(data, coord, zoom, TIME_SLOTS));
+
+    processing = false;
+    next();
+  });
 }
 
 function pre_cache_data1(rows, coord, zoom, TIME_SLOTS) {
