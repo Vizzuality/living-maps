@@ -278,7 +278,8 @@ module.exports = function (grunt) {
                         'images/{,*/}*.{webp,gif}',
                         // 'styles/fonts/*'
                         'fonts/*',
-                        'flash/*'
+                        'flash/*',
+                        'scripts/data/cities/*'
                     ]
                 }, {
                     expand: true,
