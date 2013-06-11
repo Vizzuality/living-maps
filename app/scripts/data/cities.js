@@ -22,8 +22,8 @@ window.AppData.CITIES = {
     scale: 2.0,
     city: "london",
     city_name: "London",
-    city_title: "The Great British capital.",
-    city_subtitle: "The largest city in the European Union.",
+    city_title: "The great British capital",
+    city_subtitle: "Largest and most populous city in the EU.",
     time: 0,
     // time_offset: -60, // minutes
     time_offset: 0, // minutes
@@ -49,8 +49,8 @@ window.AppData.CITIES = {
     scale: 2.0,
     city: "chicago",
     city_name: "Chicago",
-    city_title: "The Windy City.",
-    city_subtitle: "The third most populous city in the United States.",
+    city_title: "Capital of the Midwest",
+    city_subtitle: "The third most populous city in the USA.",
     time: 0,
     time_offset: 5*60 // minutes
   },
@@ -74,8 +74,8 @@ window.AppData.CITIES = {
     scale: 2.0,
     city: "rome",
     city_name: "Rome",
-    city_title: "Legendary founded in 753 BC.",
-    city_subtitle: "More than two and a half thousand years of history.",
+    city_title: "Yesterday, today and forever",
+    city_subtitle: "Birthplace of western civilisation.",
     time: 0,
     time_offset: -60 // minutes
   },
@@ -99,8 +99,8 @@ window.AppData.CITIES = {
     scale: 2.0,
     city: "helsinki",
     city_name: "Helsinki",
-    city_title: "The largest city of Finland.",
-    city_subtitle: "1,361,506 People in an arm of the Baltic Sea",
+    city_title: "The heart of Finland.",
+    city_subtitle: "Europe's northernmost capital, population 1,361,506",
     time: 0,
     time_offset: -2*60 // minutes
   },
@@ -124,8 +124,8 @@ window.AppData.CITIES = {
     scale: 2.0,
     city: "mumbai",
     city_name: "Mumbai",
-    city_title: "The city that never sleeps.",
-    city_subtitle: "More than 3M points mapped over time.",
+    city_title: "The jewel in India’s crown",
+    city_subtitle: "18M people, 1.8M vehicles, 1,900 km of road.",
     time: 0,
     time_offset: -5*60 // minutes
   }
