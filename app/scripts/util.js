@@ -17,6 +17,7 @@ function get(url, callback) {
     }
   };
 
+  // only working if !isWebWorkers
   if(location.search.indexOf('debug') != -1) {
     req.open("GET", url, true);
   } else {
