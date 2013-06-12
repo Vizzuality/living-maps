@@ -22,9 +22,6 @@ L.Mixin.TileLoader = {
 
       if (!this._map) { return; }
 
-      // _download_bounds = new L.Bounds(this._map.project([42.0226052431361, -87.5245571136]), this._map.project([41.6445683186, -87.9193200670193]));
-
-      // var bounds = _download_bounds,
       var bounds = this._map.getPixelBounds(),
           zoom = this._map.getZoom(),
           tileSize = this.options.tileSize;
@@ -122,7 +119,6 @@ L.Mixin.TileLoader = {
         var key = (point.x + ':' + point.y + ':' + point.zoom) 
         this._pendingQueue[key] = true;
         this.fire('tileAdded', point);
-        // _download_tiles = _download_tiles + point.x + ':' + point.y + ':' + point.zoom + "\n";
       }
 
   },
