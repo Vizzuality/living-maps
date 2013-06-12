@@ -124,7 +124,7 @@ window.AppData.CITIES = {
     scale: 2.0,
     city: "mumbai",
     city_name: "Mumbai",
-    city_title: "The jewel in India’s crown",
+    city_title: "The jewel in India's crown",
     city_subtitle: "18M people, 1.8M vehicles, 1,900 km of road.",
     time: 0,
     time_offset: -5*60 // minutes
