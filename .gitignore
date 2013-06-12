@@ -3,6 +3,7 @@ test/
 dist/
 app/scripts/data/cities/
 app/scripts/data/bin/
+app/images/tiles/
 .DS_Store
 .ruby-version
 .tmp/

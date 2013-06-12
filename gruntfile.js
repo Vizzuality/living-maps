@@ -279,7 +279,7 @@ module.exports = function (grunt) {
                         // 'styles/fonts/*'
                         'fonts/*',
                         'flash/*',
-                        'scripts/data/cities/*'
+                        'scripts/data/cities/*',
                         'scripts/data/bin/*'
                     ]
                 }, {

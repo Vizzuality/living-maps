@@ -20,7 +20,7 @@ function get_data(url, coord, zoom, TIME_SLOTS) {
   if(location.search.indexOf('debug') != -1) {
     var _url = url;
   } else {
-    var _url = "js/data/bin/" + md5(url) + ".bin";
+    var _url = "scripts/data/bin/" + md5(url) + ".bin";
   }
 
   get(url, function(xhr) {

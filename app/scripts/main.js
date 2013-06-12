@@ -1,3 +1,6 @@
+// var _download_bounds = {};
+// var _download_tiles = "";
+
 if($.browser.mobile) {
   document.location = "/mobile.html";
 } else if(Modernizr.canvas && Modernizr.history) {

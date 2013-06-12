@@ -201,7 +201,7 @@ var StreetLayer = L.CanvasLayer.extend({
       if(location.search.indexOf('debug') != -1) {
         var _url = url + "&format=arraybuffer"
       } else {
-        var _url = "js/data/bin/" + md5(url + "&format=arraybuffer") + ".bin";
+        var _url = "scripts/data/bin/" + md5(url + "&format=arraybuffer") + ".bin";
       }
 
       get(_url, function(xhr) {
@@ -475,7 +475,7 @@ var StreetLayer = L.CanvasLayer.extend({
     if(location.search.indexOf('debug') != -1) {
       img.src = _img;
     } else {
-      img.src = "img/tiles/" + md5(_img) + ".png"
+      img.src = "images/tiles/" + md5(_img) + ".png"
     }
 
     img.onload = function() {
