@@ -92,7 +92,7 @@ var StreetLayer = L.CanvasLayer.extend({
 
   setCity: function(name, time_offset, reduction) {
     //this.options.table = name + "_2m_1mm";
-    this.options.table = name + "_live";
+    this.options.table = name + "_manydays_live";
     this.options.time_offset = time_offset
     this.options.reduction = reduction;
   },

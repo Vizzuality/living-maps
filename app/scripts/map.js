@@ -36,7 +36,7 @@ Map.prototype = {
     var self = this;
 
     self.probsLayer = new StreetLayer({
-      table: this.options.city +"_live",
+      table: this.options.city +"_manydays_live",
       time_offset: this.options.time_offset,
       reduction: this.options.reduction,
       use_web_worker: this.options.use_web_worker
