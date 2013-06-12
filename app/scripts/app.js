@@ -54,6 +54,26 @@ var App = {
       city: this.options.city
     }, this.map.map, this.options.city);
 
+    // Sound
+    var citiesNum = _.size(window.AppData.CITIES);
+    this.howls = {};
+
+    console.log("sonios");
+    for (var i=0; i<citiesNum; i++) {
+      this.howls[i] = i;
+      console.log(this.howls[i]);
+      // howls[sounds[i]] = new Howl({
+      //   urls: [sounds[i] + '.mp3']
+      // volume: 0,
+      // loop: true
+      // });
+    }
+    this.sound = new Howl({
+      urls: ['sounds/mumbai.mp3'],
+      volume: 0,
+      loop: true
+    });
+
     // Set map controls
     Zoom.initialize(this.map.map, this.options.city);
 
@@ -143,6 +163,9 @@ var App = {
     //TODO: this should be in slider
     // jquery driven development is shit
     $(".ui-slider-handle").removeClass("stopped");
+
+    this.sound.play();
+
     updateHash(this.map.map, this.options.city, window.AppData.init_time);
   },
 
@@ -153,6 +176,8 @@ var App = {
     $(".ui-slider-handle").addClass("stopped");
 
     if(this.isPlayed) {
+      this.sound.pause();
+
       updateHash(this.map.map, this.options.city, App.time);
     }
   },

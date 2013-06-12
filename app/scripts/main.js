@@ -22,6 +22,7 @@ if($.browser.mobile) {
       'scripts/vendor/spin.js',
       'scripts/vendor/underscore.js',
       'scripts/vendor/zclip.js',
+      'scripts/vendor/howler.js',
       'scripts/profiler.js',
       'scripts/events.js',
       'scripts/leaflet_tileloader_mixin.js',
