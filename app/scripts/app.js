@@ -64,7 +64,7 @@ var App = {
 
     for (var i=0; i<this.sounds.length; i++) {
       this.howls[this.sounds[i]] = new Howl({
-        urls: ['sounds/' + this.sounds[i] + '.mp3'],
+        urls: [window.AppData.VIZZUALITYCDN + '/sounds/' + this.sounds[i] + '.mp3'],
         // volume: '0',
         loop: true
       });

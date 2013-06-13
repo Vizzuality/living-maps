@@ -1,5 +1,5 @@
-// importScripts('util.min.js');
-importScripts('util.js');
+importScripts('/scripts/util.min.js');
+// importScripts('util.js');
 
 var queue = [];
 var processing = false;
@@ -20,7 +20,7 @@ function get_data(url, coord, zoom, TIME_SLOTS) {
   if(location.search.indexOf('debug') != -1) {
     var _url = url;
   } else {
-    var _url = "scripts/data/bin/" + md5(url) + ".bin";
+    var _url = "http://com.vizzuality.livingcities.s3-website-us-east-1.amazonaws.com/scripts/data/bin/" + md5(url) + ".bin";
   }
 
   get(url, function(xhr) {
