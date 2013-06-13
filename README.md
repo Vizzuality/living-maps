@@ -36,15 +36,23 @@ grunt build
 * There are some lines in the code which must be commented/uncommented prior to the build, for minification purposes
 
 ```
-app/scripts/main.js
 app/scripts/probs_density_layer.js
 app/scripts/process_tile_worker.js
 ```
 
-We don't need to commit the resulting `dist` directory, which will be deployed to the next URL via `S3` command:
+We don't need to commit the resulting `dist` directory, which will be deployed to the next URL via `S3` command, then we will have to `gzip` and upload the files in the scripts folder:
+It is recommended to compress the images with `imageOptim`, too.
+```
+gzip -9 *.js
+mv living-cities.min.js.gz living-cities.min.js
+s3cmd sync -P --exclude '.git/' ./ s3://com.vizzuality.livingcities/
+s3cmd --mime-type='application/javascript' --add-header='Content-Type':'application/javascript' --add-header='Content-Encoding':'gzip' put *.js s3://com.vizzuality.livingcities/scripts/
+```
 
 * http://com.vizzuality.livingcities.s3-website-us-east-1.amazonaws.com/
 
 For more information:
 
 * http://yeoman.io/
+* https://github.com/s3tools/s3cmd
+* http://imageoptim.com/
