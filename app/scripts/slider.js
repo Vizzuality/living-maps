@@ -153,6 +153,8 @@ Slider.prototype = {
     var posS = (pos+20)/Math.PI/5;
     var posM = (pos+70)/Math.PI/5;
 
+    Events.trigger("changevol", .5 - .5 * Math.sin(posS));
+
     $("#sun").css({
       "left": 62 + (r * Math.cos(posS)) + "px",
       "top": 125 + (r * Math.sin(posS)) + "px"

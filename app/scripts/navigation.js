@@ -129,6 +129,8 @@ Navigation.prototype = {
   },
 
   changeMap: function(city, hash) {
+    Events.trigger("stopsounds", this.city);
+
     this.city = city;
 
     Events.trigger("enablemamufas", this.city);

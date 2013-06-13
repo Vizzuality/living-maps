@@ -161,7 +161,7 @@
 
     <!-- Map -->
     <div id="map_wrapper" class="backdrop">
-      <div id="map" class="home_map"></div>
+      <div id="map" class="city_map"></div>
 
       <!-- Map night -->
       <div id="map_night" class="night"></div>
@@ -265,10 +265,53 @@
     s.parentNode.insertBefore(g,s)}(document,'script'));
   </script>
 
-  <!-- build:js scripts/main.min.js -->
+  <!-- build:js scripts/data/cities.min.js -->
+  <script src="scripts/data/cities.js"></script>
+  <!-- endbuild -->
+
+  <!-- build:js scripts/util.min.js -->
+  <script src="scripts/util.js"></script>
+  <!-- endbuild -->
+
+  <!-- build:js scripts/living-cities.min.js -->
   <script src="scripts/vendor/jquery/jquery-2.0.1.js"></script>
   <script src="scripts/vendor/jquery/jquery-migrate-1.2.1.min.js"></script>
-  <script src="scripts/vendor/jquery/detectdevice.js"></script>
+  <script src="scripts/vendor/detectdevice.js"></script>
+  <script src="scripts/vendor/jquery-ui-1.10.2.custom.js"></script>
+  <script src="scripts/vendor/underscore.js"></script>
+
+  <script src="scripts/vendor/leaflet.js"></script>
+  <script src="scripts/vendor/dat.gui.min.js"></script>
+  <script src="scripts/vendor/spin.js"></script>
+  <script src="scripts/vendor/zclip.js"></script>
+  <script src="scripts/vendor/jquery.qtip.js"></script>
+  <script src="scripts/vendor/jquery.airport-1.1.js"></script>
+  <script src="scripts/vendor/howler.js"></script>
+
+  <script src="scripts/profiler.js"></script>
+  <script src="scripts/events.js"></script>
+  <script src="scripts/leaflet_tileloader_mixin.js"></script>
+  <script src="scripts/canvas_layer.js"></script>
+  <script src="scripts/sprites.js"></script>
+  <script src="scripts/graph.js"></script>
+  <script src="scripts/navigation.js"></script>
+  <script src="scripts/slider.js"></script>
+  <script src="scripts/mamufas.js"></script>
+  <script src="scripts/time_based_data.js"></script>
+  <script src="scripts/map/bubbles.js"></script>
+  <script src="scripts/map/facts.js"></script>
+  <script src="scripts/map/pois.js"></script>
+  <script src="scripts/map/share.js"></script>
+  <script src="scripts/map/zoom.js"></script>
+  <script src="scripts/map.js"></script>
+  <script src="scripts/app.js"></script>
+  <!-- endbuild -->
+
+  <!-- build:js scripts/probs_density_layer.min.js -->
+  <script src="scripts/probs_density_layer.js"></script>
+  <!-- endbuild -->
+
+  <!-- build:js scripts/main.min.js -->
   <script src="scripts/main.js"></script>
   <!-- endbuild -->
 </body>

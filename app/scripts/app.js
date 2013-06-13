@@ -55,24 +55,20 @@ var App = {
     }, this.map.map, this.options.city);
 
     // Sound
-    var citiesNum = _.size(window.AppData.CITIES);
+    this.sounds = [];
     this.howls = {};
 
-    console.log("sonios");
-    for (var i=0; i<citiesNum; i++) {
-      this.howls[i] = i;
-      console.log(this.howls[i]);
-      // howls[sounds[i]] = new Howl({
-      //   urls: [sounds[i] + '.mp3']
-      // volume: 0,
-      // loop: true
-      // });
-    }
-    this.sound = new Howl({
-      urls: ['sounds/mumbai.mp3'],
-      volume: 0,
-      loop: true
+    _.each(window.AppData.CITIES, function(city) {
+      self.sounds.push(city.city);
     });
+
+    for (var i=0; i<this.sounds.length; i++) {
+      this.howls[this.sounds[i]] = new Howl({
+        urls: ['sounds/' + this.sounds[i] + '.mp3'],
+        // volume: '0',
+        loop: true
+      });
+    }
 
     // Set map controls
     Zoom.initialize(this.map.map, this.options.city);
@@ -117,6 +113,8 @@ var App = {
     Events.on("disableanimation", this._onDisableAnimation, this);
     Events.on("resumeanimation", this._onResumeAnimation, this);
     Events.on("stopanimation", this._onStopAnimation, this);
+    Events.on("stopsounds", this._onStopSounds, this);
+    Events.on("changevol", this._onChangeVol, this);
     Events.on("toggledropdowns", function(mamufas) {
       if(!mamufas) {
         // fake stop animation when disable mamufas
@@ -164,7 +162,7 @@ var App = {
     // jquery driven development is shit
     $(".ui-slider-handle").removeClass("stopped");
 
-    this.sound.play();
+    this.howls[this.options.city].play();
 
     updateHash(this.map.map, this.options.city, window.AppData.init_time);
   },
@@ -176,10 +174,18 @@ var App = {
     $(".ui-slider-handle").addClass("stopped");
 
     if(this.isPlayed) {
-      this.sound.pause();
+      this.howls[this.options.city].pause();
 
       updateHash(this.map.map, this.options.city, App.time);
     }
+  },
+
+  _onStopSounds: function(city) {
+    this.howls[city].stop();
+  },
+
+  _onChangeVol: function(vol) {
+    this.howls[city].volume(vol);
   },
 
   detectHiddenFeature: function() {
