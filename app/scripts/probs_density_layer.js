@@ -201,7 +201,7 @@ var StreetLayer = L.CanvasLayer.extend({
       if(location.search.indexOf('debug') != -1) {
         var _url = url + "&format=arraybuffer"
       } else {
-        var _url = window.AppData.VIZZUALITYCDN + "/scripts/data/bin/" + md5(url + "&format=arraybuffer") + ".bin";
+        var _url = "http://com.vizzuality.livingcities.s3-website-us-east-1.amazonaws.com/scripts/data/bin/" + md5(url + "&format=arraybuffer") + ".bin";
       }
 
       get(_url, function(xhr) {
@@ -475,7 +475,7 @@ var StreetLayer = L.CanvasLayer.extend({
     if(location.search.indexOf('debug') != -1) {
       img.src = _img;
     } else {
-      img.src = window.AppData.VIZZUALITYCDN + "/images/tiles/" + md5(_img) + ".png"
+      img.src = "http://com.vizzuality.livingcities.s3-website-us-east-1.amazonaws.com/images/tiles/" + md5(_img) + ".png"
     }
 
     img.onload = function() {
