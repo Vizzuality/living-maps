@@ -385,12 +385,10 @@ canvas {
       height: 60px;
       background: image-url('bubbles-sprites.png') no-repeat center 0;
 
-      &.transport { background-position: center -60px; }
-      &.sports { background-position: center -120px; }
-      &.airport { background-position: center -180px; }
-      &.beach { background-position: center -240px; }
-      &.park { background-position: center -300px; }
-      &.church { background-position: center -360px; }
+      &.bus { background-position: center -120px; }
+      &.shops { background-position: center -180px; }
+      &.building { background-position: center -240px; }
+      &.food { background-position: center -300px; }
     }
 
     a.go {
