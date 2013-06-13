@@ -291,6 +291,7 @@ module.exports = function (grunt) {
                         // 'styles/fonts/*'
                         'fonts/*',
                         'flash/*',
+                        'sounds/*',
                         'scripts/data/cities/*',
                         'scripts/data/bin/*'
                     ]
