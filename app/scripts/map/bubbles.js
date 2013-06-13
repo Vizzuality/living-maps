@@ -54,7 +54,6 @@ var Bubbles = {
 
     this.getData();
     this._initBindings();
-    // this._calculateRandomPositions();
 
     return this;
   },
@@ -346,7 +345,6 @@ var Bubbles = {
   },
 
   _calculateRandomPositions: function(data){
-    
     var bb = this.AppData.CITIES[this.city].map.bubbleBounds;
 
     for(var i = 0; i<data.length ; i++){
@@ -378,7 +376,7 @@ var Bubbles = {
     this.clean();
 
     // Get new data
-    this.data.fetch();
+    this.data.fetch(this._calculateRandomPositions);
   },
 
   clean: function() {
