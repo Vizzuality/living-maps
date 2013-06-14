@@ -495,7 +495,7 @@ canvas {
   @include user-select(none);
 
   a {
-    position:relative;
+    position: relative;
     @include inline-block();
     width:26px;
     height:26px;
@@ -517,6 +517,25 @@ canvas {
       &:hover { background-position: 0 0; }
       &.zoomIn:hover { background-position: -26px 0; }
     }
+  }
+}
+
+#sound_control {
+  position: absolute;
+  top: 205px;
+  left: 140px;
+  z-index: 400;
+  @include user-select(none);
+
+  a {
+    position:relative;
+    @include inline-block();
+    width:26px;
+    height:26px;
+    background: image-url('sound_control.png') no-repeat 0 0;
+    text-indent: -9999px;
+
+    &:hover { background-position: 0 -26px; }
   }
 }
 

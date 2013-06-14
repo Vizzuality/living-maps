@@ -54,21 +54,8 @@ var App = {
       city: this.options.city
     }, this.map.map, this.options.city);
 
-    // Sound
-    this.sounds = [];
-    this.howls = {};
-
-    _.each(window.AppData.CITIES, function(city) {
-      self.sounds.push(city.city);
-    });
-
-    for (var i=0; i<this.sounds.length; i++) {
-      this.howls[this.sounds[i]] = new Howl({
-        urls: [window.AppData.VIZZUALITYCDN + '/sounds/' + this.sounds[i] + '.mp3'],
-        // volume: '0',
-        loop: true
-      });
-    }
+    // Sounds
+    this.sounds = new Sounds($('#sounds_control'), this.options.city);
 
     // Set map controls
     Zoom.initialize(this.map.map, this.options.city);
@@ -113,8 +100,6 @@ var App = {
     Events.on("disableanimation", this._onDisableAnimation, this);
     Events.on("resumeanimation", this._onResumeAnimation, this);
     Events.on("stopanimation", this._onStopAnimation, this);
-    Events.on("stopsounds", this._onStopSounds, this);
-    Events.on("changevol", this._onChangeVol, this);
     Events.on("toggledropdowns", function(mamufas) {
       if(mamufas) {
         if(self.isPlayed) {
@@ -171,7 +156,6 @@ var App = {
     //TODO: this should be in slider
     // jquery driven development is shit
     $(".ui-slider-handle").removeClass("stopped");
-    this.howls[this.options.city].play();
 
     updateHash(this.map.map, this.options.city, window.AppData.init_time);
   },
@@ -181,19 +165,10 @@ var App = {
     //TODO: this should be in slider
     // jquery driven development is shit
     $(".ui-slider-handle").addClass("stopped");
-    this.howls[this.options.city].pause();
 
     if(this.isPlayed) {
       updateHash(this.map.map, this.options.city, App.time);
     }
-  },
-
-  _onStopSounds: function(city) {
-    this.howls[city].stop();
-  },
-
-  _onChangeVol: function(vol) {
-    this.howls[city].volume(vol);
   },
 
   detectHiddenFeature: function() {
@@ -317,6 +292,9 @@ var App = {
 
     // Set city in the slider
     this.slider.set_city(this.options.city, self.map.map);
+
+    // Set city in the sounds
+    this.sounds.set_city(this.options.city);
 
     Events.trigger("disableanimation", self.map.map, self.options.city, self.options.time);
 

@@ -188,6 +188,7 @@ module.exports = function (grunt) {
                     '<%= yeoman.app %>/scripts/graph.js',
                     '<%= yeoman.app %>/scripts/navigation.js',
                     '<%= yeoman.app %>/scripts/slider.js',
+                    '<%= yeoman.app %>/scripts/sounds.js',
                     '<%= yeoman.app %>/scripts/mamufas.js',
                     '<%= yeoman.app %>/scripts/time_based_data.js',
                     '<%= yeoman.app %>/scripts/map/*.js',
