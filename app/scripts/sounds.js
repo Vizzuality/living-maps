@@ -4,6 +4,7 @@ function Sounds(el, city) {
   this.city = city;
   this.sounds = [];
   this.howls = {};
+  this.isMuted = false;
 
   this.$el = el;
 
@@ -33,6 +34,26 @@ Sounds.prototype = {
     Events.on("stopanimation", this._onStopAnimation, this);
     Events.on("stopsounds", this._onStopSounds, this);
     Events.on("changevol", this._onChangeVol, this);
+
+    this.$el.find('a.toggleSound').on('click', null, this, this._onToggleSound);
+  },
+
+  _onToggleSound: function(e) {
+    var self = e.data;
+
+    e.preventDefault();
+
+    if(self.isMuted) {
+      self.isMuted = false;
+      self.howls[city].unmute();
+
+      $(this).removeClass("muted");
+    } else {
+      self.isMuted = true;
+      self.howls[city].mute();
+
+      $(this).addClass("muted");
+    }
   },
 
   _onResumeAnimation: function() {
@@ -48,7 +69,9 @@ Sounds.prototype = {
   },
 
   _onChangeVol: function(vol) {
-    this.howls[city].volume(vol);
+    if(!this.isMuted) {
+      this.howls[city].volume(vol);
+    }
   },
 
   set_city: function(city) {

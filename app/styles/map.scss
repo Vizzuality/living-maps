@@ -520,7 +520,7 @@ canvas {
   }
 }
 
-#sound_control {
+#sounds_control {
   position: absolute;
   top: 205px;
   left: 140px;
@@ -536,6 +536,12 @@ canvas {
     text-indent: -9999px;
 
     &:hover { background-position: 0 -26px; }
+
+    &.muted {
+      background-position: -26px 0;
+
+      &:hover { background-position: -26px -26px; }
+    }
   }
 }
 
