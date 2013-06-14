@@ -64,6 +64,8 @@ function pre_cache_data1(rows, coord, zoom, TIME_SLOTS) {
     var renderData = new Uint8Array(dates);
     var renderDataPos = new Uint32Array(dates);
 
+    var rowsPerSlot = [];
+
     // precache pixel positions
     var total_pixels = 256 << zoom;
     var xx = rows.get('x__uint8');
@@ -72,6 +74,13 @@ function pre_cache_data1(rows, coord, zoom, TIME_SLOTS) {
       var pixels = tilePixelToPixel(coord.x, coord.y, zoom, xx[r], yy[r]); 
       x[r] = pixels[0] | 0;
       y[r] = (total_pixels - pixels[1]) | 0;
+
+      var dates = rows.get('dates__uint16')[r];
+      var vals = rows.get('vals__uint8')[r];
+      for (var j = 0, len = dates.length; j < len; ++j) {
+          var rr = rowsPerSlot[dates[j]] || (rowsPerSlot[dates[j]] = []);
+          rr.push([r, vals[j]]);
+      }
     }
 
     // for each timeslot search active buckets
@@ -79,6 +88,17 @@ function pre_cache_data1(rows, coord, zoom, TIME_SLOTS) {
     var timeSlotIndex = 0;
     for(var i = 0; i < TIME_SLOTS; ++i) {
       var c = 0;
+      var slotRows = rowsPerSlot[i]
+      if(slotRows) {
+        for (var r = 0; r < slotRows.length; ++r) {
+          var rr = slotRows[r];
+          ++c;
+          renderDataPos[renderDataIndex] = rr[0]
+          renderData[renderDataIndex] = rr[1];
+          ++renderDataIndex;
+        }
+      }
+      /*
       for (var r = 0; r < rows.length; ++r) {
         var dates = rows.get('dates__uint16')[r];
         var vals = rows.get('vals__uint8')[r];
@@ -91,6 +111,7 @@ function pre_cache_data1(rows, coord, zoom, TIME_SLOTS) {
           }
         }
       }
+      */
       timeIndex[i] = timeSlotIndex;
       timeCount[i] = c;
       timeSlotIndex += c;
