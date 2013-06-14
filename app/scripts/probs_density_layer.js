@@ -120,6 +120,15 @@ var StreetLayer = L.CanvasLayer.extend({
     }
   },
 
+  _renderStreetTile: function(coord, img) {
+    var origin = this._map._getNewTopLeftPoint(this._map.getCenter(), this._map.getZoom());
+    var c = this._streetsLayer;
+    this._streetsLayerCtx.translate(-origin.x, -origin.y);
+    this._streetsLayerCtx.globalAlpha = 0.75;
+    var pos = this._getTilePos(coord);
+    this._streetsLayerCtx.drawImage(img, pos.x, pos.y);
+  },
+
 
   precache_sprites: function() {
     this.sprites = []
@@ -469,6 +478,9 @@ var StreetLayer = L.CanvasLayer.extend({
     var tiles_url = "{0}/{1}/{2}.png?sql=" + tiles_sql;
 
     var img = new Image();
+    img.onload = function() {
+      self._renderStreetTile(img, coord);
+    }
 
     var _img = tiles_base_url + tiles_url.format(zoom, coord.x, coord.y);
 
@@ -479,9 +491,6 @@ var StreetLayer = L.CanvasLayer.extend({
       img.src = "http://" +  subdomain + ".livingcities.cartocdn.com/images/tiles/" + md5(_img) + ".png"
     }
 
-    img.onload = function() {
-      self._renderSteets();
-    }
 
     var sql = "WITH par AS (" +
               " SELECT CDB_XYZ_Resolution({0}) as res" . format(zoom) +
