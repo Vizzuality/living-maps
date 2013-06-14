@@ -475,7 +475,8 @@ var StreetLayer = L.CanvasLayer.extend({
     if(location.search.indexOf('debug') != -1) {
       img.src = _img;
     } else {
-      img.src = "http://com.vizzuality.livingcities.s3-website-us-east-1.amazonaws.com/images/tiles/" + md5(_img) + ".png"
+      var subdomain = ['a', 'b', 'c', 'd'][(coord.x + coord.y + zoom) % 4];
+      img.src = "http://" +  subdomain + ".livingcities.cartocdn.com/images/tiles/" + md5(_img) + ".png"
     }
 
     img.onload = function() {

@@ -17,10 +17,13 @@ function next() {
 }
 
 function get_data(url, coord, zoom, TIME_SLOTS) {
+  var _url;
   if(location.search.indexOf('debug') != -1) {
-    var _url = url;
+    _url = url;
   } else {
-    var _url = "http://com.vizzuality.livingcities.s3-website-us-east-1.amazonaws.com/scripts/data/bin/" + md5(url) + ".bin";
+    var subdomain = ['a', 'b', 'c', 'd'][(coord.x + coord.y + zoom) % 4];
+    //var _url = "http://com.vizzuality.livingcities.s3-website-us-east-1.amazonaws.com/scripts/data/bin/" + md5(url) + ".bin";
+    _url = "http://" +  subdomain + ".livingcities.cartocdn.com/scripts/data/bin/" + md5(url) + ".bin";
   }
 
   get(url, function(xhr) {
