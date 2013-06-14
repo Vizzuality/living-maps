@@ -5,7 +5,7 @@ if(typeof(window) != 'undefined') {
   window.requestAnimationFrame = _requestAnimationFrame;
 }
 
-function get(url, callback) {
+function get(url, callback, subdomain) {
   var req = new XMLHttpRequest();
   req.onreadystatechange = function() {
     if (req.readyState == 4){
@@ -21,7 +21,8 @@ function get(url, callback) {
   if(location.search.indexOf('debug') != -1) {
     req.open("GET", url, true);
   } else {
-    req.open("GET", "http://com.vizzuality.livingcities.s3-website-us-east-1.amazonaws.com/scripts/data/bin/"+md5(url)+".bin", true);
+    subdomain = ['a', 'b', 'c', 'd'][subdomain || 0];
+    req.open("GET", "http://" + subdomain + ".livingcities.cartocdn.com/scripts/data/bin/"+md5(url)+".bin", true);
   }
 
   req.responseType = 'arraybuffer';
