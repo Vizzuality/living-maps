@@ -207,7 +207,7 @@ var StreetLayer = L.CanvasLayer.extend({
       get(_url, function(xhr) {
         prof.end();
         var length = xhr.response ? xhr.response.byteLength : 0;
-        console.log("tile size: " + ((length/1024) >> 0) + "kb");
+        //console.log("tile size: " + ((length/1024) >> 0) + "kb");
         Profiler.new_value('tile_size', ((length/1024) >> 0));
         self.totalBytes += length;
         var data = null;
@@ -215,7 +215,7 @@ var StreetLayer = L.CanvasLayer.extend({
           data = new ArrayBufferSer(xhr.response);
         }
         callback(data);
-        console.log("total size: " + ((self.totalBytes/1024) >> 0) + "kb");
+        //console.log("total size: " + ((self.totalBytes/1024) >> 0) + "kb");
       });
     } else {
       var worker = this.workers[(coord.x + coord.y + zoom) % this.workers.length];
@@ -228,13 +228,13 @@ var StreetLayer = L.CanvasLayer.extend({
         var k = [coord.x, coord.y, coord.z].join('/')
         var c = self._web_workers_callbacks[k]
         if(c) {
-          console.log("<-", k);
+          //console.log("<-", k);
           delete self._web_workers_callbacks[k]
           c(e);
         }
       }
       worker.addEventListener("message", worker_callback, false);
-      console.log("->", key);
+      //console.log("->", key);
       worker.postMessage(JSON.stringify({
         url: url,
         coord: {
@@ -512,7 +512,7 @@ var StreetLayer = L.CanvasLayer.extend({
       }
       time_data.coord = coord;
       time_data.img = img;
-      console.log("loaded" , coord);
+      //console.log("loaded" , coord);
       self._tileLoaded(coord, time_data);
       self._renderSteets();
     }, coord, zoom);
