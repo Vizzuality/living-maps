@@ -161,6 +161,7 @@ Mamufas.prototype = {
       self.isEnabled = false;
 
       $(window).off('resize');
+      $(document).off("keyup");
 
       self.$top_nav.animate({
         bottom: "-92px"

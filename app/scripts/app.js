@@ -116,10 +116,20 @@ var App = {
     Events.on("stopsounds", this._onStopSounds, this);
     Events.on("changevol", this._onChangeVol, this);
     Events.on("toggledropdowns", function(mamufas) {
-      if(!mamufas) {
-        // fake stop animation when disable mamufas
-        stopped = true;
-        $(".ui-slider-handle").addClass("stopped");
+      if(mamufas) {
+        if(self.isPlayed) {
+          $(document).on("keyup", function(e) {
+            if (e.keyCode === 32) {
+              if (!stopped && !Share.visible()) {
+                Events.trigger("stopanimation");
+              } else if(!Share.visible()) {
+                Events.trigger("resumeanimation");
+              }
+            }
+          });
+        }
+      } else {
+        Events.trigger("stopanimation");
       }
     });
 
@@ -161,7 +171,6 @@ var App = {
     //TODO: this should be in slider
     // jquery driven development is shit
     $(".ui-slider-handle").removeClass("stopped");
-
     this.howls[this.options.city].play();
 
     updateHash(this.map.map, this.options.city, window.AppData.init_time);
@@ -172,10 +181,9 @@ var App = {
     //TODO: this should be in slider
     // jquery driven development is shit
     $(".ui-slider-handle").addClass("stopped");
+    this.howls[this.options.city].pause();
 
     if(this.isPlayed) {
-      this.howls[this.options.city].pause();
-
       updateHash(this.map.map, this.options.city, App.time);
     }
   },
