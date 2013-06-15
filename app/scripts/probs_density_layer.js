@@ -79,8 +79,8 @@ var StreetLayer = L.CanvasLayer.extend({
     if(this.options.use_web_worker) {
       this.workers = [];
       for(var i = 0; i < this.options.num_web_workers; ++i) {
-        this.workers.push(new Worker("scripts/process_tile_worker.js"));
-        // this.workers.push(new Worker("/scripts/process_tile_worker.min.js"));
+        // this.workers.push(new Worker("scripts/process_tile_worker.js"));
+        this.workers.push(new Worker("/scripts/process_tile_worker.min.js"));
       }
       this._web_workers_callbacks = {};
     }
@@ -208,9 +208,9 @@ var StreetLayer = L.CanvasLayer.extend({
       var _url = "";
 
       if(location.search.indexOf('debug') != -1) {
-        var _url = url + "&format=arraybuffer"
+        _url = url + "&format=arraybuffer"
       } else {
-        var _url = "http://com.vizzuality.livingcities.s3-website-us-east-1.amazonaws.com/scripts/data/bin/" + md5(url + "&format=arraybuffer") + ".bin";
+        _url = "http://livingcities.cartocdn.com/scripts/data/bin/" + md5(url + "&format=arraybuffer") + ".bin";
       }
 
       get(_url, function(xhr) {
