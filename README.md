@@ -43,13 +43,13 @@ app/scripts/process_tile_worker.js
 We don't need to commit the resulting `dist` directory, which will be deployed to the next URL via `S3` command, then we will have to `gzip` and upload the files in the scripts folder:
 It is recommended to compress the images with `imageOptim`, too.
 ```
-gzip -9 *.js
+gzip -9 dist/scripts/living-cities.min.js
 mv living-cities.min.js.gz living-cities.min.js
 s3cmd sync -P --exclude '.git/' ./ s3://com.vizzuality.livingcities/
-s3cmd --mime-type='application/javascript' --add-header='Content-Type':'application/javascript' --add-header='Content-Encoding':'gzip' put *.js s3://com.vizzuality.livingcities/scripts/
+s3cmd put -v -P --mime-type='application/javascript' --add-header='Content-Type':'application/javascript' --add-header='Content-Encoding':'gzip' --add-header='Cache-Control':'public, max-age=3600' dist/scripts/living-cities.min.js s3://com.vizzuality.livingcities/scripts/living-cities.min.js
 ```
 
-* http://com.vizzuality.livingcities.s3-website-us-east-1.amazonaws.com/
+* http://livingcities.cartocdn.com/
 
 For more information:
 
