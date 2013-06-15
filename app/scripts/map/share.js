@@ -139,7 +139,7 @@ var Share = {
     // Hello hack
     setTimeout(function(){
       self.$el.find('a.copy').zclip({
-        path:window.AppData.VIZZUALITYCDN + '/flash/ZeroClipboard.swf',
+        path: "http://" + VIZZUALITYCDN + '/flash/ZeroClipboard.swf',
         copy: function() {
           $(this).text("Copied!");
 

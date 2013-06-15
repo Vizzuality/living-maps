@@ -21,7 +21,8 @@ Sounds.prototype = {
 
     for (var i=0; i<this.sounds.length; i++) {
       this.howls[this.sounds[i]] = new Howl({
-        urls: [window.AppData.VIZZUALITYCDN + '/sounds/' + this.sounds[i] + '.mp3'],
+        urls: ["http://" + VIZZUALITYCDN + '/sounds/' + this.sounds[i] + '.mp3?http_livingcities.cartocdn.com'],
+        volume: '0',
         loop: true
       });
     }

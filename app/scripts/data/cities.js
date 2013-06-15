@@ -132,5 +132,3 @@ window.AppData.CITIES = {
 
 window.AppData.init_time = 0;
 window.AppData.last_time = 1419;
-
-window.AppData.VIZZUALITYCDN = "http://livingcities.cartocdn.com";

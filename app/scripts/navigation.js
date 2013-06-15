@@ -1,6 +1,4 @@
 function Navigation(el, city) {
-  var self = this;
-
   this.$el = el;
   this.$dropdown_link = $('#dropdown_link');
   this.$dropdown_nav = $('#dropdown_nav');
@@ -14,27 +12,26 @@ function Navigation(el, city) {
   this.initialize();
 }
 
-
 Navigation.prototype = {
-
   initialize: function() {
-    self = this;
+    // don't override self window object
+    that = this;
 
     $('.dropdown-city-link[data-city="' + this.city + '"]').addClass("selected");
 
     this.$dropdown_link.on('click', function(e) {
       e.preventDefault();
 
-      self.$dropdown_link.qtip({
+      that.$dropdown_link.qtip({
         overwrite: false,
         content: {
-          text: self.$dropdown_nav
+          text: that.$dropdown_nav
         },
         position: {
-          my: self.my,
-          at: self.at,
+          my: that.my,
+          at: that.at,
           adjust: {
-            y: self.y,
+            y: that.y,
             x: -2
           }
         },
@@ -64,7 +61,7 @@ Navigation.prototype = {
           tip: {
             width: 14,
             height: 6,
-            corner: self.my,
+            corner: that.my,
             mimic: 'center',
             offset: 10
           }
@@ -77,7 +74,7 @@ Navigation.prototype = {
 
       e.preventDefault();
 
-      if(self.city === selected_city) {
+      if(that.city === selected_city) {
         if(App.isPlayed) {
           Events.trigger("enablemamufas");
           Events.trigger("resumeanimation");
@@ -88,39 +85,37 @@ Navigation.prototype = {
         $(".dropdown-city-link").removeClass("selected");
         $('.dropdown-city-link[data-city="' + selected_city + '"]').addClass("selected");
 
-        self.hideDropdown();
+        that.hideDropdown();
 
-        self.changeMap(selected_city, this.href);
+        that.changeMap(selected_city, this.href);
       }
     });
 
     Events.on("clickedmap", function() {
-      self.hideDropdown();
+      that.hideDropdown();
     });
 
     Events.on("scrolledup", function() {
-      self.hideDropdown();
+      that.hideDropdown();
     });
 
     Events.on("toggledropdowns", function(mamufas) {
       if(mamufas) {
-        self.my = 'bottom right';
-        self.at = 'top right';
-        self.y = 20;
+        that.my = 'bottom right';
+        that.at = 'top right';
+        that.y = 20;
       } else {
-        self.my = 'top right';
-        self.at = 'bottom right';
-        self.y = -20;
+        that.my = 'top right';
+        that.at = 'bottom right';
+        that.y = -20;
       }
 
-      self.initDropdown(self.my, self.at, self.y);
+      that.initDropdown(that.my, that.at, that.y);
     });
   },
 
   initDropdown: function(my, at, y) {
-    var self = this;
-
-    self.$dropdown_link.qtip('option', {
+    this.$dropdown_link.qtip('option', {
       'position.my' : my,
       'position.at' : at,
       'position.adjust.y' : y,

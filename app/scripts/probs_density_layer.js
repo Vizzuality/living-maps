@@ -202,6 +202,7 @@ var StreetLayer = L.CanvasLayer.extend({
     var self = this;
     var base_url = 'http://pulsemaps.cartodb.com/'
     var url = base_url + "api/v2/sql?q=" + encodeURIComponent(sql);
+
     if(!this.options.use_web_worker) {
       var prof = Profiler.get('tile fetching').start();
 
@@ -210,7 +211,7 @@ var StreetLayer = L.CanvasLayer.extend({
       if(location.search.indexOf('debug') != -1) {
         _url = url + "&format=arraybuffer"
       } else {
-        _url = "http://livingcities.cartocdn.com/scripts/data/bin/" + md5(url + "&format=arraybuffer") + ".bin";
+        _url = "http://" + VIZZUALITYCDN + "/scripts/data/bin/" + md5(url + "&format=arraybuffer") + ".bin?http_livingcities.cartocdn.com";
       }
 
       get(_url, function(xhr) {

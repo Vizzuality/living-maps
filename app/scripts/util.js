@@ -1,3 +1,5 @@
+// worker can't access window object
+var VIZZUALITYCDN = "livingcities.cartocdn.com";
 
 if(typeof(window) != 'undefined') {
   var _requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.requestAnimationFrame;
@@ -17,12 +19,12 @@ function get(url, callback, subdomain) {
     }
   };
 
-  // only working if !isWebWorkers
   if(location.search.indexOf('debug') != -1) {
+    // only working if !isWebWorkers
     req.open("GET", url, true);
   } else {
     subdomain = ['a', 'b', 'c', 'd'][subdomain || 0];
-    req.open("GET", "http://" + subdomain + ".livingcities.cartocdn.com/scripts/data/bin/"+md5(url)+".bin", true);
+    req.open("GET", "http://" + subdomain + "." + VIZZUALITYCDN + "/scripts/data/bin/"+md5(url)+".bin?http_livingcities.cartocdn.com", true);
   }
 
   req.responseType = 'arraybuffer';

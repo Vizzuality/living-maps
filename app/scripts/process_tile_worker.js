@@ -17,14 +17,6 @@ function next() {
 }
 
 function get_data(url, coord, zoom, TIME_SLOTS) {
-  var _url;
-
-  if(location.search.indexOf('debug') != -1) {
-    _url = url;
-  } else {
-    _url = "http://livingcities.cartocdn.com/scripts/data/bin/" + md5(url) + ".bin";
-  }
-
   get(url, function(xhr) {
     var data = null;
     if(xhr && xhr.response && xhr.response.byteLength) {
