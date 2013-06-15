@@ -98,7 +98,7 @@ var Share = {
 
     if(this.$textarea.val().length + 21 > 80) {
       this.$textarea.css({
-        height: "290px"
+        height: "320px"
       });
     }
   },
