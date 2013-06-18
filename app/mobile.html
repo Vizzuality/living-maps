@@ -15,9 +15,9 @@
   <meta property="og:title" content="Living Cities — A shared cartographic experiment from HERE and CartoDB"/>
   <meta property="og:description" content="Living Cities — A shared cartographic experiment from HERE and CartoDB"/> 
   <meta property="og:type" content="Visualization"/>
-  <meta property="og:url" content="/" />
-  <!-- TODO: thumbnail -->
-  <meta property="og:image" content="images/thumbnail.jpg"/>
+  <!-- TODO: Change URL -->
+  <meta property="og:url" content="http://livingcities.cartocdn.com/" />
+  <meta property="og:image" content="http://livingcities.cartocdn.com/images/thumbnail.jpg"/>
 
   <!-- build:css styles/oldbrowsers.min.css -->
   <link rel="stylesheet" href="styles/main.css">
@@ -28,24 +28,31 @@
   <!-- endbuild -->
 </head>
 <body class="notfound">
+  <header class="header clearfix">
+    <h1 class="title">Hey!</h1>
+    <p class="description">This visualization is not optimized<br />for mobile browsers.</p>
+  </header>
 
-<header class="header clearfix">
-  <h1 class="title">Hey!</h1>
-  <p class="description">This visualization is not optimized<br />for mobile browsers.</p>
-</header>
+  <section class="content">
+    <p>Why don’t you try with another supported device?</p>
+  </section>
 
-<section class="content">
-  <p>Why don’t you try with another supported device?</p>
-</section>
+  <footer class="footer">
+    <div class="inner clearfix">
+      <ul class="logos">
+        <li><a href="http://here.com/" class="button"><img src="images/here-button.png" /></a></li><li><a href="http://cartodb.com/" class="button cartodb"><img src="images/cartodb-button.png" /></a></li>
+      </ul>
 
-<footer class="footer">
-  <div class="inner clearfix">
-    <ul class="logos">
-      <li><a href="http://here.com/" class="button"><img src="images/here-button.png" /></a></li><li><a href="http://cartodb.com/" class="button cartodb"><img src="images/cartodb-button.png" /></a></li>
-    </ul>
+      <p><strong>Living</strong>Cities<br /><a href="#">Lorem ipsum</a> dolor sit amet.</p>
+    </div>
+  </footer>
 
-    <p><strong>Living</strong>Cities<br /><a href="#">Lorem ipsum</a> dolor sit amet.</p>
-  </div>
-</footer>
+  <!-- TODO: Google Analytics -->
+  <script>
+    var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src='https://www.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+  </script>
 </body>
 </html>

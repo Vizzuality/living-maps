@@ -260,27 +260,22 @@
     left: 0;
     height: 100px;
     width: 100%;
-    background: image-url('edge-top.png') repeat-x;
-
-    &.night { background: image-url('edge-top-night.png') repeat-x; }
+    @include background(linear-gradient(top, #1c6dca, rgba(#1c6dca, 0) 100%));
   }
 
   &.left {
     height: 100%;
-    width: 200px;
-    background: image-url('edge-left.png') repeat-y;
+    width: 100px;
+    @include background(linear-gradient(left, #1c6dca, rgba(#1c6dca, 0) 100%));
 
-    &.night { background: image-url('edge-left-night.png') repeat-y; }
   }
 
   &.right {
     right: 0;
     left: auto;
     height: 100%;
-    width: 200px;
-    background: image-url('edge-right.png') repeat-y;
-
-    &.night { background: image-url('edge-right-night.png') repeat-y; }
+    width: 100px;
+    @include background(linear-gradient(right, #1c6dca, rgba(#1c6dca, 0) 100%));
   }
 }
 
@@ -561,28 +556,20 @@ canvas {
     top: 0;
     z-index: 5;
     min-height: 100%;
-    @include background(linear-gradient(top, rgba(#0bd, .2), rgba(#4F79BD, .2) 100%));
-
-    &.night {
-      @include background(linear-gradient(top, rgba(#1c6dca, .2), rgba(#4F79BD, .2) 100%));
-    }
+    @include background(linear-gradient(top, rgba(#1c6dca, .2), rgba(#4f79bd, .2) 100%));
   }
 
   &.top {
     top: 0;
     height: 50%;
-    @include background(linear-gradient(top, #0bd 50%, rgba(#0bd, 0) 80%, rgba(#0bd, 0) 100%));
-
-    &.night {
-      @include background(linear-gradient(top, #1c6dca 50%, rgba(#1c6dca, 0) 80%, rgba(#1c6dca, 0) 100%));
-    }
+    @include background(linear-gradient(top, #1c6dca 50%, rgba(#1c6dca, 0) 80%, rgba(#1c6dca, 0) 100%));
   }
 
   &.bottom {
     z-index: 500;
     bottom: 0;
     height: 215px;
-    @include background(linear-gradient(bottom, rgba(#000, .15) 0%, rgba(#000, 0) 100%));
+    @include background(linear-gradient(bottom, rgba(#000, .2) 0%, rgba(#000, 0) 100%));
   }
 }
 

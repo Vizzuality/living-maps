@@ -92,6 +92,7 @@ var Bubbles = {
       city: this.city,
       columns: ['cartodb_id as id', 'city', 'st_x(the_geom) as lon', 'time', 'st_y(the_geom) as lat', 'type', 'description']
     });
+
     this.data.fetch(this._calculateRandomPositions);
   },
 
@@ -216,12 +217,11 @@ var Bubbles = {
         .find('.info')
         .stop(true)
         .animate({
-            top: 0,
-            opacity: _opacity
-          },
-          (this.bubbles[bubble_id].over)
-            ? this.options.animation.slowShowTime * unanim
-            : this.options.animation.animShowTime * unanim,
+          top: 0,
+          opacity: _opacity
+        }, (this.bubbles[bubble_id].over)
+          ? this.options.animation.slowShowTime * unanim
+          : this.options.animation.animShowTime * unanim,
           function() {
             self._waitBubble(bubble_id);
           }
@@ -232,11 +232,10 @@ var Bubbles = {
         .find('.shadow')
         .stop(true)
         .animate({
-            opacity: 1
-          },
-          (this.bubbles[bubble_id].over)
-            ? this.options.animation.slowShowTime * unanim
-            : this.options.animation.animShowTime * unanim
+          opacity: _opacity
+        }, (this.bubbles[bubble_id].over)
+          ? this.options.animation.slowShowTime * unanim
+          : this.options.animation.animShowTime * unanim
         );
 
       this.bubbles[bubble_id].$markup.css({
@@ -271,11 +270,10 @@ var Bubbles = {
       .find('.info')
       .stop(true)
       .animate({
-          top: 10
-        },
-        (this.bubbles[bubble_id].over)
-          ? this.options.animation.slowDelayTime * unanim
-          : this.options.animation.animDelayTime * unanim,
+        top: 10
+      }, (this.bubbles[bubble_id].over)
+        ? this.options.animation.slowDelayTime * unanim
+        : this.options.animation.animDelayTime * unanim,
         function() {
           self._hideBubble(bubble_id);
         }
@@ -307,28 +305,27 @@ var Bubbles = {
       .find('.info')
       .stop(true)
       .animate({
-          top: -100,
-          opacity: 0
-        },
-        (this.bubbles[bubble_id].over)
-          ? this.options.animation.slowHideTime * unanim
-          : this.options.animation.animHideTime * unanim,
-        function() {
-          self._removeBubble(bubble_id);
-        }
-      );
+        top: -100,
+        opacity: 0
+      },
+      (this.bubbles[bubble_id].over)
+        ? this.options.animation.slowHideTime * unanim
+        : this.options.animation.animHideTime * unanim,
+      function() {
+        self._removeShadow(bubble_id);
+        self._removeBubble(bubble_id);
+      }
+    );
+  },
 
+  _removeShadow: function(bubble_id) {
     // Shadow
     this.bubbles[bubble_id].$markup
       .find('.shadow')
       .stop(true)
       .animate({
-          opacity: 0
-        },
-        (this.bubbles[bubble_id].over)
-          ? this.options.animation.slowHideTime
-          : this.options.animation.animHideTime
-      );
+        opacity: 0
+      });
   },
 
   _removeBubble: function(bubble_id) {
@@ -338,6 +335,7 @@ var Bubbles = {
         Events.trigger("changeappscale", AppData.CITIES[this.city].scale);
         this.bubbles[bubble_id].over = false;
       }
+
       this._unbindBubble(bubble_id);
       this.bubbles[bubble_id].$markup.remove();
       delete this.bubbles[bubble_id];
@@ -381,9 +379,11 @@ var Bubbles = {
 
   clean: function() {
     var self = this;
+
     for (var i in this.bubbles) {
       self._removeBubble(i);
     }
+
     this.bubbles = [];
   }
 };
