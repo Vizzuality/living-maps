@@ -152,8 +152,9 @@ Slider.prototype = {
     var r = 62;
     var posS = (pos+20)/Math.PI/5;
     var posM = (pos+70)/Math.PI/5;
+    var posD = Math.sin(pos/Math.PI/10);
 
-    Events.trigger("changevol", .5 - .5 * Math.sin(posS));
+    Events.trigger("changevol", posD);
 
     $("#sun").css({
       "left": 62 + (r * Math.cos(posS)) + "px",
@@ -165,12 +166,75 @@ Slider.prototype = {
       "top": 125 + (r * Math.sin(posM)) + "px"
     });
 
-    $(".day").css({
-      "opacity": Math.sin(pos/Math.PI/10)
+    var lightBlue = {r:0, g:187, b:221};
+    var darkBlue = {r:28, g:109, b:202};
+
+    $("section.map").css({
+      "background": calcGradient(darkBlue, lightBlue, posD * 100).cssColor
     });
 
-    $(".night").css({
-      "opacity": 1 - Math.sin(pos/Math.PI/10)
+    $(".mamufas").css({
+      "background": "rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", .6)"
+    });
+
+    $(".gradient.all").css({
+      "background": "linear-gradient(top, rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", .2), rgba(79,121,189, .2) 100%)"
+    });
+
+    $(".gradient.all").css({
+      "background": "-webkit-linear-gradient(top, rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", .2), rgba(79,121,189, .2) 100%)"
+    });
+
+    $(".gradient.all").css({
+      "background": "-moz-linear-gradient(top, rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", .2), rgba(79,121,189, .2) 100%)"
+    });
+
+    $(".gradient.top").css({
+      "background": "-linear-gradient(top, " + calcGradient(darkBlue, lightBlue, posD * 100).cssColor + " 50%, rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", 0) 80%, rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", 0) 100%)"
+    });
+
+    $(".gradient.top").css({
+      "background": "-webkit-linear-gradient(top, " + calcGradient(darkBlue, lightBlue, posD * 100).cssColor + " 50%, rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", 0) 80%, rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", 0) 100%)"
+    });
+
+    $(".gradient.top").css({
+      "background": "-moz-linear-gradient(top, " + calcGradient(darkBlue, lightBlue, posD * 100).cssColor + " 50%, rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", 0) 80%, rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", 0) 100%)"
+    });
+
+    $(".edge.top").css({
+      "background": "linear-gradient(top, " + calcGradient(darkBlue, lightBlue, posD * 100).cssColor + ", rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", 0) 100%)"
+    });
+
+    $(".edge.top").css({
+      "background": "-webkit-linear-gradient(top, " + calcGradient(darkBlue, lightBlue, posD * 100).cssColor + ", rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", 0) 100%)"
+    });
+
+    $(".edge.top").css({
+      "background": "-moz-linear-gradient(top, " + calcGradient(darkBlue, lightBlue, posD * 100).cssColor + ", rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", 0) 100%)"
+    });
+
+    $(".edge.left").css({
+      "background": "linear-gradient(left, " + calcGradient(darkBlue, lightBlue, posD * 100).cssColor + ", rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", 0) 100%)"
+    });
+
+    $(".edge.left").css({
+      "background": "-webkit-linear-gradient(left, " + calcGradient(darkBlue, lightBlue, posD * 100).cssColor + ", rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", 0) 100%)"
+    });
+
+    $(".edge.left").css({
+      "background": "-moz-linear-gradient(left, " + calcGradient(darkBlue, lightBlue, posD * 100).cssColor + ", rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", 0) 100%)"
+    });
+
+    $(".edge.right").css({
+      "background": "linear-gradient(right, " + calcGradient(darkBlue, lightBlue, posD * 100).cssColor + ", rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", 0) 100%)"
+    });
+
+    $(".edge.right").css({
+      "background": "-webkit-linear-gradient(right, " + calcGradient(darkBlue, lightBlue, posD * 100).cssColor + ", rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", 0) 100%)"
+    });
+
+    $(".edge.right").css({
+      "background": "-moz-linear-gradient(right, " + calcGradient(darkBlue, lightBlue, posD * 100).cssColor + ", rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", 0) 100%)"
     });
   },
 

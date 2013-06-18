@@ -15,9 +15,9 @@
   <meta property="og:title" content="Living Cities — A shared cartographic experiment from HERE and CartoDB"/>
   <meta property="og:description" content="Living Cities — A shared cartographic experiment from HERE and CartoDB"/> 
   <meta property="og:type" content="Visualization"/>
-  <meta property="og:url" content="/" />
-  <!-- TODO: thumbnail -->
-  <meta property="og:image" content="images/thumbnail.jpg"/>
+  <!-- TODO: Change URL -->
+  <meta property="og:url" content="http://livingcities.cartocdn.com" />
+  <meta property="og:image" content="http://livingcities.cartocdn.com/images/thumbnail.jpg"/>
 
   <!-- build:css styles/main.min.css -->
   <link rel="stylesheet" href="styles/vendor/jquery.qtip.css">
@@ -89,8 +89,9 @@
         <li>
           <!-- Social -->
           <div class="social">
-            <a href="http://www.facebook.com/sharer/sharer.php?u=" target="_blank" class="button facebook"><span>Share on Facebook</span></a>
-            <a href="http://twitter.com/share?text=" target="_blank" class="button twitter"><span>Share on Twitter</span></a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=http://livingcities.cartocdn.com&t=Living+Cities+%E2%80%94+A+shared+cartographic+experiment+from+HERE+and+CartoDB" target="_blank" class="button facebook"><span>Share on Facebook</span></a>
+            <!-- TODO: Change URL -->
+            <a href="http://twitter.com/share?text=Living%20Cities%20—%20A%20shared%20cartographic%20experiment%20from%20HERE%20and%20CartoDB&url=http%3A%2F%2Flivingcities.cartocdn.com&via=cartoDB" target="_blank" class="button twitter"><span>Share on Twitter</span></a>
           </div>
         </li>
       </ul>
@@ -110,8 +111,9 @@
       <div id="content" class="inner">
         <!-- Social -->
         <div class="social">
-          <a href="http://www.facebook.com/sharer/sharer.php?u=" target="_blank" class="button facebook"><span>Share on Facebook</span></a>
-          <a href="http://twitter.com/share?text=" target="_blank" class="button twitter"><span>Share on Twitter</span></a>
+          <a href="https://www.facebook.com/sharer/sharer.php?u=http://livingcities.cartocdn.com&t=Living+Cities+%E2%80%94+A+shared+cartographic+experiment+from+HERE+and+CartoDB" target="_blank" class="button facebook"><span>Share on Facebook</span></a>
+          <!-- TODO: Change URL -->
+          <a href="http://twitter.com/share?text=Living%20Cities%20—%20A%20shared%20cartographic%20experiment%20from%20HERE%20and%20CartoDB&url=http%3A%2F%2Flivingcities.cartocdn.com&via=cartoDB" target="_blank" class="button twitter"><span>Share on Twitter</span></a>
         </div>
 
         <!-- Header -->
@@ -166,43 +168,21 @@
     <!-- Map -->
     <div id="map_wrapper" class="backdrop">
       <div id="map" class="city_map"></div>
-
-      <!-- Map night -->
-      <div id="map_night" class="night"></div>
     </div>
 
     <!-- Gradients -->
-    <div class="gradient all day"></div>
-    <div class="gradient all night"></div>
-    <div class="gradient top day"></div>
-    <div class="gradient top night"></div>
+    <div class="gradient all"></div>
+    <div class="gradient top"></div>
     <div class="gradient bottom"></div>
 
     <nav id="bottom_nav" class="navigation bottom">
       <ul class="menu inner cities_menu">
-        <li>
-          <a href="/#cities/london" class="city-link" data-city="london">London</a>
-        </li>
-
-        <li>
-          <a href="/#cities/chicago" class="city-link" data-city="chicago">Chicago</a>
-        </li>
-
-        <li>
-          <a href="/#cities/rome" class="city-link" data-city="rome">Rome</a>
-        </li>
-
-        <li>
-          <a href="/#cities/helsinki" class="city-link" data-city="helsinki">Helsinki</a>
-        </li>
-
-        <li>
-          <a href="/#cities/mumbai" class="city-link" data-city="mumbai">Mumbai</a>
-        </li>
-
-        <li>
-          <a href="#" class="about_link last">About</a>
-        </li>
+        <li><a href="/#cities/london" class="city-link" data-city="london">London</a></li>
+        <li><a href="/#cities/chicago" class="city-link" data-city="chicago">Chicago</a></li>
+        <li><a href="/#cities/rome" class="city-link" data-city="rome">Rome</a></li>
+        <li><a href="/#cities/helsinki" class="city-link" data-city="helsinki">Helsinki</a></li>
+        <li><a href="/#cities/mumbai" class="city-link" data-city="mumbai">Mumbai</a></li>
+        <li><a href="#" class="about_link last">About</a></li>
       </ul>
     </nav>
   </section>

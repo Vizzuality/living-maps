@@ -78,7 +78,7 @@ strong { font-weight: bold; }
 
 section.map {
   position: relative;
-  background: #0bd;
+  background: #1c6dca;
   height: 642px;
   overflow: hidden;
 }
@@ -90,32 +90,13 @@ section.map {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(#0bd, .3);
+  background: rgba(#1c6dca, .6);
 }
 
 #map_wrapper {
   position: relative;
   z-index: 1;
   height: 100%;
-}
-
-
-/*
- * Night
- */
-
-.night {
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  overflow: hidden;
-  width: 100%;
-}
-
-#map_night {
-  background: #1c6dca;
 }
 
 
