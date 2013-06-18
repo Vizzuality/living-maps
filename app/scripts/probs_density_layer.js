@@ -480,7 +480,7 @@ var StreetLayer = L.CanvasLayer.extend({
 
     var img = new Image();
     img.onload = function() {
-      self._renderStreetTile(img, coord);
+      self._renderStreetTile(coord, img);
     }
 
     var _img = tiles_base_url + tiles_url.format(zoom, coord.x, coord.y);
