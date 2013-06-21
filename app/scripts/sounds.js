@@ -22,7 +22,8 @@ Sounds.prototype = {
     for (var i=0; i<this.sounds.length; i++) {
       this.howls[this.sounds[i]] = new Howl({
         // can't go through cdn because ?http_livingcities.cartocdn.com param breaks format
-        urls: ['http://com.vizzuality.livingcities.s3.amazonaws.com/sounds/' + this.sounds[i] + '.mp3'],
+        // urls: ['http://com.vizzuality.livingcities.s3.amazonaws.com/sounds/' + this.sounds[i] + '.mp3'],
+        urls: ['sounds/' + this.sounds[i] + '.mp3'],
         volume: '0',
         loop: true
       });

@@ -1,3 +1,16 @@
+console.log('              ..\n' +
+            '            o===.\n' +
+            '           o=====.\n' +
+            '    .======o=========.                                  ...\n' +
+            '    ==================.    ..oo.   .oo   ooooo..ooooo  .ooo.  ooooo.  ooooo\n' +
+            '    ==================.   oo   .   =ooo  =o  oo  .=   o.  .oo oo   oo =. .=.\n' +
+            '    .o================    oo      o=.o=. =oo=o   .=   =... .= oo   oo =o..oo\n' +
+            '      .o=======o..==o      .oooo..o.  .o o. .o.  .o    oooo.  ooooo.  ooooo.\n' +
+            '        .====o.o.oo.\n' +
+            '          o=o             ........ .. ... ..   .    .... . ..   ..\n' +
+            '          .o.                      .\n' +
+            '          .o.\n\n');
+
 if($.browser.mobile) {
   document.location = "/mobile.html";
 } else if(Modernizr.canvas && Modernizr.history) {

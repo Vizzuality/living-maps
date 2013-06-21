@@ -1,5 +1,7 @@
-// worker can't access window object
+// TODO: CHANGE DOMAIN_URL AND BASE_PATH
 var VIZZUALITYCDN = "livingcities.cartocdn.com";
+var DOMAIN_URL = "livingcities.cartocdn.com",
+    BASE_PATH = "";
 
 if(typeof(window) != 'undefined') {
   var _requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.requestAnimationFrame;
@@ -24,7 +26,7 @@ function get(url, callback, subdomain) {
     req.open("GET", url, true);
   } else {
     subdomain = ['a', 'b', 'c', 'd'][subdomain || 0];
-    req.open("GET", "http://" + subdomain + "." + VIZZUALITYCDN + "/scripts/data/bin/"+md5(url)+".bin?http_livingcities.cartocdn.com", true);
+    req.open("GET", "http://" + subdomain + "." + VIZZUALITYCDN + "/scripts/data/bin/" + md5(url) + ".bin?http_" + DOMAIN_URL + "&v=2", true);
   }
 
   req.responseType = 'arraybuffer';

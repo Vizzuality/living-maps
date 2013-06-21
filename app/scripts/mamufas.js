@@ -196,7 +196,7 @@ Mamufas.prototype = {
 
       Events.trigger("toggledropdowns", false);
 
-      history.pushState(window.AppData.CITIES[self.city], null, "/");
+      history.pushState(window.AppData.CITIES[self.city], null, "/" + BASE_PATH);
     });
 
     Events.on("disableanimation", function(map, city) {

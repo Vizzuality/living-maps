@@ -87,7 +87,7 @@ Navigation.prototype = {
 
         that.hideDropdown();
 
-        that.changeMap(selected_city, this.href);
+        that.changeMap(selected_city, "/" + BASE_PATH + "/" + this.hash);
       }
     });
 

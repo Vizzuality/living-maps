@@ -79,8 +79,8 @@ var StreetLayer = L.CanvasLayer.extend({
     if(this.options.use_web_worker) {
       this.workers = [];
       for(var i = 0; i < this.options.num_web_workers; ++i) {
-        this.workers.push(new Worker("scripts/process_tile_worker.js"));
-        // this.workers.push(new Worker("/scripts/process_tile_worker.min.js"));
+        // this.workers.push(new Worker("scripts/process_tile_worker.js"));
+        this.workers.push(new Worker("scripts/process_tile_worker.min.js"));
       }
       this._web_workers_callbacks = {};
     }
@@ -211,7 +211,7 @@ var StreetLayer = L.CanvasLayer.extend({
       if(location.search.indexOf('debug') != -1) {
         _url = url + "&format=arraybuffer"
       } else {
-        _url = "http://" + VIZZUALITYCDN + "/scripts/data/bin/" + md5(url + "&format=arraybuffer") + ".bin?http_livingcities.cartocdn.com";
+        _url = "http://" + VIZZUALITYCDN + "/scripts/data/bin/" + md5(url + "&format=arraybuffer") + ".bin?http_" + window.location.host + "&v=2";
       }
 
       get(_url, function(xhr) {

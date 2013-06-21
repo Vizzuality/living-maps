@@ -189,6 +189,10 @@ Slider.prototype = {
       "background": "-moz-linear-gradient(top, rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", .2), rgba(79,121,189, .2) 100%)"
     });
 
+    $(".gradient.all").css({
+      "background-image": "-ms-linear-gradient(top, rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", .2), rgba(79,121,189, .2) 100%)"
+    });
+
     $(".gradient.top").css({
       "background": "-linear-gradient(top, " + calcGradient(darkBlue, lightBlue, posD * 100).cssColor + " 50%, rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", 0) 80%, rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", 0) 100%)"
     });
@@ -199,6 +203,10 @@ Slider.prototype = {
 
     $(".gradient.top").css({
       "background": "-moz-linear-gradient(top, " + calcGradient(darkBlue, lightBlue, posD * 100).cssColor + " 50%, rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", 0) 80%, rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", 0) 100%)"
+    });
+
+    $(".gradient.top").css({
+      "background-image": "-ms-linear-gradient(top, " + calcGradient(darkBlue, lightBlue, posD * 100).cssColor + " 50%, rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", 0) 80%, rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", 0) 100%)"
     });
 
     $(".edge.top").css({
@@ -213,6 +221,10 @@ Slider.prototype = {
       "background": "-moz-linear-gradient(top, " + calcGradient(darkBlue, lightBlue, posD * 100).cssColor + ", rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", 0) 100%)"
     });
 
+    $(".edge.top").css({
+      "background-image": "-ms-linear-gradient(top, " + calcGradient(darkBlue, lightBlue, posD * 100).cssColor + ", rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", 0) 100%)"
+    });
+
     $(".edge.left").css({
       "background": "linear-gradient(left, " + calcGradient(darkBlue, lightBlue, posD * 100).cssColor + ", rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", 0) 100%)"
     });
@@ -225,6 +237,10 @@ Slider.prototype = {
       "background": "-moz-linear-gradient(left, " + calcGradient(darkBlue, lightBlue, posD * 100).cssColor + ", rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", 0) 100%)"
     });
 
+    $(".edge.left").css({
+      "background-image": "-ms-linear-gradient(left, " + calcGradient(darkBlue, lightBlue, posD * 100).cssColor + ", rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", 0) 100%)"
+    });
+
     $(".edge.right").css({
       "background": "linear-gradient(right, " + calcGradient(darkBlue, lightBlue, posD * 100).cssColor + ", rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", 0) 100%)"
     });
@@ -235,6 +251,10 @@ Slider.prototype = {
 
     $(".edge.right").css({
       "background": "-moz-linear-gradient(right, " + calcGradient(darkBlue, lightBlue, posD * 100).cssColor + ", rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", 0) 100%)"
+    });
+
+    $(".edge.right").css({
+      "background-image": "-ms-linear-gradient(right, " + calcGradient(darkBlue, lightBlue, posD * 100).cssColor + ", rgba(" + calcGradient(darkBlue, lightBlue, posD * 100).r + ", " + calcGradient(darkBlue, lightBlue, posD * 100).g + ", " + calcGradient(darkBlue, lightBlue, posD * 100).b + ", 0) 100%)"
     });
   },
 
