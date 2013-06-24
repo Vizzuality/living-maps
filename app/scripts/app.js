@@ -197,8 +197,18 @@ var App = {
   },
 
   _tick: function() {
+    var self = this;
     this.tick();
-    requestAnimationFrame(this._tick);
+    if($.browser.safari) {
+      // for some reason in safari when the animations is heavy the UI thread gets blocked
+      // so we need to give some time to be able to get mouse events
+      // thanks to iker jimenez (@navedelmisterio) for the inspiration
+      setTimeout(function() {
+        requestAnimationFrame(self._tick);
+      }, 1);
+    } else {
+        requestAnimationFrame(self._tick);
+    }
   },
 
   tick: function() {
