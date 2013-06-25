@@ -1,10 +1,3 @@
-// TODO: CHANGE DOMAIN_URL AND BASE_PATH
-var VIZZUALITYCDN = "livingcities.cartocdn.com";
-var DOMAIN_URL = "livingcities.cartocdn.com",
-    BASE_PATH = "";
-
-    DOMAIN_URL ="localhost.lan:9000"
-
 
 if(typeof(window) != 'undefined') {
   var _requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.requestAnimationFrame;
@@ -12,7 +5,7 @@ if(typeof(window) != 'undefined') {
   window.requestAnimationFrame = _requestAnimationFrame;
 }
 
-function get(url, callback, subdomain) {
+function get(url, callback) {
   var req = new XMLHttpRequest();
   req.onreadystatechange = function() {
     if (req.readyState == 4){
@@ -23,15 +16,8 @@ function get(url, callback, subdomain) {
       }
     }
   };
-
-  if(location.search.indexOf('debug') != -1) {
-    // only working if !isWebWorkers
-    req.open("GET", url, true);
-  } else {
-    subdomain = ['a', 'b', 'c', 'd'][subdomain || 0];
-    req.open("GET", "http://" + subdomain + "." + VIZZUALITYCDN + "/scripts/data/bin/" + md5(url) + ".bin?http_" + DOMAIN_URL + "&v=4", true);
-  }
-
+  // req.open("GET", "data/"+md5(url)+".bin", true)
+  req.open("GET", url, true)
   req.responseType = 'arraybuffer';
   req.send(null)
   return req;
@@ -255,6 +241,27 @@ function goTo($el, opt, callback) {
     $('html, body').delay(delay).animate({scrollTop:$el.offset().top - margin}, speed);
     callback && callback();
   }
+}
+
+
+/*
+ * Return URL or md5 file
+ */
+
+function getNokiaJSON(url) {
+  var _data = null;
+
+  if(location.search.indexOf('debug') != -1) {
+    $.getJSON(url, function(data) {
+      _data = data.rows;
+    });
+  } else {
+    $.getJSON("js/data/" + md5(url) + ".json", function(data){
+      _data = data.rows;
+    });
+  }
+
+  return _data;
 }
 
 
@@ -596,36 +603,5 @@ ArrayBufferSer.prototype = {
       return b;
     }
   }
+
 };
-
-// http://stackoverflow.com/questions/8732401/how-to-figure-out-all-colors-in-a-gradient
-function calcGradient(color1, color2, percent) {
-  var newColor = {};
-
-  function makeChannel(a, b) {
-    return(a + Math.round((b-a)*(percent/100)));
-  }
-
-  function makeColorPiece(num) {
-    num = Math.min(num, 255);   // not more than 255
-    num = Math.max(num, 0);     // not less than 0
-    var str = num.toString(16);
-
-    if (str.length < 2) {
-      str = "0" + str;
-    }
-
-    return(str);
-  }
-
-  newColor.r = makeChannel(color1.r, color2.r);
-  newColor.g = makeChannel(color1.g, color2.g);
-  newColor.b = makeChannel(color1.b, color2.b);
-
-  newColor.cssColor = "#" +
-    makeColorPiece(newColor.r) +
-    makeColorPiece(newColor.g) +
-    makeColorPiece(newColor.b);
-
-  return(newColor);
-}
