@@ -60,6 +60,8 @@ var StreetLayer = L.CanvasLayer.extend({
     this.force_map = {};
     this.time = 0;
     this.sprites = []
+    this.sprite = {
+    };
     this.totalBytes = 0;
     this.render_options = {
       part_min_size: 5,
@@ -79,8 +81,8 @@ var StreetLayer = L.CanvasLayer.extend({
     if(this.options.use_web_worker) {
       this.workers = [];
       for(var i = 0; i < this.options.num_web_workers; ++i) {
-        // this.workers.push(new Worker("scripts/process_tile_worker.js"));
-        this.workers.push(new Worker("scripts/process_tile_worker.min.js"));
+        this.workers.push(new Worker("scripts/process_tile_worker.js"));
+        //this.workers.push(new Worker("scripts/process_tile_worker.min.js"));
       }
       this._web_workers_callbacks = {};
     }
@@ -134,7 +136,7 @@ var StreetLayer = L.CanvasLayer.extend({
     this.sprites = []
     var ro = this.render_options;
     var sprite_size = function(size, alpha) {
-     size = size >> 0;
+     size = size >> 1;
      return Sprites.render_to_canvas(function(ctx, w, h) {
         var c = ro.part_color;
         if(ro.part_type == 'sphere') {
@@ -146,9 +148,45 @@ var StreetLayer = L.CanvasLayer.extend({
         //Sprites.circle(ctx, size, 'rgba(255, 255, 255, 0.4)')
       }, size, size);
     }
-    for(var i = 0; i < 7; ++i) {
-      this.sprites.push(sprite_size(ro.part_min_size + i*ro.part_inc, ro.min_alpha + ro.alpha_inc*i));
+
+    var maxSpriteSize = 0;
+    var totalSpriteSize = 0;
+    var spriteCount = 7
+    var sprites = [];
+    this.sprite.sizes = [];
+    for(var i = 0; i < spriteCount; ++i) {
+      var s = ro.part_min_size + i*ro.part_inc
+      totalSpriteSize += s;
+      this.sprite.sizes.push(s);
+      maxSpriteSize = Math.max(s, maxSpriteSize);
+      var c = sprite_size(s, ro.min_alpha + ro.alpha_inc*i);
+      var img = new Image();
+      img.src = c.toDataURL("image/png");
+      //this.sprites.push(img);
+      sprites.push(c);
     }
+    this.sprites = sprites;
+
+    var w = totalSpriteSize;
+    var h = maxSpriteSize;
+
+    // create a big canvas and save all sprites there
+    var self = this;
+    this.sprite.canvas = Sprites.render_to_canvas(function(ctx, w, h) {
+      var pos = 0;
+      var positions = [];
+      for(var i = 0; i < spriteCount; ++i) {
+        ctx.drawImage(sprites[i], pos, 0);
+        positions.push(pos);
+        pos += self.sprite.sizes[i];
+      }
+      self.sprite.positions = positions;
+    }, w, h);
+
+    var img = new Image();
+    img.src = this.sprite.canvas.toDataURL("image/png");
+    console.log(img);
+    this.sprite.size = maxSpriteSize;
   },
 
   set_time: function(t) {
@@ -409,6 +447,8 @@ var StreetLayer = L.CanvasLayer.extend({
     var ctx = this._ctx;
     var time = this.time;
     var s = 2
+    var spriteCanvas = this.sprite.canvas;
+    var spriteSize = this.sprite.size;
     for(var tile in this._tiles) {
       var tt = this._tiles[tile]
       var activePixels = tt.timeCount[time];
@@ -418,11 +458,29 @@ var StreetLayer = L.CanvasLayer.extend({
           var posIdx = tt.renderDataPos[pixelIndex + p];
           var c = tt.renderData[pixelIndex + p];
           if(c - reduction > 0) {
-            var sp = this.sprites[c]
+           var sp = this.sprites[c]
             ctx.drawImage(
               sp,
               tt.x[posIdx] - (sp.width>> 1),
-              tt.y[posIdx] - (sp.height>>1) + 2*c)
+              tt.y[posIdx] - (sp.height>>1) + 2*c
+            )
+            /*
+            var sp = this.sprite.sizes[c];
+            var pos = this.sprite.positions[c];
+            ctx.drawImage(
+              spriteCanvas,
+              // source
+              pos,
+              0,
+              sp, 
+              sp,
+              // dest
+              tt.x[posIdx] - (sp.width>> 1),
+              tt.y[posIdx] - (sp.height>>1) + 2*c, 
+              sp,
+              sp
+            )
+            */
           }
         }
       }

@@ -13,6 +13,12 @@ var Sprites = {
     fn(ctx, w, h);
     return canvas;
   },
+
+  smoothstep: function(edge0, edge1, x) {
+    var t = ((x - edge0)/(edge1 - edge0));
+    x = Math.min(1.0, Math.max(0.0, t));
+    return x*x*(3 - 2*x);
+  },
   
   // create a glow effect sprite with isometric perspective (or something looks like) (o ke ase)
   draw_circle_glow_iso: function(ctx, pixel_size, color, exp) {
@@ -38,9 +44,9 @@ var Sprites = {
          pixels[p + 1] = color[1];
          pixels[p + 2] = color[2];
          //pixels[p + 3] = color[3]*Math.cos(r*Math.PI)
-         //var a = Math.cos(r*Math.PI) 
+         var a = Math.cos(r*Math.PI) 
          //pixels[p + 3] = color[3]*a*a*a*a*a;
-         pixels[p + 3] = color[3]*Math.exp(-r*exp)
+         pixels[p + 3] = color[3]*Math.exp(-r*exp*0.4)*a;
       }
     }
     ctx.putImageData(I, 0, 0)

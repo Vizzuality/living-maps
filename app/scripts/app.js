@@ -249,20 +249,20 @@ var App = {
     gui.add(this.options, 'scale', 0, 10)
     //gui.add(ro, 'filtered')
 
+    var self = this;
+    function update_sprites() {
+      self.map.probsLayer.precache_sprites();
+    }
+
     var f2 = gui.addFolder('particles');
-    f2.add(ro, 'part_min_size', 0.2, 40).onChange(this.map.probsLayer.precache_sprites)
-    f2.add(ro, 'part_inc', 0, 70).onChange(this.map.probsLayer.precache_sprites)
-    f2.add(ro, 'min_alpha', 0, 0.3).onChange(this.map.probsLayer.precache_sprites)
-    f2.add(ro, 'alpha_inc', 0, 0.5).onChange(this.map.probsLayer.precache_sprites)
-    f2.add(ro, 'part_type', ['sphere', 'glow']).onChange(this.map.probsLayer.precache_sprites)
-    f2.addColor(ro, 'part_color').onChange(this.map.probsLayer.precache_sprites)
+    f2.add(ro, 'part_min_size', 0.2, 40).onChange(update_sprites)
+    f2.add(ro, 'part_inc', 0, 70).onChange(update_sprites)
+    f2.add(ro, 'min_alpha', 0, 0.3).onChange(update_sprites)
+    f2.add(ro, 'alpha_inc', 0, 0.5).onChange(update_sprites)
+    f2.add(ro, 'part_type', ['sphere', 'glow']).onChange(update_sprites)
+    f2.addColor(ro, 'part_color').onChange(update_sprites)
     f2.open();
 
-    var post = gui.addFolder('Postprocess');
-    post.add(ro, 'post_alpha', 0, 1)
-    post.add(ro, 'post_decay', 0, 1)
-    post.add(ro, 'post_size', [64, 128, 256, 512, 1024]).onChange(this.map.probsLayer.init_post_process)
-    post.add(ro, 'post_process')
     post.open()
   },
 
