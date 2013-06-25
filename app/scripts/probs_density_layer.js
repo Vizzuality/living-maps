@@ -249,7 +249,7 @@ var StreetLayer = L.CanvasLayer.extend({
       if(location.search.indexOf('debug') != -1) {
         _url = url + "&format=arraybuffer"
       } else {
-        _url = "http://" + VIZZUALITYCDN + "/scripts/data/bin/" + md5(url + "&format=arraybuffer") + ".bin?http_" + window.location.host + "&v=2";
+        _url = "http://" + VIZZUALITYCDN + "/scripts/data/bin/" + md5(url + "&format=arraybuffer") + ".bin?http_" + window.location.host + "&v=3";
       }
 
       get(_url, function(xhr) {
