@@ -1,10 +1,6 @@
-// TODO: CHANGE DOMAIN_URL AND BASE_PATH
-var VIZZUALITYCDN = "livingcities.cartocdn.com";
-var DOMAIN_URL = "livingcities.cartocdn.com",
-    BASE_PATH = "";
-
-    DOMAIN_URL ="localhost.lan:9000"
-
+var VIZZUALITYCDN = "livingcities.cartocdn.com",
+    DOMAIN_URL = "dl.dropboxusercontent.com",
+    BASE_PATH = "u/355423/livingcities/index.html"
 
 if(typeof(window) != 'undefined') {
   var _requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.requestAnimationFrame;
@@ -459,34 +455,6 @@ function saveImage(fileContents, fileName) {
   link.download = fileName;
   link.href = fileContents;
   link.click();
-}
-
-
-/*
- * Detect IE10
- */
-
-function getInternetExplorerVersion()
-// Returns the version of Internet Explorer or a -1
-// (indicating the use of another browser).
-{
-  var rv = -1; // Return value assumes failure.
-  if (navigator.appName == 'Microsoft Internet Explorer')
-  {
-    var ua = navigator.userAgent;
-    var re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
-    if (re.exec(ua) != null)
-      rv = parseFloat( RegExp.$1 );
-  }
-  return rv;
-}
-
-function checkVersion() {
-  var ver = getInternetExplorerVersion();
-
-  if (ver > -1 && ver === 10.0) {
-    isSlowBrowser = true;
-  }
 }
 
 

@@ -249,6 +249,13 @@
     s.parentNode.insertBefore(g,s)}(document,'script'));
   </script>
 
+  <!-- build:js scripts/browserdetect.min.js -->
+  <script src="scripts/vendor/jquery/jquery-1.10.1.min.js"></script>
+  <script src="scripts/vendor/jquery/jquery-migrate-1.2.1.min.js"></script>
+  <script src="scripts/vendor/detectdevice.js"></script>
+  <script src="scripts/browserdetect.js"></script>
+  <!-- endbuild -->
+
   <!-- build:js scripts/data/cities.min.js -->
   <script src="scripts/data/cities.js"></script>
   <!-- endbuild -->
@@ -258,9 +265,6 @@
   <!-- endbuild -->
 
   <!-- build:js scripts/living-cities.min.js -->
-  <script src="scripts/vendor/jquery/jquery-2.0.1.js"></script>
-  <script src="scripts/vendor/jquery/jquery-migrate-1.2.1.min.js"></script>
-  <script src="scripts/vendor/detectdevice.js"></script>
   <script src="scripts/vendor/jquery-ui-1.10.2.custom.js"></script>
   <script src="scripts/vendor/underscore.js"></script>
 
@@ -299,5 +303,19 @@
   <!-- build:js scripts/main.min.js -->
   <script src="scripts/main.js"></script>
   <!-- endbuild -->
+
+  <!-- script type="text/javascript">
+    if($.browser.mobile) {
+      document.location = "mobile.html";
+    } else if(checkOldBrowser()) {
+      document.location = "oldbrowsers.html";
+    } else {
+      document.write('<script src="http://livingcities.cartocdn.com/scripts/data/cities.min.js"><\/script>');
+      document.write('<script src="scripts/util.min.js"><\/script>');
+      document.write('<script src="http://livingcities.cartocdn.com/scripts/living-cities.min.js?v=10"><\/script>');
+      document.write('<script src="http://livingcities.cartocdn.com/scripts/probs_density_layer.min.js"><\/script>');
+      document.write('<script src="http://livingcities.cartocdn.com/scripts/main.min.js"><\/script>');
+    }
+  </script -->
 </body>
 </html>

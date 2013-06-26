@@ -175,10 +175,13 @@ module.exports = function (grunt) {
         uglify: {
           dist: {
             files: {
-              '<%= yeoman.dist %>/scripts/vendor/modernizr.min.js': ['<%= yeoman.app %>/scripts/vendor/modernizr.js'],
-              '<%= yeoman.dist %>/scripts/living-cities.min.js': [
-                    '<%= yeoman.app %>/scripts/vendor/jquery/jquery-2.0.1.js',
+              '<%= yeoman.dist %>/scripts/vendor/modernizr.min.js': ['<%= yeoman.app %>/scripts/vendor/jquery/modernizr.js'],
+              '<%= yeoman.dist %>/scripts/browserdetect.min.js': [
+                    '<%= yeoman.app %>/scripts/vendor/jquery/jquery-1.10.1.min.js',
                     '<%= yeoman.app %>/scripts/vendor/jquery/jquery-migrate-1.2.1.min.js',
+                    '<%= yeoman.app %>/scripts/vendor/jquery/detectdevice.js',
+                    '<%= yeoman.app %>/scripts/browserdetect.js'],
+              '<%= yeoman.dist %>/scripts/living-cities.min.js': [
                     '<%= yeoman.app %>/scripts/vendor/*.js',
                     '<%= yeoman.app %>/scripts/profiler.js',
                     '<%= yeoman.app %>/scripts/events.js',
@@ -193,7 +196,7 @@ module.exports = function (grunt) {
                     '<%= yeoman.app %>/scripts/time_based_data.js',
                     '<%= yeoman.app %>/scripts/map/*.js',
                     '<%= yeoman.app %>/scripts/map.js',
-                    '<%= yeoman.app %>/scripts/app.js'
+                    '<%= yeoman.app %>/scripts/app.js',
                 ],
               '<%= yeoman.dist %>/scripts/data/cities.min.js': ['<%= yeoman.app %>/scripts/data/cities.js'],
               '<%= yeoman.dist %>/scripts/util.min.js': ['<%= yeoman.app %>/scripts/util.js'],

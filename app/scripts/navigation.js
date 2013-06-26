@@ -87,7 +87,11 @@ Navigation.prototype = {
 
         that.hideDropdown();
 
-        that.changeMap(selected_city, "http://" + DOMAIN_URL + "/" + BASE_PATH + "/" + this.hash);
+        if(BASE_PATH === "") {
+          that.changeMap(selected_city, "/" + this.hash);
+        } else {
+          that.changeMap(selected_city, "http://" + DOMAIN_URL + "/" + BASE_PATH + "/" + this.hash);
+        }
       }
     });
 
