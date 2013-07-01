@@ -1,6 +1,7 @@
 var VIZZUALITYCDN = "livingcities.cartocdn.com",
     DOMAIN_URL = "localhost.lan:9000",
-    BASE_PATH = ""
+    BASE_PATH = "",
+    VERSION = "7";
 
 if(typeof(window) != 'undefined') {
   var _requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.requestAnimationFrame;
@@ -25,7 +26,7 @@ function get(url, callback, subdomain) {
     req.open("GET", url, true);
   } else {
     subdomain = ['a', 'b', 'c', 'd'][subdomain || 0];
-    req.open("GET", "http://" + subdomain + "." + VIZZUALITYCDN + "/scripts/data/bin/" + md5(url) + ".bin?http_" + DOMAIN_URL + "&v=4", true);
+    req.open("GET", "http://" + subdomain + "." + VIZZUALITYCDN + "/scripts/data/bin/" + md5(url) + ".bin?http_" + DOMAIN_URL + "&v="+ VERSION, true);
   }
 
   req.responseType = 'arraybuffer';

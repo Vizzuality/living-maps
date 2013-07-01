@@ -21,7 +21,7 @@ window.AppData.CITIES = {
     scale: 2.0,
     city: "london",
     city_name: "London",
-    city_title: "The great British capital",
+    city_title: "The great capital of England",
     city_subtitle: "Largest and most populous city in the EU.",
     time: 0,
     // time_offset: -60, // minutes
@@ -74,7 +74,7 @@ window.AppData.CITIES = {
     city: "rome",
     city_name: "Rome",
     city_title: "Yesterday, today and forever",
-    city_subtitle: "Birthplace of western civilisation.",
+    city_subtitle: "2,800 years of history.",
     time: 0,
     time_offset: -60 // minutes
   },
@@ -98,8 +98,8 @@ window.AppData.CITIES = {
     scale: 2.0,
     city: "helsinki",
     city_name: "Helsinki",
-    city_title: "The heart of Finland.",
-    city_subtitle: "Europe's northernmost capital, population 1,361,506",
+    city_title: "The heart of Finland",
+    city_subtitle: "Europe's northernmost capital, population 1,361,506.",
     time: 0,
     time_offset: -2*60 // minutes
   },

@@ -283,39 +283,41 @@ var Bubbles = {
   _hideBubble: function(bubble_id) {
     var self = this;
 
-    // Set new state
-    this.bubbles[bubble_id].state = 2;
+    if(typeof this.bubbles[bubble_id] != "undefined") {
+      // Set new state
+      this.bubbles[bubble_id].state = 2;
 
-    // Set app scale
-    Events.trigger(
-      "changeappscale",
-      this.bubbles[bubble_id].over
-        ? this.options.animation.slowAppTime
-        : (AppData.CITIES[this.city].scale || 2.0)
-    );
+      // Set app scale
+      Events.trigger(
+        "changeappscale",
+        this.bubbles[bubble_id].over
+          ? this.options.animation.slowAppTime
+          : (AppData.CITIES[this.city].scale || 2.0)
+      );
 
-    /* Animation */
+      /* Animation */
 
-    // Calculate time depending how much has been animated
-    var done = parseFloat(this.bubbles[bubble_id].$markup.find('.info').css('opacity'));
-    var unanim = done;
+      // Calculate time depending how much has been animated
+      var done = parseFloat(this.bubbles[bubble_id].$markup.find('.info').css('opacity'));
+      var unanim = done;
 
-    // Info
-    this.bubbles[bubble_id].$markup
-      .find('.info')
-      .stop(true)
-      .animate({
-        top: -100,
-        opacity: 0
-      },
-      (this.bubbles[bubble_id].over)
-        ? this.options.animation.slowHideTime * unanim
-        : this.options.animation.animHideTime * unanim,
-      function() {
-        self._removeShadow(bubble_id);
-        self._removeBubble(bubble_id);
-      }
-    );
+      // Info
+      this.bubbles[bubble_id].$markup
+        .find('.info')
+        .stop(true)
+        .animate({
+          top: -100,
+          opacity: 0
+        },
+        (this.bubbles[bubble_id].over)
+          ? this.options.animation.slowHideTime * unanim
+          : this.options.animation.animHideTime * unanim,
+        function() {
+          self._removeShadow(bubble_id);
+          self._removeBubble(bubble_id);
+        }
+      );
+    }
   },
 
   _removeShadow: function(bubble_id) {

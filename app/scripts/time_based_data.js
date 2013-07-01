@@ -43,7 +43,7 @@ TimeBasedData.prototype.fetch = function(callback) {
       self.reset(data.rows, callback);
     });
   } else {
-    $.getJSON("http://" + VIZZUALITYCDN + "/scripts/data/cities/" + md5(url) + ".json?http_" + window.location.host + "&v=2", function(data) {
+    $.getJSON("http://" + VIZZUALITYCDN + "/scripts/data/cities/" + md5(url) + ".json?http_" + window.location.host + "&v="+VERSION, function(data) {
       self.reset(data.rows, callback);
     });
   }

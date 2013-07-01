@@ -255,7 +255,7 @@ module.exports = function (grunt) {
             dist: {
                 files: {
                     '<%= yeoman.dist %>/styles/main.min.css': ['<%= yeoman.app %>/styles/vendor/*.css', '.tmp/styles/main.css', '.tmp/styles/map.css'],
-                    '<%= yeoman.dist %>/styles/oldbrowsers.min.css': ['.tmp/styles/main.css']
+                    '<%= yeoman.dist %>/styles/notsupportedbrowser.min.css': ['.tmp/styles/notsupportedbrowser.css']
                 }
             }
         },
