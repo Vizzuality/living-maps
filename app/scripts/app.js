@@ -64,7 +64,7 @@ var App = {
     Bubbles.initialize(this.map.map, this.options.city);
 
     // Contextual facts
-    ContextualFacts.initialize(this.map.map, this.options.city);
+    // ContextualFacts.initialize(this.map.map, this.options.city);
 
     // City POIS
     POIS.initialize(this.map.map, this.options.city);
@@ -74,7 +74,7 @@ var App = {
 
     this._initBindings();
     
-    this.animables.push(this.map, this.slider, Bubbles, ContextualFacts);
+    this.animables.push(this.map, this.slider, Bubbles);
     this._tick = this._tick.bind(this);
     requestAnimationFrame(this._tick);
 
@@ -294,7 +294,6 @@ var App = {
 
     // Restart all animated particled
     Bubbles.set_city(this.options.city);
-    ContextualFacts.set_city(this.options.city);
     POIS.set_city(this.options.city);
 
     // Set city in the zoom

@@ -81,8 +81,8 @@ var StreetLayer = L.CanvasLayer.extend({
     if(this.options.use_web_worker) {
       this.workers = [];
       for(var i = 0; i < this.options.num_web_workers; ++i) {
-        // this.workers.push(new Worker("scripts/process_tile_worker.js"));
-        this.workers.push(new Worker("scripts/process_tile_worker.min.js"));
+        this.workers.push(new Worker("scripts/process_tile_worker.js"));
+        // this.workers.push(new Worker("scripts/process_tile_worker.min.js"));
       }
       this._web_workers_callbacks = {};
     }

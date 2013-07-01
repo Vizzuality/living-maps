@@ -1,6 +1,6 @@
 var VIZZUALITYCDN = "livingcities.cartocdn.com",
-    DOMAIN_URL = "dl.dropboxusercontent.com",
-    BASE_PATH = "u/355423/livingcities/index.html"
+    DOMAIN_URL = "localhost.lan:9000",
+    BASE_PATH = ""
 
 if(typeof(window) != 'undefined') {
   var _requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.requestAnimationFrame;
